@@ -10,7 +10,7 @@ Hiện nay, ở các nơi cho thuê sân bóng đá, việc đặt sân, quản 
 * Database: SQL Server
 * UI design: Figma
 * Công cụ quản lý: GitHub
-* Khác: Office36
+* Khác: Office365
 
 ### Người dùng
 
@@ -29,6 +29,29 @@ Hiện nay, ở các nơi cho thuê sân bóng đá, việc đặt sân, quản 
 * Giao diện hợp lý, rõ ràng và thân thiện với người dùng.
 * Quản lý được lịch trống, tình trạng sân bóng, các mặt hàng phụ trợ và phản hồi của khách hàng.
 * Dễ dàng sử dụng.
+
+### Tính năng
+- Đăng nhập
+- Tạo người dùng
+- Quản lý sân bóng:
+ + Thêm, xóa, sửa
+ + Đặt sân, hủy sân
+ + Check in, check out
+ + Xuất hóa đơn
+ + Báo cáo tình trạng sân
+ + Kiểm tra trạng thái sân
+- Quản lý nhân viên
+ + Thêm, xóa, sửa
+ + Tính lương
+ + Chấm công
+- Quản lý dịch vụ: 
+ + Thêm, xóa, sửa
+ + Thuê, bán
+ + Nhập hàng
+ + Xuất hóa đơn
+ + Quản lý hàng tồn kho
+- Thống kê thu chi
+- Xem lịch sử
 
 ## Tác giả
 

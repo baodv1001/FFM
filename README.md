@@ -31,27 +31,35 @@ Hiện nay, ở các nơi cho thuê sân bóng đá, việc đặt sân, quản 
 * Dễ dàng sử dụng.
 
 ### Tính năng
-- Đăng nhập
-- Tạo người dùng
-- Quản lý sân bóng:
- + Thêm, xóa, sửa
- + Đặt sân, hủy sân
- + Check in, check out
- + Xuất hóa đơn
- + Báo cáo tình trạng sân
- + Kiểm tra trạng thái sân
-- Quản lý nhân viên
- + Thêm, xóa, sửa
- + Tính lương
- + Chấm công
-- Quản lý dịch vụ: 
- + Thêm, xóa, sửa
- + Thuê, bán
- + Nhập hàng
- + Xuất hóa đơn
- + Quản lý hàng tồn kho
-- Thống kê thu chi
-- Xem lịch sử
+
+* Đăng nhập
+
+* Tạo người dùng
+
+* Quản lý sân bóng
+
+  * Thêm, xóa, sửa
+  * Đặt sân, hủy sân
+  * Check in, check out
+  * Xuất hóa đơn
+  * Báo cáo tình trạng sân
+  * Kiểm tra trạng thái sân
+
+* Quản lý nhân viên
+  * Thêm, xóa, sửa
+  * Tính lương
+  * Chấm công
+
+* Quản lý dịch vụ
+  * Thêm, xóa, sửa
+  * Thuê, bán
+  * Nhập hàng
+  * Xuất hóa đơn
+  * Quản lý hàng tồn kho
+
+* Thống kê thu chi
+
+* Xem lịch sử
 
 ## Tác giả
 

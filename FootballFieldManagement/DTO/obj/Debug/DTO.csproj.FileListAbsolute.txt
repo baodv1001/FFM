@@ -1,0 +1,6 @@
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\DTO\bin\Debug\DTO.dll
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\DTO\bin\Debug\DTO.pdb
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\DTO\obj\Debug\DTO.csprojAssemblyReference.cache
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\DTO\obj\Debug\DTO.csproj.CoreCompileInputs.cache
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\DTO\obj\Debug\DTO.dll
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\DTO\obj\Debug\DTO.pdb

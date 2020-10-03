@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement.exe
 G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement.pdb
 G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\FootballFieldManagement.exe.config
@@ -18,3 +19,25 @@ G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagem
 G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csproj.GenerateResource.cache
 G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csproj.CoreCompileInputs.cache
 G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csproj.CopyComplete
+=======
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement.exe
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement.pdb
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\FootballFieldManagement.exe.config
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\FootballFieldManagement.exe
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\FootballFieldManagement.pdb
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\BUS.dll
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\DTO.dll
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\BUS.pdb
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\bin\Debug\DTO.pdb
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csprojAssemblyReference.cache
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\MainWindow.g.cs
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\App.g.cs
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement_MarkupCompile.cache
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement_MarkupCompile.lref
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\MainWindow.baml
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement.g.resources
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\FootballFieldManagement.Properties.Resources.resources
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csproj.GenerateResource.cache
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csproj.CoreCompileInputs.cache
+G:\Lập trình trực quan\Project\FootballFieldManagement\FootballFieldManagement\FootballFieldManagement\obj\Debug\GUI.csproj.CopyComplete
+>>>>>>> Stashed changes

@@ -68,6 +68,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\fBooking.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\fCheckIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\fLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -75,6 +83,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\fBooking.xaml.cs">
+      <DependentUpon>fBooking.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\fCheckIn.xaml.cs">
+      <DependentUpon>fCheckIn.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\fLogin.xaml.cs">
       <DependentUpon>fLogin.xaml</DependentUpon>

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace FootballFieldManagement.Views
 {
     /// <summary>
-    /// Interaction logic for fLogin.xaml
+    /// Interaction logic for fBooking.xaml
     /// </summary>
-    public partial class fLogin : Window
+    public partial class fBooking : Window
     {
-        public fLogin()
+        public fBooking()
         {
             InitializeComponent();
         }

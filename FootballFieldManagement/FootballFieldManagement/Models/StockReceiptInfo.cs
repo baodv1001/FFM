@@ -5,7 +5,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTO
+namespace FootballFieldManagement.Models
 {
     class StockReceiptInfo
     {

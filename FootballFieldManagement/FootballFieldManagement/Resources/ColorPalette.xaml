@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:FootballFieldManagement.Resources">
+    <!-- primary color -->
+    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FF007AFF"/>
+    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#FF1D1D1D"/>
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF3396FF"/>
+    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFF9FEF9"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FFcce5ff"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFEFEFE"/>
+    <!-- secondary colour -->
+    <SolidColorBrush x:Key="SecondaryHueMidBrush" Color="#FFFF5722"/>
+    <SolidColorBrush x:Key="SecondaryHueMidForegroundBrush" Color="#FF282828"/>
+    <!-- Color palette -->
+    <SolidColorBrush x:Key="Primary" Color="#FF007AFF" />
+    <SolidColorBrush x:Key="Secondary" Color="#FFFF7222" />
+    <SolidColorBrush x:Key="Success" Color="#FF27AE60" />
+    <SolidColorBrush x:Key="Warning" Color="#FFFFCC00" />
+    <SolidColorBrush x:Key="Error" Color="#FFFF3B30" />
+    <SolidColorBrush x:Key="Black1" Color="#FF000000" />
+    <SolidColorBrush x:Key="Black2" Color="#FF1D1D1D" />
+    <SolidColorBrush x:Key="Black3" Color="#FF282828" />
+    <SolidColorBrush x:Key="White" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="Gray1" Color="#FF333333" />
+    <SolidColorBrush x:Key="Gray2" Color="#FF4F4F4F" />
+    <SolidColorBrush x:Key="Gray3" Color="#FF828282" />
+    <SolidColorBrush x:Key="Gray4" Color="#FFBDBDBD" />
+    <SolidColorBrush x:Key="Gray5" Color="#FFE0E0E0" />
+</ResourceDictionary>

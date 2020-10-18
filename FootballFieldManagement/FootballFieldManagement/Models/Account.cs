@@ -14,10 +14,6 @@ namespace FootballFieldManagement.Models
 
         public int IdAccount { get => idAccount; set => idAccount = value; }
 
-        private int idEmployee;
-
-        public int IdEmployee { get => idEmployee; set => idEmployee = value; }
-        
         private string username;
 
         public string Username { get => username; private set => username = value; }        
@@ -36,11 +32,9 @@ namespace FootballFieldManagement.Models
         {
 
         }
-
-        public Account(int idAccount, int idEmployee, string username, string password, int type)
+        public Account(int idAccount, string username, string password, int type)
         {
             this.idAccount = idAccount;
-            this.idEmployee = idEmployee;
             this.username = username;
             this.password = password;
             this.type = type;

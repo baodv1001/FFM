@@ -9,6 +9,8 @@ namespace FootballFieldManagement.Models
     class Employee
     {
         //Properties
+        private int idAccount;
+        public int IdAccount { get => idAccount; set => idAccount = value; }
 
         private int idEmployee;
 
@@ -53,8 +55,9 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Employee(int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, double salary, string position, DateTime startingdate)
+        public Employee(int idAccount, int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, double salary, string position, DateTime startingdate)
         {
+            this.idAccount = idAccount;
             this.IdEmployee = idEmployee;
             this.name = name;
             this.gender = gender;

@@ -23,5 +23,21 @@ namespace FootballFieldManagement.Views
         {
             InitializeComponent();
         }
+        private void SwitchWindow(object sender, RoutedEventArgs e)
+        {
+            int index = int.Parse(((Button)e.Source).Uid);
+
+            GridCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
+
+            switch (index)
+            {
+                case 0:
+                    grdBody_Home.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    grdBody_Home.Visibility = Visibility.Hidden;
+                    break;
+            }
+        }
     }
 }

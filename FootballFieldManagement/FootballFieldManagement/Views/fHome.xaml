@@ -5,8 +5,604 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
-        Title="fHome" Height="450" Width="800">
-    <Grid>
-        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Phần mềm Quản lý sân bóng" 
+        Height="810" 
+        Width="1447" 
+        WindowStartupLocation="CenterScreen" 
+        Background="#FFF4EEFF" 
+        ResizeMode="CanMinimize">
+    <Grid 
+        x:Name="grdWindow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="10*" />
+        </Grid.ColumnDefinitions>
+        <Grid 
+            x:Name="grdMenu" 
+            HorizontalAlignment="Left" 
+            Height="780" 
+            Margin="0" 
+            VerticalAlignment="Top" 
+            Width="240" 
+            Background="{StaticResource White}" 
+            Grid.RowSpan="2">
+            <Grid 
+                x:Name="grdTitle" 
+                HorizontalAlignment="Center"
+                Height="100" 
+                Margin="0,20,0,0"
+                VerticalAlignment="Top"
+                Width="180">
+                <materialDesign:PackIcon 
+                    x:Name="icnCube" 
+                    Kind="Cube" 
+                    Width="50" 
+                    Height="50" 
+                    Foreground="{StaticResource Primary}" 
+                    HorizontalAlignment="Center" />
+                <Label 
+                    x:Name="lbTitle" 
+                    Content="Sân liên hợp" 
+                    HorizontalAlignment="Center"
+                    Height="50" 
+                    Margin="0" 
+                    VerticalAlignment="Bottom" 
+                    Width="140" 
+                    VerticalContentAlignment="Center"
+                    Padding="6,5,5,5" 
+                    FontSize="22" 
+                    FontWeight="Bold" 
+                    Foreground="{DynamicResource Black1}"/>
+            </Grid>
+            <StackPanel
+                x:Name="stkMenu" 
+                HorizontalAlignment="Center" 
+                Height="420" 
+                Margin="0,160,0,0" 
+                VerticalAlignment="Top"
+                Width="170" >
+                <Grid 
+                    x:Name="grdHome" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon
+                        x:Name="icnHome" 
+                        Kind="HomeOutline" 
+                        Width="32" 
+                        Height="32" 
+                        VerticalAlignment="Center"
+                        Cursor="Hand"
+                        Foreground="{DynamicResource Primary}" />
+                    <Button 
+                        x:Name="btnHome" 
+                        Uid="0"
+                        Content="Trang chủ"
+                        HorizontalAlignment="Right" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="120" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}" 
+                        FontSize="20" 
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left" 
+                        FontWeight="SemiBold" 
+                        Padding="0" 
+                        Cursor="Hand" 
+                        Foreground="{DynamicResource Primary}"
+                        Click="SwitchWindow"/>
+                </Grid>
+                <Grid 
+                    x:Name="grdField" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon 
+                        x:Name="icnField" 
+                        Kind="SoccerField"
+                        Width="32" 
+                        Height="32" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Gray2}" />
+                    <Button
+                        x:Name="btnField" 
+                        Uid="1"
+                        Content="Sân bóng"
+                        HorizontalAlignment="Right" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="120" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}" 
+                        FontSize="20" 
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left" 
+                        FontWeight="SemiBold" 
+                        Padding="0" 
+                        Cursor="Hand"
+                        Foreground="{DynamicResource Gray2}"
+                        Click="SwitchWindow"/>
+                </Grid>
+                <Grid 
+                    x:Name="grdGoods" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon 
+                        x:Name="icnGoods" 
+                        Kind="StorefrontOutline" 
+                        Width="32" 
+                        Height="32" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand"
+                        Foreground="{StaticResource Gray2}" />
+                    <Button 
+                        x:Name="btnGoods" 
+                        Uid="2"
+                        Content="Hàng hóa"
+                        HorizontalAlignment="Right" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="120" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}" 
+                        FontSize="20" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Left"
+                        FontWeight="SemiBold" 
+                        Padding="0" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Black3}"
+                        Click="SwitchWindow"/>
+                </Grid>
+                <Grid
+                    x:Name="grdEmployee" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon
+                        x:Name="icnEmployee" 
+                        Kind="AccountOutline" 
+                        Width="32" 
+                        Height="32" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Gray2}" />
+                    <Button 
+                        x:Name="btnEmployee" 
+                        Uid="3"
+                        Content="Nhân viên"
+                        HorizontalAlignment="Right" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="120" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}"
+                        FontSize="20" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Left" 
+                        FontWeight="SemiBold" 
+                        Padding="0" 
+                        Cursor="Hand"
+                        Foreground="{StaticResource Black3}"
+                        Click="SwitchWindow"/>
+                </Grid>
+                <Grid
+                    x:Name="grdReport" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon
+                        x:Name="icnReport" 
+                        Kind="ChartAreaspline" 
+                        Width="30" 
+                        Height="30" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Gray2}" />
+                    <Button 
+                        x:Name="btnReport" 
+                        Uid="4"
+                        Content="Báo cáo"
+                        HorizontalAlignment="Right" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="120" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}" 
+                        FontSize="20" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Left" 
+                        FontWeight="SemiBold"
+                        Padding="0"
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Black3}"
+                        Click="SwitchWindow"/>
+                </Grid>
+                <Grid 
+                    x:Name="grdSetting" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon
+                        x:Name="icnSetting" 
+                        Kind="CogOutline" 
+                        Width="32" 
+                        Height="32" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Gray2}" />
+                    <Button 
+                        x:Name="btnSetting" 
+                        Uid="5"
+                        Content="Cài đặt"
+                        HorizontalAlignment="Right" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="120" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}"
+                        FontSize="20" 
+                        VerticalContentAlignment="Center" 
+                        HorizontalContentAlignment="Left" 
+                        FontWeight="SemiBold" 
+                        Padding="0" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Black3}"
+                        Click="SwitchWindow"/>
+                </Grid>
+            </StackPanel>
+            <Grid 
+                x:Name="GridCursor" 
+                Width="4" 
+                Height="40" 
+                Background="{DynamicResource Primary}" 
+                HorizontalAlignment="Right"
+                Margin="0,175,40,0" 
+                VerticalAlignment="Top"/>
+            <Grid 
+                x:Name="grdLogOut" 
+                HorizontalAlignment="Center" 
+                Height="40" 
+                Margin="0,0,0,40" 
+                VerticalAlignment="Bottom" 
+                Width="130">
+                <materialDesign:PackIcon 
+                    x:Name="icnLogOut" 
+                    Kind="LogoutVariant" 
+                    Margin="0" 
+                    Width="34" 
+                    Height="34" 
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource Primary}" />
+                <Button 
+                    x:Name="btnLogOut" 
+                    Content="Đăng xuất" 
+                    HorizontalAlignment="Right" 
+                    Height="40" 
+                    Margin="0" 
+                    VerticalAlignment="Top" 
+                    Width="100" 
+                    Background="{x:Null}" 
+                    BorderBrush="{x:Null}" 
+                    Foreground="{StaticResource Black3}" 
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Left" 
+                    Padding="0" 
+                    FlowDirection="RightToLeft">
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid 
+            x:Name="grdMain"
+            Grid.Column="1" 
+            HorizontalAlignment="Left" 
+            Height="780" 
+            VerticalAlignment="Top"
+            Width="1201" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid 
+                x:Name="grdHeader" 
+                HorizontalAlignment="Left" 
+                Height="60" 
+                VerticalAlignment="Top" 
+                Width="1201" 
+                Background="{StaticResource White}">
+                <Grid 
+                    x:Name="grdAccount" 
+                    HorizontalAlignment="Right" 
+                    Height="50" 
+                    Margin="0,0,30,0" 
+                    VerticalAlignment="Center"
+                    Width="200">
+                    <Ellipse 
+                        x:Name="imgAccount" 
+                        Height="40"
+                        Width="40" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="avatar.png"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Label 
+                        x:Name="lbAccount" 
+                        Content="Administrator" 
+                        HorizontalAlignment="Left" 
+                        Margin="45,5,0,5" 
+                        VerticalAlignment="Center" 
+                        Width="155" 
+                        Height="40" 
+                        VerticalContentAlignment="Center"
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Black1}" 
+                        Cursor="Hand"/>
+                    <materialDesign:PackIcon 
+                        x:Name="icnMoreInfo" 
+                        Kind="ChevronDown" 
+                        Foreground="{DynamicResource Black2}" 
+                        Width="28" 
+                        Height="28"
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand" />
+                </Grid>
+            </Grid>
+            <Grid 
+                x:Name="grdBody_Home" 
+                HorizontalAlignment="Left" 
+                Height="720" 
+                VerticalAlignment="Top" 
+                Width="1201"
+                Margin="0"
+                Grid.Row="1">
+                <Grid 
+                    x:Name="grdSumaryInfo" 
+                    HorizontalAlignment="Left"
+                    Height="100" 
+                    Margin="30,20,0,0" 
+                    VerticalAlignment="Top"
+                    Width="1120" 
+                    Background="{StaticResource White}"  >
+                    <Grid.Effect>
+                        <DropShadowEffect 
+                            Color="#FF282828" 
+                            RenderingBias="Quality" 
+                            Opacity="0.2" 
+                            BlurRadius="10"/>
+                    </Grid.Effect>
+                    <TextBlock 
+                        x:Name="txbSumaryReport" 
+                        HorizontalAlignment="Left" 
+                        Height="30" 
+                        Margin="20,2,0,0" 
+                        TextWrapping="Wrap" 
+                        Text="Báo cáo nhanh" 
+                        VerticalAlignment="Top" 
+                        Width="200" 
+                        FontSize="18" 
+                        FontWeight="Medium"
+                        Foreground="{StaticResource Black3}"/>
+                    <StackPanel
+                        x:Name="stkSumary" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left" 
+                        Height="55" 
+                        Margin="20,0,0,10" 
+                        VerticalAlignment="Bottom"
+                        Width="1000">
+                        <Grid 
+                            x:Name="grdRevenue" 
+                            Width="200" 
+                            HorizontalAlignment="Left" 
+                            Background="{StaticResource White}">
+                            <materialDesign:PackIcon 
+                                x:Name="icnMoney" 
+                                Kind="Cash" 
+                                Width="40" 
+                                Height="40" 
+                                VerticalAlignment="Center" 
+                                Foreground="{StaticResource Success}" />
+                            <TextBlock 
+                                x:Name="txbRevenue" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="2.000.000" 
+                                VerticalAlignment="Bottom" 
+                                FontSize="20" 
+                                FontWeight="SemiBold" 
+                                Foreground="{StaticResource Secondary}" 
+                                Width="140" 
+                                Height="34" 
+                                Padding="0,5,0,0"/>
+                            <TextBlock 
+                                x:Name="txbRevenueRead" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="Doanh thu" 
+                                VerticalAlignment="Top"
+                                Width="140" 
+                                Height="34" 
+                                FontSize="16" 
+                                FontWeight="Medium" 
+                                Foreground="{StaticResource Gray3}"/>
+                        </Grid>
+                        <Rectangle 
+                            x:Name="rectSplit1" 
+                            Fill="{DynamicResource Gray5}"
+                            HorizontalAlignment="Left" 
+                            Height="55" 
+                            VerticalAlignment="Top" 
+                            Width="3" 
+                            Margin="10,0,0,0"/>
+                        <Grid 
+                            x:Name="grdIncre" 
+                            Width="170" 
+                            HorizontalAlignment="Left" 
+                            Background="{StaticResource White}"
+                            Margin="15,0,0,0">
+                            <materialDesign:PackIcon 
+                                x:Name="icnIncre" 
+                                Kind="ArrowUpThinCircleOutline" 
+                                Width="40" 
+                                Height="40" 
+                                VerticalAlignment="Center" 
+                                Foreground="{StaticResource Gray2}" />
+                            <TextBlock 
+                                x:Name="txbPercentIncre" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="315%" 
+                                VerticalAlignment="Bottom" 
+                                FontSize="20" 
+                                FontWeight="SemiBold" 
+                                Foreground="{StaticResource Secondary}" 
+                                Width="120" 
+                                Height="34" 
+                                Padding="0,5,0,0"/>
+                            <TextBlock 
+                                x:Name="txbIncre" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="So với hôm qua" 
+                                VerticalAlignment="Top"
+                                Width="120" 
+                                Height="34"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Foreground="{StaticResource Gray3}"/>
+                        </Grid>
+                        <Rectangle 
+                            x:Name="rectSplit2" 
+                            Fill="{DynamicResource Gray5}" 
+                            HorizontalAlignment="Left"
+                            Height="55"
+                            VerticalAlignment="Top"
+                            Width="3" 
+                            Margin="10,0,0,0"/>
+                        <Grid 
+                            x:Name="grdPickedField" 
+                            Width="140" 
+                            HorizontalAlignment="Left" 
+                            Background="{StaticResource White}" 
+                            Margin="15,0,0,0">
+                            <materialDesign:PackIcon
+                                x:Name="icnPickedField" 
+                                Kind="SoccerField" 
+                                Width="40" 
+                                Height="40" 
+                                VerticalAlignment="Center" 
+                                Foreground="{StaticResource Success}" />
+                            <TextBlock 
+                                x:Name="txbPickedField" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="12" 
+                                VerticalAlignment="Bottom" 
+                                FontSize="20" 
+                                FontWeight="SemiBold" 
+                                Foreground="{StaticResource Secondary}" 
+                                Width="80" 
+                                Height="34" 
+                                Padding="0,5,0,0"/>
+                            <TextBlock 
+                                x:Name="txbPicked" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="Đã đặt" 
+                                VerticalAlignment="Top" 
+                                Width="80" 
+                                Height="34"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Foreground="{StaticResource Gray3}"/>
+                        </Grid>
+                        <Rectangle 
+                            x:Name="rectSplit3" 
+                            Fill="{DynamicResource Gray5}" 
+                            HorizontalAlignment="Left" 
+                            Height="55" 
+                            VerticalAlignment="Top" 
+                            Width="3" 
+                            Margin="10,0,0,0"/>
+                        <Grid 
+                            x:Name="grdPlayingField" 
+                            Width="140" 
+                            HorizontalAlignment="Left" 
+                            Background="{StaticResource White}" 
+                            Margin="15,0,0,0">
+                            <materialDesign:PackIcon 
+                                x:Name="icnPlayingField" 
+                                Kind="SoccerField" 
+                                Width="40" 
+                                Height="40" 
+                                VerticalAlignment="Center" 
+                                Foreground="{StaticResource Primary}" />
+                            <TextBlock 
+                                x:Name="txbPlayingField" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="2" 
+                                VerticalAlignment="Bottom" 
+                                FontSize="20" 
+                                FontWeight="SemiBold" 
+                                Foreground="{StaticResource Secondary}" 
+                                Width="80" 
+                                Height="34" 
+                                Padding="0,5,0,0"/>
+                            <TextBlock 
+                                x:Name="txbPlaying" 
+                                HorizontalAlignment="Right" 
+                                Margin="0" 
+                                TextWrapping="Wrap" 
+                                Text="Đang đá" 
+                                VerticalAlignment="Top" 
+                                Width="80" 
+                                Height="34" 
+                                FontSize="16" 
+                                FontWeight="Medium" 
+                                Foreground="{StaticResource Gray3}"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid 
+                    x:Name="grdStatistics" 
+                    HorizontalAlignment="Left" 
+                    Height="500" 
+                    Margin="30,160,0,0" 
+                    VerticalAlignment="Top"
+                    Width="1120" 
+                    Background="{DynamicResource Gray5}" />
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

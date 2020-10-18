@@ -12,9 +12,52 @@
         WindowStartupLocation="CenterScreen" 
         Background="White" 
         ResizeMode="CanMinimize">
-
-    <Grid HorizontalAlignment="Center" Margin="10,0,3.6,0" Width="1420" FocusVisualStyle="{x:Null}">
-        <Grid Width="400" Height="460" Background="White">
+    <Grid>
+        <Label 
+            x:Name="lblSoftwareName" 
+            Content="Phần mềm Quản lý sân bóng" 
+            HorizontalAlignment="Center" 
+            Height="70" 
+            Width="540" 
+            VerticalAlignment="Top" 
+            Padding="0" 
+            VerticalContentAlignment="Center" 
+            FontSize="36" 
+            Margin="261,30,619,0" 
+            Foreground="{StaticResource Black2}" 
+            FontWeight="Bold"/>
+        <Ellipse 
+            HorizontalAlignment="Left" 
+            Height="400"
+            Width="400"
+            Margin="-153,-173,0,0" 
+            Stroke="{StaticResource Success}" 
+            VerticalAlignment="Top"  
+            StrokeThickness="60"/>
+        <Ellipse 
+            HorizontalAlignment="Left" 
+            Height="800" 
+            Width="800"
+            Margin="1025,380,-405,-400" 
+            Stroke="{StaticResource Success}" 
+            VerticalAlignment="Top"  
+            StrokeThickness="120"/>
+        <Label 
+            x:Name="lblCopyright" 
+            Content="Created by COF | Copyright © 2020 All Rights Reserved" 
+            HorizontalAlignment="Left" 
+            Height="34" Width="540" 
+            VerticalAlignment="Bottom" 
+            Padding="0" 
+            VerticalContentAlignment="Bottom" 
+            FontSize="18" 
+            Margin="25,0,0,20" 
+            Foreground="{StaticResource Black2}" 
+            FontWeight="Medium"/>
+        <Grid 
+            Width="380" 
+            Height="460" 
+            Background="#FFFFFFFF">
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity="0.4"/>
             </Grid.Effect>
@@ -22,60 +65,74 @@
                 x:Name="lblLogin" 
                 Content="Đăng nhập" 
                 HorizontalAlignment="Center" 
-                Height="50" Width="180" 
                 VerticalAlignment="Top" 
                 Padding="0" 
                 HorizontalContentAlignment="Center" 
                 VerticalContentAlignment="Center" 
                 FontSize="32" 
                 FontWeight="Bold" 
-                Margin="110,30,110,0" 
-                Foreground="#FF282828"
-            />
-            <materialDesign:PackIcon 
-                Kind="Account" 
-                Foreground="#FF4F4F4F"
-                Width="30" Height="30" 
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"  
-                Margin="65,165,0,0" />
-            <TextBox 
-                x:Name="txtUsername"
-                materialDesign:HintAssist.Hint="Tên đăng nhập" 
-                Margin="30,150,0,0" 
-                Width="220" Height="50" 
+                Margin="0,30,0,0" 
+                Foreground="{StaticResource Black2}"/>
+            <Grid 
+                Width="270" 
+                Height="50"
                 HorizontalAlignment="Center" 
-                materialDesign:HintAssist.Foreground="#FF007AFF"
-                materialDesign:TextFieldAssist.UnderlineBrush="#FF007AFF"
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                FontSize="18" 
-                BorderBrush="#FF007AFF" 
-                TabIndex="1" 
+                VerticalAlignment="Top"
+                Margin="0,140,0,0">
+                <materialDesign:PackIcon 
+                    Kind="Account" 
+                    Foreground="{StaticResource Gray2}"
+                    Width="30" 
+                    Height="30" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"  
+                    Margin="0" />
+                <TextBox 
+                    x:Name="txtUsername"
+                    materialDesign:HintAssist.Hint="Tên đăng nhập" 
+                    Margin="0" 
+                    Width="220"
+                    Height="50" 
+                    HorizontalAlignment="Right" 
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    FontSize="18" 
+                    BorderBrush="{StaticResource Primary}" 
+                    TabIndex="1" 
+                    VerticalAlignment="Center" 
+                    CaretBrush="{StaticResource Primary}" 
+                    FontWeight="Medium" 
+                    Padding="2,0,0,0" />
+            </Grid>
+            <Grid 
+                Width="270" 
+                Height="50" 
                 VerticalAlignment="Top" 
-                CaretBrush="#FF007AFF" 
-                FontWeight="Medium" Padding="2,0,0,0" />
-            <materialDesign:PackIcon 
-                Kind="Lock" 
-                Foreground="#FF4F4F4F"
-                Width="30" Height="30" 
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top" 
-                Margin="65,235,0,0" />
-            <PasswordBox
-                x:Name="txtPassword"
-                materialDesign:HintAssist.Hint="Mật khẩu" 
-                Margin="30,220,0,0" 
-                Width="220" Height="50" 
-                HorizontalAlignment="Center" 
-                materialDesign:HintAssist.Foreground="#FF007AFF"
-                materialDesign:TextFieldAssist.UnderlineBrush="#FF007AFF"
-                BorderBrush="#FF007AFF"
-                Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
-                FontSize="18" 
-                TabIndex="2" 
-                VerticalAlignment="Top" 
-                CaretBrush="#FF007AFF" 
-                FontWeight="SemiBold" Padding="2,0,0,0" />
+                HorizontalAlignment="Center"
+                Margin="0,210,0,0">
+                <materialDesign:PackIcon 
+                    Kind="Lock" 
+                    Foreground="{StaticResource Gray2}"
+                    Width="30" 
+                    Height="30" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom" 
+                    Margin="0" />
+                <PasswordBox
+                    x:Name="txtPassword"
+                    materialDesign:HintAssist.Hint="Mật khẩu" 
+                    Margin="0" 
+                    Width="220" 
+                    Height="50" 
+                    HorizontalAlignment="Right" 
+                    BorderBrush="{StaticResource Primary}"
+                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
+                    FontSize="18" 
+                    TabIndex="2" 
+                    VerticalAlignment="Center" 
+                    CaretBrush="{StaticResource Primary}" 
+                    FontWeight="SemiBold" 
+                    Padding="2,0,0,0" />
+            </Grid>
             <Label 
                 x:Name="lblForgetPassword" 
                 Content="Quên mật khẩu?" 
@@ -85,70 +142,53 @@
                 Padding="0" 
                 HorizontalContentAlignment="Right" 
                 VerticalContentAlignment="Center" 
-                FontSize="14" 
-                Margin="0,275,75,0" 
-                Foreground="#FFED9C2F" 
+                FontSize="16" 
+                Margin="0,270,60,0" 
                 FontWeight="Medium" 
-                Cursor="Hand"/>
+                Cursor="Hand">
+                <Label.Foreground>
+                    <SolidColorBrush Color="#FFFF7222" Opacity="0.9"/>
+                </Label.Foreground>
+            </Label>
             <Button 
                 x:Name="btnLogin"
-                FocusVisualStyle="{x:Null}"
                 Style="{StaticResource MaterialDesignRaisedLightButton}"
-                Height="40" Width="200"
-                materialDesign:ButtonAssist.CornerRadius="20" 
+                FocusVisualStyle="{x:Null}"
+                Height="40" 
+                Width="220"
+                materialDesign:ButtonAssist.CornerRadius="18"
+                ToolTip="Đăng nhập" 
                 VerticalAlignment="Top" 
                 Margin="0,330,0,0" 
                 HorizontalAlignment="Center"
                 TabIndex="3" 
-                BorderThickness="0" BorderBrush="{x:Null}">
-                <Button.Background>
-                    <SolidColorBrush Color="#FF007AFF"/>
-                </Button.Background>
+                BorderThickness="0" 
+                BorderBrush="{x:Null}" 
+                Background="{StaticResource Primary}">
                 <TextBlock 
                     Text="Đăng nhập" 
-                    Foreground="#DDFFFFFF" 
-                    FontSize="18" 
-                    FontWeight="Bold" />
+                    Foreground="{StaticResource White}" 
+                    FontSize="20" 
+                    FontWeight="SemiBold" 
+                    VerticalAlignment="Center" 
+                    Margin="0,0,0,4" />
             </Button>
-        </Grid>
-        <Grid>
             <Label 
-                x:Name="lblSoftwareName" 
-                Content="Phần mềm Quản lý sân bóng" 
+                x:Name="lblSignUp" 
+                Content="Đăng ký" 
+                ToolTip="Chưa có tài khoản? Hãy đăng ký"
                 HorizontalAlignment="Center" 
-                Height="70" Width="540" 
+                Height="24" 
+                Width="120" 
                 VerticalAlignment="Top" 
                 Padding="0" 
+                HorizontalContentAlignment="Center" 
                 VerticalContentAlignment="Center" 
-                FontSize="36" 
-                Margin="261,30,619,0" 
-                Foreground="#FF1D1D1D" FontWeight="Bold"/>
-            <Ellipse 
-                HorizontalAlignment="Left" 
-                Height="400" Width="400"
-                Margin="-153,-173,0,0" 
-                Stroke="#FF27AE60" 
-                VerticalAlignment="Top"  
-                StrokeThickness="60"/>
-            <Ellipse 
-                HorizontalAlignment="Left" 
-                Height="800" Width="800"
-                Margin="1025,380,-405,-400" 
-                Stroke="#FF27AE60" 
-                VerticalAlignment="Top"  
-                StrokeThickness="120"/>
-            <Label 
-                x:Name="lblCopyright" 
-                Content="Created by COF | Copyright © 2020 All Rights Reserved" 
-                HorizontalAlignment="Left" 
-                Height="34" Width="540" 
-                VerticalAlignment="Bottom" 
-                Padding="0" 
-                VerticalContentAlignment="Bottom" 
                 FontSize="18" 
-                Margin="25,0,0,20" 
-                Foreground="#FF282828" 
-                FontWeight="Medium"/>
+                Margin="0,410,0,0" 
+                Foreground="{StaticResource Secondary}" 
+                FontWeight="Medium" 
+                Cursor="Hand"/>
         </Grid>
     </Grid>
 </Window>

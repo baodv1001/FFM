@@ -347,7 +347,7 @@
                         VerticalAlignment="Center" 
                         Cursor="Hand">
                         <Ellipse.Fill>
-                            <ImageBrush ImageSource="avatar.png"/>
+                            <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png"/>
                         </Ellipse.Fill>
                     </Ellipse>
                     <Label 

@@ -1,0 +1,447 @@
+﻿<Window x:Class="FootballFieldManagement.Views.fAddEmployee"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootballFieldManagement.Views"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Thêm nhân viên" 
+        Height="650" 
+        Width="700" 
+        Background="#FFFF" 
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="0">
+        <Grid  
+            x:Name="grdSelectImage"
+            Margin="50,50,0,0" 
+            VerticalAlignment="Top"
+            Width="150"
+            Height="150" 
+            HorizontalAlignment="Left">
+            <Rectangle 
+                x:Name="recImage"
+                StrokeDashArray="4 2" 
+                Stroke="{StaticResource Primary}" 
+                StrokeThickness="4" 
+                RadiusX="8" 
+                RadiusY="8"
+                Width="150"
+                Height="150" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top"/>
+            <Button 
+                x:Name="btnSelectImage"
+                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Height="35" 
+                Width="100" 
+                materialDesign:ButtonAssist.CornerRadius="8"
+                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
+                Background="{StaticResource Primary}" 
+                BorderBrush="{x:Null}" 
+                Margin="0,0,0,12" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom"
+                FocusVisualStyle="{x:Null}" Foreground="{DynamicResource White}">
+                <TextBlock  
+                    x:Name="txbSelectImage"
+                    Text="Chọn ảnh" 
+                    LineHeight="22.4" 
+                    TextAlignment="Center" 
+                    FontWeight="Bold" 
+                    Height="23" 
+                    Width="65"/>
+            </Button>
+            <materialDesign:PackIcon 
+                x:Name="iconImage" 
+                Kind="FileImageOutline" 
+                Foreground="{StaticResource Primary}"
+                Width="64" Height="54"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"  
+                Margin="0,25,0,0"/>
+        </Grid>
+        <Grid 
+            x:Name="grdInfo"
+            HorizontalAlignment="Left"
+            Height="460"
+            Margin="240,40,0,0"
+            VerticalAlignment="Top" 
+            Width="420">
+            <Grid 
+                x:Name="grdIDEmployee"
+                Margin="0"
+                VerticalAlignment="Top"  
+                Width="420" 
+                Height="40">
+                <Label
+                    x:Name="lbIDEmployee"
+                    Content="Mã nhân viên" 
+                    HorizontalAlignment="Left"
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    Foreground="{StaticResource Gray1}"
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle
+                    x:Name="recIDEmployee"
+                    Width="230" 
+                    Height="40"
+                    RadiusY="6"
+                    RadiusX="6" 
+                    Margin="0"
+                    Stroke="{StaticResource Gray4}" HorizontalAlignment="Right"/>
+                <TextBox 
+                    x:Name="txtIDEmployee"
+                    materialDesign:HintAssist.Hint="Mã tự động"
+                    HorizontalAlignment="Right"  
+                    Width="210" 
+                    FontSize="14" 
+                    BorderThickness="0" 
+                    MaxLines="1"
+                    Padding="0" 
+                    Foreground="{StaticResource Gray3}" 
+                    Margin="0,0,10,0" 
+                    IsReadOnly="True" 
+                    Height="40" 
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    SelectionBrush="{x:Null}" />
+            </Grid>
+            <Grid 
+                Margin="0,60,0,0" 
+                VerticalAlignment="Top" 
+                x:Name="grdName" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbName"
+                    Content="Họ tên"
+                    HorizontalAlignment="Left"
+                    FontSize="18"
+                    FontWeight="SemiBold" 
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recName"
+                    HorizontalAlignment="Right" 
+                    Height="40" 
+                    Width="230" 
+                    RadiusY="6" 
+                    RadiusX="6"
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0"/>
+                <TextBox 
+                    x:Name="txtName"
+                    materialDesign:HintAssist.Hint="Họ và tên"
+                    HorizontalAlignment="Right"
+                    Height="40"  Width="210" 
+                    FontSize="14" 
+                    BorderThickness="0" 
+                    MaxLines="1"
+                    Padding="0" 
+                    Foreground="{StaticResource Gray3}" 
+                    Margin="0,0,10,0" 
+                    HorizontalContentAlignment="Left" 
+                    VerticalContentAlignment="Center" 
+                    SelectionBrush="{x:Null}" />
+            </Grid>
+            <Grid 
+                Margin="0,120,0,0"
+                VerticalAlignment="Top" 
+                x:Name="grdPosition" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbPosition"
+                    Content="Chức vụ"
+                    HorizontalAlignment="Left"  
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    Foreground="{StaticResource Gray1}"
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recPosition"
+                    HorizontalAlignment="Right" 
+                    Height="40"
+                    Width="230"
+                    RadiusY="6" 
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0" />
+                <ComboBox
+                    x:Name="cboPosition"
+                    materialDesign:HintAssist.Hint="Chức vụ" 
+                    IsEditable="True" 
+                    Height="40" 
+                    FontSize="14" 
+                    Width="210"
+                    BorderThickness="0"
+                    Foreground="{StaticResource Gray3}"  
+                    Padding="0" 
+                    Margin="0,0,10,0" 
+                    HorizontalAlignment="Right"
+                    VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Left">
+                    <ComboBoxItem x:Name="cboPositionManage" Content="Nhân viên quản lý"/>
+                    <ComboBoxItem x:Name="cboPositionGuard" Content="Bảo vệ"/>
+                </ComboBox>
+            </Grid>
+            <Grid 
+                Margin="0,180,0,0"
+                VerticalAlignment="Top"
+                x:Name="grdSex" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbSex"
+                    Content="Giới tính"
+                    HorizontalAlignment="Left" 
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    Foreground="{StaticResource Gray1}"
+                    Height="32" 
+                    VerticalAlignment="Center"/>
+                <RadioButton
+                    x:Name="rdoMale"
+                    Style="{StaticResource MaterialDesignLightRadioButton}"
+                    IsChecked="True"
+                    Content="Nam" 
+                    Height="24"
+                    Width="101"
+                    Margin="190,0,0,0" 
+                    Padding="20,1,0,0"
+                    FontSize="14"
+                    FontWeight="Bold" 
+                    BorderBrush="{StaticResource Primary}" 
+                    Background="{StaticResource Primary}" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Center"/>
+                <RadioButton
+                    x:Name="rdoFemale"
+                    Style="{StaticResource MaterialDesignLightRadioButton}"
+                    Content="Nữ" 
+                    Margin="290,0,0,0" 
+                    Padding="20,1,0,0" 
+                    FontSize="14" 
+                    FontWeight="Bold"
+                    Height="24"
+                    Width="101" 
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Left"/>
+            </Grid>
+            <Grid 
+                Margin="0,240,0,0" 
+                VerticalAlignment="Top" 
+                x:Name="grdBirthDate" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbBirthDate"
+                    Content="Ngày sinh" 
+                    HorizontalAlignment="Left" 
+                    FontSize="18"
+                    FontWeight="SemiBold" 
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recBirthDate"
+                    Height="40" 
+                    Width="230"
+                    RadiusY="6"
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0" 
+                    HorizontalAlignment="Right"/>
+                <DatePicker 
+                    x:Name="dpBirthDate"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,11,0" 
+                    Padding="0"
+                    materialDesign:HintAssist.Hint="Ngày sinh" 
+                    Width="210" 
+                    Height="40"
+                    BorderThickness="0" 
+                    FontSize="14"
+                    Foreground="{StaticResource Gray3}" 
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center"/>
+            </Grid>
+            <Grid 
+                Margin="0,300,0,0" 
+                VerticalAlignment="Top"
+                x:Name="grdAddress" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbAddress"
+                    Content="Địa chỉ" 
+                    HorizontalAlignment="Left"
+                    FontSize="18" 
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0"
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recAddress"
+                    HorizontalAlignment="Right" 
+                    Height="40" 
+                    Width="230" 
+                    RadiusY="6"
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0"/>
+                <TextBox
+                    x:Name="txtAddress"
+                    materialDesign:HintAssist.Hint="Địa chỉ" 
+                    HorizontalAlignment="Right" 
+                    Width="210"
+                    Height="40"
+                    FontSize="14" 
+                    BorderThickness="0" 
+                    MaxLines="1" 
+                    Foreground="{StaticResource Gray3}"
+                    Padding="0"  
+                    Margin="0,0,10,0" 
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Left" 
+                    VerticalContentAlignment="Center" 
+                    SelectionBrush="{x:Null}"/>
+            </Grid>
+            <Grid 
+                Margin="0,360,0,0" 
+                VerticalAlignment="Top" 
+                x:Name="grdTelephoneNumber"
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbTelephoneNumber"
+                    Content="Số điện thoại" 
+                    HorizontalAlignment="Left" 
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle
+                    x:Name="recTelephoneNumber"
+                    HorizontalAlignment="Right" 
+                    Height="40"  
+                    Width="230" 
+                    RadiusY="6" 
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0"/>
+                <TextBox 
+                    x:Name="txtTelephoneNumber"
+                    materialDesign:HintAssist.Hint="Số điện thoại" 
+                    HorizontalAlignment="Right" 
+                    Height="40"  
+                    Width="210" 
+                    FontSize="14"
+                    BorderThickness="0"
+                    MaxLines="1" 
+                    Foreground="{StaticResource Gray3}"
+                    Padding="0" 
+                    Margin="0,0,10,0" 
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center" 
+                    SelectionBrush="{x:Null}"/>
+            </Grid>
+            <Grid 
+                Margin="0,420,0,0" 
+                VerticalAlignment="Top" 
+                x:Name="grdWordDate" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbWordDate"
+                    Content="Ngày vào làm" 
+                    HorizontalAlignment="Left" 
+                    FontSize="18" 
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recWorkDate"
+                    HorizontalAlignment="Right"
+                    Height="40" 
+                    Width="230"
+                    RadiusY="6"
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0"/>
+                <DatePicker
+                    x:Name="dpWorkDate"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,11,0" 
+                    Padding="5,0,0,0"
+                    materialDesign:HintAssist.Hint="Ngày vào làm"  
+                    Width="210" 
+                    Height="40" 
+                    BorderThickness="0" 
+                    FontSize="14" 
+                    Foreground="{StaticResource Gray3}" 
+                    HorizontalContentAlignment="Left" 
+                    VerticalContentAlignment="Center"/>
+            </Grid>
+        </Grid>
+        <Grid 
+            x:Name="grdAction"
+            Margin="0,540,34,0" 
+            VerticalAlignment="Top"  
+            Height="40" 
+            Width="220" 
+            HorizontalAlignment="Right">
+            <Button
+                x:Name="btnSave"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40" 
+                Width="100"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                ToolTip="MaterialDesignRaisedButton with Round Corners" 
+                Background="{StaticResource Success}" 
+                BorderBrush="{StaticResource Success}"
+                Margin="0" 
+                HorizontalAlignment="Left"
+                FocusVisualStyle="{x:Null}">
+                <TextBlock
+                    Text="Lưu" 
+                    FontSize="18" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" />
+            </Button>
+            <Button
+                x:Name="btnCancel"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40"
+                Width="100"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                ToolTip="MaterialDesignRaisedButton with Round Corners"  
+                Background="{StaticResource Gray4}" 
+                BorderBrush="{StaticResource Gray4}"
+                Margin="0" 
+                HorizontalAlignment="Right"
+                FocusVisualStyle="{x:Null}">
+                <TextBlock
+                    Text="Bỏ qua" 
+                    FontSize="18"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" />
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

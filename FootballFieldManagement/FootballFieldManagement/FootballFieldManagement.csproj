@@ -69,6 +69,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\fHome.xaml">
+    <Page Include="Views\fAddEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\fBooking.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,6 +91,9 @@
     </Compile>
     <Compile Include="Views\fHome.xaml.cs">
       <DependentUpon>fHome.xaml</DependentUpon>
+    <Compile Include="Views\fAddEmployee.xaml.cs">
+      <DependentUpon>fAddEmployee.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\fBooking.xaml.cs">
       <DependentUpon>fBooking.xaml</DependentUpon>
     </Compile>

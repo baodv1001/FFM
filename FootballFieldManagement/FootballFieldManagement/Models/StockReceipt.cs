@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 
-namespace DTO
+namespace FootballFieldManagement.Models
 {
     class StockReceipt
     {

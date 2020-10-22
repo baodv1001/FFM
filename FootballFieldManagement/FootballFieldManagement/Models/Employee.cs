@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel;
+using FootballFieldManagement.ViewModels;
 namespace FootballFieldManagement.Models
 {
-    class Employee
+    public class Employee
     {
         //Properties
         private int idAccount;
@@ -18,35 +19,35 @@ namespace FootballFieldManagement.Models
 
         private string name;
 
-        public string Name { get => name; set => name = value; }
+        public string Name { get => name; set { name = value; }  }
 
         private string gender;
 
-        public string Gender { get => gender; set => gender = value; }
+        public string Gender { get => gender; set { gender = value;  } }
         
         private string phonenumber;
 
-        public string Phonenumber { get => phonenumber; set => phonenumber = value; }
+        public string Phonenumber { get => phonenumber; set { phonenumber = value;  } }
 
         private string address;
 
-        public string Address { get => address; set => address = value; }
+        public string Address { get => address; set { address = value;  } }
 
         private DateTime dateOfBirth;
 
-        public DateTime DateOfBirth { get => dateOfBirth; set => dateOfBirth = value; }
+        public DateTime DateOfBirth { get => dateOfBirth; set { dateOfBirth = value;  } }
         
         private double salary;
 
-        public double Salary { get => salary; set => salary = value; }
+        public double Salary { get => salary; set { salary = value;  } }
 
         private string position;
 
-        public string Position { get => position; set => position = value; }
+        public string Position { get => position; set { position = value;  } }
 
         private DateTime startingdate;
 
-        public DateTime Startingdate { get => startingdate; set => startingdate = value; }
+        public DateTime Startingdate { get => startingdate; set { startingdate = value;  } }
 
         // Constructor
 
@@ -55,7 +56,7 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Employee(int idAccount, int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, double salary, string position, DateTime startingdate)
+        public Employee( int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, double salary, string position, DateTime startingdate, int idAccount)
         {
             this.idAccount = idAccount;
             this.IdEmployee = idEmployee;
@@ -68,5 +69,6 @@ namespace FootballFieldManagement.Models
             this.position = position;
             this.startingdate = startingdate;
         }
+
     }
 }

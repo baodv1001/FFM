@@ -18,7 +18,18 @@ namespace FootballFieldManagement.Models
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
             adapter.Fill(dt);
+            conn.Close();
             return dt;
+        }
+        public void ResetData(string tableName)
+        {
+            conn.Open();
+            String sqlQuery = "DBCC CHECKIDENT ('"+tableName+"', RESEED, 0) " ;
+
+            SqlCommand command = new SqlCommand(sqlQuery, conn);
+
+            command.ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

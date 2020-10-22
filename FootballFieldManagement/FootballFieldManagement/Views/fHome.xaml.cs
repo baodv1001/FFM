@@ -11,7 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
+using FootballFieldManagement.ViewModels;
 namespace FootballFieldManagement.Views
 {
     /// <summary>
@@ -33,9 +34,15 @@ namespace FootballFieldManagement.Views
             {
                 case 0:
                     grdBody_Home.Visibility = Visibility.Visible;
+                    grdBody_Employee.Visibility = Visibility.Hidden;
+                    break;
+                case 3:
+                    grdBody_Home.Visibility = Visibility.Hidden;
+                    grdBody_Employee.Visibility = Visibility.Visible;
                     break;
                 default:
                     grdBody_Home.Visibility = Visibility.Hidden;
+                    grdBody_Employee.Visibility = Visibility.Hidden;
                     break;
             }
         }

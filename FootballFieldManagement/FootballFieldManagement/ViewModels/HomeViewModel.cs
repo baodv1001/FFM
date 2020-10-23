@@ -31,8 +31,6 @@ namespace FootballFieldManagement.ViewModels
             stack = parameter;
             fAddEmployee addEmployee = new fAddEmployee(); 
             addEmployee.ShowDialog();
-            parameter.Children.Clear();
-            AddUCEmployee(parameter);
         }
 
         public void AddUCEmployee(StackPanel stackPanel)
@@ -40,18 +38,14 @@ namespace FootballFieldManagement.ViewModels
             int i = 1;
             stackPanel.Children.Clear();
             EmployeeDAL employeeDAL = new EmployeeDAL();
-            bool flag = true;
+            bool flag = false;
             foreach (var employee in employeeDAL.Employees)
             {
                 EmployeeControl temp = new EmployeeControl();
                 flag = !flag;
-                if (flag == true)
+                if (flag)
                 {
-                    temp.Background = (Brush)new BrushConverter().ConvertFromString("#e0e0e0");
-                }
-                else
-                {
-                    temp.Background = Brushes.White;
+                    temp.grdEmployee.Background = Brushes.White;
                 }
                 temp.txbSerial.Text = i.ToString();
                 i++;

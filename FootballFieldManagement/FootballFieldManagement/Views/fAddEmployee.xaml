@@ -411,6 +411,7 @@
             HorizontalAlignment="Right">
             <Button
                 x:Name="btnSave"
+                IsDefault="True"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=AddEmployee}"

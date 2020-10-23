@@ -18,7 +18,8 @@
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Activated">
-            <i:InvokeCommandAction Command="{Binding E_LoadCommand}" CommandParameter="{Binding ElementName=stkEmployee}"/>
+            <i:InvokeCommandAction Command="{Binding E_LoadCommand}" 
+                                   CommandParameter="{Binding ElementName=stkEmployee}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid 
@@ -623,19 +624,18 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1" Visibility="Hidden">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <i:InvokeCommandAction Command="{Binding E_LoadCommand}" CommandParameter="{Binding ElementName=stkEmployee}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="10*"></RowDefinition>
+                </Grid.RowDefinitions>
                 <Grid 
-                    x:Name="grdE_MenuButton" 
                     Width="420" 
                     Height="40"
                     Grid.Row="0" 
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top" 
-                    Margin="0,40,52,0">
+                    Margin="0,40,30,0">
                     <Button 
                         x:Name="btnSetField"
                         Style="{StaticResource MaterialDesignRaisedButton}"
@@ -657,9 +657,10 @@
                         FontWeight="Bold" >
                     </Button>
                 </Grid>
-                <Grid
+                <Grid 
+                    Grid.Row="1"
                     HorizontalAlignment="Left"
-                    Margin="50,111,0,548" 
+                    Margin="50,0,0,0" 
                     Width="1120" 
                     Background="{DynamicResource Primary}">
                     <Grid.ColumnDefinitions>
@@ -668,6 +669,7 @@
                         <ColumnDefinition Width="2*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
                         Grid.Column="0"
@@ -691,8 +693,8 @@
                         FontWeight="SemiBold"/>
                     <TextBlock 
                         Grid.Column="2" 
-                        HorizontalAlignment="Center"
-                        Margin="0" 
+                        HorizontalAlignment="Left"
+                        Margin="20,0,0,0" 
                         TextWrapping="Wrap" 
                         Text="Chức vụ" 
                         VerticalAlignment="Center" 
@@ -701,26 +703,18 @@
                         FontWeight="SemiBold"/>
                 </Grid>
                 <Grid 
-                    x:Name="grdDisplayEmployee"
-                    Width="1120" 
-                    VerticalAlignment="Top"
-                    Height="500" 
-                    Margin="50,180,0,0" 
-                    Panel.ZIndex="10" 
-                    HorizontalAlignment="Left">
+                    Grid.Row="2"
+                    HorizontalAlignment="Left" 
+                    Margin="50,0,0,40"
+                    Width="1120" >
                     <ScrollViewer 
                         VerticalScrollBarVisibility="Auto"
                         HorizontalScrollBarVisibility="Disabled" 
                         Margin="0" 
-                        Width="1120" 
-                        Height="500"
-                        VerticalAlignment="Top" 
-                        HorizontalAlignment="Left">
+                        Width="1120">
                         <StackPanel 
                             x:Name="stkEmployee"
-                            ScrollViewer.HorizontalScrollBarVisibility="Visible" 
-                            HorizontalAlignment="Left">
-                        </StackPanel>
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="1120" HorizontalAlignment="Left"/>
                     </ScrollViewer>
                 </Grid>
             </Grid>

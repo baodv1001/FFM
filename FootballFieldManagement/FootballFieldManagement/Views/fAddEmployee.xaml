@@ -1,8 +1,11 @@
 ﻿<Window x:Class="FootballFieldManagement.Views.fAddEmployee"
+        x:Name="wdAddEmployee"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -10,7 +13,8 @@
         Height="650" 
         Width="700" 
         Background="#FFFF" 
-        WindowStartupLocation="CenterScreen">
+        DataContext="{StaticResource EmployeeVM}"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
     <Grid Margin="0">
         <Grid  
             x:Name="grdSelectImage"
@@ -108,7 +112,8 @@
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
                     VerticalAlignment="Center" 
-                    SelectionBrush="{x:Null}" />
+                    SelectionBrush="{x:Null}" >
+                </TextBox>
             </Grid>
             <Grid 
                 Margin="0,60,0,0" 
@@ -357,7 +362,13 @@
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    SelectionBrush="{x:Null}"/>
+                    SelectionBrush="{x:Null}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
             </Grid>
             <Grid 
                 Margin="0,420,0,0" 
@@ -408,7 +419,10 @@
             HorizontalAlignment="Right">
             <Button
                 x:Name="btnSave"
+                IsDefault="True"
                 Style="{StaticResource MaterialDesignRaisedButton}"
+                Command="{Binding SaveCommand}"
+                CommandParameter="{Binding ElementName=wdAddEmployee}"
                 Height="40" 
                 Width="100"
                 materialDesign:ButtonAssist.CornerRadius="6"
@@ -428,6 +442,8 @@
                 x:Name="btnCancel"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
+                Command="{Binding LogOutCommand}"
+                CommandParameter="{Binding ElementName= AddEmployee}"
                 Width="100"
                 materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="MaterialDesignRaisedButton with Round Corners"  

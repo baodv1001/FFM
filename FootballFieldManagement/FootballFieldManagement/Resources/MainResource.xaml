@@ -4,5 +4,5 @@
                     xmlns:viewmodels ="clr-namespace:FootballFieldManagement.ViewModels">
     <viewmodels:LoginViewModel x:Key="LoginVM"></viewmodels:LoginViewModel>
     <viewmodels:HomeViewModel x:Key="HomeVM"></viewmodels:HomeViewModel>
-    
+    <viewmodels:EmployeeViewModel x:Key="EmployeeVM"></viewmodels:EmployeeViewModel>
 </ResourceDictionary>

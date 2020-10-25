@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
@@ -12,7 +8,7 @@ using FootballFieldManagement.Resources.UserControls;
 using System.Windows.Media;
 using FootballFieldManagement.Models;
 using FootballFieldManagement.DAL;
-using FootballFieldManagement.Resources.UserControls;
+using System.Linq;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -165,11 +161,19 @@ namespace FootballFieldManagement.ViewModels
 
         public void AddGoods(StackPanel stk)
         {
+            stack = stk;
             AddGoodsWindow wdAddGoods = new AddGoodsWindow();
-            wdAddGoods.ShowDialog();
+            List<Goods> goodsList = GoodsDAL.Instance.ConvertDBToList();
+            try
+            {
+                wdAddGoods.txtIdGoods.Text = (goodsList[goodsList.Count() - 1].IdGoods + 1).ToString();
+            }
+            catch
+            {
+                wdAddGoods.txtIdGoods.Text = "1";
+            }
 
-            stk.Children.Clear();
-            LoadGoodsToView(stk);
+            wdAddGoods.ShowDialog();
         }
     }
 }

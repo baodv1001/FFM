@@ -10,19 +10,20 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Width="1120" 
              DataContext="{StaticResource EmployeeVM}"
-             Height="40" Margin="0,0,0,4" >
+             Height="40" 
+             Margin="0,0,0,2">
     <Grid 
         x:Name="grdEmployee"
         Margin="0" >
         <Grid.Background>
-            <SolidColorBrush Color="#FF007AFF" Opacity="0.4"/>
+            <SolidColorBrush Color="#FF007AFF" Opacity="0.3"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
             <ColumnDefinition Width="20"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock 

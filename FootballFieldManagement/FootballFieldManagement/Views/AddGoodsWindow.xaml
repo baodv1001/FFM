@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         Title="Thêm mặt hàng" 
-        x:Name="AddGoods"
+        x:Name="wdAddGoods"
         Height="340" 
         Width="700" 
         DataContext="{StaticResource GoodsVM}"
@@ -198,7 +198,7 @@
             <Button
                 x:Name="btnSave"
                 Command="{Binding SaveCommand}"
-                CommandParameter="{Binding ElementName=AddGoods}"
+                CommandParameter="{Binding ElementName=wdAddGoods}"
                 IsDefault="True"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40" 
@@ -218,7 +218,7 @@
             <Button
                 x:Name="btnCancel"
                 Command="{Binding ExitCommand}"
-                CommandParameter="{Binding ElementName=AddGoods}"
+                CommandParameter="{Binding ElementName=wdAddGoods}"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
                 Width="100"

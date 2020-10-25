@@ -672,12 +672,12 @@
                     <RowDefinition Height="10*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid 
-                    Width="420" 
-                    Height="40"
+                    Width="380" 
+                    Height="50"
                     Grid.Row="0" 
                     HorizontalAlignment="Right"
-                    VerticalAlignment="Top" 
-                    Margin="0,40,30,0">
+                    VerticalAlignment="Center" 
+                    Margin="0,0,40,0">
                     <Button 
                         x:Name="btnSetField"
                         Style="{StaticResource MaterialDesignRaisedButton}"
@@ -686,17 +686,17 @@
                         CommandParameter="{Binding ElementName=stkEmployee}"
                         materialDesign:ButtonAssist.CornerRadius="8"
                         ToolTip="Thêm nhân viên" 
-                        Margin="0" 
+                        Margin="0,0,0,2" 
                         Background="{DynamicResource Success}" 
                         BorderBrush="{x:Null}" 
                         Foreground="{StaticResource White}" 
-                        VerticalAlignment="Top" 
+                        VerticalAlignment="Center" 
                         HorizontalAlignment="Right" 
-                        Width="200"
+                        Width="180"
                         FocusVisualStyle="{x:Null}"
                         Content="Thêm nhân viên" 
                         FontSize="18" 
-                        FontWeight="Bold" >
+                        FontWeight="SemiBold" >
                     </Button>
                 </Grid>
                 <Grid 
@@ -771,7 +771,7 @@
                 Visibility="Hidden">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
                     <RowDefinition Height="10*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid
@@ -797,7 +797,7 @@
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
-                        Width="160"
+                        Width="180"
                         HorizontalAlignment="Right" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" />

@@ -10,12 +10,12 @@
              x:Name="ucDisplayGoods"
              DataContext="{StaticResource GoodsVM}"
              Width="1120" 
-             Height="50" 
+             Height="40" 
              Foreground="{DynamicResource Gray1}" 
-             Margin="0,1">
+             Margin="0,0,0,2">
     <Grid x:Name="grdMain">
         <Grid.Background>
-            <SolidColorBrush Color="#FF1976D2" Opacity="0.2"/>
+            <SolidColorBrush Color="#FF007AFF" Opacity="0.3"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"></ColumnDefinition>
@@ -23,8 +23,8 @@
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="260"></ColumnDefinition>
-            <ColumnDefinition Width="30"></ColumnDefinition>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="20"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock 
             x:Name="txbId"
@@ -119,22 +119,22 @@
             Foreground="{DynamicResource Gray1}"/>
         <Button 
             Grid.Column="5"
-            x:Name="btnEditGoods"
-            Command="{Binding EditGoodsCommand}"
-            CommandParameter="{Binding ElementName=DisplayGoods}"
+            x:Name="btnImportGoods"
+            Command="{Binding ImportCommand}"
+            CommandParameter="{Binding ElementName=btnImportGoods}"
             Content="Nhập kho"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Nhập kho"
-            Height="40"
+            Height="30"
             materialDesign:ButtonAssist.CornerRadius="6"
-            Margin="0" 
+            Margin="10,0,0,0" 
             Background="{DynamicResource Primary}" 
             BorderBrush="{x:Null}" 
             Foreground="{StaticResource  White}" 
-            FontSize="18" 
+            FontSize="16" 
             VerticalAlignment="Center" 
             FocusVisualStyle="{x:Null}"
-            Width="120"
+            Width="110"
             HorizontalAlignment="Left" 
             Padding="0,0,0,2"
             FontWeight="SemiBold" >
@@ -147,16 +147,16 @@
             Content="Xóa"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Xóa mặt hàng" 
-            Height="40"
+            Height="30"
             materialDesign:ButtonAssist.CornerRadius="6"
-            Margin="20,0,0,0" 
+            Margin="0,0,10,0" 
             Background="{DynamicResource SecondaryHueMidBrush}" 
             BorderBrush="{x:Null}" 
             Foreground="{StaticResource White}" 
-            FontSize="18" 
+            FontSize="16" 
             VerticalAlignment="Center" 
             FocusVisualStyle="{x:Null}"
-            Width="120"
+            Width="110"
             HorizontalAlignment="Right" 
             Padding="0,0,0,2" 
             FontWeight="SemiBold" />

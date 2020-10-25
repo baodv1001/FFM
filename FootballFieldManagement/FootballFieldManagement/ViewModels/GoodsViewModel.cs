@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -25,7 +26,7 @@ namespace FootballFieldManagement.ViewModels
         public GoodsViewModel()
         {
             SaveCommand = new RelayCommand<AddGoodsWindow>((parameter) => true, (parameter) => Add(parameter));
-            ImportCommand = new RelayCommand<AddGoodsWindow>((parameter) => true, (parameter) => Add(parameter));
+            ImportCommand = new RelayCommand<Button>((parameter) => true, (parameter) => OpentImportGoods(parameter));
             DeleteGoodsCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteGoods(parameter.Text));
             ExitCommand = new RelayCommand<AddGoodsWindow>((parameter) => true, (parameter) => parameter.Close());
         }
@@ -68,6 +69,10 @@ namespace FootballFieldManagement.ViewModels
                     break;
                 }
             }
+        }
+        public void OpentImportGoods(Button parameter)
+        {
+
         }
     }
 }

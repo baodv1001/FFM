@@ -8,7 +8,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using FootballFieldManagement.Views;
 using FootballFieldManegement.DAL;
-using FootballFieldManagement.Resources.User_Control;
+using FootballFieldManagement.Resources.UserControls;
 using System.Windows.Media;
 using FootballFieldManagement.Models;
 using FootballFieldManagement.DAL;

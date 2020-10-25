@@ -1,7 +1,4 @@
-﻿using FootballFieldManagement.DAL;
-using FootballFieldManagement.Models;
-using FootballFieldManagement.Resources.UserControls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FootballFieldManagement.Resources.User_Control
+namespace FootballFieldManagement.Resources.UserControls
 {
     /// <summary>
     /// Interaction logic for EmployeeControl.xaml

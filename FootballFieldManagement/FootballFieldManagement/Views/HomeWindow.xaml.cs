@@ -11,15 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
+using FootballFieldManagement.ViewModels;
 namespace FootballFieldManagement.Views
 {
     /// <summary>
-    /// Interaction logic for fLogin.xaml
+    /// Interaction logic for HomeWindow.xaml
     /// </summary>
-    public partial class fLogin : Window
+    public partial class HomeWindow : Window
     {
-        public fLogin()
+        public HomeWindow()
         {
             InitializeComponent();
         }

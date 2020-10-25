@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FootballFieldManagement.Resources.User_Control
+namespace FootballFieldManagement.Resources.UserControls
 {
     /// <summary>
     /// Interaction logic for EmployeeControl.xaml

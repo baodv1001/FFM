@@ -13,48 +13,77 @@ namespace FootballFieldManegement.DAL
 {
     class EmployeeDAL:DataProvider
     {
-        
-        ObservableCollection<Employee> employees;
 
-        public ObservableCollection<Employee> Employees { get => employees; set => employees = value; }
+        private static EmployeeDAL instance;
 
-        public EmployeeDAL()
+        public static EmployeeDAL Instance
         {
-            Employees = new ObservableCollection<Employee>();
-            DataTable dt = LoadData("Employee");
+            get { if (instance == null) instance = new EmployeeDAL(); return EmployeeDAL.instance; }
+            private set { EmployeeDAL.instance = value; }
+        }
+
+        private EmployeeDAL()
+        {
+            
+        }
+        public List<Employee> ConvertDBToList()
+        {
+            DataTable dt;
+            List<Employee> employees = new List<Employee>();
+            try
+            {
+                
+                dt = LoadData("Employee");
+            }
+            catch
+            {
+                conn.Close();
+                dt = LoadData("Employee");
+            }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(),dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(),DateTime.Parse( dt.Rows[i].ItemArray[5].ToString()),double.Parse(dt.Rows[i].ItemArray[6].ToString()), dt.Rows[i].ItemArray[7].ToString(),DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()),1);
-                Employees.Add(employee);
+                Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(), dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()), 1);
+                employees.Add(employee);
             }
+            //conn.Close();
+            return employees;
         }
-        public void Add(Employee employee)
+        public void AddIntoDB(Employee employee)
         {
-            conn.Open();
-            employees.Add(employee);
-            string query = "insert into Employee( name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount) values(@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount)";
-            SqlCommand command = new SqlCommand(query, conn);
-            command.Parameters.AddWithValue("@name", employee.Name);
-            command.Parameters.AddWithValue("@gender", employee.Gender);
-            command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
-            command.Parameters.AddWithValue("@address", employee.Address);
-            command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth.ToString());
-            command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
-            command.Parameters.AddWithValue("@position", employee.Position);
-            command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
-            command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-            int rs = command.ExecuteNonQuery();
-            if (rs != 1)
+            try
             {
-                throw new Exception("Failed Query");
+                conn.Open();
+                string query = "insert into Employee( name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount) values(@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount)";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@name", employee.Name);
+                command.Parameters.AddWithValue("@gender", employee.Gender);
+                command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
+                command.Parameters.AddWithValue("@address", employee.Address);
+                command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth.ToString());
+                command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
+                command.Parameters.AddWithValue("@position", employee.Position);
+                command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
+                command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
+                int rs = command.ExecuteNonQuery();
+                if (rs != 1)
+                {
+                    throw new Exception("Failed Query");
+                }
+                else
+                {
+                    MessageBox.Show("Đã thêm thành công");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Đã thêm thành công");
-            }    
-            conn.Close();
+                MessageBox.Show("Cập nhật thất bại");
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
-        public void Update(Employee employee)
+        public void UpdateOnDB(Employee employee)
         {
             try
             {
@@ -76,7 +105,9 @@ namespace FootballFieldManegement.DAL
                     throw new Exception("Failed Query");
                 }
                 else
+                {
                     MessageBox.Show("Cập nhật thành công!");
+                }
             }
             catch
             {
@@ -87,25 +118,38 @@ namespace FootballFieldManegement.DAL
                 conn.Close();
             }
         }
-        public void Delete(Employee employee)
+        public void DeleteEmployee(Employee employee)
         {
-            conn.Open();
-            string query= "delete from Employee where idEmployee = "+ employee.IdEmployee.ToString();
-            SqlCommand command = new SqlCommand(query, conn);
-            if (command.ExecuteNonQuery() > 0)
-                MessageBox.Show("Xoá thành công!");
+            try
+            {
+                conn.Open();
+                string query = "delete from Employee where idEmployee = " + employee.IdEmployee.ToString();
+                SqlCommand command = new SqlCommand(query, conn);
+                
+                if (command.ExecuteNonQuery() > 0)
+                    MessageBox.Show("Xoá thành công!");
+                conn.Close();
+            }
+            catch
+            {
+                throw new Exception("Failed Query");
+            }
+            finally
+            {
+                
+            }
         }
         public void AddEmployee(Employee employee)
         {
-            if(employees.Count==0 || employee.IdEmployee>employees[employees.Count-1].IdEmployee)
+            if(ConvertDBToList().Count==0 || employee.IdEmployee>ConvertDBToList()[ConvertDBToList().Count-1].IdEmployee)
             {
-                Add(employee);
+                AddIntoDB(employee);
             }    
             else
             {
-                Update(employee);
+                UpdateOnDB(employee);
             }
-            conn.Close();
+            //conn.Close();
         }
     }
 }

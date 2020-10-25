@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:User_Control="clr-namespace:FootballFieldManagement.Resources.User_Control" x:Class="FootballFieldManagement.Views.fHome"
-        x:Name="HomeWindow"
+        x:Name="wdHomeWindow"
         mc:Ignorable="d"
         DataContext="{StaticResource HomeVM}"
         Title="Phần mềm Quản lý sân bóng" 
@@ -305,7 +305,7 @@
                 <Button 
                     x:Name="btnLogOut" 
                     Command="{Binding LogOutCommand}"
-                    CommandParameter="{Binding ElementName=HomeWindow}"
+                    CommandParameter="{Binding ElementName=wdHomeWindow}"
                     Content="Đăng xuất" 
                     HorizontalAlignment="Right" 
                     Height="40" 

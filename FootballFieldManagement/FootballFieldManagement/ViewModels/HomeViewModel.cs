@@ -23,29 +23,36 @@ namespace FootballFieldManagement.ViewModels
         public HomeViewModel()
         {
             LogOutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
-            E_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddUCEmployee(parameter));
+            E_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
             E_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddEmployee(parameter));
         }
         public void AddEmployee(StackPanel parameter)
         {
             stack = parameter;
-            fAddEmployee addEmployee = new fAddEmployee(); 
+            fAddEmployee addEmployee = new fAddEmployee();
+            try
+            {
+                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.ConvertDBToList()[EmployeeDAL.Instance.ConvertDBToList().Count - 1].IdEmployee + 1).ToString();
+            }
+            catch
+            {
+                addEmployee.txtIDEmployee.Text   = "1";
+            }
             addEmployee.ShowDialog();
         }
 
-        public void AddUCEmployee(StackPanel stackPanel)
+        public void LoadEmployeesToView(StackPanel stackPanel)
         {
             int i = 1;
             stackPanel.Children.Clear();
-            EmployeeDAL employeeDAL = new EmployeeDAL();
             bool flag = false;
-            foreach (var employee in employeeDAL.Employees)
+            foreach (var employee in EmployeeDAL.Instance.ConvertDBToList())
             {
                 EmployeeControl temp = new EmployeeControl();
                 flag = !flag;
                 if (flag)
                 {
-                    temp.grdEmployee.Background = Brushes.White;
+                    temp.grdEmployee.Background = (Brush)new BrushConverter().ConvertFromString("#FFFFFF");
                 }
                 temp.txbSerial.Text = i.ToString();
                 i++;

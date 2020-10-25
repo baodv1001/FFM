@@ -26,21 +26,9 @@ namespace FootballFieldManagement.Views
         public fAddEmployee()
         {
             InitializeComponent();
-            EmployeeDAL employeeDAL = new EmployeeDAL();
-            try
-            {
-                this.txtIDEmployee.Text = (employeeDAL.Employees[employeeDAL.Employees.Count - 1].IdEmployee + 1).ToString();
-            }
-            catch
-            {
-                this.txtIDEmployee.Text = "1";
-            }
+            
 
         }
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        }
+        
     }
 }

@@ -11,14 +11,13 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 using System.Collections.ObjectModel;
-
+using System.Text.RegularExpressions;
 namespace FootballFieldManagement.ViewModels
 {
     class EmployeeViewModel:HomeViewModel
     {
         public ICommand SaveCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
-        public ICommand GetIdCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand LogoutCommand { get; set; }
         private string id;
@@ -29,14 +28,17 @@ namespace FootballFieldManagement.ViewModels
 
             SaveCommand = new RelayCommand<fAddEmployee>((parameter) => true, (parameter) => AddEmployee(parameter));
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
-            GetIdCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => id = (parameter.Text));
-            DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => Delete(parameter.Text));
+            DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
             LogoutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
         }
-
+        public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
         public void AddEmployee(fAddEmployee parameter)
         {
-            if (parameter.txtName.Text == "")
+            if (parameter.txtName.Text == null)
             {
                 MessageBox.Show("Vui lòng nhập họ tên!");
                 parameter.txtName.Focus();
@@ -112,39 +114,47 @@ namespace FootballFieldManagement.ViewModels
             else
                 gender = "Nữ";
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0);
-            EmployeeDAL employeeDAL = new EmployeeDAL();
-            employeeDAL.AddEmployee(employee);
+            EmployeeDAL.Instance.AddEmployee(employee);
             parameter.Close();
 
         }
        
-        public void Delete(string id)
+        public void DeleteEmployee(string id)
         {
-            EmployeeDAL employeeDAL = new EmployeeDAL();
-            ObservableCollection<Employee> employees = employeeDAL.Employees;
+            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
             foreach (var employee in employees)
             {
                 if (employee.IdEmployee.ToString() == id)
                 {
-                    employeeDAL.Delete(employee);
+                    EmployeeDAL.Instance.DeleteEmployee(employee);
                     break;
                 }
             }
         }
         public void OpenUpdateWindow(TextBlock parameter)
         {
-            EmployeeDAL employeeDAL = new EmployeeDAL();
-            ObservableCollection<Employee> employees = employeeDAL.Employees;
+            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
             fAddEmployee child = new fAddEmployee();
             foreach (var employee in employees)
             {
                 if (employee.IdEmployee.ToString() == parameter.Text)
                 {
                     child.txtIDEmployee.Text = employee.IdEmployee.ToString();
+
                     child.txtName.Text = employee.Name;
+                    child.txtName.SelectionStart = child.txtName.Text.Length;
+                    child.txtName.SelectionLength = 0;
+
                     child.txtTelephoneNumber.Text = employee.Phonenumber;
+                    child.txtTelephoneNumber.SelectionStart = child.txtTelephoneNumber.Text.Length;
+                    child.txtTelephoneNumber.SelectionLength = 0;
+
                     child.txtAddress.Text = employee.Address;
+                    child.txtAddress.SelectionStart = child.txtAddress.Text.Length;
+                    child.txtAddress.SelectionLength = 0;
+
                     child.cboPosition.Text = employee.Position;
+
                     if (employee.Gender == "Nam")
                         child.rdoMale.IsChecked = true;
                     else

@@ -19,6 +19,8 @@
         <i:EventTrigger EventName="Activated">
             <i:InvokeCommandAction Command="{Binding G_LoadCommand}" 
                                    CommandParameter="{Binding ElementName=stkGoods}"/>
+            <i:InvokeCommandAction Command="{Binding E_LoadCommand}" 
+                                   CommandParameter="{Binding ElementName=stkEmployee}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid 

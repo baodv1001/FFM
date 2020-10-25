@@ -78,7 +78,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\User_Control\EmployeeControl.xaml">
+    <Page Include="Resources\UserControls\EmployeeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\GoodsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddGoodsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -94,11 +102,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\fHome.xaml">
+    <Page Include="Views\HomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\fLogin.xaml">
+    <Page Include="Views\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,15 +117,23 @@
     <Compile Include="DAL\AccountDal.cs" />
     <Compile Include="DAL\DataProvider.cs" />
     <Compile Include="DAL\EmployeeDAL.cs" />
+    <Compile Include="DAL\GoodsDAL.cs" />
     <Compile Include="DAL\SQLConnection.cs" />
-    <Compile Include="Resources\User_Control\EmployeeControl.xaml.cs">
+    <Compile Include="Resources\UserControls\EmployeeControl.xaml.cs">
       <DependentUpon>EmployeeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\GoodsControl.xaml.cs">
+      <DependentUpon>GoodsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\GoodsViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\RelayCommad.cs" />
+    <Compile Include="Views\AddGoodsWindow.xaml.cs">
+      <DependentUpon>AddGoodsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\fAddEmployee.xaml.cs">
       <DependentUpon>fAddEmployee.xaml</DependentUpon>
     </Compile>
@@ -127,11 +143,11 @@
     <Compile Include="Views\fCheckIn.xaml.cs">
       <DependentUpon>fCheckIn.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\fHome.xaml.cs">
-      <DependentUpon>fHome.xaml</DependentUpon>
+    <Compile Include="Views\HomeWindow.xaml.cs">
+      <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\fLogin.xaml.cs">
-      <DependentUpon>fLogin.xaml</DependentUpon>
+    <Compile Include="Views\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -170,10 +186,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
+    <Resource Include="Views\avatar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Views\avatar.png" />
+    <Resource Include="Resources\Images\avatar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-
-namespace FootballFieldManagement.Resources.User_Control
+using System.Windows.Threading;
+using FootballFieldManagement.ViewModels;
+namespace FootballFieldManagement.Views
 {
     /// <summary>
-    /// Interaction logic for EmployeeControl.xaml
+    /// Interaction logic for HomeWindow.xaml
     /// </summary>
-    public partial class EmployeeControl : UserControl
+    public partial class HomeWindow : Window
     {
-        public EmployeeControl()
+        public HomeWindow()
         {
             InitializeComponent();
         }

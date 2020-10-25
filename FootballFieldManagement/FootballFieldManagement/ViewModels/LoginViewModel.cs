@@ -30,7 +30,7 @@ namespace FootballFieldManagement.ViewModels
             LogInCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
             {
                 Login(parameter);
-                fHome home = new fHome();
+                HomeWindow home = new HomeWindow();
                 if (isLogin)
                 {
                     home.ShowDialog();

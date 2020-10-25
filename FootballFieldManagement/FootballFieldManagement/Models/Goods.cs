@@ -22,10 +22,6 @@ namespace FootballFieldManagement.Models
 
         public int Amount { get => amount; set => amount = value; }
 
-        private DateTime receivedDate;
-
-        public DateTime ReceivedDate { get => receivedDate; set => receivedDate = value; }
-
         private double price;
 
         public double Price { get => price; set => price = value; }
@@ -41,14 +37,13 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Goods(int idGoods, string name, int amount, DateTime receivedDate, double price, string unit)
+        public Goods(int idGoods, string name, int amount = 0, string unit = "", double price = 0)
         {
             this.idGoods = idGoods;
             this.name = name;
             this.amount = amount;
-            this.receivedDate = receivedDate;
-            this.price = price;
             this.unit = unit;
+            this.price = price;
         }
     }
 }

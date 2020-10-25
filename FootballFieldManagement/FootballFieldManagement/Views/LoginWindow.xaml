@@ -1,5 +1,5 @@
-﻿<Window x:Class="FootballFieldManagement.Views.fLogin"
-        x:Name="LoginWindow"
+﻿<Window x:Class="FootballFieldManagement.Views.LoginWindow"
+        x:Name="wdLogin"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -60,7 +60,7 @@
         <Grid 
             Width="380" 
             Height="460" 
-            Background="#FFFFFFFF">
+            Background="{StaticResource White}" >
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity="0.4"/>
             </Grid.Effect>
@@ -164,7 +164,7 @@
                 x:Name="btnLogin"
                 IsDefault="True"
                 Command="{Binding LogInCommand}"
-                CommandParameter="{Binding ElementName=LoginWindow}"
+                CommandParameter="{Binding ElementName=wdLogin}"
                 Style="{StaticResource MaterialDesignRaisedLightButton}"
                 FocusVisualStyle="{x:Null}"
                 Height="40" 

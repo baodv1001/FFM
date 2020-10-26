@@ -1,4 +1,5 @@
 ﻿using FootballFieldManagement.DAL;
+using FootballFieldManagement.Models;
 using FootballFieldManagement.ViewModels;
 using FootballFieldManagement.Views;
 using System;
@@ -18,6 +19,7 @@ namespace FootballFieldManagement.ViewModels
     class LoginViewModel : BaseViewModel
     {
         public ICommand LogInCommand { get; set; }
+        public ICommand ConvertToSignUpCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
         private string username;
         public string Username { get => username; set { username = value; OnPropertyChanged(); } }
@@ -42,6 +44,13 @@ namespace FootballFieldManagement.ViewModels
                 this.password = parameter.Password;
                 this.password = MD5Hash(this.password);
             });
+            ConvertToSignUpCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
+            {
+                SignUpWindow signUp = new SignUpWindow();
+                parameter.Hide();
+                signUp.ShowDialog();
+                parameter.Show();
+            });
         }
         public void Login(Window p)
         {
@@ -57,8 +66,8 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                AccountDal accounts = new AccountDal();
-                foreach (var account in accounts.ListAccount)
+            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
+                foreach (var account in accounts)
                 {
                     if (account.Username == username && account.Password == password)
                     {

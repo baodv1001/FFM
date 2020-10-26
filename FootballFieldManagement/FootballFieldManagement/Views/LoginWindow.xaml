@@ -186,8 +186,10 @@
                     VerticalAlignment="Center" 
                     Margin="0,0,0,4" />
             </Button>
-            <Label 
-                x:Name="lblSignUp" 
+            <Button 
+                x:Name="btnSignUp" 
+                Command="{Binding ConvertToSignUpCommand}"
+                CommandParameter="{Binding ElementName=wdLogin}"
                 Content="Đăng ký" 
                 ToolTip="Chưa có tài khoản? Hãy đăng ký"
                 HorizontalAlignment="Center" 
@@ -201,7 +203,7 @@
                 Margin="0,410,0,0" 
                 Foreground="{StaticResource Secondary}" 
                 FontWeight="Medium" 
-                Cursor="Hand"/>
+                Cursor="Hand" Background="{x:Null}" BorderBrush="{x:Null}" IsTabStop="False"/>
         </Grid>
     </Grid>
 </Window>

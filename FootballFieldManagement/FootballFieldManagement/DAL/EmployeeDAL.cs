@@ -48,7 +48,7 @@ namespace FootballFieldManegement.DAL
             //conn.Close();
             return employees;
         }
-        public void AddIntoDB(Employee employee)
+        public bool AddIntoDB(Employee employee)
         {
             try
             {
@@ -69,23 +69,23 @@ namespace FootballFieldManegement.DAL
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
-                    throw new Exception("Failed Query");
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Đã thêm thành công");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Cập nhật thất bại");
+                return false;
             }
             finally
             {
                 conn.Close();
             }
         }
-        public void UpdateOnDB(Employee employee)
+        public bool UpdateOnDB(Employee employee)
         {
             try
             {
@@ -105,16 +105,16 @@ namespace FootballFieldManegement.DAL
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
-                    throw new Exception("Failed Query");
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật thành công!");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Cập nhật thất bại");
+                return false;
             }
             finally
             {
@@ -128,29 +128,34 @@ namespace FootballFieldManegement.DAL
                 conn.Open();
                 string query = "delete from Employee where idEmployee = " + employee.IdEmployee.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
-                
+
                 if (command.ExecuteNonQuery() > 0)
-                    MessageBox.Show("Xoá thành công!");
-                conn.Close();
+                    MessageBox.Show("Xóa thành công!");
             }
             catch
             {
-                throw new Exception("Failed Query");
+                MessageBox.Show("Xóa thất bại!");
             }
             finally
             {
-                
+                conn.Close();
             }
         }
         public void AddEmployee(Employee employee)
         {
             if(ConvertDBToList().Count==0 || employee.IdEmployee>ConvertDBToList()[ConvertDBToList().Count-1].IdEmployee)
             {
-                AddIntoDB(employee);
+                if (AddIntoDB(employee))
+                    MessageBox.Show("Thêm thành công!");
+                else
+                    MessageBox.Show("Thêm thất bại!");
             }    
             else
             {
-                UpdateOnDB(employee);
+                if (UpdateOnDB(employee))
+                    MessageBox.Show("Cập nhật thành công!");
+                else
+                    MessageBox.Show("Cập nhật thất bại!");
             }
             //conn.Close();
         }

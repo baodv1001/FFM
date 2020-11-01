@@ -434,7 +434,7 @@
                 Margin="0" 
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}">
-                <TextBlock
+                <TextBlock x:Name="txbConfirm"
                     Text="Lưu" 
                     FontSize="18" 
                     HorizontalAlignment="Center" 
@@ -444,7 +444,7 @@
                 x:Name="btnCancel"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
-                Command="{Binding LogOutCommand}"
+                Command="{Binding CancelCommand}"
                 CommandParameter="{Binding ElementName= AddEmployee}"
                 Width="100"
                 materialDesign:ButtonAssist.CornerRadius="6"

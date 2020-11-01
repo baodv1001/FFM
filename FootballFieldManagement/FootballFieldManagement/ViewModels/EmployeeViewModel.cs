@@ -23,7 +23,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
         public ICommand SelectImageCommand { get; set; }
         private string id;
         public string Id { get => id; set => id = value; }
@@ -35,7 +35,7 @@ namespace FootballFieldManagement.ViewModels
             SaveCommand = new RelayCommand<fAddEmployee>((parameter) => true, (parameter) => AddEmployee(parameter));
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
             DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
-            LogoutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
+            CancelCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
             SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
         }
         public void SelectImage(Grid parameter)
@@ -146,19 +146,21 @@ namespace FootballFieldManagement.ViewModels
             else
                 gender = "Nữ";
             string filename = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()))+ @"\Resources\Images\"+parameter.txtIDEmployee.Text.ToString()+".png";
-            if (parameter.grdSelectImage.Children.Count == 1)
-            {
-                File.Delete(filename);
-            }
-            if (image == null)
+            if (parameter.grdSelectImage.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
-                parameter.grdSelectImage.Children[2].Focus();
                 return;
             }
             else
             {
-                File.Copy(image, filename, true);
+                try
+                {
+                    File.Copy(image, filename, true);
+                }
+                catch
+                {
+
+                }
             }
             image = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0,filename);

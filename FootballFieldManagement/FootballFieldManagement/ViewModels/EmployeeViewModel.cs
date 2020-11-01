@@ -228,6 +228,7 @@ namespace FootballFieldManagement.ViewModels
                 }
 
             }
+            child.btnSave.ToolTip = "Cập nhật thông tin nhân viên";
             child.ShowDialog();
         }
     }

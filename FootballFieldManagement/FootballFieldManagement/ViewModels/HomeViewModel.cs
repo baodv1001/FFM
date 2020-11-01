@@ -41,8 +41,8 @@ namespace FootballFieldManagement.ViewModels
             G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
             SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
             {
-                //SetSalaryWindow setSalaryWindow = new SetSalaryWindow();
-                //setSalaryWindow.ShowDialog();
+                SetSalaryWindow setSalaryWindow = new SetSalaryWindow();
+                setSalaryWindow.ShowDialog();
             });
         }
         public void SwitchTab(HomeWindow parameter)

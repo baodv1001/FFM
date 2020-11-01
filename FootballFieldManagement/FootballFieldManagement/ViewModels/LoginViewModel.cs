@@ -19,7 +19,7 @@ namespace FootballFieldManagement.ViewModels
     class LoginViewModel : BaseViewModel
     {
         public ICommand LogInCommand { get; set; }
-        public ICommand ConvertToSignUpCommand { get; set; }
+        public ICommand OpenSignUpCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
@@ -42,7 +42,7 @@ namespace FootballFieldManagement.ViewModels
                 this.password = parameter.Password;
                 this.password = MD5Hash(this.password);
             });
-            ConvertToSignUpCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
+            OpenSignUpCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
             {
                 SignUpWindow signUp = new SignUpWindow();
                 parameter.Hide();

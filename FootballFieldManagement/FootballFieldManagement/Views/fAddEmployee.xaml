@@ -39,6 +39,8 @@
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 Height="35" 
                 Width="100" 
+                Command="{Binding SelectImageCommand}"
+                CommandParameter="{Binding ElementName=grdSelectImage}"
                 materialDesign:ButtonAssist.CornerRadius="8"
                 ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
                 Background="{StaticResource Primary}" 

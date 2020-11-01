@@ -12,6 +12,10 @@ using System.Windows.Media;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using Microsoft.Win32;
+using System.Windows.Media.Imaging;
+using System.IO;
+
 namespace FootballFieldManagement.ViewModels
 {
     class EmployeeViewModel:HomeViewModel
@@ -19,17 +23,43 @@ namespace FootballFieldManagement.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
-        public ICommand LogoutCommand { get; set; }
+        public ICommand ExitCommand { get; set; }
+        public ICommand SelectImageCommand { get; set; }
         private string id;
         public string Id { get => id; set => id = value; }
         public string gender;
+        public string image;
         public EmployeeViewModel()
         {
 
             SaveCommand = new RelayCommand<fAddEmployee>((parameter) => true, (parameter) => AddEmployee(parameter));
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
             DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
-            LogoutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
+            ExitCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
+            SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
+        }
+        public void SelectImage(Grid parameter)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +"JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +"Portable Network Graphic (*.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
+                image = op.FileName;
+                ImageBrush imageBrush = new ImageBrush();
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(image);
+                bitmap.EndInit();
+                imageBrush.ImageSource = bitmap;
+                parameter.Background = imageBrush;
+                if (parameter.Children.Count > 1)
+                {
+                    parameter.Children.Remove(parameter.Children[0]);
+                    parameter.Children.Remove(parameter.Children[1]);
+                }
+            }
         }
         public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
@@ -113,7 +143,25 @@ namespace FootballFieldManagement.ViewModels
                 gender = "Nam";
             else
                 gender = "Nữ";
-            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0);
+            string filename =@"..//..//Resources//Images//"+parameter.txtIDEmployee.Text.ToString()+".png";
+            if (parameter.grdSelectImage.Background == null)
+            {
+                MessageBox.Show("Vui lòng thêm hình ảnh!");
+                return;
+            }
+            else
+            {
+                try
+                {
+                    File.Copy(image, filename, true);
+                }
+                catch
+                {
+
+                }
+            }
+            image = null;
+            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0,filename);
             EmployeeDAL.Instance.AddEmployee(employee);
             parameter.Close();
 
@@ -161,10 +209,26 @@ namespace FootballFieldManagement.ViewModels
                         child.rdoFemale.IsChecked = true;
                     child.dpBirthDate.Text = employee.DateOfBirth.ToString();
                     child.dpWorkDate.Text = employee.Startingdate.ToString();
+                    
+                   
+                        ImageBrush imageBrush = new ImageBrush();
+                        BitmapImage bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.UriSource = new Uri(employee.Image,UriKind.Relative);
+                        bitmap.EndInit();
+                        imageBrush.ImageSource = bitmap;
+                        child.grdSelectImage.Background = imageBrush;
+                        if (child.grdSelectImage.Children.Count > 1)
+                        {
+                            child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[0]);
+                            child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[1]);
+                        }
                     break;
                 }
 
             }
+            child.btnSave.ToolTip = "Cập nhật thông tin nhân viên";
             child.ShowDialog();
         }
     }

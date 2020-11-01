@@ -39,6 +39,8 @@
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
                 Height="35" 
                 Width="100" 
+                Command="{Binding SelectImageCommand}"
+                CommandParameter="{Binding ElementName=grdSelectImage}"
                 materialDesign:ButtonAssist.CornerRadius="8"
                 ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
                 Background="{StaticResource Primary}" 
@@ -282,6 +284,45 @@
             </Grid>
             <Grid 
                 Margin="0,300,0,0" 
+                VerticalAlignment="Top" 
+                x:Name="grdWordDate" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbWordDate"
+                    Content="Ngày vào làm" 
+                    HorizontalAlignment="Left" 
+                    FontSize="18" 
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recWorkDate"
+                    HorizontalAlignment="Right"
+                    Height="40" 
+                    Width="230"
+                    RadiusY="6"
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0"/>
+                <DatePicker
+                    x:Name="dpWorkDate"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,11,0" 
+                    Padding="5,0,0,0"
+                    materialDesign:HintAssist.Hint="Ngày vào làm"  
+                    Width="210" 
+                    Height="40" 
+                    BorderThickness="0" 
+                    FontSize="14" 
+                    Foreground="{StaticResource Gray3}" 
+                    HorizontalContentAlignment="Left" 
+                    VerticalContentAlignment="Center"/>
+            </Grid>
+            <Grid 
+                Margin="0,360,0,0" 
                 VerticalAlignment="Top"
                 x:Name="grdAddress" 
                 Width="420" 
@@ -323,7 +364,7 @@
                     SelectionBrush="{x:Null}"/>
             </Grid>
             <Grid 
-                Margin="0,360,0,0" 
+                Margin="0,420,0,0" 
                 VerticalAlignment="Top" 
                 x:Name="grdTelephoneNumber"
                 Width="420" 
@@ -370,45 +411,6 @@
                     </i:Interaction.Triggers>
                 </TextBox>
             </Grid>
-            <Grid 
-                Margin="0,420,0,0" 
-                VerticalAlignment="Top" 
-                x:Name="grdWordDate" 
-                Width="420" 
-                Height="40">
-                <Label 
-                    x:Name="lbWordDate"
-                    Content="Ngày vào làm" 
-                    HorizontalAlignment="Left" 
-                    FontSize="18" 
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource Gray1}" 
-                    Height="32" 
-                    Margin="0" 
-                    VerticalAlignment="Center"/>
-                <Rectangle 
-                    x:Name="recWorkDate"
-                    HorizontalAlignment="Right"
-                    Height="40" 
-                    Width="230"
-                    RadiusY="6"
-                    RadiusX="6" 
-                    Stroke="{StaticResource Gray4}" 
-                    Margin="0"/>
-                <DatePicker
-                    x:Name="dpWorkDate"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,11,0" 
-                    Padding="5,0,0,0"
-                    materialDesign:HintAssist.Hint="Ngày vào làm"  
-                    Width="210" 
-                    Height="40" 
-                    BorderThickness="0" 
-                    FontSize="14" 
-                    Foreground="{StaticResource Gray3}" 
-                    HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
-            </Grid>
         </Grid>
         <Grid 
             x:Name="grdAction"
@@ -426,13 +428,13 @@
                 Height="40" 
                 Width="100"
                 materialDesign:ButtonAssist.CornerRadius="6"
-                ToolTip="MaterialDesignRaisedButton with Round Corners" 
+                ToolTip="Thêm nhân viên" 
                 Background="{StaticResource Success}" 
                 BorderBrush="{StaticResource Success}"
                 Margin="0" 
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}">
-                <TextBlock
+                <TextBlock x:Name="txbConfirm"
                     Text="Lưu" 
                     FontSize="18" 
                     HorizontalAlignment="Center" 
@@ -442,11 +444,11 @@
                 x:Name="btnCancel"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
-                Command="{Binding LogOutCommand}"
-                CommandParameter="{Binding ElementName= AddEmployee}"
+                Command="{Binding ExitCommand}"
+                CommandParameter="{Binding ElementName= wdAddEmployee}"
                 Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
-                ToolTip="MaterialDesignRaisedButton with Round Corners"  
+                ToolTip="Thoát"
+                materialDesign:ButtonAssist.CornerRadius="6"    
                 Background="{StaticResource Gray4}" 
                 BorderBrush="{StaticResource Gray4}"
                 Margin="0" 

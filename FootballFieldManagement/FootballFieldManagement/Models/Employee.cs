@@ -49,6 +49,9 @@ namespace FootballFieldManagement.Models
 
         public DateTime Startingdate { get => startingdate; set { startingdate = value;  } }
 
+        private string image;
+
+        public string Image { get => image; set => image = value; }
         // Constructor
 
         public Employee()
@@ -56,7 +59,7 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Employee( int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, double salary, string position, DateTime startingdate, int idAccount)
+        public Employee( int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, double salary, string position, DateTime startingdate, int idAccount,string image)
         {
             this.idAccount = idAccount;
             this.IdEmployee = idEmployee;
@@ -68,6 +71,7 @@ namespace FootballFieldManagement.Models
             this.salary = salary;
             this.position = position;
             this.startingdate = startingdate;
+            this.image = image;
         }
 
     }

@@ -42,19 +42,20 @@ namespace FootballFieldManegement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(), dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()), 1);
+                Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(), dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()), 1,dt.Rows[i].ItemArray[10].ToString());
                 employees.Add(employee);
             }
             //conn.Close();
             return employees;
         }
-        public void AddIntoDB(Employee employee)
+        public bool AddIntoDB(Employee employee)
         {
             try
             {
                 conn.Open();
-                string query = "insert into Employee( name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount) values(@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount,image) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount,@image)";
                 SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
                 command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
@@ -64,31 +65,32 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
+                command.Parameters.AddWithValue("@image", employee.Image);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
-                    throw new Exception("Failed Query");
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Đã thêm thành công");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Cập nhật thất bại");
+                return false;
             }
             finally
             {
                 conn.Close();
             }
         }
-        public void UpdateOnDB(Employee employee)
+        public bool UpdateOnDB(Employee employee)
         {
             try
             {
                 conn.Open();
-                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount where idEmployee=" + employee.IdEmployee;
+                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount,image=@image where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
@@ -99,19 +101,20 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
+                command.Parameters.AddWithValue("@image", employee.Image);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
-                    throw new Exception("Failed Query");
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật thành công!");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Cập nhật thất bại");
+                return false;
             }
             finally
             {
@@ -125,29 +128,34 @@ namespace FootballFieldManegement.DAL
                 conn.Open();
                 string query = "delete from Employee where idEmployee = " + employee.IdEmployee.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
-                
+
                 if (command.ExecuteNonQuery() > 0)
-                    MessageBox.Show("Xoá thành công!");
-                conn.Close();
+                    MessageBox.Show("Xóa thành công!");
             }
             catch
             {
-                throw new Exception("Failed Query");
+                MessageBox.Show("Xóa thất bại!");
             }
             finally
             {
-                
+                conn.Close();
             }
         }
         public void AddEmployee(Employee employee)
         {
             if(ConvertDBToList().Count==0 || employee.IdEmployee>ConvertDBToList()[ConvertDBToList().Count-1].IdEmployee)
             {
-                AddIntoDB(employee);
+                if (AddIntoDB(employee))
+                    MessageBox.Show("Thêm thành công!");
+                else
+                    MessageBox.Show("Thêm thất bại!");
             }    
             else
             {
-                UpdateOnDB(employee);
+                if (UpdateOnDB(employee))
+                    MessageBox.Show("Cập nhật thành công!");
+                else
+                    MessageBox.Show("Cập nhật thất bại!");
             }
             //conn.Close();
         }

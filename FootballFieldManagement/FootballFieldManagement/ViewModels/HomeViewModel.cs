@@ -109,6 +109,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 addEmployee.txtIDEmployee.Text = "1";
             }
+            addEmployee.txbConfirm.Text = "Thêm";
             addEmployee.ShowDialog();
         }
 

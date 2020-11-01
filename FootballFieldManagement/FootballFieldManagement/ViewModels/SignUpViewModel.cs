@@ -10,35 +10,37 @@ using FootballFieldManagement.ViewModels;
 using System.Windows.Controls;
 using FootballFieldManagement.DAL;
 using FootballFieldManagement.Models;
+using System.Collections.ObjectModel;
+using FootballFieldManegement.DAL;
 
 namespace FootballFieldManagement.ViewModels
 {
     class SignUpViewModel : BaseViewModel
     {
         public ICommand SignUpCommand { get; set; }
+        public ICommand LoadCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
         public ICommand PasswordConfirmChangedCommand { get; set; }
-
+        public ICommand KeyCommand { get; set; }
+        public ICommand OpenLoginWinDowCommand { get; set; }
+        private ObservableCollection<Employee> itemSourceEmployee = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> ItemSourceEmployee { get => itemSourceEmployee; set { itemSourceEmployee = value; OnPropertyChanged(); } }
         private bool isSignUp;
         public bool IsSignUp { get => isSignUp; set => isSignUp = value; }
-        private string username;
-        public string Username { get => username; set { username = value; OnPropertyChanged(); } }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private string passwordConfirm;
         public string PasswordConfirm { get => passwordConfirm; set { passwordConfirm = value; OnPropertyChanged(); } }
+
+        public Employee SelectedEmployee { get => selectedEmployee; set { selectedEmployee = value; OnPropertyChanged("SelectedEmployee"); } }
+
+        private Employee selectedEmployee = new Employee();
+
+
         public SignUpViewModel()
         {
-            SignUpCommand = new RelayCommand<SignUpWindow>((parameter) => true, (parameter) =>
-            {
-                SignUp(parameter);
-                if (isSignUp)
-                {
-                    HomeWindow home = new HomeWindow();
-                    parameter.Close();
-                    home.ShowDialog();
-                }
-            });
+            SignUpCommand = new RelayCommand<SignUpWindow>((parameter) => true, (parameter) => SignUp(parameter));
+            
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>
             {
                 this.password = parameter.Password;
@@ -49,21 +51,41 @@ namespace FootballFieldManagement.ViewModels
                 this.passwordConfirm = parameter.Password;
                 this.passwordConfirm = MD5Hash(this.passwordConfirm);
             });
+            OpenLoginWinDowCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
+            {
+                parameter.Close();
+            });
+            LoadCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
+            {
+                setItemSourcEmloyee();
+            });
 
         }
-
         public int setID(List<Account> accounts)
         {
             int id;
             try
             {
-                 id = (accounts[accounts.Count() - 1].IdAccount + 1);
+                id = (accounts[accounts.Count() - 1].IdAccount + 1);
             }
             catch
             {
                 id = 1;
             }
             return id;
+        }
+
+        public void setItemSourcEmloyee()
+        {
+            itemSourceEmployee.Clear();
+            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+            foreach (var employee in employees)
+            {
+                if (employee.Position == "Nhân viên quản lý" && employee.IdAccount == 0)
+                {
+                    itemSourceEmployee.Add(employee);
+                }
+            }
         }
         public void SignUp(SignUpWindow parameter)
         {
@@ -72,6 +94,34 @@ namespace FootballFieldManagement.ViewModels
             {
                 return;
             }
+            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
+            //Check IdConfirm
+            if (string.IsNullOrEmpty(parameter.txtKey.Password))
+            {
+                MessageBox.Show("Vui lòng nhập mã xác thực!");
+                parameter.txtKey.Focus();
+                return;
+            }
+            if (parameter.txtKey.Password != "admin")
+            {
+                MessageBox.Show("Mã xác thực không đúng!");
+                return;
+            }
+            //Check select employee
+            if (string.IsNullOrEmpty(parameter.cboSelectEmployee.Text))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên!");
+                parameter.cboSelectEmployee.Focus();
+                return;
+            }
+            foreach (var item in parameter.cboSelectEmployee.ItemsSource)
+            {
+                if (parameter.cboSelectEmployee.Text.ToString() != item.ToString())
+                {
+                    MessageBox.Show("Nhân viên không hợp lệ!");
+                    return;
+                }
+            }
             // Check username
             if (string.IsNullOrEmpty(parameter.txtUsername.Text))
             {
@@ -79,7 +129,7 @@ namespace FootballFieldManagement.ViewModels
                 parameter.txtUsername.Focus();
                 return;
             }
-            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
+
             foreach (var acc in accounts)
             {
                 if (acc.Username == parameter.txtUsername.Text)
@@ -106,11 +156,14 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Mật khẩu không trùng khớp!");
                 return;
             }
-            Account newAccount = new Account(setID(accounts), username, password, 1);
+            Account newAccount = new Account(setID(accounts), parameter.txtUsername.Text.ToString(), password, 1);
             AccountDAL.Instance.AddIntoDB(newAccount);
-            isSignUp = true;
-            
-            
+            selectedEmployee.IdAccount = setID(accounts);
+            if (EmployeeDAL.Instance.UpdateOnDB(selectedEmployee))
+            {
+                MessageBox.Show("Đăng ký thành công!");
+                isSignUp = true;
+            }
         }
     }
 }

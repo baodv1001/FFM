@@ -188,6 +188,7 @@
             </Button>
             <Button 
                 x:Name="btnSignUp" 
+                FocusVisualStyle="{x:Null}"
                 Command="{Binding ConvertToSignUpCommand}"
                 CommandParameter="{Binding ElementName=wdLogin}"
                 Content="Đăng ký" 
@@ -203,7 +204,10 @@
                 Margin="0,410,0,0" 
                 Foreground="{StaticResource Secondary}" 
                 FontWeight="Medium" 
-                Cursor="Hand" Background="{x:Null}" BorderBrush="{x:Null}" IsTabStop="False"/>
+                Cursor="Hand"
+                Background="{x:Null}" 
+                BorderBrush="{x:Null}" 
+                IsTabStop="False"/>
         </Grid>
     </Grid>
 </Window>

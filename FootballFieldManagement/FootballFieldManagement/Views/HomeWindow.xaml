@@ -752,6 +752,7 @@
                     <ScrollViewer 
                         VerticalScrollBarVisibility="Auto"
                         HorizontalScrollBarVisibility="Disabled" 
+                        Style="{StaticResource FavsScrollViewer}"
                         Margin="0" 
                         Width="1120">
                         <StackPanel 
@@ -879,6 +880,7 @@
                         Margin="0" 
                         Width="1120" 
                         HorizontalAlignment="Left" 
+                        Style="{StaticResource FavsScrollViewer}"
                         VerticalScrollBarVisibility="Auto">
                         <StackPanel 
                             x:Name="stkGoods" 

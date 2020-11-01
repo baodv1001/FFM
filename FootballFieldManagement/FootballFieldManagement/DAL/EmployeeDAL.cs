@@ -53,8 +53,9 @@ namespace FootballFieldManegement.DAL
             try
             {
                 conn.Open();
-                string query = "insert into Employee( name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount) values(@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount)";
                 SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
                 command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);

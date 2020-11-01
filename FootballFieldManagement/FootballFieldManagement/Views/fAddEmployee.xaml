@@ -282,6 +282,45 @@
             </Grid>
             <Grid 
                 Margin="0,300,0,0" 
+                VerticalAlignment="Top" 
+                x:Name="grdWordDate" 
+                Width="420" 
+                Height="40">
+                <Label 
+                    x:Name="lbWordDate"
+                    Content="Ngày vào làm" 
+                    HorizontalAlignment="Left" 
+                    FontSize="18" 
+                    FontWeight="SemiBold"
+                    Foreground="{StaticResource Gray1}" 
+                    Height="32" 
+                    Margin="0" 
+                    VerticalAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recWorkDate"
+                    HorizontalAlignment="Right"
+                    Height="40" 
+                    Width="230"
+                    RadiusY="6"
+                    RadiusX="6" 
+                    Stroke="{StaticResource Gray4}" 
+                    Margin="0"/>
+                <DatePicker
+                    x:Name="dpWorkDate"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,11,0" 
+                    Padding="5,0,0,0"
+                    materialDesign:HintAssist.Hint="Ngày vào làm"  
+                    Width="210" 
+                    Height="40" 
+                    BorderThickness="0" 
+                    FontSize="14" 
+                    Foreground="{StaticResource Gray3}" 
+                    HorizontalContentAlignment="Left" 
+                    VerticalContentAlignment="Center"/>
+            </Grid>
+            <Grid 
+                Margin="0,360,0,0" 
                 VerticalAlignment="Top"
                 x:Name="grdAddress" 
                 Width="420" 
@@ -323,7 +362,7 @@
                     SelectionBrush="{x:Null}"/>
             </Grid>
             <Grid 
-                Margin="0,360,0,0" 
+                Margin="0,420,0,0" 
                 VerticalAlignment="Top" 
                 x:Name="grdTelephoneNumber"
                 Width="420" 
@@ -369,45 +408,6 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
-            </Grid>
-            <Grid 
-                Margin="0,420,0,0" 
-                VerticalAlignment="Top" 
-                x:Name="grdWordDate" 
-                Width="420" 
-                Height="40">
-                <Label 
-                    x:Name="lbWordDate"
-                    Content="Ngày vào làm" 
-                    HorizontalAlignment="Left" 
-                    FontSize="18" 
-                    FontWeight="SemiBold"
-                    Foreground="{StaticResource Gray1}" 
-                    Height="32" 
-                    Margin="0" 
-                    VerticalAlignment="Center"/>
-                <Rectangle 
-                    x:Name="recWorkDate"
-                    HorizontalAlignment="Right"
-                    Height="40" 
-                    Width="230"
-                    RadiusY="6"
-                    RadiusX="6" 
-                    Stroke="{StaticResource Gray4}" 
-                    Margin="0"/>
-                <DatePicker
-                    x:Name="dpWorkDate"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,11,0" 
-                    Padding="5,0,0,0"
-                    materialDesign:HintAssist.Hint="Ngày vào làm"  
-                    Width="210" 
-                    Height="40" 
-                    BorderThickness="0" 
-                    FontSize="14" 
-                    Foreground="{StaticResource Gray3}" 
-                    HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
             </Grid>
         </Grid>
         <Grid 

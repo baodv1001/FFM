@@ -40,26 +40,16 @@ namespace FootballFieldManagement.ViewModels
         public SignUpViewModel()
         {
             SignUpCommand = new RelayCommand<SignUpWindow>((parameter) => true, (parameter) => SignUp(parameter));
-            
-            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>
-            {
-                this.password = parameter.Password;
-                this.password = MD5Hash(this.password);
-            });
-            PasswordConfirmChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>
-            {
-                this.passwordConfirm = parameter.Password;
-                this.passwordConfirm = MD5Hash(this.passwordConfirm);
-            });
-            OpenLoginWinDowCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
-            {
-                parameter.Close();
-            });
-            LoadCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
-            {
-                setItemSourcEmloyee();
-            });
 
+            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
+            PasswordConfirmChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
+            OpenLoginWinDowCommand = new RelayCommand<Window>(parameter => true, parameter => parameter.Close());
+            LoadCommand = new RelayCommand<Window>(parameter => true, parameter => setItemSourcEmloyee());
+        }
+        public void EncodingPassword(PasswordBox parameter)
+        {
+            this.password = parameter.Password;
+            this.password = MD5Hash(this.password);
         }
         public int setID(List<Account> accounts)
         {

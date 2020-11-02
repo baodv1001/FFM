@@ -146,7 +146,9 @@
                     x:Name="txtName"
                     materialDesign:HintAssist.Hint="Họ và tên"
                     HorizontalAlignment="Right"
-                    Height="40"  Width="210" 
+                    Cursor="IBeam"
+                    Height="40" 
+                    Width="210" 
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
@@ -154,8 +156,7 @@
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center" 
-                    SelectionBrush="{x:Null}" />
+                    VerticalContentAlignment="Center"/>
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -358,10 +359,10 @@
                     Foreground="{StaticResource Gray3}"
                     Padding="0"  
                     Margin="0,0,10,0" 
+                    Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center" 
-                    SelectionBrush="{x:Null}"/>
+                    VerticalContentAlignment="Center"/>
             </Grid>
             <Grid 
                 Margin="0,420,0,0" 
@@ -400,10 +401,10 @@
                     Foreground="{StaticResource Gray3}"
                     Padding="0" 
                     Margin="0,0,10,0" 
+                    Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center" 
-                    SelectionBrush="{x:Null}">
+                    VerticalContentAlignment="Center">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />

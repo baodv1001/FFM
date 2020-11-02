@@ -19,36 +19,17 @@ namespace FootballFieldManagement.ViewModels
     class LoginViewModel : BaseViewModel
     {
         public ICommand LogInCommand { get; set; }
-        public ICommand OpenSignUpCommand { get; set; }
+        public ICommand OpenSignUpWindowCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private bool isLogin;
-        public bool IsLogin { get => isLogin; set => isLogin = value; }
+        public bool IsLogin {get => isLogin; set => isLogin = value;}
         public LoginViewModel()
         {
-            LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) =>
-            {
-                Login(parameter);
-                HomeWindow home = new HomeWindow();
-                if (isLogin)
-                {
-                    home.ShowDialog();
-                    parameter.Show();
-                }
-            });
-            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>
-            {
-                this.password = parameter.Password;
-                this.password = MD5Hash(this.password);
-            });
-            OpenSignUpCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
-            {
-                SignUpWindow signUp = new SignUpWindow();
-                parameter.Hide();
-                signUp.ShowDialog();
-                parameter.Show();
-            });
+            LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) =>Login(parameter));
+            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
+            OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>OpenSignUpWindow(parameter));
         }
         public void Login(LoginWindow parameter)
         {
@@ -81,12 +62,28 @@ namespace FootballFieldManagement.ViewModels
             }
             if (isLogin)
             {
+                HomeWindow home = new HomeWindow();
                 parameter.Hide();
+                home.ShowDialog();
+                parameter.Show();
             }
             else
             {
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
             }
+        }
+        public void OpenSignUpWindow(Window parameter)
+        {
+            SignUpWindow signUp = new SignUpWindow();
+            parameter.Hide();
+            signUp.ShowDialog();
+            parameter.Show();
+        }
+
+        public void EncodingPassword(PasswordBox parameter)
+        {
+            this.password = parameter.Password;
+            this.password = MD5Hash(this.password);
         }
     }
 }

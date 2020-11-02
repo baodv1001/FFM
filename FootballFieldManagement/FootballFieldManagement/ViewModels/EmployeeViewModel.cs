@@ -18,13 +18,13 @@ using System.IO;
 
 namespace FootballFieldManagement.ViewModels
 {
-    class EmployeeViewModel:HomeViewModel
+    class EmployeeViewModel : HomeViewModel
     {
         public ICommand SaveCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand ExitCommand { get; set; }
-        public ICommand SelectImageCommand { get; set; }
+        public ICommand E_SelectImageCommand { get; set; }
         private string id;
         public string Id { get => id; set => id = value; }
         public string gender;
@@ -36,13 +36,13 @@ namespace FootballFieldManagement.ViewModels
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
             DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
             ExitCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
-            SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
+            E_SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
         }
         public void SelectImage(Grid parameter)
         {
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Select a picture";
-            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +"JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +"Portable Network Graphic (*.png)|*.png";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" + "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" + "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
             {
                 image = op.FileName;
@@ -68,7 +68,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void AddEmployee(fAddEmployee parameter)
         {
-            if (parameter.txtName.Text == null)
+            if (string.IsNullOrEmpty(parameter.txtName.Text))
             {
                 MessageBox.Show("Vui lòng nhập họ tên!");
                 parameter.txtName.Focus();
@@ -98,12 +98,12 @@ namespace FootballFieldManagement.ViewModels
             else
             {
                 DateTime dateTime = new DateTime();
-                if (!DateTime.TryParse(parameter.dpBirthDate.Text,out dateTime))
+                if (!DateTime.TryParse(parameter.dpBirthDate.Text, out dateTime))
                 {
                     MessageBox.Show("Vui lòng nhập lại ngày sinh!");
                     parameter.dpBirthDate.Focus();
                     return;
-                }                    
+                }
             }
             if (parameter.txtAddress.Text == "")
             {
@@ -132,7 +132,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.dpWorkDate.Focus();
                     return;
                 }
-                if(dateTime<parameter.dpBirthDate.DisplayDate)
+                if (dateTime < parameter.dpBirthDate.DisplayDate)
                 {
                     MessageBox.Show("Vui lòng nhập lại ngày vào làm lớn hơn ngày sinh!");
                     parameter.dpWorkDate.Focus();
@@ -143,7 +143,7 @@ namespace FootballFieldManagement.ViewModels
                 gender = "Nam";
             else
                 gender = "Nữ";
-            string filename =@"..//..//Resources//Images//"+parameter.txtIDEmployee.Text.ToString()+".png";
+            string filename = @"..//..//Resources//Images//" + parameter.txtIDEmployee.Text.ToString() + ".png";
             if (parameter.grdSelectImage.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
@@ -161,12 +161,12 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             image = null;
-            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0,filename);
+            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0, filename);
             EmployeeDAL.Instance.AddEmployee(employee);
             parameter.Close();
 
         }
-       
+
         public void DeleteEmployee(string id)
         {
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
@@ -209,21 +209,19 @@ namespace FootballFieldManagement.ViewModels
                         child.rdoFemale.IsChecked = true;
                     child.dpBirthDate.Text = employee.DateOfBirth.ToString();
                     child.dpWorkDate.Text = employee.Startingdate.ToString();
-                    
-                   
-                        ImageBrush imageBrush = new ImageBrush();
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                        bitmap.UriSource = new Uri(employee.Image,UriKind.Relative);
-                        bitmap.EndInit();
-                        imageBrush.ImageSource = bitmap;
-                        child.grdSelectImage.Background = imageBrush;
-                        if (child.grdSelectImage.Children.Count > 1)
-                        {
-                            child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[0]);
-                            child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[1]);
-                        }
+                    ImageBrush imageBrush = new ImageBrush();
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.UriSource = new Uri(employee.Image, UriKind.Relative);
+                    bitmap.EndInit();
+                    imageBrush.ImageSource = bitmap;
+                    child.grdSelectImage.Background = imageBrush;
+                    if (child.grdSelectImage.Children.Count > 1)
+                    {
+                        child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[0]);
+                        child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[1]);
+                    }
                     break;
                 }
 

@@ -23,6 +23,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand G_AddCommand { get; set; }
         public ICommand G_LoadCommand { get; set; }
         public ICommand GetUidCommand { get; set; }
+        public ICommand E_SetSalaryCommand { get; set; }
         public StackPanel Stack { get => stack; set => stack = value; }
 
         private StackPanel stack = new StackPanel();
@@ -38,6 +39,13 @@ namespace FootballFieldManagement.ViewModels
             GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
             G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
             G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
+            E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
+        }
+
+        public void OpenSetSalaryWindow()
+        {
+            SetSalaryWindow setSalaryWindow = new SetSalaryWindow();
+            setSalaryWindow.ShowDialog();
         }
         public void SwitchTab(HomeWindow parameter)
         {

@@ -1,0 +1,250 @@
+﻿<Window x:Class="FootballFieldManagement.Views.SetSalaryWindow"
+        x:Name="wdSetSalary"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootballFieldManagement"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        mc:Ignorable="d"
+        DataContext="{StaticResource EmployeeVM}"
+        Title="ThietLapLuong" Height="500" Width="500" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label 
+            Content="Thiết lập lương" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            RenderTransformOrigin="1.694,1.125" 
+            Margin="43,32,0,0" 
+            FontSize="24" 
+            Foreground="#FF007AFF" 
+            FontWeight="Bold"
+            Height="40"/>
+        <Grid Width="405" Height="236">
+            <Grid 
+                Margin="0" 
+                Height="44" 
+                Width="405" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top">
+                <Label 
+                    Content="Loại lương"
+                    HorizontalAlignment="Left"  
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    Foreground="#FF333333"
+                    Height="44" 
+                    Margin="0" 
+                    VerticalAlignment="Center" 
+                    Padding="0" 
+                    VerticalContentAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recPosition" 
+                    Height="44"
+                    RadiusY="6" RadiusX="6" 
+                    Stroke="#FFBDBDBD" 
+                    Margin="175,0,0,0"
+                    Width="230" 
+                    HorizontalAlignment="Left"/>
+                <ComboBox
+                    x:Name="cboTypeSalary"
+                    materialDesign:ComboBoxAssist.ClassicMode="true"
+                    materialDesign:HintAssist.Hint="Chọn loại lương" 
+                    IsEditable="True"
+                    Height="44" 
+                    FontSize="14"
+                    Width="205"
+                    BorderThickness="0"
+                    Foreground="#FF828282"  
+                    Padding="0" 
+                    Margin="0,0,14,0" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center" 
+                    TabIndex="0">
+                    <ComboBoxItem x:Name="cboPositionManage" Content="Theo ca làm"/>
+                    <ComboBoxItem x:Name="cboPositionGuard" Content="Theo giờ làm"/>
+                    <ComboBoxItem x:Name="cboPositionGuard12" Content="Theo ngày công chuẩn"/>
+                </ComboBox>
+            </Grid>
+            <Grid 
+                Margin="0,64,0,0" 
+                Width="405" 
+                Height="44" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top">
+                <Label 
+                    Content="Mức lương"
+                    HorizontalAlignment="Left"  
+                    FontSize="18" FontWeight="SemiBold" 
+                    Foreground="#FF333333"
+                    Height="44" 
+                    Margin="0" 
+                    VerticalAlignment="Center" 
+                    Padding="0"
+                    VerticalContentAlignment="Center"/>
+                <Rectangle 
+                    x:Name="recPosition2"
+                    HorizontalAlignment="Left" 
+                    Height="44" 
+                    Width="230"
+                    RadiusY="6" 
+                    RadiusX="6" 
+                    Stroke="#FFBDBDBD" 
+                    Margin="175,0,0,0"/>
+                <TextBox 
+                    x:Name="txtSalary"
+                    materialDesign:HintAssist.Hint="Mức lương theo loại"
+                    HorizontalAlignment="Right"
+                    Height="44" 
+                    Width="205" 
+                    FontSize="14" 
+                    BorderThickness="0" 
+                    MaxLines="1"
+                    Padding="0" 
+                    Foreground="#FF828282" 
+                    Margin="0,0,14,0"
+                    VerticalAlignment="Center" 
+                    VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Left" 
+                    TabIndex="1">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+            </Grid>
+            <Grid 
+                Width="405" 
+                Height="44"
+                Margin="0,128,0,0" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top">
+                <Label 
+                    Content="Tăng ca"
+                    HorizontalAlignment="Left"  
+                    FontSize="18"
+                    FontWeight="SemiBold" 
+                    Foreground="#FF333333"
+                    Height="44" 
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Bottom" 
+                    Padding="0"/>
+                <TextBox 
+                    x:Name="txtOvertime"
+                    Height="44"
+                    VerticalAlignment="Center" 
+                    VerticalContentAlignment="Bottom" 
+                    HorizontalContentAlignment="Right" 
+                    HorizontalAlignment="Left" 
+                    Margin="175,0,0,0" 
+                    FontSize="16"
+                    Width="155" 
+                    TabIndex="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <Label
+                    Height="44"
+                    Width="70"
+                    FontSize="14"
+                    Content="VNĐ / Ca" 
+                    Padding="0,0,0,7" 
+                    Margin="0" 
+                    HorizontalAlignment="Right" 
+                    VerticalContentAlignment="Bottom" 
+                    HorizontalContentAlignment="Center"
+                    FontWeight="Medium"/>
+            </Grid>
+            <Grid 
+                Width="405" 
+                Height="44"
+                Margin="0,192,0,0"
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top">
+                <Label 
+                    Content="Giảm trừ"
+                    HorizontalAlignment="Left"  
+                    FontSize="18" 
+                    FontWeight="SemiBold" 
+                    Foreground="#FF333333"
+                    Height="44"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Bottom"
+                    Padding="0"/>
+                <TextBox 
+                    Height="44" 
+                    x:Name="txtSalaryDeduction"
+                    VerticalAlignment="Center" 
+                    VerticalContentAlignment="Bottom" 
+                    HorizontalContentAlignment="Right" 
+                    HorizontalAlignment="Left" 
+                    Margin="175,0,0,0" 
+                    FontSize="16"
+                    Width="155" 
+                    TabIndex="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <Label
+                    Height="44"
+                    Width="70"
+                    FontSize="14"
+                    Content="VNĐ / Lỗi" 
+                    Padding="0,0,0,7"
+                    Margin="0" 
+                    HorizontalAlignment="Right" 
+                    VerticalContentAlignment="Bottom" 
+                    HorizontalContentAlignment="Center" 
+                    FontWeight="Medium"/>
+            </Grid>
+        </Grid>
+        <Grid 
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Width="220" 
+            Margin="0,0,30,30">
+            <Button
+                x:Name="btnSave"
+                FocusVisualStyle="{x:Null}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40" Width="100"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                ToolTip="Lưu" 
+                Background="#FF27AE60" 
+                BorderBrush="#FF27AE60"
+                Margin="0" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center" 
+                IsTabStop="False">
+                <TextBlock Text="Lưu"/>
+            </Button>
+            <Button
+                x:Name="btnCancel"
+                FocusVisualStyle="{x:Null}"
+                Command="{Binding ExitCommand}"
+                CommandParameter="{Binding ElementName=wdSetSalary}"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40" Width="100"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                ToolTip="Bỏ qua"  
+                Background="#FFBDBDBD" 
+                BorderBrush="#FFBDBDBD"
+                Margin="0"
+                HorizontalAlignment="Right" 
+                IsTabStop="False">
+                <TextBlock Text="Bỏ qua"/>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

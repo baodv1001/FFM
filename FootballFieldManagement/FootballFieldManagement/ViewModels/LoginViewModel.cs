@@ -1,4 +1,5 @@
 ﻿using FootballFieldManagement.DAL;
+using FootballFieldManagement.Models;
 using FootballFieldManagement.ViewModels;
 using FootballFieldManagement.Views;
 using System;
@@ -18,62 +19,71 @@ namespace FootballFieldManagement.ViewModels
     class LoginViewModel : BaseViewModel
     {
         public ICommand LogInCommand { get; set; }
+        public ICommand OpenSignUpWindowCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
-        private string username;
-        public string Username { get => username; set { username = value; OnPropertyChanged(); } }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private bool isLogin;
-        public bool IsLogin { get => isLogin; set => isLogin = value; }
+        public bool IsLogin {get => isLogin; set => isLogin = value;}
         public LoginViewModel()
         {
-            LogInCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>
-            {
-                Login(parameter);
-                HomeWindow home = new HomeWindow();
-                if (isLogin)
-                {
-                    home.ShowDialog();
-                    parameter.Show();
-                }
-            });
-            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>
-            {
-                this.password = parameter.Password;
-                this.password = MD5Hash(this.password);
-            });
+            LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) =>Login(parameter));
+            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
+            OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>OpenSignUpWindow(parameter));
         }
-        public void Login(Window p)
+        public void Login(LoginWindow parameter)
         {
             isLogin = false;
-            if (p == null)
+            if (parameter == null)
             {
                 return;
             }
-            if (password == null)
+            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
+            //check username
+            if (string.IsNullOrEmpty(parameter.txtUsername.Text))
             {
-                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
+                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                parameter.txtUsername.Focus();
                 return;
+            }
+            //check password
+            if (string.IsNullOrEmpty(parameter.txtPassword.Password))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu!");
+                parameter.txtPassword.Focus();
+                return;
+            }
+            foreach (var account in accounts)
+            {
+                if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password)
+                {
+                    isLogin = true;
+                }
+            }
+            if (isLogin)
+            {
+                HomeWindow home = new HomeWindow();
+                parameter.Hide();
+                home.ShowDialog();
+                parameter.Show();
             }
             else
             {
-                AccountDal accounts = new AccountDal();
-                foreach (var account in accounts.ListAccount)
-                {
-                    if (account.Username == username && account.Password == password)
-                    {
-                        isLogin = true;
-                    }
-                }
-                if (isLogin)
-                {
-                    p.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
-                }
+                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
             }
+        }
+        public void OpenSignUpWindow(Window parameter)
+        {
+            SignUpWindow signUp = new SignUpWindow();
+            parameter.Hide();
+            signUp.ShowDialog();
+            parameter.Show();
+        }
+
+        public void EncodingPassword(PasswordBox parameter)
+        {
+            this.password = parameter.Password;
+            this.password = MD5Hash(this.password);
         }
     }
 }

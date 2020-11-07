@@ -6,4 +6,5 @@
     <viewmodels:HomeViewModel x:Key="HomeVM"></viewmodels:HomeViewModel>
     <viewmodels:EmployeeViewModel x:Key="EmployeeVM"></viewmodels:EmployeeViewModel>
     <viewmodels:GoodsViewModel x:Key="GoodsVM"></viewmodels:GoodsViewModel>
+    <viewmodels:SignUpViewModel x:Key="SignUpVM"></viewmodels:SignUpViewModel>
 </ResourceDictionary>

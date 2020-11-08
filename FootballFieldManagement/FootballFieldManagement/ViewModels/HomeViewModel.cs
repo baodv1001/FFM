@@ -160,9 +160,9 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbId.Text = goods.IdGoods.ToString();
                 temp.txbOrderNum.Text = i.ToString();
                 temp.txbName.Text = goods.Name.ToString();
-                temp.txbQuantity.Text = goods.Amount.ToString();
+                temp.txbQuantity.Text = goods.Quantity.ToString();
                 temp.txbUnit.Text = goods.Unit.ToString();
-                temp.txbUnitPrice.Text = goods.Price.ToString();
+                temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
                 stk.Children.Add(temp);
                 i++;
             }

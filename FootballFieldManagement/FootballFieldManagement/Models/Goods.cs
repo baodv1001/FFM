@@ -18,18 +18,21 @@ namespace FootballFieldManagement.Models
 
         public string Name { get => name; set => name = value; }
 
-        private int amount;
+        private int quantity;
 
-        public int Amount { get => amount; set => amount = value; }
+        public int Quantity { get => quantity; set => quantity = value; }
 
-        private double price;
+        private double unitPrice;
 
-        public double Price { get => price; set => price = value; }
+        public double UnitPrice { get => unitPrice; set => unitPrice = value; }
 
         private string unit;
 
         public string Unit { get => unit; set => unit = value; }
 
+        private string imageFilePath;
+
+        public string ImageFilePath { get => imageFilePath; set => imageFilePath = value; }
         //Constructor
 
         public Goods()
@@ -37,13 +40,14 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Goods(int idGoods, string name, int amount = 0, string unit = "", double price = 0)
+        public Goods(int idGoods, string name, string unit, double price, string img, int quantity = 0)
         {
             this.idGoods = idGoods;
             this.name = name;
-            this.amount = amount;
             this.unit = unit;
-            this.price = price;
+            this.unitPrice = price;
+            this.imageFilePath = img;
+            this.quantity = quantity;
         }
     }
 }

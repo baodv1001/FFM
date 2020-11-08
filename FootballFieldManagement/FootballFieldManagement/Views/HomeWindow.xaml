@@ -442,7 +442,8 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Grid.Row="1">
+                Grid.Row="1"
+                Visibility="Hidden">
                 <Grid 
                     x:Name="grdSumaryInfo" 
                     HorizontalAlignment="Left"
@@ -834,8 +835,8 @@
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="260"></ColumnDefinition>
-                        <ColumnDefinition Width="30"></ColumnDefinition>
+                        <ColumnDefinition Width="160"></ColumnDefinition>
+                        <ColumnDefinition Width="10"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
                         Grid.Column="0"
@@ -910,6 +911,15 @@
                     </ScrollViewer>
                 </Grid>
             </Grid>
+            <Grid 
+                x:Name="grdBody_Field" 
+                HorizontalAlignment="Left" 
+                Height="720" 
+                VerticalAlignment="Top" 
+                Width="1201"
+                Margin="0"
+                Grid.Row="1"
+                Visibility="Visible"/>
         </Grid>
     </Grid>
 </Window>

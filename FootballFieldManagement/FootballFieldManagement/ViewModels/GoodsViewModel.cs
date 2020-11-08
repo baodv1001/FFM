@@ -26,18 +26,18 @@ namespace FootballFieldManagement.ViewModels
         public string ImportPrice { get => importPrice; set => importPrice = value; }
 
         //GoodsControl
-        public ICommand EditGoodsCommand { get; set; } //sửa thông tin mặt hàng
-        public ICommand ImportGoodsCommand { get; set; } //nhập hàng
+        public ICommand EditGoodsCommand { get; set; } //show AddGoodsWindow -> edit
+        public ICommand ImportGoodsCommand { get; set; } //show ImportGoodsWindow
         public ICommand DeleteGoodsCommand { get; set; } //xóa mặt hàng
 
         //AddGoodsWindow
-        public ICommand SelectImageCommand { get; set; } //lưu thông tin mặt hàng
+        public ICommand SelectImageCommand { get; set; } //chọn ảnh
         public ICommand SaveCommand { get; set; } //lưu thông tin mặt hàng
         public ICommand ExitCommand { get; set; } //thoát khỏi AddGoodsWindow
 
         //ImportGoodsWindow
-        public ICommand ImportCommand { get; set; } //lưu thông tin mặt hàng
-        public ICommand ExitImportCommand { get; set; } //thoát khỏi AddGoodsWindow
+        public ICommand ImportCommand { get; set; } //nhập hàng
+        public ICommand ExitImportCommand { get; set; } //thoát khỏi ImportGoodsWindow
         public ICommand CalculateTotalCommand { get; set; } //tính tổng tiền
 
         public GoodsViewModel()
@@ -225,7 +225,7 @@ namespace FootballFieldManagement.ViewModels
             //        return;
             //    }
             //}
-            string filePath = @"..//..//Resources//Images//" + parameter.txtIdGoods.Text.ToString() + ".jpg";
+            string filePath = @"..//..//Resources//Images//" + parameter.txtIdGoods.Text.ToString() + ".png";
             if (parameter.grdSelectImg.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
@@ -250,25 +250,22 @@ namespace FootballFieldManagement.ViewModels
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
+                if (isSuccessed1)
+                {
+                    MessageBox.Show("Thêm mặt hàng thành công!");
+                }
             }
             else
             {
                 isSuccessed2 = GoodsDAL.Instance.UpdateOnDB(newGoods);
-            }
-            if (isSuccessed1)
-            {
-                MessageBox.Show("Thêm mặt hàng thành công!");
-            }
-            else
-            {
                 if (isSuccessed2)
                 {
                     MessageBox.Show("Cập nhật thành công!");
                 }
-                else
-                {
-                    MessageBox.Show("Thực hiện thất bại");
-                }
+            }
+            if (!isSuccessed1 || !isSuccessed2)
+            {
+                MessageBox.Show("Thực hiện thất bại");
             }
             parameter.Close();
         }

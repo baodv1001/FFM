@@ -37,6 +37,7 @@
                 VerticalAlignment="Top"/>
             <Button 
                 x:Name="btnSelectImage"
+                Visibility="Hidden"
                 Command="{Binding SelectImageCommand}"
                 CommandParameter="{Binding ElementName=grdSelectImg}"
                 Style="{StaticResource MaterialDesignRaisedDarkButton}"
@@ -57,6 +58,7 @@
             </Button>
             <materialDesign:PackIcon 
                 x:Name="iconImage" 
+                Visibility="Hidden"
                 Kind="FileImageOutline" 
                 Foreground="{StaticResource Primary}"
                 Width="64" Height="54"
@@ -250,7 +252,7 @@
                     Margin="0" />
                 <ComboBox
                     x:Name="cboUnit"
-                    IsReadOnly="True"
+                    IsEnabled="False"
                     materialDesign:HintAssist.Hint="Đơn vị tính" 
                     IsEditable="True" 
                     Height="40" 

@@ -153,10 +153,10 @@ namespace FootballFieldManagement.ViewModels
             string idGoods = txb.Text;
             string idStockReceipt = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
 
-            bool isSuccessed2 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-            bool isSuccessed3 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
-            bool isSuccessed1 = GoodsDAL.Instance.DeleteFromDB(idGoods);
-            if (isSuccessed1 && isSuccessed2 && isSuccessed3)
+            bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
+            bool isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
+            bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
+            if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
             {
                 MessageBox.Show("Xoá thành công!");
             }
@@ -246,13 +246,29 @@ namespace FootballFieldManagement.ViewModels
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
                 parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), filePath);
 
+            bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
-                GoodsDAL.Instance.AddIntoDB(newGoods);
+                isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
             }
             else
             {
-                GoodsDAL.Instance.UpdateOnDB(newGoods);
+                isSuccessed2 = GoodsDAL.Instance.UpdateOnDB(newGoods);
+            }
+            if (isSuccessed1)
+            {
+                MessageBox.Show("Thêm mặt hàng thành công!");
+            }
+            else
+            {
+                if (isSuccessed2)
+                {
+                    MessageBox.Show("Cập nhật thành công!");
+                }
+                else
+                {
+                    MessageBox.Show("Thực hiện thất bại");
+                }
             }
             parameter.Close();
         }
@@ -272,27 +288,9 @@ namespace FootballFieldManagement.ViewModels
                 parameter.txtQuantity.Focus();
                 return;
             }
-            string filePath = @"..//..//Resources//Images//" + parameter.txtIdGoods.Text.ToString() + ".jpg";
-            if (parameter.grdSelectImg.Background == null)
-            {
-                MessageBox.Show("Vui lòng thêm hình ảnh!");
-                return;
-            }
-            else
-            {
-                try
-                {
-                    File.Copy(imageFileName, filePath, true);
-                }
-                catch
-                {
-
-                }
-            }
-            imageFileName = null;
 
             Goods goods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, 1, filePath, int.Parse(parameter.txtQuantity.Text));
+                parameter.cboUnit.Text, 1, "", int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), 1,

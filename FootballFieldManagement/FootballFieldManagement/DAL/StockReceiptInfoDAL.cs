@@ -94,16 +94,7 @@ namespace FootballFieldManagement.DAL
                 {
                     res = rdr["idStockReceipt"].ToString();
                 }
-
-                int rs = command.ExecuteNonQuery();
-                if (rs < 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    return res;
-                }
+                return res;
             }
             catch
             {

@@ -86,15 +86,13 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "update Goods set idGoods=@idGoods, name=@name, unit=@unit, " +
-                    "unitPrice=@unitPrice, imageFilePath=@imageFilePath, quantity=@quantity";
+                string queryString = "update Goods set idGoods=@idGoods, name=@name, unit=@unit, unitPrice=@unitPrice, imageFilePath=@imageFilePath";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", goods.IdGoods.ToString());
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
                 command.Parameters.AddWithValue("@imageFilePath", goods.ImageFilePath);
-                command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
 
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
@@ -119,7 +117,6 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                //xét lại
                 conn.Open();
                 string queryString = "update Goods set quantity=@quantity where idGoods=" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);

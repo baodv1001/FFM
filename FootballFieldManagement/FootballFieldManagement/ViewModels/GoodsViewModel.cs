@@ -69,12 +69,16 @@ namespace FootballFieldManagement.ViewModels
                 if (goods.IdGoods.ToString() == parameter.Text)
                 {
                     updateWindow.txtIdGoods.Text = goods.IdGoods.ToString();
+
                     updateWindow.txtName.Text = goods.Name;
                     updateWindow.txtName.SelectionStart = updateWindow.txtName.Text.Length;
+                    updateWindow.txtName.Select(0, updateWindow.txtName.Text.Length);
 
                     updateWindow.cboUnit.Text = goods.Unit;
+
                     updateWindow.txtUnitPrice.Text = goods.UnitPrice.ToString();
                     updateWindow.txtUnitPrice.SelectionStart = updateWindow.txtUnitPrice.Text.Length;
+                    updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
 
                     ImageBrush imageBrush = new ImageBrush();
                     BitmapImage bitmap = new BitmapImage();
@@ -148,10 +152,18 @@ namespace FootballFieldManagement.ViewModels
         {
             string idGoods = txb.Text;
             string idStockReceipt = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
-            
-            GoodsDAL.Instance.DeleteFromDB(idGoods);
-            StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-            StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
+
+            bool isSuccessed2 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
+            bool isSuccessed3 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
+            bool isSuccessed1 = GoodsDAL.Instance.DeleteFromDB(idGoods);
+            if (isSuccessed1 && isSuccessed2 && isSuccessed3)
+            {
+                MessageBox.Show("Xoá thành công!");
+            }
+            else
+            {
+                MessageBox.Show("Thực hiện thất bại!");
+            }
         }
 
         //AddGoodsWindow

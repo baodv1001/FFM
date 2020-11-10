@@ -24,7 +24,7 @@ namespace FootballFieldManagement.ViewModels
 
             for (int i = 0; i < bytes.Length; i++)
             {
-                hash.Append(bytes[i].ToString("x2"));
+                hash.Append(bytes[i].ToString("X2"));
             }
             return hash.ToString();
         }

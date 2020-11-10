@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,23 +40,27 @@ namespace FootballFieldManagement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()), dt.Rows[i].ItemArray[4].ToString(), double.Parse(dt.Rows[i].ItemArray[3].ToString()));
+                Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
+                    dt.Rows[i].ItemArray[2].ToString(), double.Parse(dt.Rows[i].ItemArray[3].ToString()),
+                    dt.Rows[i].ItemArray[4].ToString(), int.Parse(dt.Rows[i].ItemArray[5].ToString()));
                 goodsList.Add(acc);
             }
             return goodsList;
         }
-        public void AddIntoDB(Goods goods)
+        public bool AddIntoDB(Goods goods)
         {
             try
             {
                 conn.Open();
-                string queryString = "insert into Goods(idGoods, name, amount, price, unit) values(@idGoods, @name, @amount, @price, @unit)";
+                string queryString = "insert into Goods(idGoods, name, unit, unitPrice, imageFilePath, quantity) " +
+                    "values(@idGoods, @name, @unit, @unitPrice, @imageFilePath, @quantity)";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", goods.IdGoods.ToString());
                 command.Parameters.AddWithValue("@name", goods.Name);
-                command.Parameters.AddWithValue("@amount", goods.Amount.ToString());
-                command.Parameters.AddWithValue("@price", goods.Price.ToString());
                 command.Parameters.AddWithValue("@unit", goods.Unit);
+                command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
+                command.Parameters.AddWithValue("@imageFilePath", goods.ImageFilePath);
+                command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
 
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
@@ -64,30 +69,32 @@ namespace FootballFieldManagement.DAL
                 }
                 else
                 {
-                    MessageBox.Show("Đã thêm thành công!");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {
                 conn.Close();
             }
         }
-        public void ImportToDB(Goods goods)
+        public bool UpdateOnDB(Goods goods)
         {
             try
             {
                 conn.Open();
-                string queryString = "update Goods set idGoods=@idGoods, name=@name, amount=@amount, price=@price, unit=@unit";
+                string queryString = "update Goods set idGoods=@idGoods, name=@name, unit=@unit, unitPrice=@unitPrice, imageFilePath=@imageFilePath " +
+                    "where idGoods =" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", goods.IdGoods.ToString());
                 command.Parameters.AddWithValue("@name", goods.Name);
-                command.Parameters.AddWithValue("@amount", goods.Amount.ToString());
-                command.Parameters.AddWithValue("@price", goods.Price.ToString());
                 command.Parameters.AddWithValue("@unit", goods.Unit);
+                command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
+                command.Parameters.AddWithValue("@imageFilePath", goods.ImageFilePath);
+
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -95,37 +102,66 @@ namespace FootballFieldManagement.DAL
                 }
                 else
                 {
-                    MessageBox.Show("Đã nhập thành công!");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {
                 conn.Close();
             }
         }
-        public void DeleteFromDB(Goods goods)
+        public bool ImportToDB(Goods goods)
         {
             try
             {
                 conn.Open();
-                string queryString = "delete from Goods where idGoods=" + goods.IdGoods.ToString();
+                string queryString = "update Goods set quantity=@quantity where idGoods=" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
-                if (command.ExecuteNonQuery() < 1)
-                { 
+                command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
+
+                int rs = command.ExecuteNonQuery();
+                if (rs != 1)
+                {
                     throw new Exception();
                 }
                 else
                 {
-                    MessageBox.Show("Đã xóa thành công!");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool DeleteFromDB(string idGoods)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "delete from Goods where idGoods=" + idGoods;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                int rs = command.ExecuteNonQuery();
+                if (rs < 1)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
             }
             finally
             {

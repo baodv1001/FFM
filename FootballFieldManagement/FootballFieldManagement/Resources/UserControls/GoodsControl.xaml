@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FootballFieldManagement.Views"
+             xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
@@ -23,16 +23,17 @@
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
-            <ColumnDefinition Width="20"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock 
             x:Name="txbId"
             Grid.Column="0"
-            HorizontalAlignment="Left" Foreground="{x:Null}" />
+            HorizontalAlignment="Left" 
+            Foreground="{x:Null}" />
         <TextBlock 
             x:Name="txbOrderNum"
-            Text="ID"
+            Text="No"
             Grid.Column="0"
             HorizontalAlignment="Center" 
             Margin="0" 
@@ -119,46 +120,78 @@
             Foreground="{DynamicResource Gray1}"/>
         <Button 
             Grid.Column="5"
+            x:Name="btnEditGoods"
+            Command="{Binding EditGoodsCommand}"
+            CommandParameter="{Binding ElementName=txbId}"
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            ToolTip="Sửa thông tin"
+            Height="30"
+            materialDesign:ButtonAssist.CornerRadius="6"
+            Margin="0,0,110,0" 
+            Background="{x:Null}" 
+            BorderBrush="{x:Null}" 
+            Foreground="{DynamicResource Primary}" 
+            FontSize="16" 
+            VerticalAlignment="Center" 
+            FocusVisualStyle="{x:Null}"
+            Width="40"
+            HorizontalAlignment="Right" 
+            Padding="0"
+            FontWeight="SemiBold" >
+            <materialDesign:PackIcon 
+                Kind="SquareEditOutline" 
+                Width="24"
+                Height="24" />
+        </Button>
+        <Button 
+            Grid.Column="5"
             x:Name="btnImportGoods"
-            Command="{Binding ImportCommand}"
-            CommandParameter="{Binding ElementName=btnImportGoods}"
-            Content="Nhập kho"
+            Command="{Binding ImportGoodsCommand}"
+            CommandParameter="{Binding ElementName=txbId}"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Nhập kho"
             Height="30"
             materialDesign:ButtonAssist.CornerRadius="6"
-            Margin="10,0,0,0" 
-            Background="{DynamicResource Primary}" 
+            Margin="0,0,60,0" 
+            Background="{x:Null}" 
             BorderBrush="{x:Null}" 
-            Foreground="{StaticResource  White}" 
+            Foreground="{DynamicResource Success}" 
             FontSize="16" 
             VerticalAlignment="Center" 
             FocusVisualStyle="{x:Null}"
-            Width="110"
-            HorizontalAlignment="Left" 
-            Padding="0,0,0,2"
+            Width="40"
+            HorizontalAlignment="Right" 
+            Padding="0"
             FontWeight="SemiBold" >
+            <materialDesign:PackIcon 
+                Kind="ArchiveArrowDownOutline"
+                Width="24"
+                Height="24" />
         </Button>
         <Button 
             Grid.Column="5"
             x:Name="btnDeleteGoods"
             Command="{Binding DeleteGoodsCommand}"
             CommandParameter="{Binding ElementName=txbId}"
-            Content="Xóa"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Xóa mặt hàng" 
             Height="30"
             materialDesign:ButtonAssist.CornerRadius="6"
             Margin="0,0,10,0" 
-            Background="{DynamicResource SecondaryHueMidBrush}" 
+            Background="{x:Null}" 
             BorderBrush="{x:Null}" 
-            Foreground="{StaticResource White}" 
+            Foreground="{StaticResource Error}" 
             FontSize="16" 
             VerticalAlignment="Center" 
             FocusVisualStyle="{x:Null}"
-            Width="110"
+            Width="40"
             HorizontalAlignment="Right" 
-            Padding="0,0,0,2" 
-            FontWeight="SemiBold" />
+            FontWeight="SemiBold" 
+            Padding="0" >
+            <materialDesign:PackIcon 
+                Kind="DeleteOutline" 
+                Height="24"
+                Width="24"/>
+        </Button>
     </Grid>
 </UserControl>

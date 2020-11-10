@@ -15,12 +15,12 @@ namespace FootballFieldManagement.Models
         {
 
         }
-        public StockReceipt(int idStockReceipt, int idEmployee, DateTime time, DateTime dateTime, double totalMoney)
+        public StockReceipt(int idStockReceipt, int idEmployee, DateTime dateTime, int total)
         {
             this.idStockReceipt = idStockReceipt;
             this.idEmployee = idEmployee;
             this.dateTimeStockReceipt = dateTime;
-            this.totalMoney = totalMoney;
+            this.total = total;
         }
         //Attribute
         private int idStockReceipt;
@@ -32,8 +32,8 @@ namespace FootballFieldManagement.Models
         private DateTime dateTimeStockReceipt;
         public DateTime DateTimeStockReceipt { get => dateTimeStockReceipt; set => dateTimeStockReceipt = value; }
 
-        private double totalMoney;
-        public double TotalMoney { get => totalMoney; set => totalMoney = value; }
+        private int total;
+        public int Total { get => total; set => total = value; }
 
     }
 }

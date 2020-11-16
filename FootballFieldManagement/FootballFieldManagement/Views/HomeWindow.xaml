@@ -679,7 +679,7 @@
                     VerticalAlignment="Center" 
                     Margin="0,0,40,0">
                     <Button 
-                        x:Name="btnSetField"
+                        x:Name="btnAddEmployee"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
                         Command="{Binding E_AddCommand}" 

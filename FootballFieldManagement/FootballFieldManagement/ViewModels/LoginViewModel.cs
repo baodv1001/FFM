@@ -2,6 +2,7 @@
 using FootballFieldManagement.Models;
 using FootballFieldManagement.ViewModels;
 using FootballFieldManagement.Views;
+using FootballFieldManegement.DAL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -57,12 +60,40 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password)
                 {
+                    CurrentAccount.Type = account.Type == 1 ? true : false;
+                    List < Employee >  employees = EmployeeDAL.Instance.ConvertDBToList();
+                    foreach(var employee in employees)
+                    {
+                        if(employee.IdAccount==account.IdAccount)
+                        {
+                            CurrentAccount.DisplayName = employee.Name;
+                            CurrentAccount.Image = employee.Image;
+                            break;
+                        }    
+                    }    
                     isLogin = true;
                 }
             }
             if (isLogin)
             {
                 HomeWindow home = new HomeWindow();
+                if(!CurrentAccount.Type)
+                {
+                    home.btnEmployee.IsEnabled = false;
+                    home.btnReport.IsEnabled = false;
+                    home.btnAddGoods.IsEnabled = false;
+                    home.btnAddEmployee.IsEnabled = false;
+                    home.btnSetSalary.IsEnabled = false;
+                }
+                home.lbAccount.Content = CurrentAccount.DisplayName;
+                ImageBrush imageBrush = new ImageBrush();
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.UriSource = new Uri(CurrentAccount.Image, UriKind.Relative);
+                bitmap.EndInit();
+                imageBrush.ImageSource = bitmap;
+                home.imgAccount.Fill = imageBrush;
                 parameter.Hide();
                 home.ShowDialog();
                 parameter.Show();

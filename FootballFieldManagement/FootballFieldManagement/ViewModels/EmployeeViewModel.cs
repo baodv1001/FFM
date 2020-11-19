@@ -15,28 +15,174 @@ using System.Text.RegularExpressions;
 using Microsoft.Win32;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Globalization;
+using FootballFieldManagement.Resources.UserControls;
+using FootballFieldManagement.DAL;
+using System.Drawing.Printing;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace FootballFieldManagement.ViewModels
 {
     class EmployeeViewModel : HomeViewModel
     {
         public ICommand SaveCommand { get; set; }
+        public ICommand SeparateThousandsCommand { get; set; }
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand ExitCommand { get; set; }
-        public ICommand E_SelectImageCommand { get; set; }
+        public ICommand SelectImageCommand { get; set; }
+        public ICommand SaveSetSalaryCommand { get; set; }
+        public ICommand ValueChangedCommand { get; set; }
         private string id;
         public string Id { get => id; set => id = value; }
+
         public string gender;
         public string image;
         public EmployeeViewModel()
         {
-
             SaveCommand = new RelayCommand<fAddEmployee>((parameter) => true, (parameter) => AddEmployee(parameter));
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
             DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
             ExitCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
-            E_SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
+            SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
+            SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => separateThousands(parameter));
+            SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
+            ValueChangedCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => UpdateQuantity(parameter)); // thay  đổi giá trị của NummericSpinner
+        } 
+        public void UpdateQuantity(EmployeeControl parameter)
+        {
+            Salary salary = new Salary();
+            salary.NumOfFault = int.Parse(parameter.nsNumOfFault.Value.ToString());
+            salary.NumOfShift = int.Parse(parameter.nsNumOfShift.Value.ToString());
+            salary.IdEmployee = int.Parse(parameter.txbId.Text);
+            SalaryDAL.Instance.UpdateQuantity(salary);
+        }
+        public void SaveSetSalary(SetSalaryWindow parameter)
+        {
+            if (parameter == null)
+            {
+                return;
+            }
+            if (string.IsNullOrEmpty(parameter.cboTypeEmployee.Text))
+            {
+                MessageBox.Show("Vui lòng chọn loại nhân viên!");
+                parameter.cboTypeEmployee.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(parameter.txtSalary.Text))
+            {
+                MessageBox.Show("Vui lòng nhập mức lương cơ bản!");
+                parameter.txtSalary.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(parameter.txtOvertime.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số tiền mỗi ca!");
+                parameter.txtOvertime.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(parameter.txtSalaryDeduction.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số tiền mỗi lỗi!");
+                parameter.txtSalaryDeduction.Focus();
+                return;
+            }
+            Salary salary = new Salary(CovertToNumber(parameter.txtSalary.Text), 0, CovertToNumber(parameter.txtOvertime.Text), 0, CovertToNumber(parameter.txtSalaryDeduction.Text), 0, 0);
+            //update salary
+            bool isExist = false;
+            foreach (var tmp in SalaryDAL.Instance.ConvertDBToList())
+            {
+                if (SalaryDAL.Instance.GetPosition(tmp.IdEmployee.ToString()) == parameter.cboTypeEmployee.Text)
+                {
+                    isExist = true;
+                    salary.IdEmployee = tmp.IdEmployee;
+                    if (!SalaryDAL.Instance.ResetSalary(salary))
+                    {
+                        MessageBox.Show("Thiết lập lương thất bại!");
+                        parameter.Close();
+                        return;
+                    }
+                }
+            }
+            //set salary
+            if (!isExist)
+            {
+                foreach (Employee employee in EmployeeDAL.Instance.ConvertDBToList())
+                {
+                    if (employee.Position == parameter.cboTypeEmployee.Text)
+                    {
+                        salary.IdEmployee = employee.IdEmployee;
+                        if (!SalaryDAL.Instance.AddIntoDB(salary))
+                        {
+                            MessageBox.Show("Thiết lập lương thất bại!");
+                            parameter.Close();
+                            return;
+                        }
+                    }
+                }
+            }
+            MessageBox.Show("Thiết lập lương thành công!");
+            parameter.Close();
+        }
+        public void SetBaseSalary(fAddEmployee parameter) 
+        {
+            List<Salary> salaries = SalaryDAL.Instance.ConvertDBToList();
+            //cập nhật lại lương cho nhân viên khi cập nhật chức vụ
+            if (int.Parse(parameter.txtIDEmployee.Text) <= salaries[salaries.Count - 1].IdEmployee)
+            {
+                foreach (var salary in salaries)
+                {
+                    if (SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) == parameter.cboPosition.Text && salary.IdEmployee!= int.Parse(parameter.txtIDEmployee.Text))
+                    {
+                        salary.TotalSalary = 0;
+                        salary.IdEmployee = int.Parse(parameter.txtIDEmployee.Text);
+                        SalaryDAL.Instance.UpdateTotalSalary(salary);
+                        SalaryDAL.Instance.ResetSalary(salary);
+                        return;
+                    }
+                }
+                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0);
+                SalaryDAL.Instance.ResetSalary(salary1);
+                SalaryDAL.Instance.UpdateTotalSalary(salary1);
+            }
+            //thêm lương cơ bản cho nhân viên khi thêm một nhân viên
+            else
+            {
+                foreach (var salary in salaries)
+                {
+                    if (SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) == parameter.cboPosition.Text)
+                    {
+                        salary.IdEmployee = int.Parse(parameter.txtIDEmployee.Text);
+                        salary.TotalSalary = 0;
+                        salary.NumOfFault = 0;
+                        salary.NumOfShift = 0;
+                        SalaryDAL.Instance.AddIntoDB(salary);
+                        return;
+                    }
+                }
+                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0);
+                SalaryDAL.Instance.AddIntoDB(salary1);
+            }
+        }
+        public long CovertToNumber(string str)
+        {
+            string[] s = str.Split(',');
+            string tmp = "";
+            foreach (string a in s)
+            {
+                tmp = tmp + a;
+            }
+            return long.Parse(tmp);
+        }
+        public void separateThousands(TextBox txt)
+        {
+            if (!string.IsNullOrEmpty(txt.Text))
+            {
+                System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("en-US");
+                ulong valueBefore = ulong.Parse(txt.Text, System.Globalization.NumberStyles.AllowThousands);
+                txt.Text = String.Format(culture, "{0:N0}", valueBefore);
+                txt.Select(txt.Text.Length, 0);
+            }
         }
         public void SelectImage(Grid parameter)
         {
@@ -163,10 +309,9 @@ namespace FootballFieldManagement.ViewModels
             image = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0, filename);
             EmployeeDAL.Instance.AddEmployee(employee);
+            SetBaseSalary(parameter);
             parameter.Close();
-
         }
-
         public void DeleteEmployee(string id)
         {
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
@@ -174,8 +319,11 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (employee.IdEmployee.ToString() == id)
                 {
+                    SalaryDAL.Instance.DeleteSalary(id);
                     EmployeeDAL.Instance.DeleteEmployee(employee);
                     break;
+
+
                 }
             }
         }

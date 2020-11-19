@@ -1,0 +1,221 @@
+﻿<Window x:Class="FootballFieldManagement.Views.CheckAttendanceWindow"
+        x:Name="wdCheckAttendance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootballFieldManagement.Views"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="Chấm công" 
+        Height="700" 
+        Width="800" 
+        WindowStartupLocation="CenterScreen" 
+        DataContext="{StaticResource CheckAttendanceVM}"
+        Background="White"
+        ResizeMode="CanMinimize">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}" CommandParameter="{Binding ElementName=wdCheckAttendance}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <TextBlock
+            Name="txbMonth"
+            HorizontalAlignment="Left"
+            Margin="60,26,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top"
+            Width="290"
+            Foreground="{DynamicResource Gray1}"
+            FontSize="24" 
+            FontWeight="SemiBold"/>
+        <Grid 
+            Width="270" 
+            Height="40"
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Top"
+            Margin="0,20,60,0">
+            <materialDesign:PackIcon 
+                Kind="CardAccountDetailsOutline" 
+                Foreground="{StaticResource Gray2}" 
+                Width="28" 
+                Height="28" 
+                VerticalAlignment="Bottom" 
+                Margin="0" />
+            <ComboBox
+                x:Name="cboSelectEmployee"
+                materialDesign:ComboBoxAssist.ClassicMode="true"
+                FontSize="18"
+                FontWeight="Medium"
+                BorderBrush="{StaticResource Primary}" 
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                materialDesign:HintAssist.Hint="Chọn tên"
+                ItemsSource="{Binding ItemSourceEmployee}" 
+                SelectedItem="{Binding SelectedEmployee}"
+                Width="220" 
+                Height="40" 
+                HorizontalAlignment="Right" 
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center" 
+                Padding="3,0,0,0" 
+                TabIndex="1">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=wdCheckAttendance}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Width="220">
+                            <TextBlock 
+                                x:Name="txbName"
+                                Text="{Binding Name}"
+                                Width="170"
+                                Height="Auto" 
+                                HorizontalAlignment="Left"/>
+                            <TextBlock 
+                                Text="{Binding IdEmployee}" 
+                                Width="50" 
+                                Height="Auto" 
+                                HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        <StackPanel 
+            Orientation="Horizontal"
+            HorizontalAlignment="Center" 
+            Height="37" 
+            Margin="0,81,0,0" 
+            VerticalAlignment="Top"
+            Width="674"
+            Background="{DynamicResource Primary}">
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Thứ 2"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Thứ 3"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Thứ 4"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Thứ 5"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Thứ 6"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Thứ 7"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+            <Grid Width="96">
+                <TextBlock 
+                    TextWrapping="Wrap" 
+                    Text="Chủ nhật"
+                    FontSize="16" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" 
+                    FontWeight="Medium" 
+                    Foreground="{DynamicResource White}"/>
+            </Grid>
+        </StackPanel>
+        <WrapPanel 
+            x:Name="wpMonthView"
+            HorizontalAlignment="Center"
+            Height="480" 
+            VerticalAlignment="Top"
+            Width="674" 
+            Margin="0,120,0,0" 
+            Background="{DynamicResource Gray5}"/>
+        <WrapPanel 
+            Orientation="Horizontal"
+            HorizontalAlignment="Right" 
+            Margin="0,0,60,20"
+            VerticalAlignment="Bottom">
+            <Button 
+                x:Name="btnCheckIn"
+                Content="Điểm danh"
+                Style="{StaticResource MyGreenButtonStyle}"
+                Command="{Binding CheckAttendanceCommand}"
+                CommandParameter="{Binding ElementName=wdCheckAttendance}"
+                FocusVisualStyle="{x:Null}"
+                Height="30" 
+                Width="180"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                ToolTip="Điểm danh" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right"
+                TabIndex="3" 
+                BorderThickness="0" 
+                BorderBrush="{x:Null}" 
+                FontSize="18" 
+                FontWeight="SemiBold"
+                Padding="0" />
+            <Button 
+                x:Name="btnExit"
+                Content="Thoát"
+                Style="{StaticResource MyRedButtonStyle}"
+                Command="{Binding ExitCommand}"
+                CommandParameter="{Binding ElementName=wdCheckAttendance}"
+                FocusVisualStyle="{x:Null}"
+                Height="30" 
+                Width="80"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                ToolTip="Thoát" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right"
+                TabIndex="3" 
+                BorderThickness="0" 
+                BorderBrush="{x:Null}" 
+                FontSize="16" 
+                FontWeight="SemiBold"
+                Padding="0" 
+                Margin="20,0,0,0" />
+        </WrapPanel>
+    </Grid>
+</Window>

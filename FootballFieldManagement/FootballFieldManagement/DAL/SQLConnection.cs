@@ -13,7 +13,7 @@ namespace FootballFieldManagement.Models
         protected SqlConnection conn;
         public SQLConnection()
         {
-            strConn = @"Data Source=ffms.database.windows.net;Initial Catalog=ffms-dbs;User ID=trunghuynh2304;Password=FootballFieldManagement2020";
+            strConn = @"Data Source=(local);Initial Catalog=FootballFieldManagement;User ID=sa;Password=206254";
             conn = new SqlConnection(strConn);
         }
     }

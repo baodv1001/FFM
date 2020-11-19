@@ -1,0 +1,182 @@
+﻿using FootballFieldManagement.DAL;
+using FootballFieldManagement.Models;
+using FootballFieldManagement.Resources.UserControls;
+using FootballFieldManagement.Views;
+using FootballFieldManegement.DAL;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Dynamic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+
+namespace FootballFieldManagement.ViewModels
+{
+    class CheckAttendanceViewModel : BaseViewModel
+    {
+        private ObservableCollection<Employee> itemSourceEmployee = new ObservableCollection<Employee>();
+        public ObservableCollection<Employee> ItemSourceEmployee { get => itemSourceEmployee; set { itemSourceEmployee = value; OnPropertyChanged(); } }
+        private Employee selectedEmployee = new Employee();
+        public Employee SelectedEmployee { get => selectedEmployee; set { selectedEmployee = value; OnPropertyChanged("SelectedEmployee"); } }
+        public ICommand LoadCommand { get; set; }
+        public ICommand ExitCommand { get; set; }
+        public ICommand CheckAttendanceCommand { get; set; }
+        public ICommand SelectionChangedCommand { get; set; }
+
+        public CheckAttendanceViewModel()
+        {
+            LoadCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => HandelLoadEvent(parameter));
+            ExitCommand = new RelayCommand<Window>(parameter => true, parameter => parameter.Close());
+            CheckAttendanceCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => CheckIn(parameter));
+            SelectionChangedCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => ShowTableCheckAttendance(parameter));
+        }
+        public void ShowTableCheckAttendance(CheckAttendanceWindow parameter)
+        {
+            if (selectedEmployee == null)
+                return;
+            LoadDate(parameter);
+            parameter.btnCheckIn.IsEnabled = true;
+            int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            List<DateControl> dateControls = new List<DateControl>();
+            List<int> days = AttendanceDAL.Instance.WorkedDay(selectedEmployee.IdEmployee.ToString());
+            for (int i = 0; i < parameter.wpMonthView.Children.Count; i++)
+            {
+                dateControls.Add((DateControl)parameter.wpMonthView.Children[i]);
+            }
+            for (int i = 1; i <= DateTime.Now.Day; i++)
+            {
+                DateControl dateControl = dateControls.Find(x => x.Name == "txbDate_" + i.ToString());
+                if (days.Contains(i))
+                {
+                    if (i == DateTime.Now.Day)
+                    {
+                        parameter.btnCheckIn.IsEnabled = false;
+                    }
+                    dateControl.icCheck.Visibility = Visibility.Visible; // show icon check
+                }
+                else if (!days.Contains(i) && i < DateTime.Now.Day)
+                {
+                    dateControl.icClose.Visibility = Visibility.Visible; // show icon close
+                }
+            }
+        }
+        public void CheckIn(CheckAttendanceWindow parameter)
+        {
+            if (string.IsNullOrEmpty(parameter.cboSelectEmployee.Text))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên!");
+                parameter.cboSelectEmployee.Focus();
+            }
+            else
+            {
+                Attendance attendance = new Attendance(DateTime.Now.Day, DateTime.Now.Month, selectedEmployee.IdEmployee);
+                if (AttendanceDAL.Instance.AddDay(attendance))
+                {
+                    ShowTableCheckAttendance(parameter);
+                }
+            }
+        }
+        public void HandelLoadEvent(CheckAttendanceWindow parameter)
+        {
+            setItemSourcEmloyee();
+            if (AttendanceDAL.Instance.GetMonth() != DateTime.Now.Month)
+            {
+                if (!AttendanceDAL.Instance.DeleteData())
+                {
+                    MessageBox.Show("Lỗi hệ thống!");
+                    parameter.Close();
+                }
+            }
+            parameter.txbMonth.Text = "Bảng chấm công tháng " + DateTime.Now.Month;
+            LoadDate(parameter);
+        }
+        public int checkDayOfWeek(DateTime dt)
+        {
+            string str = dt.DayOfWeek.ToString();
+            switch (str)
+            {
+                case "Monday":
+                    return 2;
+                case "Tuesday":
+                    return 3;
+                case "Wednesday":
+                    return 4;
+                case "Thursday":
+                    return 5;
+                case "Friday":
+                    return 6;
+                case "Saturday":
+                    return 7;
+                case "Sunday":
+                    return 8;
+                default:
+                    return 2;
+            }
+        }
+        public void LoadDate(CheckAttendanceWindow parameter)
+        {
+            parameter.wpMonthView.Children.Clear();
+            int dayOfWeek = checkDayOfWeek(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+            int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            int tmp = daysInMonth - 28 - 9 + dayOfWeek; // số ngày bị thừa ra => đưa lên đầu bảng
+            if (tmp < 0)
+                tmp = 0;
+
+            // thêm những ngày bị thừa vào đầu bảng
+            for (int i = daysInMonth - tmp + 1; i <= daysInMonth; i++)
+            {
+                //Nomal day 
+                DateControl dateControl = new DateControl();
+                dateControl.txbDate.Text = i.ToString();
+                dateControl.Name = "txbDate_" + i.ToString();
+                parameter.wpMonthView.Children.Add(dateControl);
+            }
+            for (int i = 2 + tmp; i < dayOfWeek; i++)
+            {
+                //Empty
+                parameter.wpMonthView.Children.Add(new DateControl());
+            }
+            //Thêm ngày trong tháng
+            for (int i = 1; i <= daysInMonth - tmp; i++)
+            {
+                if (i == DateTime.Now.Day)
+                {
+                    //Today
+                    DateControl dateControl = new DateControl();
+                    dateControl.txbDate.Text = i.ToString();
+                    dateControl.Name = "txbDate_" + i.ToString();
+                    dateControl.txbDate.Foreground = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
+                    dateControl.eli.Visibility = Visibility.Visible;
+                    parameter.wpMonthView.Children.Add(dateControl);
+                }
+                else
+                {
+                    //Nomal day
+                    DateControl dateControl = new DateControl();
+                    dateControl.Name = "txbDate_" + i.ToString();
+                    dateControl.txbDate.Text = i.ToString();
+                    parameter.wpMonthView.Children.Add(dateControl);
+                }
+            }
+            for (int i = daysInMonth + dayOfWeek - 1; i <= 35; i++)
+            {
+                //Empty
+                parameter.wpMonthView.Children.Add(new DateControl());
+            }
+        }
+        public void setItemSourcEmloyee()
+        {
+            itemSourceEmployee.Clear();
+            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+            foreach (var employee in employees)
+            {
+                itemSourceEmployee.Add(employee);
+            }
+        }
+    }
+}

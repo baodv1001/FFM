@@ -16,6 +16,15 @@
         Background="White" 
         ResizeMode="CanMinimize">
     <Grid>
+        <Button
+            Width="160"
+            Height="50" 
+            Content="Chấm công" 
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top" 
+            Margin="0,60,133.6,0" 
+            Command="{Binding OpenCheckAttendanceWindowCommand}" 
+            CommandParameter="{Binding ElementName=wdLogin}"/>
         <Label 
             x:Name="lblSoftwareName" 
             Content="Phần mềm Quản lý sân bóng" 

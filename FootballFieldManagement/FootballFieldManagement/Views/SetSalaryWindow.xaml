@@ -30,7 +30,7 @@
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top">
                 <Label 
-                    Content="Loại lương"
+                    Content="Loại nhân viên"
                     HorizontalAlignment="Left"  
                     FontSize="18" 
                     FontWeight="SemiBold" 
@@ -49,15 +49,15 @@
                     Width="230" 
                     HorizontalAlignment="Left"/>
                 <ComboBox
-                    x:Name="cboTypeSalary"
+                    x:Name="cboTypeEmployee"
                     materialDesign:ComboBoxAssist.ClassicMode="true"
-                    materialDesign:HintAssist.Hint="Chọn loại lương" 
+                    materialDesign:HintAssist.Hint="Chọn nhân viên" 
                     IsEditable="True"
                     Height="44" 
                     FontSize="14"
                     Width="205"
                     BorderThickness="0"
-                    Foreground="#FF828282"  
+                    Foreground="{StaticResource Gray1}"  
                     Padding="0" 
                     Margin="0,0,14,0" 
                     HorizontalAlignment="Right" 
@@ -65,9 +65,8 @@
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
                     TabIndex="0">
-                    <ComboBoxItem x:Name="cboPositionManage" Content="Theo ca làm"/>
-                    <ComboBoxItem x:Name="cboPositionGuard" Content="Theo giờ làm"/>
-                    <ComboBoxItem x:Name="cboPositionGuard12" Content="Theo ngày công chuẩn"/>
+                    <ComboBoxItem Content="Bảo vệ"/>
+                    <ComboBoxItem Content="Nhân viên quản lý"/>
                 </ComboBox>
             </Grid>
             <Grid 
@@ -97,15 +96,16 @@
                     Margin="175,0,0,0"/>
                 <TextBox 
                     x:Name="txtSalary"
-                    materialDesign:HintAssist.Hint="Mức lương theo loại"
+                    materialDesign:HintAssist.Hint="Mức lương theo tháng"
                     HorizontalAlignment="Right"
+                    MaxLength="19"
                     Height="44" 
                     Width="205" 
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
-                    Padding="0" 
-                    Foreground="#FF828282" 
+                    Padding="0"
+                    Foreground="{StaticResource Gray1}" 
                     Margin="0,0,14,0"
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Center" 
@@ -114,6 +114,9 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtSalary}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -137,17 +140,22 @@
                 <TextBox 
                     x:Name="txtOvertime"
                     Height="44"
+                    MaxLength="19"
+                    Foreground="{StaticResource Gray1}" 
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Right" 
                     HorizontalAlignment="Left" 
                     Margin="175,0,0,0" 
-                    FontSize="16"
+                    FontSize="14"
                     Width="155" 
                     TabIndex="2">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged" >
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtOvertime}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -156,7 +164,7 @@
                     Width="70"
                     FontSize="14"
                     Content="VNĐ / Ca" 
-                    Padding="0,0,0,7" 
+                    Padding="0,0,0,6" 
                     Margin="0" 
                     HorizontalAlignment="Right" 
                     VerticalContentAlignment="Bottom" 
@@ -183,16 +191,20 @@
                     Height="44" 
                     x:Name="txtSalaryDeduction"
                     VerticalAlignment="Center" 
+                    Foreground="{StaticResource Gray1}" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Right" 
                     HorizontalAlignment="Left" 
                     Margin="175,0,0,0" 
-                    FontSize="16"
+                    FontSize="14"
                     Width="155" 
                     TabIndex="3">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged" >
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtSalaryDeduction}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -201,7 +213,7 @@
                     Width="70"
                     FontSize="14"
                     Content="VNĐ / Lỗi" 
-                    Padding="0,0,0,7"
+                    Padding="0,0,0,6"
                     Margin="0" 
                     HorizontalAlignment="Right" 
                     VerticalContentAlignment="Bottom" 
@@ -216,6 +228,9 @@
             Margin="0,0,30,30">
             <Button
                 x:Name="btnSave"
+                IsDefault="True"
+                Command="{Binding SaveSetSalaryCommand}"
+                CommandParameter="{Binding ElementName=wdSetSalary}"
                 FocusVisualStyle="{x:Null}"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40" Width="100"

@@ -9,6 +9,7 @@ using System.Windows.Media;
 using FootballFieldManagement.Models;
 using FootballFieldManagement.DAL;
 using System.Linq;
+using System;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -24,6 +25,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand G_LoadCommand { get; set; }
         public ICommand GetUidCommand { get; set; }
         public ICommand E_SetSalaryCommand { get; set; }
+        public ICommand E_CalculateSalaryCommand { get; set; }
+        public ICommand E_PaySalaryCommand { get; set; }
         public StackPanel Stack { get => stack; set => stack = value; }
 
         private StackPanel stack = new StackPanel();
@@ -40,8 +43,83 @@ namespace FootballFieldManagement.ViewModels
             G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
             G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
+            E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
+            E_PaySalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => PaySalary(parameter));
         }
-
+        public void PaySalary(HomeWindow parameter)
+        {
+            bool sucess = true;
+            foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+            {
+                if(salary.TotalSalary == 0)
+                {
+                    MessageBox.Show("Vui lòng tính lương!");
+                    return;
+                }
+                salary.TotalSalary = 0;
+                salary.NumOfFault = 0;
+                salary.NumOfShift = 0;
+                if (!SalaryDAL.Instance.UpdateTotalSalary(salary) || !SalaryDAL.Instance.UpdateQuantity(salary))
+                {
+                    sucess = false;
+                    break;
+                }
+            }
+            if (sucess)
+            {
+                MessageBox.Show("Đã trả lương!");
+            }
+            else
+            {
+                MessageBox.Show("Trả lương thất bại!");
+            }
+        }
+        public void CalculateSalary(HomeWindow parameter)
+        {
+            bool sucess = true;
+            DateTime today = DateTime.Today;
+            if(today.Day != 1)
+            {
+                foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+                {
+                    if (salary.SalaryBasic == 0)
+                    {
+                        MessageBox.Show("Vui lòng thiết lập lương cho '" + SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) + "'!");
+                        SetSalaryWindow wdSetSalary = new SetSalaryWindow();
+                        wdSetSalary.cboTypeEmployee.Text = SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString());
+                        wdSetSalary.cboTypeEmployee.IsEnabled = false;
+                        wdSetSalary.ShowDialog();
+                        return;
+                    }
+                    else
+                    {
+                        if(AttendanceDAL.Instance.GetCount(salary.IdEmployee.ToString()) < 0)
+                        {
+                            return;
+                        }
+                        salary.TotalSalary = salary.SalaryBasic / 30 * AttendanceDAL.Instance.GetCount(salary.IdEmployee.ToString()) + salary.NumOfShift * salary.MoneyPerShift - salary.NumOfFault * salary.MoneyPerFault;
+                        if (!SalaryDAL.Instance.UpdateTotalSalary(salary))
+                        {
+                            sucess = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Chưa đến ngày tính lương!");
+                return;
+            }
+            if (sucess)
+            {
+                MessageBox.Show("Tính thành công!");
+            }
+            else
+            {
+                MessageBox.Show("Tính lỗi!");
+            }
+        }
         public void OpenSetSalaryWindow()
         {
             SetSalaryWindow setSalaryWindow = new SetSalaryWindow();
@@ -136,6 +214,17 @@ namespace FootballFieldManagement.ViewModels
                 }
                 temp.txbSerial.Text = i.ToString();
                 i++;
+                // load number fault and overtime and salary
+                foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+                {
+                    if (employee.IdEmployee == salary.IdEmployee)
+                    {
+                        temp.nsNumOfShift.Text = decimal.Parse(salary.NumOfShift.ToString());
+                        temp.nsNumOfFault.Text = decimal.Parse(salary.NumOfFault.ToString());
+                        temp.txbTotalSalary.Text = string.Format("{0:n0}", salary.TotalSalary);
+                        break;
+                    }
+                }
                 temp.txbId.Text = employee.IdEmployee.ToString();
                 temp.txbName.Text = employee.Name.ToString();
                 temp.txbPosition.Text = employee.Position.ToString();

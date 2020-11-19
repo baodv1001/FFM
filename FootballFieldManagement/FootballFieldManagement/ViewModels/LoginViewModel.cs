@@ -21,6 +21,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand LogInCommand { get; set; }
         public ICommand OpenSignUpWindowCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
+        public ICommand OpenCheckAttendanceWindowCommand { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private bool isLogin;
@@ -30,6 +31,14 @@ namespace FootballFieldManagement.ViewModels
             LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) =>Login(parameter));
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
             OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) =>OpenSignUpWindow(parameter));
+            OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
+        }
+        public void OpenCheckAttendanceWindow(Window parameter)
+        {
+            CheckAttendanceWindow wdCheckAttendance = new CheckAttendanceWindow();
+            parameter.Hide();
+            wdCheckAttendance.ShowDialog();
+            parameter.Show();
         }
         public void Login(LoginWindow parameter)
         {

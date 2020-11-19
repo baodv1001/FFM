@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace FootballFieldManagement.Resources.UserControls
 {
     /// <summary>
-    /// Interaction logic for EmployeeControl.xaml
+    /// Interaction logic for DateControl.xaml
     /// </summary>
-    public partial class EmployeeControl : UserControl
+    public partial class DateControl : UserControl
     {
-        public EmployeeControl()
+        public DateControl()
         {
             InitializeComponent();
         }
-
     }
 }

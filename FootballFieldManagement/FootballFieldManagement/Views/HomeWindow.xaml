@@ -442,8 +442,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Grid.Row="1"
-                Visibility="Hidden">
+                Grid.Row="1">
                 <Grid 
                     x:Name="grdSumaryInfo" 
                     HorizontalAlignment="Left"
@@ -665,7 +664,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Grid.Row="1">
+                Grid.Row="1" Visibility="Hidden">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="50"></RowDefinition>

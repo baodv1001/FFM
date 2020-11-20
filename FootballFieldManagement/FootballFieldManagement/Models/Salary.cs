@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 namespace FootballFieldManagement.Models
@@ -21,11 +22,14 @@ namespace FootballFieldManagement.Models
         public long TotalSalary { get => totalSalary; set => totalSalary = value; }
         private int idEmployee;
         public int IdEmployee { get => idEmployee; set => idEmployee = value; }
+        private int standardWorkDays;
+        public int StandardWorkDays { get => standardWorkDays; set => standardWorkDays = value; }
+
         public Salary()
         {
 
         }
-        public Salary(long salaryBasic, int numOfShift, long moneyPerShift, int numOfFault, long moneyPerFault, int idEmployee, long totalSalary)
+        public Salary(long salaryBasic, int numOfShift, long moneyPerShift, int numOfFault, long moneyPerFault, int idEmployee, long totalSalary, int standardWorkDays)
         {
             this.salaryBasic = salaryBasic;
             this.numOfShift = numOfShift;
@@ -34,6 +38,7 @@ namespace FootballFieldManagement.Models
             this.moneyPerFault = moneyPerFault;
             this.totalSalary = totalSalary;
             this.idEmployee = idEmployee;
+            this.standardWorkDays = standardWorkDays;
         }
     }
 }

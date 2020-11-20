@@ -31,14 +31,6 @@ namespace FootballFieldManagement.Resources.UserControls
         {
             InitializeComponent();
             
-
-            /*    tb_main.setbinding(textbox.textproperty, new binding("value")
-                {
-                    elementname = "root_numeric_spinner",
-                    mode = bindingmode.twoway,
-                    updatesourcetrigger = updatesourcetrigger.propertychanged
-                });
-    */
             DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(NumericSpinner)).AddValueChanged(this, PropertyChanged);
             DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(NumericSpinner)).AddValueChanged(this, ValueChanged);
             DependencyPropertyDescriptor.FromProperty(DecimalsProperty, typeof(NumericSpinner)).AddValueChanged(this, PropertyChanged);
@@ -137,7 +129,7 @@ namespace FootballFieldManagement.Resources.UserControls
             set
             {
                 if (value > MaxValue)
-                    MaxValue = value;
+                    value = MaxValue;
                 SetValue(MinValueProperty, value);
             }
         }

@@ -13,7 +13,7 @@ namespace FootballFieldManagement.Models
         protected SqlConnection conn;
         public SQLConnection()
         {
-            strConn = @"Data Source=(local);Initial Catalog=FootballFieldManagement;User ID=sa;Password=206254";
+            strConn = @"Data Source=(local);Initial Catalog=FootballFieldManagement;Integrated Security=True";
             conn = new SqlConnection(strConn);
         }
     }

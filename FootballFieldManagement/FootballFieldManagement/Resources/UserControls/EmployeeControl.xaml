@@ -98,6 +98,7 @@
             Grid.Column="3"
             FontSize="18"
             MinValue="0"
+            Text="0"
             MaxValue="1000"
             FontWeight="Medium"
             BorderBrush="{StaticResource Primary}" 
@@ -119,6 +120,7 @@
         <local:NumericSpinner
             x:Name="nsNumOfFault"
             Grid.Column="4"
+            Text="0"
             MinValue="0"
             MaxValue="1000"
             FontSize="18"

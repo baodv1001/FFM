@@ -151,6 +151,8 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+
+        // Đếm số lượng ngày đi làm của nhân viên
         public int GetCount(string id)
         {
             try
@@ -171,6 +173,7 @@ namespace FootballFieldManagement.DAL
             {
                 conn.Close();
             }
-        }
+        } 
+
     }
 }

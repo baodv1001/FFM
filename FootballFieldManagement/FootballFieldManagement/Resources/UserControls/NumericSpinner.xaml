@@ -16,26 +16,36 @@
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter TargetName="br" Property="Background" Value="{DynamicResource ThemeBrushActive}" />
+                    <Setter
+                        TargetName="br"
+                        Property="Background" 
+                        Value="{DynamicResource ThemeBrushActive}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="false">
-                    <Setter TargetName="br" Property="Background" Value="Silver" />
+                    <Setter 
+                        TargetName="br" 
+                        Property="Background" 
+                        Value="Silver" />
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
         <Style TargetType="Button">
-            <Setter Property="Template" Value="{StaticResource updown_button_style}" />
+            <Setter 
+                Property="Template"
+                Value="{StaticResource updown_button_style}" />
         </Style>
     </UserControl.Resources>
     <Border>
         <Border.OpacityMask>
             <VisualBrush>
                 <VisualBrush.Visual>
-                    <Border Background="Black" SnapsToDevicePixels="True"
-                            CornerRadius="4"
-                            Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}"
-                            Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}" />
+                    <Border 
+                        Background="Black" 
+                        SnapsToDevicePixels="True"
+                        CornerRadius="4"
+                        Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}" />
                 </VisualBrush.Visual>
             </VisualBrush>
         </Border.OpacityMask>
@@ -48,20 +58,59 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="22" />
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="tb_main" x:FieldModifier="private" FontWeight="Medium" FontSize="14" VerticalContentAlignment="Center" Padding="5,1" 
-                     Grid.Column="0" Grid.RowSpan="2" Text="1" />
-            <Button x:Name="cmdUp" x:FieldModifier="private" Grid.Column="1" Grid.Row="0" Width="auto" Height="auto" Click="cmdUp_Click" Cursor="Hand">
+            <TextBox 
+                x:Name="tb_main" 
+                x:FieldModifier="private" 
+                FontWeight="Medium" 
+                FontSize="14" 
+                VerticalContentAlignment="Center"
+                Padding="5,1" 
+                Grid.Column="0" 
+                Grid.RowSpan="2"
+                Text="1" />
+            <Button 
+                x:Name="cmdUp" 
+                x:FieldModifier="private"
+                Grid.Column="1"
+                Grid.Row="0"
+                Width="auto"
+                Height="auto"
+                Click="cmdUp_Click"
+                Cursor="Hand">
                 <Button.Content>
-                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M4,0 L0,4 L8,4 z"/>
+                    <Path 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center" 
+                        Fill="Black"
+                        Data="M4,0 L0,4 L8,4 z"/>
                 </Button.Content>
             </Button>
-            <Button x:Name="cmdDown" x:FieldModifier="private" Grid.Column="1" Grid.Row="1" Width="auto" Height="auto" Click="cmdDown_Click" Cursor="Hand">
+            <Button 
+                x:Name="cmdDown" 
+                x:FieldModifier="private" 
+                Grid.Column="1"
+                Grid.Row="1" 
+                Width="auto" 
+                Height="auto"
+                Click="cmdDown_Click"
+                Cursor="Hand">
                 <Button.Content>
-                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="M0,0 L8,0 L4,4 z"/>
+                    <Path 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center" 
+                        Fill="Black" 
+                        Data="M0,0 L8,0 L4,4 z"/>
                 </Button.Content>
             </Button>
-            <Border BorderBrush="Gray" IsHitTestVisible="False" BorderThickness="1" CornerRadius="4" Grid.RowSpan="2" 
-                    Grid.ColumnSpan="2" Padding="0" Margin="0" />
+            <Border 
+                BorderBrush="Gray" 
+                IsHitTestVisible="False" 
+                BorderThickness="1" 
+                CornerRadius="4" 
+                Grid.RowSpan="2" 
+                Grid.ColumnSpan="2" 
+                Padding="0" 
+                Margin="0" />
         </Grid>
     </Border>
 </UserControl>

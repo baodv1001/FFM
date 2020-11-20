@@ -23,10 +23,10 @@ namespace FootballFieldManagement.ViewModels
         public ObservableCollection<Employee> ItemSourceEmployee { get => itemSourceEmployee; set { itemSourceEmployee = value; OnPropertyChanged(); } }
         private Employee selectedEmployee = new Employee();
         public Employee SelectedEmployee { get => selectedEmployee; set { selectedEmployee = value; OnPropertyChanged("SelectedEmployee"); } }
-        public ICommand LoadCommand { get; set; }
-        public ICommand ExitCommand { get; set; }
-        public ICommand CheckAttendanceCommand { get; set; }
-        public ICommand SelectionChangedCommand { get; set; }
+        public ICommand LoadCommand { get; set; } // Load lịch tháng hiện tại
+        public ICommand ExitCommand { get; set; } // Click button "Thoát"
+        public ICommand CheckAttendanceCommand { get; set; } // Click button "Điểm danh"
+        public ICommand SelectionChangedCommand { get; set; } // Thay dổi lựa chọn của combobox
 
         public CheckAttendanceViewModel()
         {
@@ -35,11 +35,11 @@ namespace FootballFieldManagement.ViewModels
             CheckAttendanceCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => CheckIn(parameter));
             SelectionChangedCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => ShowTableCheckAttendance(parameter));
         }
-        public void ShowTableCheckAttendance(CheckAttendanceWindow parameter)
+        public void ShowTableCheckAttendance(CheckAttendanceWindow parameter)   
         {
             if (selectedEmployee == null)
                 return;
-            LoadDate(parameter);
+            LoadDay(parameter);
             parameter.btnCheckIn.IsEnabled = true;
             int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             List<DateControl> dateControls = new List<DateControl>();
@@ -93,7 +93,7 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             parameter.txbMonth.Text = "Bảng chấm công tháng " + DateTime.Now.Month;
-            LoadDate(parameter);
+            LoadDay(parameter);
         }
         public int checkDayOfWeek(DateTime dt)
         {
@@ -118,7 +118,7 @@ namespace FootballFieldManagement.ViewModels
                     return 2;
             }
         }
-        public void LoadDate(CheckAttendanceWindow parameter)
+        public void LoadDay(CheckAttendanceWindow parameter)
         {
             parameter.wpMonthView.Children.Clear();
             int dayOfWeek = checkDayOfWeek(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));

@@ -25,19 +25,22 @@ namespace FootballFieldManagement.ViewModels
 {
     class EmployeeViewModel : HomeViewModel
     {
-        public ICommand SaveCommand { get; set; }
-        public ICommand SeparateThousandsCommand { get; set; }
+        public ICommand SaveCommand { get; set; } 
+        public ICommand SeparateThousandsCommand { get; set; } // định dạng tiền thành 0,000,000
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand ExitCommand { get; set; }
-        public ICommand SelectImageCommand { get; set; }
-        public ICommand SaveSetSalaryCommand { get; set; }
-        public ICommand ValueChangedCommand { get; set; }
+        public ICommand SelectImageCommand { get; set; } 
+        public ICommand SaveSetSalaryCommand { get; set; } // Click button "Lưu" trong SetSalaryWindow
+        public ICommand ValueChangedCommand { get; set; } // Tăng giảm các numericspinner
         private string id;
         public string Id { get => id; set => id = value; }
 
         public string gender;
         public string image;
+        private ObservableCollection<int> itemSourceDay = new ObservableCollection<int>();
+        public ObservableCollection<int> ItemSourceDay { get => itemSourceDay; set => itemSourceDay = value; }
+
         public EmployeeViewModel()
         {
             SaveCommand = new RelayCommand<fAddEmployee>((parameter) => true, (parameter) => AddEmployee(parameter));
@@ -47,8 +50,15 @@ namespace FootballFieldManagement.ViewModels
             SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
             SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => separateThousands(parameter));
             SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
-            ValueChangedCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => UpdateQuantity(parameter)); // thay  đổi giá trị của NummericSpinner
-        } 
+            ValueChangedCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
+        }
+        public void setItemSourceDay()
+        {
+            for(int i =1; i <= 31; i++)
+            {
+                itemSourceDay.Add(i);
+            }
+        }
         public void UpdateQuantity(EmployeeControl parameter)
         {
             Salary salary = new Salary();
@@ -87,7 +97,13 @@ namespace FootballFieldManagement.ViewModels
                 parameter.txtSalaryDeduction.Focus();
                 return;
             }
-            Salary salary = new Salary(CovertToNumber(parameter.txtSalary.Text), 0, CovertToNumber(parameter.txtOvertime.Text), 0, CovertToNumber(parameter.txtSalaryDeduction.Text), 0, 0);
+            if (string.IsNullOrEmpty(parameter.cboStandardWorkDays.Text))
+            {
+                MessageBox.Show("Vui lòng nhập số ngày công chuẩn!");
+                parameter.txtSalaryDeduction.Focus();
+                return;
+            }
+            Salary salary = new Salary(CovertToNumber(parameter.txtSalary.Text), 0, CovertToNumber(parameter.txtOvertime.Text), 0, CovertToNumber(parameter.txtSalaryDeduction.Text), 0, 0,int.Parse(parameter.cboStandardWorkDays.Text));
             //update salary
             bool isExist = false;
             foreach (var tmp in SalaryDAL.Instance.ConvertDBToList())
@@ -141,7 +157,7 @@ namespace FootballFieldManagement.ViewModels
                         return;
                     }
                 }
-                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0);
+                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0,0);
                 SalaryDAL.Instance.ResetSalary(salary1);
                 SalaryDAL.Instance.UpdateTotalSalary(salary1);
             }
@@ -160,7 +176,7 @@ namespace FootballFieldManagement.ViewModels
                         return;
                     }
                 }
-                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0);
+                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0,0);
                 SalaryDAL.Instance.AddIntoDB(salary1);
             }
         }
@@ -206,6 +222,12 @@ namespace FootballFieldManagement.ViewModels
                     parameter.Children.Remove(parameter.Children[1]);
                 }
             }
+        }
+        public void SetMaxValue(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("\\b([1-9]|[12][0-9]|3[01])\\b");
+
+            e.Handled = !regex.IsMatch(e.Text);
         }
         public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {

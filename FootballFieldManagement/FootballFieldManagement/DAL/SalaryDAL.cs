@@ -45,7 +45,7 @@ namespace FootballFieldManagement.DAL
             dt = dv.ToTable();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Salary salary = new Salary(long.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()), long.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()));
+                Salary salary = new Salary(long.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()), long.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()));
                 salaries.Add(salary);
             }
             //conn.Close();
@@ -56,11 +56,12 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "update Salary  set salaryBasic=@salaryBasic,moneyPerShift=@moneyPerShift,moneyPerFault=@moneyPerFault where idEmployee=" + salary.IdEmployee;
+                string query = "update Salary  set salaryBasic=@salaryBasic,moneyPerShift=@moneyPerShift,moneyPerFault=@moneyPerFault,standardWorkDays = @standardWorkDays where idEmployee=" + salary.IdEmployee;
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@salaryBasic", salary.SalaryBasic.ToString());
                 cmd.Parameters.AddWithValue("@moneyPerShift", salary.MoneyPerShift.ToString());
                 cmd.Parameters.AddWithValue("@moneyPerFault", salary.MoneyPerFault.ToString());
+                cmd.Parameters.AddWithValue("@standardWorkDays", salary.StandardWorkDays.ToString());
                 int rs = cmd.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -142,7 +143,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "INSERT INTO Salary(salaryBasic, numOfShift, moneyPerShift, numOfFault, moneyPerFault, idEmployee, totalSalary) VALUES(@salaryBasic, @numOfShift, @moneyPerShift, @numOfFault, @moneyPerFault, @idEmployee, @totalSalary)";
+                string query = "INSERT INTO Salary(salaryBasic, numOfShift, moneyPerShift, numOfFault, moneyPerFault, idEmployee, totalSalary,standardWorkDays) VALUES(@salaryBasic, @numOfShift, @moneyPerShift, @numOfFault, @moneyPerFault, @idEmployee, @totalSalary,@standardWorkDays)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@salaryBasic", salary.SalaryBasic.ToString());
                 cmd.Parameters.AddWithValue("@numOfShift", salary.NumOfShift.ToString());
@@ -151,6 +152,7 @@ namespace FootballFieldManagement.DAL
                 cmd.Parameters.AddWithValue("@moneyPerFault", salary.MoneyPerFault.ToString());
                 cmd.Parameters.AddWithValue("@idEmployee", salary.IdEmployee.ToString());
                 cmd.Parameters.AddWithValue("@totalSalary", salary.TotalSalary.ToString());
+                cmd.Parameters.AddWithValue("@standardWorkDays", salary.StandardWorkDays.ToString());
                 int rs = cmd.ExecuteNonQuery();
                 if (rs != 1)
                 {

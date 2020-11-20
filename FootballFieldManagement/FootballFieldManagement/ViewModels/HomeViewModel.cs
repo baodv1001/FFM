@@ -51,7 +51,7 @@ namespace FootballFieldManagement.ViewModels
             bool sucess = true;
             foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
             {
-                if(salary.TotalSalary == 0)
+                if (salary.TotalSalary == 0)
                 {
                     MessageBox.Show("Vui lòng tính lương!");
                     return;
@@ -78,8 +78,12 @@ namespace FootballFieldManagement.ViewModels
         {
             bool sucess = true;
             DateTime today = DateTime.Today;
-            if(today.Day != 1)
+            if (today.Day != 1)
             {
+                if(SalaryDAL.Instance.ConvertDBToList() == null)
+                {
+                    MessageBox.Show("Vui lòng thiết lập lương");
+                }
                 foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
                 {
                     if (salary.SalaryBasic == 0)
@@ -93,11 +97,24 @@ namespace FootballFieldManagement.ViewModels
                     }
                     else
                     {
-                        if(AttendanceDAL.Instance.GetCount(salary.IdEmployee.ToString()) < 0)
+                        int workdays = AttendanceDAL.Instance.GetCount(salary.IdEmployee.ToString());
+                        if (workdays < 0)
                         {
                             return;
                         }
-                        salary.TotalSalary = salary.SalaryBasic / 30 * AttendanceDAL.Instance.GetCount(salary.IdEmployee.ToString()) + salary.NumOfShift * salary.MoneyPerShift - salary.NumOfFault * salary.MoneyPerFault;
+                        if (workdays <= salary.StandardWorkDays)
+                        {
+                            salary.TotalSalary = (salary.SalaryBasic / salary.StandardWorkDays) * workdays + salary.NumOfShift * salary.MoneyPerShift - salary.NumOfFault * salary.MoneyPerFault;
+                        }
+                        else
+                        {
+                            salary.NumOfShift += (workdays - salary.StandardWorkDays);
+                            salary.TotalSalary = salary.SalaryBasic + salary.NumOfShift * salary.MoneyPerShift - salary.NumOfFault * salary.MoneyPerFault;
+                        }
+                        if(salary.TotalSalary < 0)
+                        {
+                            salary.TotalSalary = 0;
+                        }
                         if (!SalaryDAL.Instance.UpdateTotalSalary(salary))
                         {
                             sucess = false;

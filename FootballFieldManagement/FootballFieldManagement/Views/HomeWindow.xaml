@@ -442,8 +442,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Grid.Row="1"
-                Visibility="Hidden">
+                Grid.Row="1">
                 <Grid 
                     x:Name="grdSumaryInfo" 
                     HorizontalAlignment="Left"
@@ -672,14 +671,21 @@
                     <RowDefinition Height="10*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid 
-                    Width="380" 
+                    Width="780" 
                     Height="50"
                     Grid.Row="0" 
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center" 
                     Margin="0,0,40,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
                     <Button 
                         x:Name="btnAddEmployee"
+                        Grid.Column="3"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
                         Command="{Binding E_AddCommand}" 
@@ -691,7 +697,7 @@
                         BorderBrush="{x:Null}" 
                         Foreground="{StaticResource White}" 
                         VerticalAlignment="Center" 
-                        HorizontalAlignment="Right" 
+                        HorizontalAlignment="Center" 
                         Width="180"
                         FocusVisualStyle="{x:Null}"
                         Content="Thêm nhân viên" 
@@ -700,6 +706,7 @@
                     </Button>
                     <Button 
                         x:Name="btnSetSalary"
+                        Grid.Column="2"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
                         Command="{Binding E_SetSalaryCommand}" 
@@ -710,11 +717,48 @@
                         Background="{DynamicResource Success}" 
                         BorderBrush="{x:Null}" 
                         Foreground="{StaticResource White}" 
-                        VerticalAlignment="Center" 
-                        HorizontalAlignment="Left" 
                         Width="180"
                         FocusVisualStyle="{x:Null}"
                         Content="Thiết lập lương" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    <Button 
+                        x:Name="btnPaySalary"
+                        Grid.Column="1"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="40"
+                        Command="{Binding E_PaySalaryCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        materialDesign:ButtonAssist.CornerRadius="8"
+                        ToolTip="Trả lương"
+                        Margin="0,0,0,2" 
+                        Background="{DynamicResource Success}" 
+                        BorderBrush="{x:Null}" 
+                        Foreground="{StaticResource White}" 
+                        VerticalAlignment="Center" 
+                        Width="180"
+                        FocusVisualStyle="{x:Null}"
+                        Content="Trả lương" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" HorizontalAlignment="Center" />
+                    <Button 
+                        x:Name="btnCalculatorSalary"
+                        Grid.Column="0"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="40"
+                        Command="{Binding E_CalculateSalaryCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        materialDesign:ButtonAssist.CornerRadius="8"
+                        ToolTip="Tính lương"
+                        Margin="0,0,0,2" 
+                        Background="{DynamicResource Success}" 
+                        BorderBrush="{x:Null}" 
+                        Foreground="{StaticResource White}" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center" 
+                        Width="180"
+                        FocusVisualStyle="{x:Null}"
+                        Content="Tính lương" 
                         FontSize="18" 
                         FontWeight="SemiBold" >
                     </Button>
@@ -727,10 +771,12 @@
                     Background="{DynamicResource Primary}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="2.5*"></ColumnDefinition>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
                         <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
                         <ColumnDefinition Width="20"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
@@ -763,18 +809,53 @@
                         FontSize="18"
                         Foreground="{DynamicResource White}" 
                         FontWeight="SemiBold"/>
+                    <TextBlock 
+                        Grid.Column="3" 
+                        HorizontalAlignment="Center"
+                        Margin="0" 
+                        TextWrapping="Wrap" 
+                        Text="Tăng ca" 
+                        VerticalAlignment="Center" 
+                        FontSize="18"
+                        Foreground="{DynamicResource White}" 
+                        FontWeight="SemiBold"/>
+                    <TextBlock 
+                        Grid.Column="4" 
+                        HorizontalAlignment="Center"
+                        Margin="0" 
+                        TextWrapping="Wrap" 
+                        Text="Số lỗi" 
+                        VerticalAlignment="Center" 
+                        FontSize="18"
+                        Foreground="{DynamicResource White}" 
+                        FontWeight="SemiBold"/>
+                    <TextBlock 
+                        Grid.Column="5" 
+                        HorizontalAlignment="Center"
+                        Margin="0,0,20,0" 
+                        TextWrapping="Wrap" 
+                        Text="Lương" 
+                        VerticalAlignment="Center" 
+                        FontSize="18"
+                        Foreground="{DynamicResource White}" 
+                        FontWeight="SemiBold"/>
                 </Grid>
                 <Grid 
                     Grid.Row="2"
                     HorizontalAlignment="Left" 
                     Margin="50,0,0,40"
                     Width="1120" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="460*"/>
+                        <ColumnDefinition Width="184*"/>
+                        <ColumnDefinition Width="475*"/>
+                    </Grid.ColumnDefinitions>
                     <ScrollViewer 
                         VerticalScrollBarVisibility="Auto"
                         HorizontalScrollBarVisibility="Disabled" 
                         Style="{StaticResource FavsScrollViewer}"
-                        Margin="0" 
-                        Width="1120">
+                        Margin="0,0,0,0.4" 
+                        Width="1120" Grid.ColumnSpan="3">
                         <StackPanel 
                             x:Name="stkEmployee"
                             ScrollViewer.HorizontalScrollBarVisibility="Visible" Width="1120" HorizontalAlignment="Left"/>
@@ -919,7 +1000,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
-                Visibility="Visible"/>
+                Visibility="Hidden"/>
         </Grid>
     </Grid>
 </Window>

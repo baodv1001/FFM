@@ -10,7 +10,15 @@
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         mc:Ignorable="d"
         DataContext="{StaticResource EmployeeVM}"
-        Title="ThietLapLuong" Height="500" Width="500" WindowStartupLocation="CenterScreen">
+        Title="ThietLapLuong" 
+        Height="500" 
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded" >
+            <ei:CallMethodAction TargetObject="{Binding }" MethodName="setItemSourceDay"></ei:CallMethodAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Label 
             Content="Thiết lập lương" 
@@ -22,7 +30,7 @@
             Foreground="#FF007AFF" 
             FontWeight="Bold"
             Height="40"/>
-        <Grid Width="405" Height="236">
+        <Grid Width="405" Height="300">
             <Grid 
                 Margin="0" 
                 Height="44" 
@@ -30,7 +38,7 @@
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top">
                 <Label 
-                    Content="Loại lương"
+                    Content="Loại nhân viên"
                     HorizontalAlignment="Left"  
                     FontSize="18" 
                     FontWeight="SemiBold" 
@@ -49,15 +57,15 @@
                     Width="230" 
                     HorizontalAlignment="Left"/>
                 <ComboBox
-                    x:Name="cboTypeSalary"
+                    x:Name="cboTypeEmployee"
                     materialDesign:ComboBoxAssist.ClassicMode="true"
-                    materialDesign:HintAssist.Hint="Chọn loại lương" 
+                    materialDesign:HintAssist.Hint="Chọn nhân viên" 
                     IsEditable="True"
                     Height="44" 
                     FontSize="14"
                     Width="205"
                     BorderThickness="0"
-                    Foreground="#FF828282"  
+                    Foreground="{StaticResource Gray1}"  
                     Padding="0" 
                     Margin="0,0,14,0" 
                     HorizontalAlignment="Right" 
@@ -65,9 +73,13 @@
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
                     TabIndex="0">
-                    <ComboBoxItem x:Name="cboPositionManage" Content="Theo ca làm"/>
-                    <ComboBoxItem x:Name="cboPositionGuard" Content="Theo giờ làm"/>
-                    <ComboBoxItem x:Name="cboPositionGuard12" Content="Theo ngày công chuẩn"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=wdSetSalary}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ComboBoxItem Content="Bảo vệ"/>
+                    <ComboBoxItem Content="Nhân viên quản lý"/>
                 </ComboBox>
             </Grid>
             <Grid 
@@ -79,7 +91,8 @@
                 <Label 
                     Content="Mức lương"
                     HorizontalAlignment="Left"  
-                    FontSize="18" FontWeight="SemiBold" 
+                    FontSize="18"
+                    FontWeight="SemiBold" 
                     Foreground="#FF333333"
                     Height="44" 
                     Margin="0" 
@@ -96,16 +109,17 @@
                     Stroke="#FFBDBDBD" 
                     Margin="175,0,0,0"/>
                 <TextBox 
-                    x:Name="txtSalary"
-                    materialDesign:HintAssist.Hint="Mức lương theo loại"
+                    x:Name="txtSalaryBasic"
+                    materialDesign:HintAssist.Hint="Mức lương theo tháng"
                     HorizontalAlignment="Right"
+                    MaxLength="19"
                     Height="44" 
                     Width="205" 
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
-                    Padding="0" 
-                    Foreground="#FF828282" 
+                    Padding="0"
+                    Foreground="{StaticResource Gray1}" 
                     Margin="0,0,14,0"
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Center" 
@@ -115,13 +129,16 @@
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
                         </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtSalaryBasic}"/>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
             </Grid>
             <Grid 
                 Width="405" 
                 Height="44"
-                Margin="0,128,0,0" 
+                Margin="0,192,0,0" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top">
                 <Label 
@@ -137,17 +154,22 @@
                 <TextBox 
                     x:Name="txtOvertime"
                     Height="44"
+                    MaxLength="10"
+                    Foreground="{StaticResource Gray1}" 
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Right" 
                     HorizontalAlignment="Left" 
                     Margin="175,0,0,0" 
-                    FontSize="16"
+                    FontSize="14"
                     Width="155" 
-                    TabIndex="2">
+                    TabIndex="3">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged" >
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtOvertime}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -156,7 +178,7 @@
                     Width="70"
                     FontSize="14"
                     Content="VNĐ / Ca" 
-                    Padding="0,0,0,7" 
+                    Padding="0,0,0,6" 
                     Margin="0" 
                     HorizontalAlignment="Right" 
                     VerticalContentAlignment="Bottom" 
@@ -166,7 +188,7 @@
             <Grid 
                 Width="405" 
                 Height="44"
-                Margin="0,192,0,0"
+                Margin="0,256,0,0"
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top">
                 <Label 
@@ -183,16 +205,21 @@
                     Height="44" 
                     x:Name="txtSalaryDeduction"
                     VerticalAlignment="Center" 
+                    Foreground="{StaticResource Gray1}" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Right" 
                     HorizontalAlignment="Left" 
                     Margin="175,0,0,0" 
-                    FontSize="16"
+                    MaxLength="10"
+                    FontSize="14"
                     Width="155" 
-                    TabIndex="3">
+                    TabIndex="4">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged" >
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtSalaryDeduction}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
@@ -201,12 +228,56 @@
                     Width="70"
                     FontSize="14"
                     Content="VNĐ / Lỗi" 
-                    Padding="0,0,0,7"
+                    Padding="0,0,0,6"
                     Margin="0" 
                     HorizontalAlignment="Right" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Center" 
                     FontWeight="Medium"/>
+            </Grid>
+            <Grid 
+                Margin="0,128,0,0" 
+                Width="405" 
+                Height="44" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top">
+                <Label 
+                    Content="Ngày công chuẩn"
+                    HorizontalAlignment="Left"  
+                    FontSize="18"
+                    FontWeight="SemiBold" 
+                    Foreground="#FF333333"
+                    Height="44" 
+                    Margin="0" 
+                    VerticalAlignment="Center" 
+                    Padding="0"
+                    VerticalContentAlignment="Center"/>
+                <Rectangle 
+                    HorizontalAlignment="Left" 
+                    Height="44" 
+                    Width="230"
+                    RadiusY="6" 
+                    RadiusX="6" 
+                    Stroke="#FFBDBDBD" 
+                    Margin="175,0,0,0"/>
+                <ComboBox
+                    x:Name="cboStandardWorkDays"
+                    materialDesign:ComboBoxAssist.ClassicMode="true"
+                    materialDesign:HintAssist.Hint="Số ngày công chuẩn" 
+                    Height="44" 
+                    FontSize="14"
+                    Width="205"
+                    BorderThickness="0"
+                    Foreground="{StaticResource Gray1}"  
+                    ItemsSource="{Binding ItemSourceDay}"
+                    Padding="0" 
+                    Margin="0,0,14,0" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Center" 
+                    TabIndex="2">
+                </ComboBox>
             </Grid>
         </Grid>
         <Grid 
@@ -216,6 +287,9 @@
             Margin="0,0,30,30">
             <Button
                 x:Name="btnSave"
+                IsDefault="True"
+                Command="{Binding SaveSetSalaryCommand}"
+                CommandParameter="{Binding ElementName=wdSetSalary}"
                 FocusVisualStyle="{x:Null}"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40" Width="100"

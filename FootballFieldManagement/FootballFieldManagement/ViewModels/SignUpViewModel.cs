@@ -29,6 +29,8 @@ namespace FootballFieldManagement.ViewModels
         public bool IsSignUp { get => isSignUp; set => isSignUp = value; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
+        private string userName;
+        public string UserName { get => userName; set { userName = value; OnPropertyChanged(); } }
         private string passwordConfirm;
         public string PasswordConfirm { get => passwordConfirm; set { passwordConfirm = value; OnPropertyChanged(); } }
 
@@ -95,6 +97,7 @@ namespace FootballFieldManagement.ViewModels
             if (parameter.txtKey.Password != "admin")
             {
                 MessageBox.Show("Mã xác thực không đúng!");
+                parameter.txtKey.Focus();
                 return;
             }
             //Check select employee
@@ -118,6 +121,14 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng nhập tên đăng nhập!");
                 parameter.txtUsername.Focus();
                 return;
+            }
+            foreach (char c in parameter.txtUsername.Text)
+            {
+                if (!((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
+                {
+                    MessageBox.Show("Không nhập các ký tự đặc biệt");
+                    return;
+                }
             }
 
             foreach (var acc in accounts)

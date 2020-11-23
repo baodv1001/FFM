@@ -56,6 +56,7 @@ namespace FootballFieldManagement.ViewModels
             SelectionChangedCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SelectionChanged(parameter));
         }
 
+        //select item của combobox loại nhân viên trong SetSalaryWindow
         public void SelectionChanged(SetSalaryWindow parameter)
         {
             foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
@@ -206,6 +207,8 @@ namespace FootballFieldManagement.ViewModels
                 SalaryDAL.Instance.AddIntoDB(salary1);
             }
         }
+
+        //chuyển từ format seperate thousands sang kiểu số nguyên
         public long CovertToNumber(string str)
         {
             string[] s = str.Split(',');
@@ -215,7 +218,7 @@ namespace FootballFieldManagement.ViewModels
                 tmp = tmp + a;
             }
             return long.Parse(tmp);
-        }
+        }  
         public void separateThousands(TextBox txt)
         {
             if (!string.IsNullOrEmpty(txt.Text))
@@ -226,6 +229,7 @@ namespace FootballFieldManagement.ViewModels
                 txt.Select(txt.Text.Length, 0);
             }
         }
+
         public void SelectImage(Grid parameter)
         {
             OpenFileDialog op = new OpenFileDialog();

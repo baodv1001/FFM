@@ -6,10 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vm ="clr-namespace:FootballFieldManagement.ViewModels"
         mc:Ignorable="d"
         DataContext="{StaticResource SignUpVM}"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:vm="clr-namespace:FootballFieldManagement.ViewModels"
         Title="Đăng ký tài khoản" 
         Height="610"
         Width="390" 
@@ -23,15 +23,19 @@
         <ControlTemplate x:Key="textBoxErrorTemplate">
             <StackPanel>
                 <AdornedElementPlaceholder x:Name="placeholder"/>
-                <TextBlock DockPanel.Dock="Bottom" Foreground="Red"
-                           Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                <TextBlock 
+                    DockPanel.Dock="Bottom" 
+                    Foreground="Red"
+                    Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
             </StackPanel>
         </ControlTemplate>
     </Window.Resources>
     <Grid 
         Background="#FFFFFFFF">
         <Grid.Effect>
-            <DropShadowEffect BlurRadius="20" Opacity="0.4"/>
+            <DropShadowEffect 
+                BlurRadius="20"
+                Opacity="0.4"/>
         </Grid.Effect>
         <Label 
             x:Name="lblSignUp" 
@@ -79,7 +83,8 @@
                     HorizontalAlignment="Right" 
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    Padding="3,0,0,0" TabIndex="1">
+                    Padding="3,0,0,0"
+                    TabIndex="1">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Width="220">
@@ -128,7 +133,7 @@
                     <TextBox.Text>
                         <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" >
                             <Binding.ValidationRules>
-                                <vm:TextBoxValidation ErrorMessage="Không nhập những ký tự đặc biệt" />
+                                <vm:TextBoxValidation ErrorMessage="Không nhập ký tự đặc biệt"/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -267,25 +272,26 @@
                 Margin="0,0,0,4"/>
         </Button>
         <Button 
-                x:Name="btnLogin" 
-                Command="{Binding OpenLoginWinDowCommand}"
-                CommandParameter="{Binding ElementName=wdSignUp}"
-                Content="Đăng nhập" 
-                ToolTip="Đăng nhập"
-                HorizontalAlignment="Center" 
-                Height="24" 
-                Width="120" 
-                VerticalAlignment="Top" 
-                Padding="0" 
-                HorizontalContentAlignment="Center" 
-                VerticalContentAlignment="Center" 
-                FontSize="18" 
-                Margin="0,530,0,0" 
-                Foreground="{StaticResource Secondary}" 
-                FontWeight="Medium" 
-                Cursor="Hand" Background="{x:Null}" 
-                BorderBrush="{x:Null}" 
-                IsTabStop="False"
-                FocusVisualStyle="{x:Null}"/>
-    </Grid>
+            x:Name="btnLogin" 
+            Command="{Binding OpenLoginWinDowCommand}"
+            CommandParameter="{Binding ElementName=wdSignUp}"
+            Content="Đăng nhập" 
+            ToolTip="Đăng nhập"
+            HorizontalAlignment="Center" 
+            Height="24" 
+            Width="120" 
+            VerticalAlignment="Top" 
+            Padding="0" 
+            HorizontalContentAlignment="Center" 
+            VerticalContentAlignment="Center" 
+            FontSize="18" 
+            Margin="0,530,0,0" 
+            Foreground="{StaticResource Secondary}" 
+            FontWeight="Medium" 
+            Cursor="Hand"
+            Background="{x:Null}" 
+            BorderBrush="{x:Null}" 
+            IsTabStop="False"
+            FocusVisualStyle="{x:Null}"/>
+    </Grid>     
 </Window>

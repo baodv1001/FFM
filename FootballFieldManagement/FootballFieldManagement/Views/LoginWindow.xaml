@@ -17,15 +17,6 @@
         WindowStartupLocation="CenterScreen" 
         Background="White" 
         ResizeMode="CanMinimize">
-    <Window.Resources>
-        <ControlTemplate x:Key="textBoxErrorTemplate">
-            <StackPanel>
-                <AdornedElementPlaceholder x:Name="placeholder"/>
-                <TextBlock DockPanel.Dock="Bottom" Foreground="Red"
-                           Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
-            </StackPanel>
-        </ControlTemplate>
-    </Window.Resources>
     <Grid>
         <Button
             Width="160"
@@ -116,8 +107,7 @@
                     Margin="0" 
                     Width="220"
                     Height="50" 
-                    HorizontalAlignment="Right" 
-                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                    HorizontalAlignment="Right"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     FontSize="18" 
                     BorderBrush="{StaticResource Primary}" 

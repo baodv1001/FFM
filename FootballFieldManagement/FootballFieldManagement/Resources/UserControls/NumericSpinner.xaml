@@ -7,12 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="32" d:DesignWidth="100">
     <UserControl.Resources>
-        <ControlTemplate x:Key="updown_button_style" TargetType="Button">
-            <Border x:Name="br" BorderThickness="0" BorderBrush="{DynamicResource ThemeBrushDark}" 
-                            Background="{DynamicResource ThemeBrush}" CornerRadius="0">
-                <ContentPresenter x:Name="cp" TextElement.Foreground="{TemplateBinding Foreground}" 
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        <ControlTemplate
+            x:Key="updown_button_style"
+            TargetType="Button">
+            <Border 
+                x:Name="br"
+                BorderThickness="0" 
+                BorderBrush="{DynamicResource ThemeBrushDark}" 
+                Background="{DynamicResource ThemeBrush}"
+                CornerRadius="0">
+                <ContentPresenter
+                    x:Name="cp"
+                    TextElement.Foreground="{TemplateBinding Foreground}" 
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
@@ -68,7 +76,8 @@
                 Grid.Column="0" 
                 Grid.RowSpan="2"
                 Text="1" 
-                TextChanged="tb_main_TextChanged" IsTabStop="False" />
+                TextChanged="tb_main_TextChanged"
+                IsTabStop="False" />
             <Button 
                 x:Name="cmdUp" 
                 x:FieldModifier="private"
@@ -77,7 +86,8 @@
                 Width="auto"
                 Height="auto"
                 Click="cmdUp_Click"
-                Cursor="Hand" IsTabStop="False">
+                Cursor="Hand"
+                IsTabStop="False">
                 <Button.Content>
                     <Path 
                         HorizontalAlignment="Center" 
@@ -94,7 +104,8 @@
                 Width="auto" 
                 Height="auto"
                 Click="cmdDown_Click"
-                Cursor="Hand" IsTabStop="False">
+                Cursor="Hand" 
+                IsTabStop="False">
                 <Button.Content>
                     <Path 
                         HorizontalAlignment="Center"

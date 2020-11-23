@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         DataContext="{StaticResource SignUpVM}"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:FootballFieldManagement.ViewModels"
         Title="Đăng ký tài khoản" 
         Height="610"
         Width="390" 
@@ -18,6 +19,15 @@
             <i:InvokeCommandAction Command="{Binding LoadCommand}" CommandParameter="{Binding ElementName=wdSignUp}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    <Window.Resources>
+        <ControlTemplate x:Key="textBoxErrorTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="placeholder"/>
+                <TextBlock DockPanel.Dock="Bottom" Foreground="Red"
+                           Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid 
         Background="#FFFFFFFF">
         <Grid.Effect>
@@ -102,9 +112,8 @@
                     Foreground="{StaticResource Gray2}"/>
                 <TextBox 
                     x:Name="txtUsername"
-                    Text="{Binding Username}"
                     materialDesign:HintAssist.Hint="Tên đăng nhập" 
-                    Margin="0" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Width="220"
                     Height="50" 
                     HorizontalAlignment="Right" 
@@ -115,7 +124,15 @@
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="Medium" 
-                    Padding="2,0,0,0" />
+                    Padding="2,0,0,0" >
+                    <TextBox.Text>
+                        <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" >
+                            <Binding.ValidationRules>
+                                <vm:TextBoxValidation ErrorMessage="Không nhập những ký tự đặc biệt" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             <Grid 
                 Width="270" 

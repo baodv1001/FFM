@@ -6,6 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:vm ="clr-namespace:FootballFieldManagement.ViewModels"
         mc:Ignorable="d"
         DataContext="{StaticResource LoginVM}"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -15,6 +17,15 @@
         WindowStartupLocation="CenterScreen" 
         Background="White" 
         ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ControlTemplate x:Key="textBoxErrorTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="placeholder"/>
+                <TextBlock DockPanel.Dock="Bottom" Foreground="Red"
+                           Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid>
         <Button
             Width="160"
@@ -101,12 +112,12 @@
                     Margin="0" />
                 <TextBox 
                     x:Name="txtUsername"
-                    Text="{Binding Username}"
                     materialDesign:HintAssist.Hint="Tên đăng nhập" 
                     Margin="0" 
                     Width="220"
                     Height="50" 
                     HorizontalAlignment="Right" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     FontSize="18" 
                     BorderBrush="{StaticResource Primary}" 
@@ -114,7 +125,8 @@
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="Medium" 
-                    Padding="2,0,0,0" />
+                    Padding="2,0,0,0" >
+                </TextBox>
             </Grid>
             <Grid 
                 Width="270" 
@@ -143,7 +155,7 @@
                     TabIndex="2" 
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
-                    FontWeight="SemiBold" 
+                    FontWeight="SemiBold"
                     Padding="2,0,0,0" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">

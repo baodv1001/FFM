@@ -23,7 +23,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace FootballFieldManagement.ViewModels
 {
-    class EmployeeViewModel : HomeViewModel
+    class EmployeeViewModel 
     {
         public ICommand SaveCommand { get; set; } 
         public ICommand SeparateThousandsCommand { get; set; } // định dạng tiền thành 0,000,000
@@ -33,6 +33,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand SelectImageCommand { get; set; } 
         public ICommand SaveSetSalaryCommand { get; set; } // Click button "Lưu" trong SetSalaryWindow
         public ICommand ValueChangedCommand { get; set; } // Tăng giảm các numericspinner
+        public ICommand SelectionChangedCommand { get; set; } // Chọn 1 nhân viên trong window SetSalary
+
         private string id;
         public string Id { get => id; set => id = value; }
 
@@ -51,6 +53,23 @@ namespace FootballFieldManagement.ViewModels
             SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => separateThousands(parameter));
             SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
             ValueChangedCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
+            SelectionChangedCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SelectionChanged(parameter));
+        }
+
+        public void SelectionChanged(SetSalaryWindow parameter)
+        {
+            foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+            {
+                ComboBoxItem tmp = (ComboBoxItem)parameter.cboTypeEmployee.SelectedItem;
+                if (SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) == tmp.Content.ToString())
+                {
+                    parameter.txtSalaryBasic.Text = salary.SalaryBasic.ToString();
+                    parameter.cboStandardWorkDays.Text = salary.StandardWorkDays.ToString();
+                    parameter.txtOvertime.Text = salary.MoneyPerShift.ToString();
+                    parameter.txtSalaryDeduction.Text = salary.MoneyPerFault.ToString();
+                    return;
+                }
+            }
         }
         public void setItemSourceDay()
         {
@@ -59,6 +78,7 @@ namespace FootballFieldManagement.ViewModels
                 itemSourceDay.Add(i);
             }
         }
+
         public void UpdateQuantity(EmployeeControl parameter)
         {
             Salary salary = new Salary();
@@ -79,10 +99,10 @@ namespace FootballFieldManagement.ViewModels
                 parameter.cboTypeEmployee.Focus();
                 return;
             }
-            if (string.IsNullOrEmpty(parameter.txtSalary.Text))
+            if (string.IsNullOrEmpty(parameter.txtSalaryBasic.Text))
             {
                 MessageBox.Show("Vui lòng nhập mức lương cơ bản!");
-                parameter.txtSalary.Focus();
+                parameter.txtSalaryBasic.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtOvertime.Text))
@@ -103,7 +123,7 @@ namespace FootballFieldManagement.ViewModels
                 parameter.txtSalaryDeduction.Focus();
                 return;
             }
-            Salary salary = new Salary(CovertToNumber(parameter.txtSalary.Text), 0, CovertToNumber(parameter.txtOvertime.Text), 0, CovertToNumber(parameter.txtSalaryDeduction.Text), 0, 0,int.Parse(parameter.cboStandardWorkDays.Text));
+            Salary salary = new Salary(CovertToNumber(parameter.txtSalaryBasic.Text), 0, CovertToNumber(parameter.txtOvertime.Text), 0, CovertToNumber(parameter.txtSalaryDeduction.Text), 0, 0,int.Parse(parameter.cboStandardWorkDays.Text));
             //update salary
             bool isExist = false;
             foreach (var tmp in SalaryDAL.Instance.ConvertDBToList())
@@ -143,6 +163,12 @@ namespace FootballFieldManagement.ViewModels
         public void SetBaseSalary(fAddEmployee parameter) 
         {
             List<Salary> salaries = SalaryDAL.Instance.ConvertDBToList();
+            if(salaries.Count == 0)
+            {
+                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0, 0);
+                SalaryDAL.Instance.AddIntoDB(salary1);
+                return;
+            }
             //cập nhật lại lương cho nhân viên khi cập nhật chức vụ
             if (int.Parse(parameter.txtIDEmployee.Text) <= salaries[salaries.Count - 1].IdEmployee)
             {
@@ -329,7 +355,7 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             image = null;
-            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0, filename);
+            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 1, filename);
             EmployeeDAL.Instance.AddEmployee(employee);
             SetBaseSalary(parameter);
             parameter.Close();

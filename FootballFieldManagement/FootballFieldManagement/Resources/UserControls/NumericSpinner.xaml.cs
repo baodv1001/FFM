@@ -25,12 +25,13 @@ namespace FootballFieldManagement.Resources.UserControls
 
         public event EventHandler PropertyChanged;
         public event EventHandler ValueChanged;
+        public event EventHandler TextChanged;
         #endregion
 
         public NumericSpinner()
         {
             InitializeComponent();
-            
+
             DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(NumericSpinner)).AddValueChanged(this, PropertyChanged);
             DependencyPropertyDescriptor.FromProperty(ValueProperty, typeof(NumericSpinner)).AddValueChanged(this, ValueChanged);
             DependencyPropertyDescriptor.FromProperty(DecimalsProperty, typeof(NumericSpinner)).AddValueChanged(this, PropertyChanged);
@@ -178,6 +179,18 @@ namespace FootballFieldManagement.Resources.UserControls
         {
             Value -= Step;
             tb_main.Text = Value.ToString();
+        }
+
+        private void tb_main_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                Text = decimal.Parse(this.tb_main.Text);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

@@ -146,6 +146,7 @@
             Grid.Column="5"
             HorizontalAlignment="Center" 
             Margin="0,0,20,0"
+            Text="0"
             TextWrapping="Wrap"
             VerticalAlignment="Center"
             FontSize="18" 

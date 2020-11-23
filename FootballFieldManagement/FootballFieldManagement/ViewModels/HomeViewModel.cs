@@ -49,6 +49,13 @@ namespace FootballFieldManagement.ViewModels
         public void PaySalary(HomeWindow parameter)
         {
             bool sucess = true;
+            if (SalaryDAL.Instance.ConvertDBToList().Count == 0)
+            {
+                MessageBox.Show("Vui lòng thiết lập lương");
+                SetSalaryWindow wdSetSalary = new SetSalaryWindow();
+                wdSetSalary.ShowDialog();
+                return;
+            }
             foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
             {
                 if (salary.TotalSalary == 0)
@@ -80,9 +87,12 @@ namespace FootballFieldManagement.ViewModels
             DateTime today = DateTime.Today;
             if (today.Day != 1)
             {
-                if(SalaryDAL.Instance.ConvertDBToList() == null)
+                if(SalaryDAL.Instance.ConvertDBToList().Count == 0)
                 {
                     MessageBox.Show("Vui lòng thiết lập lương");
+                    SetSalaryWindow wdSetSalary = new SetSalaryWindow();
+                    wdSetSalary.ShowDialog();
+                    return;
                 }
                 foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
                 {
@@ -248,7 +258,6 @@ namespace FootballFieldManagement.ViewModels
                 stackPanel.Children.Add(temp);
             }
         }
-
         public void LoadGoodsToView(StackPanel stk)
         {
             stk.Children.Clear();

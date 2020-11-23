@@ -8,10 +8,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Collections.ObjectModel;
+using FootballFieldManagement.DAL;
 
 namespace FootballFieldManegement.DAL
 {
-    class EmployeeDAL:DataProvider
+    class EmployeeDAL : DataProvider
     {
 
         private static EmployeeDAL instance;
@@ -24,7 +25,7 @@ namespace FootballFieldManegement.DAL
 
         private EmployeeDAL()
         {
-            
+
         }
         public List<Employee> ConvertDBToList()
         {
@@ -32,7 +33,7 @@ namespace FootballFieldManegement.DAL
             List<Employee> employees = new List<Employee>();
             try
             {
-                
+
                 dt = LoadData("Employee");
             }
             catch
@@ -53,7 +54,7 @@ namespace FootballFieldManegement.DAL
             try
             {
                 conn.Open();
-                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount,image) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount,@image)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount,imageFilePath) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount,@imageFilePath)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
@@ -65,7 +66,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@image", employee.Image);
+                command.Parameters.AddWithValue("@imageFilePath", employee.Image.ToString());
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -90,7 +91,7 @@ namespace FootballFieldManegement.DAL
             try
             {
                 conn.Open();
-                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount,image=@image where idEmployee=" + employee.IdEmployee;
+                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount,imageFilePath=@imageFilePath where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
@@ -101,7 +102,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@image", employee.Image);
+                command.Parameters.AddWithValue("@imageFilePath", employee.Image);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -128,7 +129,6 @@ namespace FootballFieldManegement.DAL
                 conn.Open();
                 string query = "delete from Employee where idEmployee = " + employee.IdEmployee.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
-
                 if (command.ExecuteNonQuery() > 0)
                     MessageBox.Show("Xóa thành công!");
             }
@@ -143,13 +143,13 @@ namespace FootballFieldManegement.DAL
         }
         public void AddEmployee(Employee employee)
         {
-            if(ConvertDBToList().Count==0 || employee.IdEmployee>ConvertDBToList()[ConvertDBToList().Count-1].IdEmployee)
+            if (ConvertDBToList().Count == 0 || employee.IdEmployee > ConvertDBToList()[ConvertDBToList().Count - 1].IdEmployee)
             {
                 if (AddIntoDB(employee))
                     MessageBox.Show("Thêm thành công!");
                 else
                     MessageBox.Show("Thêm thất bại!");
-            }    
+            }
             else
             {
                 if (UpdateOnDB(employee))

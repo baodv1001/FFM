@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FootballFieldManagement.Resources.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,20 +11,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FootballFieldManagement.Resources.UserControls
+namespace FootballFieldManagement.Views
 {
     /// <summary>
-    /// Interaction logic for EmployeeControl.xaml
+    /// Interaction logic for CheckAttendanceWindow.xaml
     /// </summary>
-    public partial class EmployeeControl : UserControl
+    public partial class CheckAttendanceWindow : Window
     {
-        public EmployeeControl()
+        public CheckAttendanceWindow()
         {
             InitializeComponent();
         }
-
     }
 }

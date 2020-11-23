@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -71,8 +72,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAL\AttendanceDAL.cs" />
+    <Compile Include="DAL\SalaryDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
+    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\Salary.cs" />
+    <Compile Include="Resources\UserControls\DateControl.xaml.cs">
+      <DependentUpon>DateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\NumericSpinner.xaml.cs">
+      <DependentUpon>NumericSpinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\CheckAttendanceViewModel.cs" />
+    <Compile Include="ViewModels\TextBoxValidation.cs" />
+    <Compile Include="Views\CheckAttendanceWindow.xaml.cs">
+      <DependentUpon>CheckAttendanceWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ImportGoodsWindow.xaml.cs">
       <DependentUpon>ImportGoodsWindow.xaml</DependentUpon>
     </Compile>
@@ -82,6 +98,10 @@
     <Compile Include="Views\SignUpWindow.xaml.cs">
       <DependentUpon>SignUpWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\ColorPalette.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,6 +114,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\UserControls\DateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\UserControls\EmployeeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -102,7 +126,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\UserControls\NumericSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AddGoodsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CheckAttendanceWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

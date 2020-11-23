@@ -2,28 +2,31 @@
              x:Class="FootballFieldManagement.Resources.UserControls.EmployeeControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              Width="1120" 
              DataContext="{StaticResource EmployeeVM}"
              Height="40" 
              Margin="0,0,0,2">
     <Grid 
         x:Name="grdEmployee"
-        Margin="0" >
+        Margin="0">
         <Grid.Background>
             <SolidColorBrush Color="#FF007AFF" Opacity="0.3"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="2.5*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="20"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock 
@@ -38,7 +41,7 @@
             Padding="0" 
             FontWeight="Medium" 
             Foreground="{DynamicResource Gray2}" 
-            Visibility="Hidden" />
+            Visibility="Hidden"/>
         <TextBlock 
             x:Name="txbSerial"
             Grid.Column="0"
@@ -90,55 +93,116 @@
             Padding="0" 
             FontWeight="Medium" 
             Foreground="{DynamicResource Gray2}"/>
-        <Button 
-            x:Name="btnUpdate"
-            IsDefault="True"
-            Command="{Binding UpdateCommand}" 
-            CommandParameter="{Binding ElementName=txbId}"
-            Grid.Column="4"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            Height="30"
-            materialDesign:ButtonAssist.CornerRadius="6"
-            ToolTip="Cập nhật thông tin" 
-            Margin="10,0,0,0" 
-            Background="{DynamicResource Success}" 
-            BorderBrush="{x:Null}" 
-            Foreground="{StaticResource White}" 
+        <local:NumericSpinner 
+            x:Name="nsNumOfShift" 
+            Grid.Column="3"
+            FontSize="18"
+            MinValue="0"
+            Text="0"
+            MaxValue="1000"
+            FontWeight="Medium"
+            BorderBrush="{StaticResource Primary}" 
+            Foreground="{DynamicResource Gray2}" 
+            Width="72" 
+            HorizontalAlignment="Center" 
             VerticalAlignment="Center" 
-            Width="110"
-            HorizontalAlignment="Left"
-            FocusVisualStyle="{x:Null}" 
-            Padding="0"
-            Content="Cập nhật"
-            FontSize="16" 
-            FontWeight="Medium" >
+            Height="32"
+            Background="{x:Null}">
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Click">
-                    <i:InvokeCommandAction Command="{Binding GetIdCommand}" CommandParameter="{Binding ElementName=txbId}"/>
+                <i:EventTrigger EventName="PreviewTextInput" >
+                    <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="ValueChanged">
+                    <i:InvokeCommandAction Command="{Binding ValueChangedCommand}" CommandParameter="{Binding ElementName=ucEmployee}"></i:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+        </local:NumericSpinner>
+        <local:NumericSpinner
+            x:Name="nsNumOfFault"
+            Grid.Column="4"
+            Text="0"
+            MinValue="0"
+            MaxValue="1000"
+            FontSize="18"
+            FontWeight="Medium" 
+            BorderBrush="{StaticResource Primary}" 
+            Foreground="{DynamicResource Gray2}" 
+            Width="72"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center" 
+            Height="32"
+            Background="{x:Null}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewTextInput">
+                    <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="ValueChanged">
+                    <i:InvokeCommandAction Command="{Binding ValueChangedCommand}" CommandParameter="{Binding ElementName=ucEmployee}"></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </local:NumericSpinner>
+        <TextBlock 
+            x:Name="txbTotalSalary"
+            Grid.Column="5"
+            HorizontalAlignment="Center" 
+            Margin="0,0,20,0"
+            Text="0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Center"
+            FontSize="18" 
+            Padding="0"
+            FontWeight="Medium" 
+            Foreground="{DynamicResource Gray2}">
+        </TextBlock>
+        <Button 
+            Grid.Column="6"
+            x:Name="btnEditEmployee"
+            Command="{Binding UpdateCommand}"
+            CommandParameter="{Binding ElementName=txbId}"
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            ToolTip="Sửa thông tin"
+            Height="30"
+            materialDesign:ButtonAssist.CornerRadius="6"
+            Margin="0,0,50,0" 
+            Background="{x:Null}" 
+            BorderBrush="{x:Null}" 
+            Foreground="{DynamicResource Primary}" 
+            FontSize="16" 
+            VerticalAlignment="Center" 
+            FocusVisualStyle="{x:Null}"
+            Width="40"
+            HorizontalAlignment="Right" 
+            Padding="0"
+            FontWeight="SemiBold">
+            <materialDesign:PackIcon 
+                Kind="SquareEditOutline" 
+                Width="24"
+                Height="24"/>
         </Button>
         <Button 
-            x:Name="btnDelete"
-            Grid.Column="4"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            Height="30"
+            Grid.Column="6"
+            x:Name="btnDeleteEmployee"
             Command="{Binding DeleteCommand}"
             CommandParameter="{Binding ElementName=txbId}"
-            materialDesign:ButtonAssist.CornerRadius="6"
+            Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Xóa nhân viên" 
+            Height="30"
+            materialDesign:ButtonAssist.CornerRadius="6"
             Margin="0,0,10,0" 
-            Background="{DynamicResource Error}" 
+            Background="{x:Null}" 
             BorderBrush="{x:Null}" 
-            Foreground="{StaticResource White}" 
-            VerticalAlignment="Center" 
-            Width="110"
-            HorizontalAlignment="Right"
-            FocusVisualStyle="{x:Null}" 
-            Padding="0"
-            Content="Xóa"
+            Foreground="{StaticResource Error}" 
             FontSize="16" 
-            FontWeight="Medium" >
+            VerticalAlignment="Center" 
+            FocusVisualStyle="{x:Null}"
+            Width="40"
+            HorizontalAlignment="Right" 
+            FontWeight="SemiBold" 
+            Padding="0">
+            <materialDesign:PackIcon 
+                Kind="DeleteOutline" 
+                Height="24"
+                Width="24"/>
         </Button>
     </Grid>
 </UserControl>

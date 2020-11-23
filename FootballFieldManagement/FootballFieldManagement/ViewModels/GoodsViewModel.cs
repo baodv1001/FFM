@@ -1,6 +1,7 @@
 ﻿using FootballFieldManagement.DAL;
 using FootballFieldManagement.Models;
 using FootballFieldManagement.Views;
+using FootballFieldManagement.Resources.UserControls;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ExitImportCommand { get; set; } //thoát khỏi ImportGoodsWindow
         public ICommand CalculateTotalCommand { get; set; } //tính tổng tiền
 
+        //PayWindow
+        public ICommand PickGoodsCommand { get; set; } // Chọn 1 hàng 
         public GoodsViewModel()
         {
             //GoodsControl
@@ -57,6 +60,8 @@ namespace FootballFieldManagement.ViewModels
             ExitImportCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => parameter.Close());
             CalculateTotalCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => CalculateTotal(parameter));
 
+            //PayWindow
+            PickGoodsCommand = new RelayCommand<SellGoodsControl>((parameter) => true, (parameter) => BuyGoods(parameter));
         }
 
         //GoodsControl
@@ -314,6 +319,18 @@ namespace FootballFieldManagement.ViewModels
             int.TryParse(parameter.txtImportPrice.Text, out importPriceTmp);
             int.TryParse(parameter.txtQuantity.Text, out quantityTmp);
             parameter.txtTotal.Text = (importPriceTmp * quantityTmp).ToString();
+        }
+
+        //PayWindow
+        public void BuyGoods(SellGoodsControl parameter)
+        {
+            if (GoodsDAL.Instance.GetGood(parameter.txbId.Text).Quantity == 0)
+            {
+                MessageBox.Show("Đã hết hàng!");
+                return;
+            }
+            BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbId.Text), 1);
+            BillInfoDAL.Instance.AddIntoDB(billInfo);
         }
     }
 }

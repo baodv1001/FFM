@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FootballFieldManagement
 {
-    public static class CurrentAccount
+    public static class CurrentAccount //Tài khoản hiện tại đang đăng nhập vào hệ thống
     {
         private static bool type;
         private static string displayName;

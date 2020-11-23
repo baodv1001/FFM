@@ -168,5 +168,16 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public Goods GetGood(string idGood) // lấy thông tin hàng hóa khi biết id 
+        {
+            foreach (var good in ConvertDBToList())
+            {
+                if (good.IdGoods.ToString() == idGood)
+                {
+                    return good;
+                }
+            }
+            return null;
+        }
     }
 }

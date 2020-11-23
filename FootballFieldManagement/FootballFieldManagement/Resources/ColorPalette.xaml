@@ -28,4 +28,16 @@
     <SolidColorBrush x:Key="Gray5" Color="#FFE0E0E0" />
     <SolidColorBrush x:Key="Theme_Brush_Bg" Color="White" />
     <SolidColorBrush x:Key="Theme_Brush_SilverBorder" Color="Silver" />
+    <Color x:Key="ThemeColor">#40a6d1</Color>
+    <Color x:Key="ThemeRedColor">#d14040</Color>
+    <Color x:Key="ThemeColorDark">#3992b8</Color>
+    <Color x:Key="ThemeColorDarker">#FF688CAF</Color>
+    <Color x:Key="ThemeColorInactive">#4cd1ff</Color>
+    <Color x:Key="ThemeColorActive">#FF3BACDC</Color>
+    <SolidColorBrush x:Key="ThemeBrush" Color="{DynamicResource ThemeColor}" />
+    <SolidColorBrush x:Key="ThemeBrushDark" Color="{DynamicResource ThemeColorDark}" />
+    <SolidColorBrush x:Key="ThemeBrushDarker" Color="{DynamicResource ThemeColorDarker}" />
+    <SolidColorBrush x:Key="ThemeBrushInactive" Color="{DynamicResource ThemeColorInactive}" />
+    <SolidColorBrush x:Key="ThemeBrushActive" Color="{DynamicResource ThemeColorActive}" />
+    <SolidColorBrush x:Key="ThemeRedBrush" Color="{DynamicResource ThemeRedColor}" />
 </ResourceDictionary>

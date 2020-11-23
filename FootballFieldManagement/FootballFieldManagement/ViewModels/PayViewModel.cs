@@ -55,7 +55,7 @@ namespace FootballFieldManagement.ViewModels
         public PayViewModel()
         {
             //Pay Window
-            LoadGoodsCommand = new RelayCommand<WrapPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
+            LoadGoodsCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
             LoadBillInfoCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadBillInfoToView(parameter));
             LoadTotalCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => LoadTotalMoney(parameter));
             ClosingWdCommnad = new RelayCommand<PayWindow>((parameter) => true, (parameter) => DeleteBill(parameter));
@@ -71,32 +71,37 @@ namespace FootballFieldManagement.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         //PayWindow
-        public void LoadGoodsToView(WrapPanel parameter)
+        public void LoadGoodsToView(PayWindow parameter)
         {
+            parameter.wrpGoods.Children.Clear();
             DataTable goods = GoodsDAL.Instance.LoadData("Goods");
             for (int i = 0; i < goods.Rows.Count; i++)
             {
-                SellGoodsControl good = new SellGoodsControl();
-                good.txbName.Text = goods.Rows[i].ItemArray[1].ToString();
-                good.txbId.Text = goods.Rows[i].ItemArray[0].ToString();
-                ImageBrush imageBrush = new ImageBrush();
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.UriSource = new Uri(goods.Rows[i].ItemArray[4].ToString(), UriKind.Relative);
-                bitmap.EndInit();
-                good.imgGood.Source = bitmap;
-                good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
-
-                try
+                string name = goods.Rows[i].ItemArray[1].ToString();
+                if (name.ToLower().Contains(parameter.txtSearch.Text.ToLower()))
                 {
-                    good.txbIdBill.Text = (BillDAL.Instance.ConvertDBToList()[BillDAL.Instance.ConvertDBToList().Count - 1].IdBill + 1).ToString();
+                    SellGoodsControl good = new SellGoodsControl();
+                    good.txbName.Text = goods.Rows[i].ItemArray[1].ToString();
+                    good.txbId.Text = goods.Rows[i].ItemArray[0].ToString();
+                    //ImageBrush imageBrush = new ImageBrush();
+                    //BitmapImage bitmap = new BitmapImage();
+                    //bitmap.BeginInit();
+                    //bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    //bitmap.UriSource = new Uri(goods.Rows[i].ItemArray[4].ToString(), UriKind.Relative);
+                    //bitmap.EndInit();
+                    //good.imgGood.Source = bitmap;
+                    good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
+                    good.txbIdBill.Text = parameter.txbIdBill.Text;
+                    //try
+                    //{
+                    //    good.txbIdBill.Text = (BillDAL.Instance.ConvertDBToList()[BillDAL.Instance.ConvertDBToList().Count - 1].IdBill + 1).ToString();
+                    //}
+                    //catch
+                    //{
+                    //    good.txbIdBill.Text = "1";
+                    //}
+                    parameter.wrpGoods.Children.Add(good);
                 }
-                catch
-                {
-                    good.txbIdBill.Text = "1";
-                }
-                parameter.Children.Add(good);
             }
         }
         public void LoadBillInfoToView(PayWindow parameter)

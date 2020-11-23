@@ -5,31 +5,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="32" d:DesignWidth="100">
+             d:DesignHeight="32" 
+             d:DesignWidth="100">
     <UserControl.Resources>
-        <ControlTemplate
-            x:Key="updown_button_style"
+        <ControlTemplate 
+            x:Key="updown_button_style" 
             TargetType="Button">
             <Border 
-                x:Name="br"
+                x:Name="br" 
                 BorderThickness="0" 
                 BorderBrush="{DynamicResource ThemeBrushDark}" 
-                Background="{DynamicResource ThemeBrush}"
+                Background="{DynamicResource ThemeBrush}" 
                 CornerRadius="0">
-                <ContentPresenter
-                    x:Name="cp"
+                <ContentPresenter 
+                    x:Name="cp" 
                     TextElement.Foreground="{TemplateBinding Foreground}" 
                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
             <ControlTemplate.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter
-                        TargetName="br"
+                <Trigger 
+                    Property="IsMouseOver" 
+                    Value="true">
+                    <Setter 
+                        TargetName="br" 
                         Property="Background" 
                         Value="{DynamicResource ThemeBrushActive}" />
                 </Trigger>
-                <Trigger Property="IsEnabled" Value="false">
+                <Trigger 
+                    Property="IsEnabled" 
+                    Value="false">
                     <Setter 
                         TargetName="br" 
                         Property="Background" 
@@ -40,7 +45,7 @@
 
         <Style TargetType="Button">
             <Setter 
-                Property="Template"
+                Property="Template" 
                 Value="{StaticResource updown_button_style}" />
         </Style>
     </UserControl.Resources>
@@ -71,53 +76,49 @@
                 x:FieldModifier="private" 
                 FontWeight="Medium" 
                 FontSize="14" 
-                VerticalContentAlignment="Center"
+                VerticalContentAlignment="Center" 
                 Padding="5,1" 
                 Grid.Column="0" 
-                Grid.RowSpan="2"
-                Text="1" 
-                TextChanged="tb_main_TextChanged"
-                IsTabStop="False" />
+                Grid.RowSpan="2" 
+                Text="1" />
             <Button 
                 x:Name="cmdUp" 
-                x:FieldModifier="private"
-                Grid.Column="1"
-                Grid.Row="0"
-                Width="auto"
-                Height="auto"
-                Click="cmdUp_Click"
-                Cursor="Hand"
-                IsTabStop="False">
+                x:FieldModifier="private" 
+                Grid.Column="1" 
+                Grid.Row="0" 
+                Width="auto" 
+                Height="auto" 
+                Click="cmdUp_Click" 
+                Cursor="Hand">
                 <Button.Content>
                     <Path 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center" 
-                        Fill="Black"
+                        Fill="Black" 
                         Data="M4,0 L0,4 L8,4 z"/>
                 </Button.Content>
             </Button>
             <Button 
                 x:Name="cmdDown" 
                 x:FieldModifier="private" 
-                Grid.Column="1"
+                Grid.Column="1" 
                 Grid.Row="1" 
                 Width="auto" 
-                Height="auto"
-                Click="cmdDown_Click"
-                Cursor="Hand" 
-                IsTabStop="False">
+                Height="auto" 
+                Click="cmdDown_Click" 
+                Cursor="Hand">
                 <Button.Content>
                     <Path 
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Top" 
                         Fill="Black" 
                         Data="M0,0 L8,0 L4,4 z"/>
                 </Button.Content>
             </Button>
             <Border 
                 BorderBrush="Gray" 
-                IsHitTestVisible="False" 
-                BorderThickness="1" 
+                IsHitTestVisible="False"
+                BorderThickness="1"
                 CornerRadius="4" 
                 Grid.RowSpan="2" 
                 Grid.ColumnSpan="2" 

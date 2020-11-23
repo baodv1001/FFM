@@ -120,14 +120,14 @@ namespace FootballFieldManagement.ViewModels
         public void DisplayAccount(HomeWindow home)
         {
             home.lbAccount.Content = CurrentAccount.DisplayName;
-            ImageBrush imageBrush = new ImageBrush();
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            bitmap.UriSource = new Uri(CurrentAccount.Image, UriKind.Relative);
-            bitmap.EndInit();
-            imageBrush.ImageSource = bitmap;
-            home.imgAccount.Fill = imageBrush;
+            //ImageBrush imageBrush = new ImageBrush();
+            //BitmapImage bitmap = new BitmapImage();
+            //bitmap.BeginInit();
+            //bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            //bitmap.UriSource = new Uri(CurrentAccount.Image, UriKind.Relative);
+            //bitmap.EndInit();
+            //imageBrush.ImageSource = bitmap;
+            //home.imgAccount.Fill = imageBrush;
         }
         public void OpenSignUpWindow(Window parameter)
         {

@@ -66,8 +66,8 @@
             </Button>
             <Grid 
                 x:Name="grdFindGoods" 
-                Margin="0,40,44,0" 
-                Height="40" 
+                Margin="0,467,44,0" 
+                Height="46" 
                 Width="400"
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top">
@@ -78,17 +78,16 @@
                     RadiusY="6" 
                     RadiusX="6" 
                     Stroke="#FF007AFF" 
-                    StrokeThickness="3" 
                     Height="40"/>
                 <TextBox 
                     x:Name="txtSearch"
                     materialDesign:HintAssist.Hint="Tìm sản phẩm"
-                    HorizontalAlignment="Left" 
+                    HorizontalAlignment="Center" 
                     Width="330" 
                     FontSize="16" 
                     BorderThickness="0" 
                     MaxLines="1"
-                    Margin="12,0,0,0" 
+                    Margin="12,0,12,4" 
                     FontWeight="Medium" 
                     Height="40" 
                     VerticalAlignment="Center" 
@@ -96,8 +95,16 @@
                     VerticalContentAlignment="Center"
                     Foreground="{DynamicResource Gray1}" 
                     SelectionBrush="{DynamicResource Primary}"
-                    Padding="2,0,0,0" />
-                <Button 
+                    Padding="2,0,0,0" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction 
+                                    Command="{Binding LoadGoodsCommand}" 
+                                    CommandParameter="{Binding ElementName=wdPay}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <!--<Button 
                     x:Name="btnSearch"
                     Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                     ToolTip="Tìm kiếm tên khách hàng" 
@@ -115,7 +122,7 @@
                         Margin="0,0,0,0" 
                         Width="20" 
                         Height="20" />
-                </Button>
+                </Button>-->
             </Grid>
             <Border 
                 HorizontalAlignment="Left" 
@@ -282,7 +289,7 @@
                             <i:EventTrigger EventName="Loaded">
                                 <i:InvokeCommandAction 
                                     Command="{Binding LoadGoodsCommand}" 
-                                    CommandParameter="{Binding ElementName=wrpGoods}"/>
+                                    CommandParameter="{Binding ElementName=wdPay}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </WrapPanel>

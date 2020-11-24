@@ -82,6 +82,7 @@ namespace FootballFieldManagement.ViewModels
                             //Lấy thông tin người đăng nhập
                             CurrentAccount.DisplayName = employee.Name;
                             CurrentAccount.Image = employee.Image;
+                            CurrentAccount.IdAccount = employee.IdAccount;
                             break;
                         }
                     }
@@ -119,15 +120,10 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DisplayAccount(HomeWindow home)
         {
-            home.lbAccount.Content = CurrentAccount.DisplayName;
-            //ImageBrush imageBrush = new ImageBrush();
-            //BitmapImage bitmap = new BitmapImage();
-            //bitmap.BeginInit();
-            //bitmap.CacheOption = BitmapCacheOption.OnLoad;
-            //bitmap.UriSource = new Uri(CurrentAccount.Image, UriKind.Relative);
-            //bitmap.EndInit();
-            //imageBrush.ImageSource = bitmap;
-            //home.imgAccount.Fill = imageBrush;
+            home.lbAccount.Content = CurrentAccount.DisplayName; // Hiển thị tên nhân viên
+            ImageBrush imageBrush = new ImageBrush();
+            imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
+            home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
         }
         public void OpenSignUpWindow(Window parameter)
         {

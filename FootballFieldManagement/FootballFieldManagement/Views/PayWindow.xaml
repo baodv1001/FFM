@@ -26,10 +26,24 @@
             <i:InvokeCommandAction Command="{Binding ClosingWdCommnad}" 
                                    CommandParameter="{Binding ElementName=wdPay}"/>
         </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadTotalCommand}" 
+                                   CommandParameter="{Binding ElementName=wdPay}"/>
+        </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
         <TextBox 
             x:Name="txbIdBill" 
+            Text="1" 
+            HorizontalAlignment="Left" 
+            Height="23" 
+            Margin="239,10,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            Width="120" 
+            Visibility="Hidden"/>
+        <TextBox 
+            x:Name="txbIdFieldInfo" 
             Text="1" 
             HorizontalAlignment="Left" 
             Height="23" 
@@ -483,6 +497,8 @@
                     x:Name="btnPay"
                     Style="{StaticResource MaterialDesignRaisedButton}"
                     Height="40"
+                    Command="{Binding PayBillCommand}"
+                    CommandParameter="{Binding ElementName=wdPay}"
                     materialDesign:ButtonAssist.CornerRadius="8"
                     BorderThickness="2"
                     Margin="0,60,0,0" 

@@ -67,6 +67,10 @@
                     <i:InvokeCommandAction Command="{Binding ChangeQuantityCommand}" 
                                            CommandParameter="{Binding ElementName=ucDetail}"/>
                 </i:EventTrigger>
+                <i:EventTrigger EventName="KeyUp">
+                    <i:InvokeCommandAction Command="{Binding ChangeQuantityCommand}" 
+                                           CommandParameter="{Binding ElementName=ucDetail}"/>
+                </i:EventTrigger>
             </i:Interaction.Triggers>
         </local:NumericSpinner>
         <TextBlock 

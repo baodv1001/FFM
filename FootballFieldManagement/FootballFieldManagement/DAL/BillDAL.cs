@@ -78,28 +78,33 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public void UpdateOnDB(Bill bill)
+        public bool UpdateOnDB(Bill bill)
         {
             try
             {
                 conn.Open();
-                string queryString = "update Bill set checkOutTime=@checkOutTime,status=@status,discount=@discount,totalMoney=@totalMoney, where idBill=@idBill";
+                string queryString = "update Bill set checkOutTime=@checkOutTime,status=@status,discount=@discount,totalMoney=@totalMoney,note=@note where idBill=@idBill";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idBill", bill.IdBill.ToString());
                 command.Parameters.AddWithValue("@checkOutTime", bill.CheckOutTime.ToString());
                 command.Parameters.AddWithValue("@status", bill.Status);
                 command.Parameters.AddWithValue("@discount", bill.Discount);
                 command.Parameters.AddWithValue("@totalMoney", bill.TotalMoney);
+                command.Parameters.AddWithValue("@note", bill.Note);
                 int rs = command.ExecuteNonQuery();
-                if (rs != 1)
+                if (rs == 1)
                 {
-                    throw new Exception();
+                    return true;
+
                 }
+                else
+                    return false;
 
             }
             catch
             {
                 MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {
@@ -122,7 +127,7 @@ namespace FootballFieldManagement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()), int.Parse(dt.Rows[i].ItemArray[8].ToString()));
+                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()), int.Parse(dt.Rows[i].ItemArray[8].ToString()), dt.Rows[i].ItemArray[9].ToString());
                 bills.Add(bill);
             }
             conn.Close();

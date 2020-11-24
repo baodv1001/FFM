@@ -39,7 +39,7 @@ namespace FootballFieldManagement.ViewModels
         public string Id { get => id; set => id = value; }
 
         public string gender;
-        public string image;
+        public string imageName;
         private ObservableCollection<int> itemSourceDay = new ObservableCollection<int>();
         public ObservableCollection<int> ItemSourceDay { get => itemSourceDay; set => itemSourceDay = value; }
 
@@ -237,12 +237,12 @@ namespace FootballFieldManagement.ViewModels
             op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" + "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" + "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
             {
-                image = op.FileName;
+                imageName = op.FileName;
                 ImageBrush imageBrush = new ImageBrush();
                 BitmapImage bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.UriSource = new Uri(image);
+                bitmap.UriSource = new Uri(imageName);
                 bitmap.EndInit();
                 imageBrush.ImageSource = bitmap;
                 parameter.Background = imageBrush;
@@ -340,26 +340,24 @@ namespace FootballFieldManagement.ViewModels
             if (parameter.rdoMale.IsChecked.Value == true)
                 gender = "Nam";
             else
-                gender = "Nữ";
-            string filename = @"..//..//Resources//Images//" + parameter.txtIDEmployee.Text.ToString() + ".png";
+                gender = "Nữ";            
             if (parameter.grdSelectImage.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
                 return;
-            }
-            else
-            {
-                try
-                {
-                    File.Copy(image, filename, true);
-                }
-                catch
-                {
+            }            
+            FileStream fs = new FileStream(imageName, FileMode.Open, FileAccess.Read);
 
-                }
-            }
-            image = null;
-            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 1, filename);
+            //Initialize a byte array with size of stream
+            byte[] imgByteArr = new byte[fs.Length];
+
+            //Read data from the file stream and put into the byte array
+            fs.Read(imgByteArr, 0, Convert.ToInt32(fs.Length));
+
+            //Close a file stream
+            fs.Close();
+            imageName = null;
+            Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender, parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0, parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 2, imgByteArr);
             EmployeeDAL.Instance.AddEmployee(employee);
             SetBaseSalary(parameter);
             parameter.Close();
@@ -374,14 +372,13 @@ namespace FootballFieldManagement.ViewModels
                     SalaryDAL.Instance.DeleteSalary(id);
                     EmployeeDAL.Instance.DeleteEmployee(employee);
                     break;
-
-
                 }
             }
         }
         public void OpenUpdateWindow(TextBlock parameter)
         {
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+            
             fAddEmployee child = new fAddEmployee();
             foreach (var employee in employees)
             {
@@ -410,12 +407,21 @@ namespace FootballFieldManagement.ViewModels
                     child.dpBirthDate.Text = employee.DateOfBirth.ToString();
                     child.dpWorkDate.Text = employee.Startingdate.ToString();
                     ImageBrush imageBrush = new ImageBrush();
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(employee.Image, UriKind.Relative);
-                    bitmap.EndInit();
-                    imageBrush.ImageSource = bitmap;
+                    byte[] blob = employee.Image;
+                    MemoryStream stream = new MemoryStream();
+                    stream.Write(blob, 0, blob.Length);
+                    stream.Position = 0;
+
+                    System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+
+                    MemoryStream ms = new MemoryStream();
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    bi.StreamSource = ms;
+                    bi.EndInit();
+                    imageBrush.ImageSource = bi;
                     child.grdSelectImage.Background = imageBrush;
                     if (child.grdSelectImage.Children.Count > 1)
                     {

@@ -42,7 +42,7 @@ namespace FootballFieldManagement.DAL
             {
                 Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
                     dt.Rows[i].ItemArray[2].ToString(), double.Parse(dt.Rows[i].ItemArray[3].ToString()),
-                    dt.Rows[i].ItemArray[4].ToString(), int.Parse(dt.Rows[i].ItemArray[5].ToString()));
+                    (byte[])dt.Rows[i].ItemArray[5], int.Parse(dt.Rows[i].ItemArray[4].ToString()));
                 goodsList.Add(acc);
             }
             return goodsList;
@@ -52,14 +52,14 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "insert into Goods(idGoods, name, unit, unitPrice, imageFilePath, quantity) " +
-                    "values(@idGoods, @name, @unit, @unitPrice, @imageFilePath, @quantity)";
+                string queryString = "insert into Goods(idGoods, name, unit, unitPrice, imageFile, quantity) " +
+                    "values(@idGoods, @name, @unit, @unitPrice, @imageFile, @quantity)";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", goods.IdGoods.ToString());
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
-                command.Parameters.AddWithValue("@imageFilePath", goods.ImageFilePath);
+                command.Parameters.AddWithValue("@imageFile", goods.ImageFile);
                 command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
 
                 int rs = command.ExecuteNonQuery();
@@ -86,15 +86,14 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "update Goods set idGoods=@idGoods, name=@name, unit=@unit, unitPrice=@unitPrice, imageFilePath=@imageFilePath " +
+                string queryString = "update Goods set idGoods=@idGoods, name=@name, unit=@unit, unitPrice=@unitPrice, imageFile=@imageFile " +
                     "where idGoods =" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", goods.IdGoods.ToString());
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
-                command.Parameters.AddWithValue("@imageFilePath", goods.ImageFilePath);
-
+                command.Parameters.AddWithValue("@imageFile", goods.ImageFile);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {

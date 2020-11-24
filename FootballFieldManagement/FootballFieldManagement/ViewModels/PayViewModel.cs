@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -83,13 +84,9 @@ namespace FootballFieldManagement.ViewModels
                     SellGoodsControl good = new SellGoodsControl();
                     good.txbName.Text = goods.Rows[i].ItemArray[1].ToString();
                     good.txbId.Text = goods.Rows[i].ItemArray[0].ToString();
-                    //ImageBrush imageBrush = new ImageBrush();
-                    //BitmapImage bitmap = new BitmapImage();
-                    //bitmap.BeginInit();
-                    //bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    //bitmap.UriSource = new Uri(goods.Rows[i].ItemArray[4].ToString(), UriKind.Relative);
-                    //bitmap.EndInit();
-                    //good.imgGood.Source = bitmap;
+                    byte[] blob = (byte[])goods.Rows[i].ItemArray[5];
+                    BitmapImage bi = Converter.Instance.ConvertByteToBitmapImage(blob);
+                    good.imgGood.Source = bi;
                     good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
                     good.txbIdBill.Text = parameter.txbIdBill.Text;
                     //try

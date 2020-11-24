@@ -80,7 +80,7 @@
                 Padding="5,1" 
                 Grid.Column="0" 
                 Grid.RowSpan="2" 
-                Text="1" />
+                Text="1" TextChanged="tb_main_TextChanged" />
             <Button 
                 x:Name="cmdUp" 
                 x:FieldModifier="private" 

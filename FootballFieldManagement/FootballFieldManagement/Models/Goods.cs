@@ -30,9 +30,9 @@ namespace FootballFieldManagement.Models
 
         public string Unit { get => unit; set => unit = value; }
 
-        private string imageFilePath;
+        private byte[] imageFile;
 
-        public string ImageFilePath { get => imageFilePath; set => imageFilePath = value; }
+        public byte[] ImageFile { get => imageFile; set => imageFile = value; }
         //Constructor
 
         public Goods()
@@ -40,14 +40,14 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Goods(int idGoods, string name, string unit, double price, string img, int quantity = 0)
+        public Goods(int idGoods, string name, string unit, double price, byte[] img, int quantity = 0)
         {
             this.idGoods = idGoods;
             this.name = name;
             this.unit = unit;
-            this.unitPrice = price;
-            this.imageFilePath = img;
+            this.unitPrice = price;          
             this.quantity = quantity;
+            this.imageFile = img;
         }
     }
 }

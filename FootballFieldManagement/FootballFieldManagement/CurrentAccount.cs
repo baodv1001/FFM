@@ -10,10 +10,10 @@ namespace FootballFieldManagement
     {
         private static bool type;
         private static string displayName;
-        private static string image;
+        private static byte[] image;
 
         public static bool Type { get => type; set => type = value; }
         public static string DisplayName { get => displayName; set => displayName = value; }
-        public static string Image { get => image; set => image = value; }
+        public static byte[] Image { get => image; set => image = value; }
     }
 }

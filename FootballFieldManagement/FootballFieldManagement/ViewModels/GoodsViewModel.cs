@@ -86,12 +86,21 @@ namespace FootballFieldManagement.ViewModels
                     updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
 
                     ImageBrush imageBrush = new ImageBrush();
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(goods.ImageFilePath, UriKind.Relative);
-                    bitmap.EndInit();
-                    imageBrush.ImageSource = bitmap;
+                    byte[] blob = goods.ImageFile;
+                    MemoryStream stream = new MemoryStream();
+                    stream.Write(blob, 0, blob.Length);
+                    stream.Position = 0;
+
+                    System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+
+                    MemoryStream ms = new MemoryStream();
+                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    bi.StreamSource = ms;
+                    bi.EndInit();
+                    imageBrush.ImageSource = bi;
                     updateWindow.grdSelectImg.Background = imageBrush;
                     if (updateWindow.grdSelectImg.Children.Count > 1)
                     {
@@ -136,12 +145,9 @@ namespace FootballFieldManagement.ViewModels
                     importWindow.txtImportPrice.Select(0, importWindow.txtImportPrice.Text.Length);
 
                     ImageBrush imageBrush = new ImageBrush();
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(goods.ImageFilePath, UriKind.Relative);
-                    bitmap.EndInit();
-                    imageBrush.ImageSource = bitmap;
+                    byte[] blob = goods.ImageFile;
+                    BitmapImage bi= Converter.Instance.ConvertByteToBitmapImage(blob);
+                    imageBrush.ImageSource = bi;
                     importWindow.grdSelectImg.Background = imageBrush;
                     if (importWindow.grdSelectImg.Children.Count > 1)
                     {
@@ -230,27 +236,15 @@ namespace FootballFieldManagement.ViewModels
             //        return;
             //    }
             //}
-            string filePath = @"..//..//Resources//Images//" + parameter.txtIdGoods.Text.ToString() + ".png";
             if (parameter.grdSelectImg.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
                 return;
             }
-            else
-            {
-                try
-                {
-                    File.Copy(imageFileName, filePath, true);
-                }
-                catch
-                {
-
-                }
-            }
+            byte[] imgByteArr=Converter.Instance.ConvertImageToBytes(imageFileName);
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), filePath);
-
+                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
@@ -292,7 +286,7 @@ namespace FootballFieldManagement.ViewModels
             }
 
             Goods goods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, 1, "", int.Parse(parameter.txtQuantity.Text));
+                parameter.cboUnit.Text, 1, new byte[0], int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), 1,

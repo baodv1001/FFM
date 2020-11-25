@@ -278,7 +278,7 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbQuantity.Text = goods.Quantity.ToString();
                 temp.txbUnit.Text = goods.Unit.ToString();
                 temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
-                if(!CurrentAccount.Type)
+                if(CurrentAccount.Type)
                 {
                     temp.btnDeleteGoods.IsEnabled = false;
                     temp.btnEditGoods.IsEnabled = false;

@@ -42,7 +42,7 @@ namespace FootballFieldManagement.DAL
             {
                 Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
                     dt.Rows[i].ItemArray[2].ToString(), double.Parse(dt.Rows[i].ItemArray[3].ToString()),
-                    (byte[])dt.Rows[i].ItemArray[5], int.Parse(dt.Rows[i].ItemArray[4].ToString()));
+                    (byte[])dt.Rows[i].ItemArray[4], int.Parse(dt.Rows[i].ItemArray[5].ToString()));
                 goodsList.Add(acc);
             }
             return goodsList;

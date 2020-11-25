@@ -106,7 +106,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void SetJurisdiction(HomeWindow home)
         {
-            if (!CurrentAccount.Type)
+            if (CurrentAccount.Type)
             {
                 //Không cấp quyền cho nhân viên
                 home.btnEmployee.IsEnabled = false;
@@ -119,11 +119,14 @@ namespace FootballFieldManagement.ViewModels
             }
         }
         public void DisplayAccount(HomeWindow home)
-        {
-            home.lbAccount.Content = CurrentAccount.DisplayName; // Hiển thị tên nhân viên
-            ImageBrush imageBrush = new ImageBrush();
-            imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
-            home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
+        {      
+            if (CurrentAccount.Type==true)
+            {
+                home.lbAccount.Content = CurrentAccount.DisplayName;// Hiển thị tên nhân viên
+                ImageBrush imageBrush = new ImageBrush();
+                imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
+                home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
+            }
         }
         public void OpenSignUpWindow(Window parameter)
         {

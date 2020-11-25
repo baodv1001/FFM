@@ -89,7 +89,7 @@ namespace FootballFieldManagement.ViewModels
                     SellGoodsControl good = new SellGoodsControl();
                     good.txbName.Text = goods.Rows[i].ItemArray[1].ToString();
                     good.txbId.Text = goods.Rows[i].ItemArray[0].ToString();
-                    good.imgGood.Source = Converter.Instance.ConvertByteToBitmapImage((byte[])goods.Rows[i].ItemArray[5]);
+                    good.imgGood.Source = Converter.Instance.ConvertByteToBitmapImage((byte[])goods.Rows[i].ItemArray[4]);
                     good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
                     good.txbIdBill.Text = parameter.txbIdBill.Text;
                     //try

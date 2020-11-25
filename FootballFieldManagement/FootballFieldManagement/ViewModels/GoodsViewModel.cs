@@ -84,23 +84,8 @@ namespace FootballFieldManagement.ViewModels
                     updateWindow.txtUnitPrice.Text = goods.UnitPrice.ToString();
                     updateWindow.txtUnitPrice.SelectionStart = updateWindow.txtUnitPrice.Text.Length;
                     updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
-
                     ImageBrush imageBrush = new ImageBrush();
-                    byte[] blob = goods.ImageFile;
-                    MemoryStream stream = new MemoryStream();
-                    stream.Write(blob, 0, blob.Length);
-                    stream.Position = 0;
-
-                    System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
-                    BitmapImage bi = new BitmapImage();
-                    bi.BeginInit();
-
-                    MemoryStream ms = new MemoryStream();
-                    img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                    ms.Seek(0, SeekOrigin.Begin);
-                    bi.StreamSource = ms;
-                    bi.EndInit();
-                    imageBrush.ImageSource = bi;
+                    imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(goods.ImageFile);
                     updateWindow.grdSelectImg.Background = imageBrush;
                     if (updateWindow.grdSelectImg.Children.Count > 1)
                     {
@@ -146,7 +131,7 @@ namespace FootballFieldManagement.ViewModels
 
                     ImageBrush imageBrush = new ImageBrush();
                     byte[] blob = goods.ImageFile;
-                    BitmapImage bi= Converter.Instance.ConvertByteToBitmapImage(blob);
+                    BitmapImage bi = Converter.Instance.ConvertByteToBitmapImage(blob);
                     imageBrush.ImageSource = bi;
                     importWindow.grdSelectImg.Background = imageBrush;
                     if (importWindow.grdSelectImg.Children.Count > 1)
@@ -241,7 +226,15 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
                 return;
             }
-            byte[] imgByteArr=Converter.Instance.ConvertImageToBytes(imageFileName);
+            byte[] imgByteArr;
+            try
+            {
+                imgByteArr = Converter.Instance.ConvertImageToBytes(imageFileName);
+            }
+            catch
+            {
+                imgByteArr = GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile;
+            }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
                 parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
@@ -294,7 +287,8 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(parameter.txtIdStockReceipt.Text),
-                int.Parse(parameter.txtIdGoods.Text), int.Parse(parameter.txtQuantity.Text), int.Parse(parameter.txtImportPrice.Text));
+                int.Parse(parameter.txtIdGoods.Text), int.Parse(parameter.txtQuantity.Text),
+                int.Parse(parameter.txtImportPrice.Text));
             bool isSuccessed3 = StockReceiptInfoDAL.Instance.AddIntoDB(stockReceiptInfo);
 
             if (isSuccessed1 && isSuccessed2 && isSuccessed3)

@@ -356,7 +356,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select (BillInfo.quantity * Goods.unitPrice) as revenue from BillInfo " +
+                string queryString = "select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
                     "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill where year(invoiceDate) = "
                     + year + " and month(invoiceDate) = " + month + " and day(invoiceDate) = " + day;
                 SqlCommand command = new SqlCommand(queryString, conn);

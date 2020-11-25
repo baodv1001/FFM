@@ -83,6 +83,47 @@ namespace FootballFieldManagement.ViewModels
             NumOfHiredField = ReportDAL.Instance.QueryRevenueNumOfHiredFieldInMonth(currentMonth, currentYear);
             TodayRevenue = ReportDAL.Instance.QueryRevenueInDay(currentDay, currentMonth, currentYear);
             ThisMonthRevenue = ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear);
+            
+            labelPoint = chartPoint => string.Format("{0}", chartPoint.Y);
+            PieSeriesCollection = new SeriesCollection
+            {
+                new PieSeries
+                {
+                    Title = "Bán hàng",
+                    Values = ReportDAL.Instance.QueryRevenueFromSellingInDay(currentDay, currentMonth, currentYear),
+                    Fill = (Brush)new BrushConverter().ConvertFrom("#FF1976D2"),
+                    DataLabels = true,
+                    FontSize = 16,
+                    LabelPoint = labelPoint,
+                },
+                new PieSeries
+                {
+                    Title="Sân bóng",
+                    Values = ReportDAL.Instance.QueryRevenueFromFieldInDay(currentDay, currentMonth, currentYear),
+                    Fill = (Brush)new BrushConverter().ConvertFrom("#FF27AE60"),
+                    DataLabels = true,
+                    FontSize = 16,
+                    LabelPoint = labelPoint,
+                },
+            };
+            AxisXTitle = "Ngày";
+            SeriesCollection = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Doanh thu",
+                    Fill = (Brush)new BrushConverter().ConvertFrom("#FF1976D2"),
+                    Values = ReportDAL.Instance.QueryRevenueByMonth(currentMonth, currentYear),
+                },
+                new ColumnSeries
+                {
+                    Title = "Chi phí",
+                    Fill = (Brush)new BrushConverter().ConvertFrom("#FFF44336"),
+                    Values = ReportDAL.Instance.QueryOutcomeByMonth(currentMonth, currentYear),
+                }
+            };
+            Labels = ReportDAL.Instance.QueryDayInMonth(currentMonth, currentYear);
+            Formatter = value => value.ToString("N");
         }
         public void DataClick(ChartPoint p)
         {
@@ -90,6 +131,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void InitPieChart(HomeWindow parameter)
         {
+            PieSeriesCollection.Clear();
             labelPoint = chartPoint => string.Format("{0}", chartPoint.Y);
             if (parameter.cboSelectTimePie.SelectedIndex == 0)
             {
@@ -147,6 +189,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void InitColumnChart(HomeWindow parameter)
         {
+            SeriesCollection.Clear();
             if (parameter.cboSelectPeriod.SelectedIndex == 0) //Theo tháng => 31 ngày
             {
                 if (parameter.cboSelectTime.SelectedIndex != -1)

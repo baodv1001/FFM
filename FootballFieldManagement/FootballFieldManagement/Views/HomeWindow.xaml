@@ -505,9 +505,14 @@
                                 FontSize="16" 
                                 FontWeight="Medium" 
                                 Foreground="{DynamicResource White}" />
-                            <Grid Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
+                            <Grid 
+                                Width="50" 
+                                Height="50"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,20,20,0">
                                 <Grid.Background>
-                                    <ImageBrush ImageSource="avatar.png" Stretch="UniformToFill"/>
+                                    <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
                                 </Grid.Background>
                             </Grid>
                         </Grid>
@@ -553,9 +558,14 @@
                                 FontSize="16" 
                                 FontWeight="Medium" 
                                 Foreground="{DynamicResource White}" />
-                            <Grid Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
+                            <Grid 
+                                Width="50"
+                                Height="50" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top"
+                                Margin="0,20,20,0">
                                 <Grid.Background>
-                                    <ImageBrush ImageSource="avatar.png" Stretch="UniformToFill"/>
+                                    <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
                                 </Grid.Background>
                             </Grid>
                         </Grid>
@@ -600,9 +610,14 @@
                                 FontSize="16" 
                                 FontWeight="Medium" 
                                 Foreground="{DynamicResource White}" />
-                            <Grid Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,20,20,0">
+                            <Grid 
+                                Width="50"
+                                Height="50" 
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Top" 
+                                Margin="0,20,20,0">
                                 <Grid.Background>
-                                    <ImageBrush ImageSource="avatar.png" Stretch="UniformToFill"/>
+                                    <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
                                 </Grid.Background>
                             </Grid>
                         </Grid>

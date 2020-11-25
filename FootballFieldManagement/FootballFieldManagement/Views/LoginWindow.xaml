@@ -140,7 +140,8 @@
                     Padding="2,0,0,0" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
-                            <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" CommandParameter="{Binding ElementName=txtPassword}"/>
+                            <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" 
+                                                   CommandParameter="{Binding ElementName=txtPassword}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </PasswordBox>
@@ -237,6 +238,12 @@
             FontSize="20" 
             FontWeight="Bold"
             Padding="0" />
-        <Image Margin="140,260,0,0" Source="/FootballFieldManagement;component/Resources/Images/Goalkeeper.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="360" Width="581"/>
+        <Image 
+            Margin="140,260,0,0" 
+            Source="/FootballFieldManagement;component/Resources/Images/Goalkeeper.png" 
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top" 
+            Height="360" 
+            Width="581"/>
     </Grid>
 </Window>

@@ -12,6 +12,7 @@ namespace FootballFieldManagement.Models
     {
         public DataTable LoadData(string tableName)
         {
+            conn.Close();
             conn.Open();
             string sql = "SELECT * FROM " + tableName;
             SqlCommand cmd = new SqlCommand(sql, conn);
@@ -24,7 +25,7 @@ namespace FootballFieldManagement.Models
         public void ResetData(string tableName)
         {
             conn.Open();
-            String sqlQuery = "DBCC CHECKIDENT ('"+tableName+"', RESEED, 0) " ;
+            String sqlQuery = "DBCC CHECKIDENT ('" + tableName + "', RESEED, 0) ";
 
             SqlCommand command = new SqlCommand(sqlQuery, conn);
 

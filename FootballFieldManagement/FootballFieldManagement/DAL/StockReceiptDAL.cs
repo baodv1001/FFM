@@ -54,7 +54,7 @@ namespace FootballFieldManagement.DAL
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idStockReceipt", stockReceipt.IdStockReceipt.ToString());
                 command.Parameters.AddWithValue("@idEmployee", stockReceipt.IdEmployee.ToString());
-                command.Parameters.AddWithValue("@dateTimeStockReceipt", stockReceipt.DateTimeStockReceipt.ToString());
+                command.Parameters.AddWithValue("@dateTimeStockReceipt", stockReceipt.DateTimeStockReceipt);
                 command.Parameters.AddWithValue("@total", stockReceipt.Total.ToString());
 
                 int rs = command.ExecuteNonQuery();

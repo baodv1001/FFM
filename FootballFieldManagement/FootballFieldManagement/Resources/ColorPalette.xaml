@@ -26,7 +26,8 @@
     <SolidColorBrush x:Key="Gray3" Color="#FF828282" />
     <SolidColorBrush x:Key="Gray4" Color="#FFBDBDBD" />
     <SolidColorBrush x:Key="Gray5" Color="#FFE0E0E0" />
-    <!-- THEME BASIC -->
+    <SolidColorBrush x:Key="Theme_Brush_Bg" Color="White" />
+    <SolidColorBrush x:Key="Theme_Brush_SilverBorder" Color="Silver" />
     <Color x:Key="ThemeColor">#40a6d1</Color>
     <Color x:Key="ThemeRedColor">#d14040</Color>
     <Color x:Key="ThemeColorDark">#3992b8</Color>
@@ -39,7 +40,4 @@
     <SolidColorBrush x:Key="ThemeBrushInactive" Color="{DynamicResource ThemeColorInactive}" />
     <SolidColorBrush x:Key="ThemeBrushActive" Color="{DynamicResource ThemeColorActive}" />
     <SolidColorBrush x:Key="ThemeRedBrush" Color="{DynamicResource ThemeRedColor}" />
-
-    <SolidColorBrush x:Key="Theme_Brush_Bg" Color="White" />
-    <SolidColorBrush x:Key="Theme_Brush_SilverBorder" Color="Silver" />
 </ResourceDictionary>

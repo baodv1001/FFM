@@ -7,5 +7,6 @@
     <viewmodels:EmployeeViewModel x:Key="EmployeeVM"></viewmodels:EmployeeViewModel>
     <viewmodels:GoodsViewModel x:Key="GoodsVM"></viewmodels:GoodsViewModel>
     <viewmodels:SignUpViewModel x:Key="SignUpVM"></viewmodels:SignUpViewModel>
+    <viewmodels:PayViewModel x:Key="PayVM"></viewmodels:PayViewModel>
     <viewmodels:CheckAttendanceViewModel x:Key="CheckAttendanceVM"></viewmodels:CheckAttendanceViewModel>
 </ResourceDictionary>

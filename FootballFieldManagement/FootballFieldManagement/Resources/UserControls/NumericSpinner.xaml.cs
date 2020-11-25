@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,9 +56,23 @@ namespace FootballFieldManagement.Resources.UserControls
             set
             {
                 if (value < MinValue)
+                {
                     value = MinValue;
+                    this.brdBrush.BorderBrush = Brushes.Red;
+                }
+                else
+                {
+                    this.brdBrush.BorderBrush = Brushes.Gray;
+                }
                 if (value > MaxValue)
+                {
                     value = MaxValue;
+                    this.brdBrush.BorderBrush = Brushes.Red;
+                }
+                else
+                {
+                    this.brdBrush.BorderBrush = Brushes.Gray;
+                }    
                 SetValue(ValueProperty, value);
                 ValueChanged(this, new EventArgs());
             }
@@ -191,6 +206,12 @@ namespace FootballFieldManagement.Resources.UserControls
             {
 
             }
+        }
+
+        private void tb_main_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

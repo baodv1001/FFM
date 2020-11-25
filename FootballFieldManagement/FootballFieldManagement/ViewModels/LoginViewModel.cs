@@ -2,6 +2,7 @@
 using FootballFieldManagement.Models;
 using FootballFieldManagement.ViewModels;
 using FootballFieldManagement.Views;
+using FootballFieldManegement.DAL;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -70,12 +73,27 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password)
                 {
+                    CurrentAccount.Type = account.Type == 1 ? true : false; // Kiểm tra quyền
+                    List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+                    foreach (var employee in employees)
+                    {
+                        if (employee.IdAccount == account.IdAccount)
+                        {
+                            //Lấy thông tin người đăng nhập
+                            CurrentAccount.DisplayName = employee.Name;
+                            CurrentAccount.Image = employee.ImageFile;
+                            CurrentAccount.IdAccount = employee.IdAccount;
+                            break;
+                        }
+                    }
                     isLogin = true;
                 }
             }
             if (isLogin)
             {
                 HomeWindow home = new HomeWindow();
+                SetJurisdiction(home);
+                DisplayAccount(home);
                 parameter.Hide();
                 home.ShowDialog();
                 parameter.txtPassword.Password = null;
@@ -84,6 +102,30 @@ namespace FootballFieldManagement.ViewModels
             else
             {
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
+            }
+        }
+        public void SetJurisdiction(HomeWindow home)
+        {
+            if (CurrentAccount.Type)
+            {
+                //Không cấp quyền cho nhân viên
+                home.btnEmployee.IsEnabled = false;
+                home.btnReport.IsEnabled = false;
+                home.btnAddGoods.IsEnabled = false;
+                home.btnAddEmployee.IsEnabled = false;
+                home.btnSetSalary.IsEnabled = false;
+                home.icnEmployee.Foreground = Brushes.LightGray;
+                home.icnReport.Foreground = Brushes.LightGray;
+            }
+        }
+        public void DisplayAccount(HomeWindow home)
+        {      
+            if (CurrentAccount.Type==true)
+            {
+                home.lbAccount.Content = CurrentAccount.DisplayName;// Hiển thị tên nhân viên
+                ImageBrush imageBrush = new ImageBrush();
+                imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
+                home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
             }
         }
         public void OpenSignUpWindow(Window parameter)

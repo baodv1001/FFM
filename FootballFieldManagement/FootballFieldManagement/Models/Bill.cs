@@ -14,7 +14,7 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Bill(int idBill, int idAccount, DateTime invoiceDate, DateTime checkInTime, DateTime checkOutTime, int status, double discount, double totalMoney )
+        public Bill(int idBill, int idAccount, DateTime invoiceDate, DateTime checkInTime, DateTime checkOutTime, int status, long discount, long totalMoney, int idFieldInfo, string note)
         {
             this.idBill = idBill;
             this.idAccount = idAccount;
@@ -24,6 +24,8 @@ namespace FootballFieldManagement.Models
             this.status = status;
             this.discount = discount;
             this.totalMoney = totalMoney;
+            this.IdFieldInfo = idFieldInfo;
+            this.note = note;
         }
 
         //Attribute
@@ -45,11 +47,16 @@ namespace FootballFieldManagement.Models
         private int status;
         public int Status { get => status; set => status = value; }
 
-        private double discount;
-        public double Discount { get => discount; set => discount = value; }
+        private long discount;
+        public long Discount { get => discount; set => discount = value; }
 
-        private double totalMoney;
-        public double TotalMoney { get => totalMoney; set => totalMoney = value; }
-       
+        private long totalMoney;
+        public long TotalMoney { get => totalMoney; set => totalMoney = value; }
+
+        private int idFieldInfo;
+        public int IdFieldInfo { get => idFieldInfo; set => idFieldInfo = value; }
+
+        private string note;
+        public string Note { get => note; set => note = value; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FootballFieldManagement.DAL;
 using FootballFieldManagement.Models;
 using FootballFieldManagement.Views;
+using FootballFieldManagement.Resources.UserControls;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -40,6 +41,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ExitImportCommand { get; set; } //thoát khỏi ImportGoodsWindow
         public ICommand CalculateTotalCommand { get; set; } //tính tổng tiền
 
+        //PayWindow
+        public ICommand PickGoodsCommand { get; set; } // Chọn 1 hàng 
         public GoodsViewModel()
         {
             //GoodsControl
@@ -57,6 +60,8 @@ namespace FootballFieldManagement.ViewModels
             ExitImportCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => parameter.Close());
             CalculateTotalCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => CalculateTotal(parameter));
 
+            //PayWindow
+            PickGoodsCommand = new RelayCommand<SellGoodsControl>((parameter) => true, (parameter) => BuyGoods(parameter));
         }
 
         //GoodsControl
@@ -79,14 +84,8 @@ namespace FootballFieldManagement.ViewModels
                     updateWindow.txtUnitPrice.Text = goods.UnitPrice.ToString();
                     updateWindow.txtUnitPrice.SelectionStart = updateWindow.txtUnitPrice.Text.Length;
                     updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
-
                     ImageBrush imageBrush = new ImageBrush();
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(goods.ImageFilePath, UriKind.Relative);
-                    bitmap.EndInit();
-                    imageBrush.ImageSource = bitmap;
+                    imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(goods.ImageFile);
                     updateWindow.grdSelectImg.Background = imageBrush;
                     if (updateWindow.grdSelectImg.Children.Count > 1)
                     {
@@ -131,12 +130,9 @@ namespace FootballFieldManagement.ViewModels
                     importWindow.txtImportPrice.Select(0, importWindow.txtImportPrice.Text.Length);
 
                     ImageBrush imageBrush = new ImageBrush();
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.UriSource = new Uri(goods.ImageFilePath, UriKind.Relative);
-                    bitmap.EndInit();
-                    imageBrush.ImageSource = bitmap;
+                    byte[] blob = goods.ImageFile;
+                    BitmapImage bi = Converter.Instance.ConvertByteToBitmapImage(blob);
+                    imageBrush.ImageSource = bi;
                     importWindow.grdSelectImg.Background = imageBrush;
                     if (importWindow.grdSelectImg.Children.Count > 1)
                     {
@@ -225,27 +221,23 @@ namespace FootballFieldManagement.ViewModels
             //        return;
             //    }
             //}
-            string filePath = @"..//..//Resources//Images//" + parameter.txtIdGoods.Text.ToString() + ".png";
             if (parameter.grdSelectImg.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
                 return;
             }
-            else
+            byte[] imgByteArr;
+            try
             {
-                try
-                {
-                    File.Copy(imageFileName, filePath, true);
-                }
-                catch
-                {
-
-                }
+                imgByteArr = Converter.Instance.ConvertImageToBytes(imageFileName);
+            }
+            catch
+            {
+                imgByteArr = GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile;
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), filePath);
-
+                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
@@ -287,7 +279,7 @@ namespace FootballFieldManagement.ViewModels
             }
 
             Goods goods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, 1, "", int.Parse(parameter.txtQuantity.Text));
+                parameter.cboUnit.Text, 1, GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile, int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), 1,
@@ -295,7 +287,8 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(parameter.txtIdStockReceipt.Text),
-                int.Parse(parameter.txtIdGoods.Text), int.Parse(parameter.txtQuantity.Text), int.Parse(parameter.txtImportPrice.Text));
+                int.Parse(parameter.txtIdGoods.Text), int.Parse(parameter.txtQuantity.Text),
+                int.Parse(parameter.txtImportPrice.Text));
             bool isSuccessed3 = StockReceiptInfoDAL.Instance.AddIntoDB(stockReceiptInfo);
 
             if (isSuccessed1 && isSuccessed2 && isSuccessed3)
@@ -314,6 +307,42 @@ namespace FootballFieldManagement.ViewModels
             int.TryParse(parameter.txtImportPrice.Text, out importPriceTmp);
             int.TryParse(parameter.txtQuantity.Text, out quantityTmp);
             parameter.txtTotal.Text = (importPriceTmp * quantityTmp).ToString();
+        }
+
+        //PayWindow
+        public void BuyGoods(SellGoodsControl parameter)
+        {
+            bool isExist = false;
+            if (GoodsDAL.Instance.GetGood(parameter.txbId.Text).Quantity == 0)
+            {
+                MessageBox.Show("Đã hết hàng!");
+                return;
+            }
+            List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
+            foreach(var billInfo in billInfos)
+            {
+                if(billInfo.IdBill==int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods==int.Parse(parameter.txbId.Text))
+                {
+                    isExist = true;
+                    billInfo.Quantity += 1;
+                    if(billInfo.Quantity>GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
+                    {
+                        billInfo.Quantity -= 1;
+                        MessageBox.Show("Đạt số lượng hàng tối đa!");
+                        return;
+                    }    
+                    if(BillInfoDAL.Instance.UpdateOnDB(billInfo))
+                    {
+                        MessageBox.Show("Đã thêm!");
+                    }   
+                    return;
+                }    
+            }
+            if (!isExist)
+            {
+                BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbId.Text), 1);
+                BillInfoDAL.Instance.AddIntoDB(billInfo);
+            }
         }
     }
 }

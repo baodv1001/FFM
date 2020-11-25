@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using System.Windows;
 using System.Collections.ObjectModel;
 using FootballFieldManagement.DAL;
+using System.IO;
 
 namespace FootballFieldManegement.DAL
 {
@@ -43,7 +44,12 @@ namespace FootballFieldManegement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(), dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()), int.Parse(dt.Rows[i].ItemArray[9].ToString()), dt.Rows[i].ItemArray[10].ToString());
+                Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
+                    dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(),
+                    dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(),
+                    DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()),
+                    dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()),
+                    int.Parse(dt.Rows[i].ItemArray[9].ToString()), (byte[])dt.Rows[i].ItemArray[10]);
                 employees.Add(employee);
             }
             //conn.Close();
@@ -54,7 +60,7 @@ namespace FootballFieldManegement.DAL
             try
             {
                 conn.Open();
-                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount,imageFilePath) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount,@imageFilePath)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount,imageFile) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount,@imageFile)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
@@ -66,7 +72,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@imageFilePath", employee.Image.ToString());
+                command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -91,7 +97,7 @@ namespace FootballFieldManegement.DAL
             try
             {
                 conn.Open();
-                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount,imageFilePath=@imageFilePath where idEmployee=" + employee.IdEmployee;
+                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount,imageFile=@imageFile where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
@@ -102,7 +108,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@imageFilePath", employee.Image);
+                command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -158,6 +164,17 @@ namespace FootballFieldManegement.DAL
                     MessageBox.Show("Cập nhật thất bại!");
             }
             //conn.Close();
+        }
+        public Employee GetEmployee(string idEmployee) // Lấy thông tin khi biết id nhân viên
+        {
+            foreach (var employee in ConvertDBToList())
+            {
+                if (employee.IdEmployee.ToString() == idEmployee)
+                {
+                    return employee;
+                }
+            }
+            return null;
         }
     }
 }

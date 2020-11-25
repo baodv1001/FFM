@@ -13,26 +13,21 @@ namespace FootballFieldManagement.Models
         {
 
         }
-        public BillInfo(int idBill, int idFoodballField, int idGoods, int amount)
+        public BillInfo(int idBill, int idGoods, int quantity)
         {
             this.idBill = idBill;
-            this.idFoodballField = idFoodballField;
             this.idGoods = idGoods;
-            this.amount = amount;
+            this.quantity = quantity;
         }
 
         //Attribute
         private int idBill;
         public int IdBill { get => idBill; set => idBill = value; }
 
-        private int idFoodballField;
-        public int IdFoodballField { get => idFoodballField; set => idFoodballField = value; }
-
         private int idGoods;
         public int IdGoods { get => idGoods; set => idGoods = value; }
 
-        private int amount;
-        public int Amount { get => amount; set => amount = value; }
-
+        private int quantity;
+        public int Quantity { get => quantity; set => quantity = value; }
     }
 }

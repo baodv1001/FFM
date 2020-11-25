@@ -100,7 +100,7 @@
             Width="24" 
             Command="{Binding DeleteBillInfoCommand}"
             CommandParameter="{Binding ElementName=ucDetail}"
-            Background="{x:Null}">
+            Background="{x:Null}" BorderBrush="{x:Null}">
             <materialDesign:PackIcon 
                 Kind="DeleteOutline" 
                 Height="24"

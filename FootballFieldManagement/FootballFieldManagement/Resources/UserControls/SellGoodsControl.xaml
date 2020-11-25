@@ -59,7 +59,7 @@
                 Margin="0,1,0,0"/>
             <TextBlock x:Name="txbName" 
                 ToolTip="Nhấn để mua hàng"
-                Text="Lỡ tên của sản phẩm nó dài quá thì sao đây Bảo? trả" 
+                Text="trả" 
                 TextTrimming="WordEllipsis" 
                 HorizontalAlignment="Center" 
                 Margin="10,0" 
@@ -67,7 +67,7 @@
                 Grid.Row="1" 
                 Foreground="{DynamicResource Gray1}" 
                 FontSize="14"
-                VerticalAlignment="Top" 
+                VerticalAlignment="Center" 
                 TextAlignment="Center"/>
             <TextBlock 
                 Name="txbPrice"

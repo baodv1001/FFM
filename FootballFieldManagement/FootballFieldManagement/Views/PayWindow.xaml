@@ -60,14 +60,15 @@
                 x:Name="btnBack"
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                 ToolTip="Tìm kiếm tên khách hàng" 
-                Margin="50,40,0,0" 
-                Background="{x:Null}" 
-                RenderTransformOrigin="0.48,0.84" 
+                Margin="20,50,0,0" 
+                Background="{x:Null}"  
                 BorderBrush="{x:Null}" 
                 Width="40" 
                 Height="40" 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left" 
+                Command="{Binding BackCommand}"
+                CommandParameter="{Binding ElementName=wdPay}"
                 IsTabStop="False" >
                 <materialDesign:PackIcon 
                     x:Name="icnBack" 
@@ -80,7 +81,7 @@
             </Button>
             <Grid 
                 x:Name="grdFindGoods" 
-                Margin="0,467,44,0" 
+                Margin="0,420,22,0" 
                 Height="46" 
                 Width="400"
                 HorizontalAlignment="Right" 
@@ -96,12 +97,11 @@
                 <TextBox 
                     x:Name="txtSearch"
                     materialDesign:HintAssist.Hint="Tìm sản phẩm"
-                    HorizontalAlignment="Center" 
-                    Width="330" 
+                    HorizontalAlignment="Left" 
                     FontSize="16" 
                     BorderThickness="0" 
                     MaxLines="1"
-                    Margin="12,0,12,4" 
+                    Margin="12,0,0,4" 
                     FontWeight="Medium" 
                     Height="40" 
                     VerticalAlignment="Center" 
@@ -109,7 +109,7 @@
                     VerticalContentAlignment="Center"
                     Foreground="{DynamicResource Gray1}" 
                     SelectionBrush="{DynamicResource Primary}"
-                    Padding="2,0,0,0" >
+                    Padding="2,0,0,0" Width="380" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
                             <i:InvokeCommandAction 
@@ -144,7 +144,7 @@
                 CornerRadius="6"
                 Width="938"
                 Height="50" 
-                Margin="50,100,0,0"
+                Margin="70,50,0,0"
                 Background="{DynamicResource Primary}" >
                 <Grid 
                     Width="938"
@@ -252,7 +252,7 @@
                 HorizontalAlignment="Left"
                 Height="316" 
                 Width="938"
-                Margin="50,140,0,0" 
+                Margin="70,90,0,0" 
                 VerticalAlignment="Top" 
                 Background="#FFF3F3F3">
                 <ScrollViewer 
@@ -272,7 +272,7 @@
                 BorderThickness="1"
                 HorizontalAlignment="Left"
                 Height="356" 
-                Margin="50,100,0,0" 
+                Margin="70,50,0,0" 
                 VerticalAlignment="Top"
                 Width="938" 
                 CornerRadius="6"/>
@@ -281,16 +281,16 @@
                 Content="Sản phẩm" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Margin="50,480,0,0" 
-                FontSize="18" 
+                Margin="70,420,0,0" 
+                FontSize="26" 
                 FontWeight="Bold" 
                 Foreground="#FF007AFF"/>
             <Grid 
                 x:Name="grdGoods" 
                 HorizontalAlignment="Left"
-                Height="250" 
+                Height="280" 
                 Width="938"
-                Margin="50,515,10,0" 
+                Margin="70,480,10,0" 
                 Background="#FFF3F3F3"
                 VerticalAlignment="Top" >
                 <ScrollViewer 
@@ -312,9 +312,9 @@
             <Border 
                 CornerRadius="6"
                 HorizontalAlignment="Left"
-                Height="250" 
+                Height="280" 
                 Width="940"
-                Margin="50,515,10,0" 
+                Margin="70,480,10,0" 
                 VerticalAlignment="Top" 
                 BorderBrush="{DynamicResource Primary}"
                 BorderThickness="1">

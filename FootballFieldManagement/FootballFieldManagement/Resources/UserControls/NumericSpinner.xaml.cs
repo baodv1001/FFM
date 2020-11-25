@@ -55,9 +55,23 @@ namespace FootballFieldManagement.Resources.UserControls
             set
             {
                 if (value < MinValue)
+                {
                     value = MinValue;
+                    this.brdBrush.BorderBrush = Brushes.Red;
+                }
+                else
+                {
+                    this.brdBrush.BorderBrush = Brushes.Gray;
+                }
                 if (value > MaxValue)
+                {
                     value = MaxValue;
+                    this.brdBrush.BorderBrush = Brushes.Red;
+                }
+                else
+                {
+                    this.brdBrush.BorderBrush = Brushes.Gray;
+                }    
                 SetValue(ValueProperty, value);
                 ValueChanged(this, new EventArgs());
             }

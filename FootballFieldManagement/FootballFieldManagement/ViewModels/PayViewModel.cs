@@ -50,6 +50,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand LoadTotalCommand { get; set; }
         public ICommand ClosingWdCommnad { get; set; }
         public ICommand PayBillCommand { get; set; }
+        public ICommand BackCommand { get; set; }
         //UC Product Detail
         public ICommand DeleteBillInfoCommand { get; set; }
         public ICommand ChangeQuantityCommand { get; set; }
@@ -63,6 +64,7 @@ namespace FootballFieldManagement.ViewModels
             LoadTotalCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadTotalMoney(parameter)); 
             ClosingWdCommnad = new RelayCommand<PayWindow>((parameter) => true, (parameter) => DeleteBillInfos(parameter));
             PayBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => PayBill(parameter));
+            BackCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => CloseWindow(parameter));
             //UC Product Detail
             DeleteBillInfoCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => DeleteBillInfo(parameter));
             ChangeQuantityCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
@@ -158,6 +160,11 @@ namespace FootballFieldManagement.ViewModels
                 parameter.Close();
             }
 
+        }
+        public void CloseWindow(PayWindow parameter)
+        {
+            BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
+            parameter.Close();
         }
         //UC Product Detail
         public void UpdateQuantity(ProductDetailsControl parameter)

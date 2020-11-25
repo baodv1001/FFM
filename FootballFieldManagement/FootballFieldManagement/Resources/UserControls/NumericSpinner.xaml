@@ -116,6 +116,7 @@
                 </Button.Content>
             </Button>
             <Border 
+                x:Name="brdBrush" 
                 BorderBrush="Gray" 
                 IsHitTestVisible="False"
                 BorderThickness="1"

@@ -91,7 +91,7 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public void UpdateOnDB(BillInfo billInfo)
+        public bool UpdateOnDB(BillInfo billInfo)
         {
             try
             {
@@ -104,13 +104,19 @@ namespace FootballFieldManagement.DAL
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
+                    return false;
                     throw new Exception();
+                }
+                else
+                {
+                    return true;
                 }
 
             }
             catch
             {
                 MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {
@@ -151,6 +157,28 @@ namespace FootballFieldManagement.DAL
                     billInfos.Add(billInfo);
                 }
             }
+            return billInfos;
+        }
+        public List<BillInfo> ConvertDBToList()
+        {
+            DataTable dt;
+            List<BillInfo> billInfos = new List<BillInfo>();
+            try
+            {
+
+                dt = LoadData("BillInfo");
+            }
+            catch
+            {
+                conn.Close();
+                dt = LoadData("BillInfo");
+            }
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                BillInfo billInfo = new BillInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), int.Parse(dt.Rows[i].ItemArray[2].ToString()));
+                billInfos.Add(billInfo);
+            }
+            conn.Close();
             return billInfos;
         }
     }

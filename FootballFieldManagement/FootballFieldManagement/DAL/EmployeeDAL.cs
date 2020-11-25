@@ -72,7 +72,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@imageFile", employee.Image);
+                command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -108,7 +108,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@imageFile", employee.Image);
+                command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {

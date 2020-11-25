@@ -49,9 +49,9 @@ namespace FootballFieldManagement.Models
 
         public DateTime Startingdate { get => startingdate; set { startingdate = value;  } }
 
-        private byte[] image;
+        private byte[] imageFile;
 
-        public byte[] Image { get => image; set => image = value; }
+        public byte[] ImageFile { get => imageFile; set => imageFile = value; }
         // Constructor
 
         public Employee()
@@ -71,7 +71,7 @@ namespace FootballFieldManagement.Models
             this.salary = salary;
             this.position = position;
             this.startingdate = startingdate;
-            this.image = image;
+            this.imageFile = image;
         }
 
     }

@@ -81,7 +81,7 @@ namespace FootballFieldManagement.ViewModels
                         {
                             //Lấy thông tin người đăng nhập
                             CurrentAccount.DisplayName = employee.Name;
-                            CurrentAccount.Image = employee.Image;
+                            CurrentAccount.Image = employee.ImageFile;
                             CurrentAccount.IdAccount = employee.IdAccount;
                             break;
                         }

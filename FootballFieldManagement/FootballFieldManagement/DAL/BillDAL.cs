@@ -86,7 +86,7 @@ namespace FootballFieldManagement.DAL
                 string queryString = "update Bill set checkOutTime=@checkOutTime,status=@status,discount=@discount,totalMoney=@totalMoney,note=@note where idBill=@idBill";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idBill", bill.IdBill.ToString());
-                command.Parameters.AddWithValue("@checkOutTime", bill.CheckOutTime.ToString());
+                command.Parameters.AddWithValue("@checkOutTime", bill.CheckOutTime);
                 command.Parameters.AddWithValue("@status", bill.Status);
                 command.Parameters.AddWithValue("@discount", bill.Discount);
                 command.Parameters.AddWithValue("@totalMoney", bill.TotalMoney);
@@ -118,16 +118,16 @@ namespace FootballFieldManagement.DAL
             try
             {
 
-                dt = LoadData("Employee");
+                dt = LoadData("Bill");
             }
             catch
             {
                 conn.Close();
-                dt = LoadData("Employee");
+                dt = LoadData("Bill");
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()), int.Parse(dt.Rows[i].ItemArray[8].ToString()), dt.Rows[i].ItemArray[9].ToString());
+                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), long.Parse(dt.Rows[i].ItemArray[7].ToString()), int.Parse(dt.Rows[i].ItemArray[8].ToString()), dt.Rows[i].ItemArray[9].ToString());
                 bills.Add(bill);
             }
             conn.Close();

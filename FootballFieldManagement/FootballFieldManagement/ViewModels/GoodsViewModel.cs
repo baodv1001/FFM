@@ -279,7 +279,7 @@ namespace FootballFieldManagement.ViewModels
             }
 
             Goods goods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, 1, new byte[0], int.Parse(parameter.txtQuantity.Text));
+                parameter.cboUnit.Text, 1, GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile, int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), 1,
@@ -312,13 +312,37 @@ namespace FootballFieldManagement.ViewModels
         //PayWindow
         public void BuyGoods(SellGoodsControl parameter)
         {
+            bool isExist = false;
             if (GoodsDAL.Instance.GetGood(parameter.txbId.Text).Quantity == 0)
             {
                 MessageBox.Show("Đã hết hàng!");
                 return;
             }
-            BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbId.Text), 1);
-            BillInfoDAL.Instance.AddIntoDB(billInfo);
+            List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
+            foreach(var billInfo in billInfos)
+            {
+                if(billInfo.IdBill==int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods==int.Parse(parameter.txbId.Text))
+                {
+                    isExist = true;
+                    billInfo.Quantity += 1;
+                    if(billInfo.Quantity>GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
+                    {
+                        billInfo.Quantity -= 1;
+                        MessageBox.Show("Đạt số lượng hàng tối đa!");
+                        return;
+                    }    
+                    if(BillInfoDAL.Instance.UpdateOnDB(billInfo))
+                    {
+                        MessageBox.Show("Đã thêm!");
+                    }   
+                    return;
+                }    
+            }
+            if (!isExist)
+            {
+                BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbId.Text), 1);
+                BillInfoDAL.Instance.AddIntoDB(billInfo);
+            }
         }
     }
 }

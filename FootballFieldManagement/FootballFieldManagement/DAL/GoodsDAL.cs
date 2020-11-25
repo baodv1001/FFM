@@ -119,7 +119,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "update Goods set quantity=@quantity where idGoods=" + goods.IdGoods.ToString();
+                string queryString = "update Goods set quantity = quantity + @quantity where idGoods=" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
 

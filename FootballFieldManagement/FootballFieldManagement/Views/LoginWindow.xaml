@@ -6,8 +6,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:vm ="clr-namespace:FootballFieldManagement.ViewModels"
         mc:Ignorable="d"
         DataContext="{StaticResource LoginVM}"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -18,60 +16,53 @@
         Background="White" 
         ResizeMode="CanMinimize">
     <Grid>
-        <Button
-            Width="160"
-            Height="50" 
-            Content="Chấm công" 
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top" 
-            Margin="0,60,133.6,0" 
-            Command="{Binding OpenCheckAttendanceWindowCommand}" 
-            CommandParameter="{Binding ElementName=wdLogin}"/>
         <Label 
             x:Name="lblSoftwareName" 
-            Content="Phần mềm Quản lý sân bóng" 
-            HorizontalAlignment="Center" 
-            Height="70" 
-            Width="540" 
+            Content="Phần mềm &#xD;&#xA;Quản lý sân bóng" 
+            HorizontalAlignment="Left" 
+            Height="140" 
+            Width="430" 
             VerticalAlignment="Top" 
             Padding="0" 
             VerticalContentAlignment="Center" 
-            FontSize="36" 
-            Margin="261,30,619,0" 
+            FontSize="46" 
+            Margin="140,80,0,0" 
             Foreground="{StaticResource Black2}" 
             FontWeight="Bold"/>
         <Ellipse 
             HorizontalAlignment="Left" 
             Height="400"
             Width="400"
-            Margin="-153,-173,0,0" 
+            Margin="-187,577,0,-197" 
             Stroke="{StaticResource Success}" 
             VerticalAlignment="Top"  
             StrokeThickness="60"/>
         <Ellipse 
             HorizontalAlignment="Left" 
-            Height="800" 
-            Width="800"
-            Margin="1025,380,-405,-400" 
+            Height="1063" 
+            Width="1039"
+            Margin="1039,-353,-644.4,0" 
             Stroke="{StaticResource Success}" 
             VerticalAlignment="Top"  
             StrokeThickness="120"/>
         <Label 
             x:Name="lblCopyright" 
             Content="Created by COF | Copyright © 2020 All Rights Reserved" 
-            HorizontalAlignment="Left" 
+            HorizontalAlignment="Right" 
             Height="34" Width="540" 
             VerticalAlignment="Bottom" 
             Padding="0" 
             VerticalContentAlignment="Bottom" 
             FontSize="18" 
-            Margin="25,0,0,20" 
+            Margin="0,0,640,30" 
             Foreground="{StaticResource Black2}" 
             FontWeight="Medium"/>
         <Grid 
-            Width="380" 
+            Width="340" 
             Height="460" 
-            Background="{StaticResource White}" >
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top"
+            Margin="880,160,0,0" >
             <Grid.Effect>
                 <DropShadowEffect BlurRadius="20" Opacity="0.4"/>
             </Grid.Effect>
@@ -103,11 +94,12 @@
                     Margin="0" />
                 <TextBox 
                     x:Name="txtUsername"
+                    Text="{Binding Username}"
                     materialDesign:HintAssist.Hint="Tên đăng nhập" 
                     Margin="0" 
                     Width="220"
                     Height="50" 
-                    HorizontalAlignment="Right"
+                    HorizontalAlignment="Right" 
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     FontSize="18" 
                     BorderBrush="{StaticResource Primary}" 
@@ -115,8 +107,7 @@
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="Medium" 
-                    Padding="2,0,0,0" >
-                </TextBox>
+                    Padding="2,0,0,0" />
             </Grid>
             <Grid 
                 Width="270" 
@@ -145,7 +136,7 @@
                     TabIndex="2" 
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
-                    FontWeight="SemiBold"
+                    FontWeight="SemiBold" 
                     Padding="2,0,0,0" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
@@ -164,7 +155,7 @@
                 HorizontalContentAlignment="Right" 
                 VerticalContentAlignment="Center" 
                 FontSize="16" 
-                Margin="0,270,60,0" 
+                Margin="0,270,35,0" 
                 FontWeight="Medium" 
                 Cursor="Hand">
                 <Label.Foreground>
@@ -176,8 +167,9 @@
                 IsDefault="True"
                 Command="{Binding LogInCommand}"
                 CommandParameter="{Binding ElementName=wdLogin}"
-                Style="{StaticResource MaterialDesignRaisedLightButton}"
+                Style="{StaticResource MyButtonStyle}"
                 FocusVisualStyle="{x:Null}"
+                Content="Đăng nhập"
                 Height="40" 
                 Width="220"
                 materialDesign:ButtonAssist.CornerRadius="18"
@@ -188,14 +180,9 @@
                 TabIndex="3" 
                 BorderThickness="0" 
                 BorderBrush="{x:Null}" 
-                Background="{StaticResource Primary}">
-                <TextBlock 
-                    Text="Đăng nhập" 
-                    Foreground="{StaticResource White}" 
-                    FontSize="20" 
-                    FontWeight="SemiBold" 
-                    VerticalAlignment="Center" 
-                    Margin="0,0,0,4" />
+                FontSize="20" 
+                FontWeight="Bold"
+                Padding="0" >
             </Button>
             <Button 
                 x:Name="btnSignUp" 
@@ -219,6 +206,37 @@
                 Background="{x:Null}" 
                 BorderBrush="{x:Null}" 
                 IsTabStop="False"/>
+            <Rectangle 
+                Fill="{DynamicResource White}"
+                HorizontalAlignment="Left"
+                Height="460" 
+                Width="340" 
+                RadiusY="8" 
+                RadiusX="8" 
+                VerticalAlignment="Top"
+                Panel.ZIndex="-1">
+            </Rectangle>
         </Grid>
+        <Button 
+            x:Name="btnCheckIn"
+            Content="Check in"
+            Command="{Binding OpenCheckAttendanceWindowCommand}"
+            CommandParameter="{Binding ElementName=wdLogin}"
+            Style="{StaticResource MyButtonStyle}"
+            FocusVisualStyle="{x:Null}"
+            Height="40" 
+            Width="180"
+            materialDesign:ButtonAssist.CornerRadius="18"
+            ToolTip="Đăng nhập" 
+            VerticalAlignment="Bottom" 
+            Margin="0,0,60,30" 
+            HorizontalAlignment="Right"
+            TabIndex="3" 
+            BorderThickness="0" 
+            BorderBrush="{x:Null}" 
+            FontSize="20" 
+            FontWeight="Bold"
+            Padding="0" />
+        <Image Margin="140,260,0,0" Source="/FootballFieldManagement;component/Resources/Images/Goalkeeper.png" HorizontalAlignment="Left" VerticalAlignment="Top" Height="360" Width="581"/>
     </Grid>
 </Window>

@@ -125,9 +125,11 @@ namespace FootballFieldManagement.ViewModels
 
                     importWindow.txtQuantity.SelectionStart = importWindow.txtQuantity.Text.Length;
                     importWindow.txtQuantity.Select(0, importWindow.txtQuantity.Text.Length);
+                    importWindow.txtQuantity.Clear();
 
                     importWindow.txtImportPrice.SelectionStart = importWindow.txtImportPrice.Text.Length;
                     importWindow.txtImportPrice.Select(0, importWindow.txtImportPrice.Text.Length);
+                    importWindow.txtImportPrice.Clear();
 
                     ImageBrush imageBrush = new ImageBrush();
                     byte[] blob = goods.ImageFile;
@@ -147,10 +149,14 @@ namespace FootballFieldManagement.ViewModels
         public void DeleteGoods(TextBlock txb)
         {
             string idGoods = txb.Text;
-            string idStockReceipt = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
+            List<string> idStockReceiptList = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
 
             bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-            bool isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
+            bool isSuccessed2 = true;
+            foreach (var idStockReceipt in idStockReceiptList)
+            {
+                isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
+            }
             bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
             if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
             {
@@ -212,15 +218,6 @@ namespace FootballFieldManagement.ViewModels
                 parameter.txtUnitPrice.Focus();
                 return;
             }
-            //foreach (var goods in goodsList)
-            //{
-            //    if (string.Equals(goods.Name, parameter.txtName.Text))
-            //    {
-            //        MessageBox.Show("Mặt hàng đã tồn tại");
-            //        parameter.txtName.Focus();
-            //        return;
-            //    }
-            //}
             if (parameter.grdSelectImg.Background == null)
             {
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
@@ -319,24 +316,24 @@ namespace FootballFieldManagement.ViewModels
                 return;
             }
             List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
-            foreach(var billInfo in billInfos)
+            foreach (var billInfo in billInfos)
             {
-                if(billInfo.IdBill==int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods==int.Parse(parameter.txbId.Text))
+                if (billInfo.IdBill == int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods == int.Parse(parameter.txbId.Text))
                 {
                     isExist = true;
                     billInfo.Quantity += 1;
-                    if(billInfo.Quantity>GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
+                    if (billInfo.Quantity > GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
                     {
                         billInfo.Quantity -= 1;
                         MessageBox.Show("Đạt số lượng hàng tối đa!");
                         return;
-                    }    
-                    if(BillInfoDAL.Instance.UpdateOnDB(billInfo))
+                    }
+                    if (BillInfoDAL.Instance.UpdateOnDB(billInfo))
                     {
                         MessageBox.Show("Đã thêm!");
-                    }   
+                    }
                     return;
-                }    
+                }
             }
             if (!isExist)
             {

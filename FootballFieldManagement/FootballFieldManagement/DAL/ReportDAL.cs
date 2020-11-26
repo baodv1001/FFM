@@ -383,7 +383,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select sum(price) as revenue from FootballField join FieldInfo on FootballField.idField = FieldInfo.idField " +
+                string queryString = "select sum(price - discount) as revenue from FootballField join FieldInfo on FootballField.idField = FieldInfo.idField " +
                     "join Bill on Bill.idFieldInfo = FieldInfo.idFieldInfo where year(invoiceDate) = "
                     + year + " and month(invoiceDate) = " + month + " and day(invoiceDate) = " + day;
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -438,7 +438,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select sum(price) as revenue from FootballField join FieldInfo on FootballField.idField = FieldInfo.idField " +
+                string queryString = "select sum(price - discount) as revenue from FootballField join FieldInfo on FootballField.idField = FieldInfo.idField " +
                     "join Bill on Bill.idFieldInfo = FieldInfo.idFieldInfo where year(invoiceDate) = "
                     + year + " and month(invoiceDate) = " + month;
                 SqlCommand command = new SqlCommand(queryString, conn);

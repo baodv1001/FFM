@@ -450,6 +450,7 @@
             </Grid>
             <Grid 
                 x:Name="grdBody_Home" 
+                DataContext="{StaticResource ReportVM}"
                 Grid.Row="1"
                 HorizontalAlignment="Left" 
                 Height="720" 
@@ -457,6 +458,12 @@
                 Width="1201"
                 Margin="0"
                 Visibility="Visible">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding LoadCommand}" 
+                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <Grid 
                     DataContext="{StaticResource ReportVM}"
                     HorizontalAlignment="Left" 

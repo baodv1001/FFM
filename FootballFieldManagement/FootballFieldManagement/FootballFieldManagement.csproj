@@ -173,15 +173,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\fAddEmployee.xaml">
+    <Page Include="Views\AddEmployeeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\fBooking.xaml">
+    <Page Include="Views\BookingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\fCheckIn.xaml">
+    <Page Include="Views\CheckInWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -222,14 +222,14 @@
     <Compile Include="Views\AddGoodsWindow.xaml.cs">
       <DependentUpon>AddGoodsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\fAddEmployee.xaml.cs">
-      <DependentUpon>fAddEmployee.xaml</DependentUpon>
+    <Compile Include="Views\AddEmployeeWindow.xaml.cs">
+      <DependentUpon>AddEmployeeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\fBooking.xaml.cs">
-      <DependentUpon>fBooking.xaml</DependentUpon>
+    <Compile Include="Views\BookingWindow.xaml.cs">
+      <DependentUpon>BookingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\fCheckIn.xaml.cs">
-      <DependentUpon>fCheckIn.xaml</DependentUpon>
+    <Compile Include="Views\CheckInWindow.xaml.cs">
+      <DependentUpon>CheckInWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>

@@ -51,7 +51,7 @@ namespace FootballFieldManagement.ViewModels
             //Add Employee Window
             ExitCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
             SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => SelectImage(parameter));
-            SaveCommand = new RelayCommand<fAddEmployee>((parameter) => true, (parameter) => AddEmployee(parameter));
+            SaveCommand = new RelayCommand<AddEmployeeWindow>((parameter) => true, (parameter) => AddEmployee(parameter));
             //UC Employee
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
             DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
@@ -62,7 +62,7 @@ namespace FootballFieldManagement.ViewModels
             SelectionChangedCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SelectionChanged(parameter));
         }
         //Add Employee Window
-        public void AddEmployee(fAddEmployee parameter)
+        public void AddEmployee(AddEmployeeWindow parameter)
         {
             if (string.IsNullOrEmpty(parameter.txtName.Text))
             {
@@ -202,7 +202,7 @@ namespace FootballFieldManagement.ViewModels
         {
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
 
-            fAddEmployee child = new fAddEmployee();
+            AddEmployeeWindow child = new AddEmployeeWindow();
             foreach (var employee in employees)
             {
                 if (employee.IdEmployee.ToString() == parameter.Text)
@@ -349,7 +349,7 @@ namespace FootballFieldManagement.ViewModels
             MessageBox.Show("Thiết lập lương thành công!");
             parameter.Close();
         }
-        public void SetBaseSalary(fAddEmployee parameter)
+        public void SetBaseSalary(AddEmployeeWindow parameter)
         {
             List<Salary> salaries = SalaryDAL.Instance.ConvertDBToList();
             if (salaries.Count == 0)

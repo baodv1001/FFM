@@ -39,11 +39,15 @@ namespace FootballFieldManagement
         }
         public BitmapImage ConvertByteToBitmapImage(Byte[] image)
         {
+            BitmapImage bi = new BitmapImage();
             MemoryStream stream = new MemoryStream();
+            if (image == null)
+            {
+                return null;
+            }
             stream.Write(image, 0, image.Length);
             stream.Position = 0;
             System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
-            BitmapImage bi = new BitmapImage();
             bi.BeginInit();
             MemoryStream ms = new MemoryStream();
             img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);

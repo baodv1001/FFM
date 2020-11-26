@@ -80,9 +80,9 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public string QueryIdStockReceipt(string idGoods)
+        public List<string> QueryIdStockReceipt(string idGoods)
         {
-            string res = "";
+            List<string> res = new List<string>();
             try
             {
                 conn.Open();
@@ -92,7 +92,7 @@ namespace FootballFieldManagement.DAL
                 SqlDataReader rdr = command.ExecuteReader();
                 while (rdr.Read())
                 {
-                    res = rdr["idStockReceipt"].ToString();
+                    res.Add(rdr["idStockReceipt"].ToString());
                 }
                 return res;
             }

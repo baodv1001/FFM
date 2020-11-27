@@ -213,7 +213,7 @@ namespace FootballFieldManagement.ViewModels
         public void AddEmployee(StackPanel parameter)
         {
             stack = parameter;
-            fAddEmployee addEmployee = new fAddEmployee();
+            AddEmployeeWindow addEmployee = new AddEmployeeWindow();
             try
             {
                 addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.ConvertDBToList()[EmployeeDAL.Instance.ConvertDBToList().Count - 1].IdEmployee + 1).ToString();

@@ -11,24 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using FootballFieldManegement.DAL;
-using FootballFieldManagement.Models;
-using System.Text.RegularExpressions;
 
 namespace FootballFieldManagement.Views
 {
     /// <summary>
-    /// Interaction logic for fAddEmployee.xaml
+    /// Interaction logic for CheckInWindow.xaml
     /// </summary>
-    public partial class fAddEmployee : Window
+    public partial class CheckInWindow : Window
     {
-
-        public fAddEmployee()
+        public CheckInWindow()
         {
             InitializeComponent();
-            
-
         }
-        
     }
 }

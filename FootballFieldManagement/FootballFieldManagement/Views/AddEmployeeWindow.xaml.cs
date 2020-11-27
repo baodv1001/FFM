@@ -11,17 +11,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FootballFieldManegement.DAL;
+using FootballFieldManagement.Models;
+using System.Text.RegularExpressions;
 
 namespace FootballFieldManagement.Views
 {
     /// <summary>
-    /// Interaction logic for fBooking.xaml
+    /// Interaction logic for AddEmployeeWindow.xaml
     /// </summary>
-    public partial class fBooking : Window
+    public partial class AddEmployeeWindow : Window
     {
-        public fBooking()
+
+        public AddEmployeeWindow()
         {
             InitializeComponent();
         }
+        
     }
 }

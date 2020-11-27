@@ -1,60 +1,41 @@
-﻿<Window x:Class="FootballFieldManagement.Views.fBooking"
+﻿<Window x:Class="FootballFieldManagement.Views.CheckInWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
-       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
-        Height="640"
-        Width="420" 
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"    
+        Height="700"
+        Width="440" 
         WindowStartupLocation="CenterScreen" 
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize" Background="{DynamicResource White}">
+    <!--Form đã đặt sân-->
     <Grid 
         x:Name="frmBooking" 
-        HorizontalAlignment="Center" 
+        HorizontalAlignment="Left" 
+        VerticalAlignment="Top" 
         Margin="0" 
-        Width="420">
+        Width="433" Height="670">
         <TextBlock 
             x:Name="txbSetField" 
-	        Margin="0,20,0,0" 
+            Margin="0,18,0,0" 
             TextWrapping="Wrap" 
             Text="Đặt sân" 
             VerticalAlignment="Top" 
             FontSize="32"
             HorizontalAlignment="Center" 
             Foreground="{DynamicResource Primary}" 
-            Height="42" 
+            Height="40" 
+            Width="115" 
             FontWeight="Bold" />
         <Grid 
             x:Name="grdPickDate" 
-            Margin="0,80,0,0" 
-            VerticalAlignment="Top" 
+            Margin="0,60,0,0" 
+            Height="50" 
+            Width="360" 
             HorizontalAlignment="Center" 
-            Width="360">
-            <Button 
-                x:Name="btnSetPeriodic"                  
-                Height="40"
-                materialDesign:ButtonAssist.CornerRadius="8"
-                ToolTip="Đặt sân cố định" 
-                Margin="0" 
-                Background="{DynamicResource White}" 
-                Foreground="{StaticResource Gray1}" 
-                BorderBrush="{DynamicResource Primary}" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Bottom" 
-                Width="160" 
-                FontWeight="Medium" 
-                BorderThickness="2"
-                FocusVisualStyle="{x:Null}" Padding="16,0">
-                <TextBlock 
-                    x:Name="txbSetPeriodic"
-                    Text="Đặt định kỳ" 
-                    FontSize="16" 
-                    FontWeight="Medium" 
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center" Margin="0,0,0,2" />
-            </Button>
+            VerticalAlignment="Top">
             <DatePicker 
                 x:Name="dpSetDate"
                 SelectedDateFormat="Short"
@@ -62,27 +43,29 @@
                 materialDesign:TextFieldAssist.HasFilledTextField="False"
                 materialDesign:HintAssist.IsFloating="True"
                 materialDesign:HintAssist.Hint="Chọn ngày"
-                Width="164"
                 Style="{StaticResource MaterialDesignFilledDatePicker}" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Bottom"  
+                VerticalAlignment="Center"  
                 BorderBrush="Gray" 
-                Height="50" 
+                Height="51" 
                 FontSize="16" 
-                Margin="0,0,0,-2"
+                Margin="0" 
                 FontWeight="Medium" 
-                Foreground="{DynamicResource Black1}" />
+                HorizontalAlignment="Center"
+                Width="120" 
+                Padding="0" 
+                HorizontalContentAlignment="Left" Foreground="{DynamicResource Black2}" />
         </Grid>
         <Rectangle 
             HorizontalAlignment="Center" 
-            Height="2" 
-            Margin="0,150,0,0" 
-            Stroke="{StaticResource Primary}" 
-            VerticalAlignment="Top" 
-            Width="300"  />
+            Height="2"
+            Margin="0,130,0,0" 
+            StrokeThickness="1" 
+            VerticalAlignment="Top"
+            Width="260" 
+            Fill="{DynamicResource Primary}"/>
         <Grid 
             x:Name="grdPickTime" 
-            Margin="0,160,0,0" 
+            Margin="0,150,0,0" 
             VerticalAlignment="Top"
             HorizontalAlignment="Center" 
             Height="46" 
@@ -97,7 +80,7 @@
                 Margin="0" 
                 FontSize="16" 
                 Height="46" 
-                FontWeight="Medium" />
+                FontWeight="Medium" Foreground="{DynamicResource Black2}" />
             <materialDesign:TimePicker 
                 x:Name="tpEnd"
                 Width="117"
@@ -108,7 +91,7 @@
                 Margin="140,0,0,0" 
                 FontSize="16" 
                 Height="46" 
-                FontWeight="Medium" />
+                FontWeight="Medium" Foreground="{DynamicResource Black2}" />
             <ComboBox 
                 x:Name="cboPickField"
                 Style="{StaticResource MaterialDesignFloatingHintComboBox}"          
@@ -118,7 +101,7 @@
                 VerticalAlignment="Top" 
                 Margin="0" 
                 Width="83" 
-                Foreground="{StaticResource Primary}" 
+                Foreground="{DynamicResource Black2}" 
                 FontSize="16" 
                 Height="46" 
                 FontWeight="SemiBold">
@@ -140,7 +123,7 @@
             x:Name="grdUserName" 
             HorizontalAlignment="Center" 
             Height="48" 
-            Margin="0,220,0,0" 
+            Margin="0,210,0,0" 
             VerticalAlignment="Top"
             Width="360"  >
             <materialDesign:PackIcon 
@@ -149,7 +132,7 @@
                 Margin="0" 
                 Width="25" 
                 Height="25" 
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Bottom" Foreground="{DynamicResource Gray2}" />
             <TextBox
                 x:Name="txtUserName"
                 materialDesign:HintAssist.Hint="Tên khách hàng"
@@ -159,8 +142,7 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Width="322" 
-                FontSize="16" 
-                />
+                FontSize="16" Foreground="{DynamicResource Black2}" CaretBrush="{x:Null}" BorderBrush="{DynamicResource Gray2}" SelectionBrush="{DynamicResource Primary}" />
             <Button 
                 x:Name="btnSearch"
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
@@ -185,7 +167,7 @@
             x:Name="grdPassWord" 
             HorizontalAlignment="Center" 
             Height="48" 
-            Margin="0,280,0,0" 
+            Margin="0,270,0,0" 
             VerticalAlignment="Top" 
             Width="360"  >
             <materialDesign:PackIcon 
@@ -194,7 +176,7 @@
                 Margin="0" 
                 Width="25" 
                 Height="25" 
-                VerticalAlignment="Bottom" />
+                VerticalAlignment="Bottom" Foreground="{DynamicResource Gray2}" />
             <TextBox
                 x:Name="txtPhoneNumber"
                 materialDesign:HintAssist.Hint="Số điện thoại"
@@ -204,7 +186,7 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Width="322" 
-                FontSize="16" />
+                FontSize="16" Foreground="{DynamicResource Black2}" CaretBrush="{x:Null}" BorderBrush="{DynamicResource Gray2}" />
         </Grid>
         <TextBox 
             x:Name="txtMoreInfo"
@@ -217,43 +199,45 @@
             materialDesign:HintAssist.Hint="Thông tin thêm"
             IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
             HorizontalAlignment="Center" 
-            Margin="0,350,0,0" 
+            Margin="0,335,0,0" 
             Width="360" 
-            Foreground="{StaticResource Gray1}" 
+            Foreground="Gray" 
             BorderBrush="{StaticResource Gray5}" 
             FontSize="16" />
         <Rectangle 
             HorizontalAlignment="Center" 
             Height="2" 
-            Margin="0,460,0,0" 
-            Stroke="{StaticResource Primary}"
+            Margin="0,450,0,0" 
+            Stroke="{StaticResource Primary}" 
+            StrokeThickness="1" 
             VerticalAlignment="Top"
-            Width="300"/>
+            Width="260" Fill="{DynamicResource Primary}"/>
         <Grid 
             x:Name="grdPrice" 
-            Margin="0,480,0,0" 
+            Margin="0,470,0,0" 
             HorizontalAlignment="Center" 
             Width="360" 
             VerticalAlignment="Top" 
-            Height="40" >
+            Height="40">
             <TextBlock 
                 x:Name="txbPriceOfField" 
                 TextWrapping="Wrap" 
                 Text="Tiền sân" 
                 FontSize="18" 
                 HorizontalAlignment="Left" 
-                Foreground="Black" 
+                Foreground="{DynamicResource Black2}" 
                 Width="89" 
                 Height="30" 
                 VerticalAlignment="Bottom" 
                 Margin="0" 
+                ScrollViewer.HorizontalScrollBarVisibility="Visible" 
                 FontWeight="Medium" />
             <Border 
                 x:Name="brdPrice" 
                 Margin="0" 
-                Padding="5" 
+                Padding="0" 
                 BorderThickness="2" 
-                BorderBrush="{DynamicResource Gray4}"  
+                BorderBrush="{StaticResource Gray3}"  
                 CornerRadius="8" 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
@@ -265,32 +249,84 @@
                     TextAlignment="Right" 
                     FontSize="18" 
                     Foreground="{StaticResource Primary}" 
-                    FontWeight="SemiBold" 
-                    HorizontalAlignment="Right" 
+                    FontWeight="SemiBold"
+                    Padding="0,6,5,0" 
+                    Margin="0" 
                     VerticalAlignment="Center" 
-                    Width="140" 
-                    Height="26"/>
+                    HorizontalAlignment="Right" 
+                    Width="150" Height="40"/>
             </Border>
         </Grid>
-        <Button 
-            x:Name="btnSetField"
-            Style="{StaticResource MaterialDesignRaisedButton}"
-            Height="40"
-            materialDesign:ButtonAssist.CornerRadius="8"
-            ToolTip="Xác nhận đặt sân" 
-            Margin="0,540,0,0" 
-            Background="{StaticResource Primary}" 
-            BorderBrush="{x:Null}" 
-            Foreground="{StaticResource White}" 
-            FontSize="16" 
+        <Grid 
+            HorizontalAlignment="Center"
+            Height="100" 
+            Margin="0,550,0,0" 
             VerticalAlignment="Top" 
-            HorizontalAlignment="Center" 
-            Width="260"
-            FocusVisualStyle="{x:Null}">
-            <TextBlock
-                Text="Đặt sân" 
-                FontSize="20" 
-                FontWeight="Bold" />
-        </Button>
+            Width="310">
+            <Button 
+                x:Name="btnCheckIn"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40"
+                materialDesign:ButtonAssist.CornerRadius="8"
+                ToolTip="Xác nhận đặt sân" 
+                Margin="0" 
+                Background="{StaticResource  Primary}" 
+                BorderBrush="{x:Null}" 
+                Foreground="{StaticResource  White}" 
+                FontSize="16" 
+                VerticalAlignment="Top" 
+                FocusVisualStyle="{x:Null}"
+                Width="310"
+                HorizontalAlignment="Center">
+                <TextBlock 
+                    x:Name="txbCheckIn"
+                    Text="Check in" 
+                    FontSize="20" 
+                    FontWeight="Medium" />
+            </Button>
+            <Button 
+                x:Name="btnChange"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40"
+                materialDesign:ButtonAssist.CornerRadius="8"
+                ToolTip="Đổi sân" 
+                Margin="0" 
+                Background="{StaticResource White}" 
+                BorderBrush="{DynamicResource Gray4}" 
+                Foreground="{StaticResource White}" 
+                FontSize="16" 
+                VerticalAlignment="Bottom" 
+                FocusVisualStyle="{x:Null}"
+                Width="140" 
+                HorizontalAlignment="Right">
+                <TextBlock 
+                    x:Name="txbChange"
+                    Text="Đổi sân" 
+                    FontSize="20" 
+                    Foreground="#FF333333" 
+                    FontWeight="Medium" />
+            </Button>
+            <Button 
+                x:Name="btnCancel"
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Height="40"
+                materialDesign:ButtonAssist.CornerRadius="8"
+                ToolTip="Hủy đặt sân" 
+                Margin="0" 
+                Background="{StaticResource Error}" 
+                BorderBrush="{x:Null}" 
+                Foreground="{StaticResource White}" 
+                FontSize="16" 
+                VerticalAlignment="Bottom" 
+                Width="140"
+                HorizontalAlignment="Left"
+                FocusVisualStyle="{x:Null}">
+                <TextBlock 
+                    x:Name="txbCancel"
+                    Text="Hủy sân" 
+                    FontSize="20" 
+                    FontWeight="Medium" />
+            </Button>
+        </Grid>
     </Grid>
 </Window>

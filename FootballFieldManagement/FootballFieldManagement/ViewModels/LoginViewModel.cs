@@ -124,8 +124,10 @@ namespace FootballFieldManagement.ViewModels
             {
                 home.lbAccount.Content = CurrentAccount.DisplayName;// Hiển thị tên nhân viên
                 ImageBrush imageBrush = new ImageBrush();
-                imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
-                home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
+                BitmapImage bitmapImage = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
+                imageBrush.ImageSource = bitmapImage;
+                if(bitmapImage!=null)
+                    home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
             }
         }
         public void OpenSignUpWindow(Window parameter)

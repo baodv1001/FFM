@@ -103,10 +103,10 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@gender", employee.Gender);
                 command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
                 command.Parameters.AddWithValue("@address", employee.Address);
-                command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth.ToString());
+                command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth);
                 command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
                 command.Parameters.AddWithValue("@position", employee.Position);
-                command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
+                command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
                 command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
                 int rs = command.ExecuteNonQuery();
@@ -128,7 +128,7 @@ namespace FootballFieldManegement.DAL
                 conn.Close();
             }
         }
-        public void DeleteEmployee(Employee employee)
+        public bool DeleteEmployee(Employee employee)
         {
             try
             {
@@ -136,11 +136,16 @@ namespace FootballFieldManegement.DAL
                 string query = "delete from Employee where idEmployee = " + employee.IdEmployee.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
                 if (command.ExecuteNonQuery() > 0)
-                    MessageBox.Show("Xóa thành công!");
+                    return true;
+                else
+                {
+                    return false;
+                }    
             }
             catch
             {
                 MessageBox.Show("Xóa thất bại!");
+                return false;
             }
             finally
             {

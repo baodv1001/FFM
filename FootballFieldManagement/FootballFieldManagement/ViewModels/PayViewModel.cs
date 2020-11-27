@@ -23,6 +23,7 @@ namespace FootballFieldManagement.ViewModels
     public class PayViewModel : INotifyPropertyChanged
     {
         //Binding 
+        private PayWindow payWindow;
         private decimal total;
         private decimal totalGoods;
         public decimal Total
@@ -43,6 +44,7 @@ namespace FootballFieldManagement.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalGoods)));
             }
         }
+        public PayWindow PayWindow { get => payWindow; set => payWindow = value; }
         public event PropertyChangedEventHandler PropertyChanged;
         //Pay Window
         public ICommand LoadGoodsCommand { get; set; }
@@ -51,6 +53,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ClosingWdCommnad { get; set; }
         public ICommand PayBillCommand { get; set; }
         public ICommand BackCommand { get; set; }
+        public ICommand PickGoodsCommand { get; set; } // Chọn 1 hàng 
+        public ICommand GetWindowCommand { get; set; }
         //UC Product Detail
         public ICommand DeleteBillInfoCommand { get; set; }
         public ICommand ChangeQuantityCommand { get; set; }
@@ -65,6 +69,8 @@ namespace FootballFieldManagement.ViewModels
             ClosingWdCommnad = new RelayCommand<PayWindow>((parameter) => true, (parameter) => DeleteBillInfos(parameter));
             PayBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => PayBill(parameter));
             BackCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => CloseWindow(parameter));
+            PickGoodsCommand = new RelayCommand<SellGoodsControl>((parameter) => true, (parameter) => BuyGoods(parameter));
+            GetWindowCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => SetWindow(parameter));
             //UC Product Detail
             DeleteBillInfoCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => DeleteBillInfo(parameter));
             ChangeQuantityCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
@@ -147,7 +153,7 @@ namespace FootballFieldManagement.ViewModels
                 var good = GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString());
                 note += good.Name + " x " + billInfo.Quantity.ToString() + "\t" + (good.UnitPrice * billInfo.Quantity).ToString() + Environment.NewLine;
             }
-            Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbDiscount.Text), long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
+            Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
             if (BillDAL.Instance.UpdateOnDB(bill))
             {
                 foreach (var billInfo in billInfos)
@@ -166,6 +172,45 @@ namespace FootballFieldManagement.ViewModels
             BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
             parameter.Close();
         }
+        public void BuyGoods(SellGoodsControl parameter)
+        {
+            bool isExist = false;
+            if (GoodsDAL.Instance.GetGood(parameter.txbId.Text).Quantity == 0)
+            {
+                MessageBox.Show("Đã hết hàng!");
+                return;
+            }
+            List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
+            foreach (var billInfo in billInfos)
+            {
+                if (billInfo.IdBill == int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods == int.Parse(parameter.txbId.Text))
+                {
+                    isExist = true;
+                    billInfo.Quantity += 1;
+                    if (billInfo.Quantity > GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
+                    {
+                        billInfo.Quantity -= 1;
+                        MessageBox.Show("Đạt số lượng hàng tối đa!");
+                        return;
+                    }
+                    if (BillInfoDAL.Instance.UpdateOnDB(billInfo))
+                    {
+                        LoadBillInfoToView(payWindow);
+                    }
+                    return;
+                }
+            }
+            if (!isExist)
+            {
+                BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbId.Text), 1);
+                BillInfoDAL.Instance.AddIntoDB(billInfo);
+                LoadBillInfoToView(payWindow);
+            }
+        }
+        public void SetWindow(PayWindow parameter)
+        {
+            payWindow = parameter;
+        }
         //UC Product Detail
         public void UpdateQuantity(ProductDetailsControl parameter)
         {
@@ -180,6 +225,7 @@ namespace FootballFieldManagement.ViewModels
         {
             BillInfo billInfo = new BillInfo(int.Parse(paramter.txbIdBill.Text), int.Parse(paramter.txbIdGoods.Text), 1);
             BillInfoDAL.Instance.DeleteFromDB(billInfo);
+            ((StackPanel)paramter.Parent).Children.Remove(paramter);
             Total -= TotalGoods;
             TotalGoods = BillInfoDAL.Instance.CountSumMoney();
             Total += TotalGoods;

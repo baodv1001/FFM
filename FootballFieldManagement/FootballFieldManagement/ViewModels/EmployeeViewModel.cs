@@ -128,7 +128,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.dpWorkDate.Focus();
                     return;
                 }
-                if (dateTime < parameter.dpBirthDate.DisplayDate)
+                if (dateTime < DateTime.Parse(parameter.dpBirthDate.Text))
                 {
                     MessageBox.Show("Vui lòng nhập lại ngày vào làm lớn hơn ngày sinh!");
                     parameter.dpWorkDate.Focus();
@@ -155,8 +155,8 @@ namespace FootballFieldManagement.ViewModels
             }
             imageName = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender,
-                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0,
-                parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0, imgByteArr);
+                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text), 0,
+                parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), 0, imgByteArr);
             EmployeeDAL.Instance.AddEmployee(employee);
             SetBaseSalary(parameter);
             parameter.Close();
@@ -182,6 +182,18 @@ namespace FootballFieldManagement.ViewModels
                     parameter.Children.Remove(parameter.Children[0]);
                     parameter.Children.Remove(parameter.Children[1]);
                 }
+            }
+        }
+        public void SetPickedDay(object sender, RoutedEventArgs e)
+        {
+            DatePicker datePicker = sender as DatePicker;
+            try
+            {
+                datePicker.Text = ((DateTime)datePicker.SelectedDate).ToString();
+            }
+            catch
+            {
+
             }
         }
         //UC Employee

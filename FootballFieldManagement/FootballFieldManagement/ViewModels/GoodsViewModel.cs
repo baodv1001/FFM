@@ -41,8 +41,6 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ExitImportCommand { get; set; } //thoát khỏi ImportGoodsWindow
         public ICommand CalculateTotalCommand { get; set; } //tính tổng tiền
 
-        //PayWindow
-        public ICommand PickGoodsCommand { get; set; } // Chọn 1 hàng 
         public GoodsViewModel()
         {
             //GoodsControl
@@ -60,8 +58,6 @@ namespace FootballFieldManagement.ViewModels
             ExitImportCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => parameter.Close());
             CalculateTotalCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => CalculateTotal(parameter));
 
-            //PayWindow
-            PickGoodsCommand = new RelayCommand<SellGoodsControl>((parameter) => true, (parameter) => BuyGoods(parameter));
         }
 
         //GoodsControl
@@ -306,40 +302,5 @@ namespace FootballFieldManagement.ViewModels
             parameter.txtTotal.Text = (importPriceTmp * quantityTmp).ToString();
         }
 
-        //PayWindow
-        public void BuyGoods(SellGoodsControl parameter)
-        {
-            bool isExist = false;
-            if (GoodsDAL.Instance.GetGood(parameter.txbId.Text).Quantity == 0)
-            {
-                MessageBox.Show("Đã hết hàng!");
-                return;
-            }
-            List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
-            foreach (var billInfo in billInfos)
-            {
-                if (billInfo.IdBill == int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods == int.Parse(parameter.txbId.Text))
-                {
-                    isExist = true;
-                    billInfo.Quantity += 1;
-                    if (billInfo.Quantity > GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
-                    {
-                        billInfo.Quantity -= 1;
-                        MessageBox.Show("Đạt số lượng hàng tối đa!");
-                        return;
-                    }
-                    if (BillInfoDAL.Instance.UpdateOnDB(billInfo))
-                    {
-                        MessageBox.Show("Đã thêm!");
-                    }
-                    return;
-                }
-            }
-            if (!isExist)
-            {
-                BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbId.Text), 1);
-                BillInfoDAL.Instance.AddIntoDB(billInfo);
-            }
-        }
     }
 }

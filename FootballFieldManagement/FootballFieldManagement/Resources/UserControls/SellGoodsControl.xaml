@@ -9,7 +9,7 @@
     xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"    
     xmlns:y="clr-namespace:FootballFieldManagement" 
     mc:Ignorable="d" 
-    DataContext="{StaticResource GoodsVM}"
+    DataContext="{StaticResource PayVM}"
     d:DesignHeight="450" 
     d:DesignWidth="800" 
     Width="180" 
@@ -58,8 +58,7 @@
                 VerticalAlignment="Top" 
                 Margin="0,1,0,0"/>
             <TextBlock x:Name="txbName" 
-                ToolTip="Nhấn để mua hàng"
-                Text="trả" 
+                Text="Tên hàng" 
                 TextTrimming="WordEllipsis" 
                 HorizontalAlignment="Center" 
                 Margin="10,0" 

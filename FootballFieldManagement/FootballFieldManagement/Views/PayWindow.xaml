@@ -10,7 +10,7 @@
     x:Name="wdPay" 
     x:Class="FootballFieldManagement.Views.PayWindow"
     mc:Ignorable="d" 
-    Title="" 
+    Title="Thanh toán" 
     Height="810"
     DataContext="{StaticResource PayVM}"
     Width="1440" 
@@ -28,6 +28,8 @@
         </i:EventTrigger>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadTotalCommand}" 
+                                   CommandParameter="{Binding ElementName=wdPay}"/>
+            <i:InvokeCommandAction Command="{Binding GetWindowCommand}" 
                                    CommandParameter="{Binding ElementName=wdPay}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>

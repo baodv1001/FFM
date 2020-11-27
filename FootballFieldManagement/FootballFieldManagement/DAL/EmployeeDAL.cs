@@ -49,7 +49,7 @@ namespace FootballFieldManegement.DAL
                     dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(),
                     DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()),
                     dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()),
-                    int.Parse(dt.Rows[i].ItemArray[9].ToString()), (byte[])dt.Rows[i].ItemArray[10]);
+                    int.Parse(dt.Rows[i].ItemArray[9].ToString()), Convert.FromBase64String(dt.Rows[i].ItemArray[10].ToString()));
                 employees.Add(employee);
             }
             //conn.Close();
@@ -67,12 +67,12 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@gender", employee.Gender);
                 command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
                 command.Parameters.AddWithValue("@address", employee.Address);
-                command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth.ToString());
+                command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth);
                 command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
                 command.Parameters.AddWithValue("@position", employee.Position);
-                command.Parameters.AddWithValue("@startingdate", employee.Startingdate.ToString());
+                command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
+                command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -91,7 +91,7 @@ namespace FootballFieldManegement.DAL
             {
                 conn.Close();
             }
-        }
+}
         public bool UpdateOnDB(Employee employee)
         {
             try
@@ -108,7 +108,7 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
-                command.Parameters.AddWithValue("@imageFile", employee.ImageFile);
+                command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {

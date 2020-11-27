@@ -42,7 +42,7 @@ namespace FootballFieldManagement.DAL
             {
                 Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
                     dt.Rows[i].ItemArray[2].ToString(), double.Parse(dt.Rows[i].ItemArray[3].ToString()),
-                    (byte[])dt.Rows[i].ItemArray[4], int.Parse(dt.Rows[i].ItemArray[5].ToString()));
+                    Convert.FromBase64String(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()));
                 goodsList.Add(acc);
             }
             return goodsList;
@@ -59,7 +59,7 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
-                command.Parameters.AddWithValue("@imageFile", goods.ImageFile);
+                command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
                 command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
 
                 int rs = command.ExecuteNonQuery();
@@ -93,7 +93,7 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
-                command.Parameters.AddWithValue("@imageFile", goods.ImageFile);
+                command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
                 command.Parameters.AddWithValue("@quantity", goods.Quantity);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)

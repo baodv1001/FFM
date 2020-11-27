@@ -54,7 +54,7 @@ namespace FootballFieldManagement.ViewModels
             SaveCommand = new RelayCommand<AddEmployeeWindow>((parameter) => true, (parameter) => AddEmployee(parameter));
             //UC Employee
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
-            DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
+            DeleteCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => DeleteEmployee(parameter));
             //Set Salary Window
             SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => separateThousands(parameter));
             SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
@@ -197,16 +197,24 @@ namespace FootballFieldManagement.ViewModels
             }
         }
         //UC Employee
-        public void DeleteEmployee(string id)
+        public void DeleteEmployee(EmployeeControl parameter)
         {
-            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
-            foreach (var employee in employees)
+            MessageBoxResult result = MessageBox.Show("Xác nhận xóa nhân viên?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
-                if (employee.IdEmployee.ToString() == id)
+                List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+                foreach (var employee in employees)
                 {
-                    SalaryDAL.Instance.DeleteSalary(id);
-                    EmployeeDAL.Instance.DeleteEmployee(employee);
-                    break;
+                    if (employee.IdEmployee.ToString() == parameter.txbId.Text)
+                    {
+                        SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
+                        if(EmployeeDAL.Instance.DeleteEmployee(employee))
+                        {
+                            MessageBox.Show("Đã xóa thành công!");
+                        }    
+                        break;
+                    }
                 }
             }
         }

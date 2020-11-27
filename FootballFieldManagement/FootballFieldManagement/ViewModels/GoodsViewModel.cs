@@ -144,23 +144,28 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteGoods(TextBlock txb)
         {
-            string idGoods = txb.Text;
-            List<string> idStockReceiptList = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
+            MessageBoxResult result = MessageBox.Show("Xác nhận xóa hàng hóa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-            bool isSuccessed2 = true;
-            foreach (var idStockReceipt in idStockReceiptList)
+            if (result == MessageBoxResult.Yes)
             {
-                isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
-            }
-            bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
-            if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
-            {
-                MessageBox.Show("Xoá thành công!");
-            }
-            else
-            {
-                MessageBox.Show("Thực hiện thất bại!");
+                string idGoods = txb.Text;
+                List<string> idStockReceiptList = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
+
+                bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
+                bool isSuccessed2 = true;
+                foreach (var idStockReceipt in idStockReceiptList)
+                {
+                    isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
+                }
+                bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
+                if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
+                {
+                    MessageBox.Show("Xoá thành công!");
+                }
+                else
+                {
+                    MessageBox.Show("Thực hiện thất bại!");
+                }
             }
         }
 

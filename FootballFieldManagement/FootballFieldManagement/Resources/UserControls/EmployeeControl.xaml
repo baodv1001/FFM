@@ -183,7 +183,7 @@
             Grid.Column="6"
             x:Name="btnDeleteEmployee"
             Command="{Binding DeleteCommand}"
-            CommandParameter="{Binding ElementName=txbId}"
+            CommandParameter="{Binding ElementName=ucEmployee}"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Xóa nhân viên" 
             Height="30"

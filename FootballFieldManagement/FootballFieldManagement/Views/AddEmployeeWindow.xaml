@@ -281,7 +281,13 @@
                     FontSize="14"
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CalendarClosed" >
+                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DatePicker>
             </Grid>
             <Grid 
                 Margin="0,300,0,0" 
@@ -320,7 +326,13 @@
                     FontSize="14" 
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CalendarClosed" >
+                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DatePicker>
             </Grid>
             <Grid 
                 Margin="0,360,0,0" 

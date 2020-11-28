@@ -41,7 +41,7 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public void DeleteFromDB(BillInfo billInfo)
+        public bool DeleteFromDB(BillInfo billInfo)
         {
             try
             {
@@ -50,23 +50,23 @@ namespace FootballFieldManagement.DAL
                 SqlCommand command = new SqlCommand(queryString, conn);
                 if (command.ExecuteNonQuery() < 1)
                 {
-                    throw new Exception();
+                    return false;
                 }
                 else
                 {
-                    MessageBox.Show("Đã xóa thành công!");
+                    return true;
                 }
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {
                 conn.Close();
             }
         }
-        public void AddIntoDB(BillInfo billInfo)
+        public bool AddIntoDB(BillInfo billInfo)
         {
             try
             {
@@ -79,12 +79,17 @@ namespace FootballFieldManagement.DAL
                 int rs = command.ExecuteNonQuery();
                 if (rs == 1)
                 {
-                    MessageBox.Show("Đã thêm!");
+                    return true;
                 }
+                else
+                {
+                    return false;
+                }    
             }
             catch
             {
                 MessageBox.Show("Đã tồn tại mặt hàng");
+                return false;
             }
             finally
             {

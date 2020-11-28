@@ -43,8 +43,8 @@ namespace FootballFieldManagement.ViewModels
         {
             SignUpCommand = new RelayCommand<SignUpWindow>((parameter) => true, (parameter) => SignUp(parameter));
 
-            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
-            PasswordConfirmChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) =>EncodingPassword(parameter));
+            PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingPassword(parameter));
+            PasswordConfirmChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingConfirmPassword(parameter));
             OpenLoginWinDowCommand = new RelayCommand<Window>(parameter => true, parameter => parameter.Close());
             LoadCommand = new RelayCommand<Window>(parameter => true, parameter => setItemSourcEmloyee());
         }
@@ -52,6 +52,11 @@ namespace FootballFieldManagement.ViewModels
         {
             this.password = parameter.Password;
             this.password = MD5Hash(this.password);
+        }
+        public void EncodingConfirmPassword(PasswordBox parameter)
+        {
+            this.passwordConfirm = parameter.Password;
+            this.passwordConfirm = MD5Hash(this.passwordConfirm);
         }
         public int setID(List<Account> accounts)
         {
@@ -73,7 +78,7 @@ namespace FootballFieldManagement.ViewModels
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
             foreach (var employee in employees)
             {
-                if (employee.Position == "Nhân viên quản lý" && employee.IdAccount == 0)
+                if (employee.Position == "Nhân viên quản lý" && employee.IdAccount == -1)
                 {
                     itemSourceEmployee.Add(employee);
                 }
@@ -160,10 +165,14 @@ namespace FootballFieldManagement.ViewModels
             Account newAccount = new Account(setID(accounts), parameter.txtUsername.Text.ToString(), password, 1);
             AccountDAL.Instance.AddIntoDB(newAccount);
             selectedEmployee.IdAccount = setID(accounts);
-            if (EmployeeDAL.Instance.UpdateOnDB(selectedEmployee))
+            if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))
             {
                 MessageBox.Show("Đăng ký thành công!");
                 isSignUp = true;
+                parameter.cboSelectEmployee.Text = "";
+                parameter.txtUsername.Text = null;
+                parameter.txtPassword.Password = "";
+                parameter.txtPasswordConfirm.Password = "";
             }
         }
     }

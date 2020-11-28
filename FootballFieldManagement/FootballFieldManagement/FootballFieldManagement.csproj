@@ -85,6 +85,7 @@
     <Compile Include="DAL\ReportDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
+    <Compile Include="Models\FieldInfo.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Resources\UserControls\ProductDetailsControl.xaml.cs">
       <DependentUpon>ProductDetailsControl.xaml</DependentUpon>

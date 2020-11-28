@@ -24,7 +24,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 namespace FootballFieldManagement.ViewModels
 {
     class EmployeeViewModel
-    {   
+    {
         //UC Employee
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -54,7 +54,7 @@ namespace FootballFieldManagement.ViewModels
             SaveCommand = new RelayCommand<AddEmployeeWindow>((parameter) => true, (parameter) => AddEmployee(parameter));
             //UC Employee
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
-            DeleteCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => DeleteEmployee(parameter.Text));
+            DeleteCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => DeleteEmployee(parameter));
             //Set Salary Window
             SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => separateThousands(parameter));
             SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
@@ -128,7 +128,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.dpWorkDate.Focus();
                     return;
                 }
-                if (dateTime < parameter.dpBirthDate.DisplayDate)
+                if (dateTime < DateTime.Parse(parameter.dpBirthDate.Text))
                 {
                     MessageBox.Show("Vui lòng nhập lại ngày vào làm lớn hơn ngày sinh!");
                     parameter.dpWorkDate.Focus();
@@ -155,8 +155,8 @@ namespace FootballFieldManagement.ViewModels
             }
             imageName = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender,
-                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, parameter.dpBirthDate.DisplayDate, 0,
-                parameter.cboPosition.Text, parameter.dpWorkDate.DisplayDate, 0, imgByteArr);
+                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text), 0,
+                parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), -1, imgByteArr);
             EmployeeDAL.Instance.AddEmployee(employee);
             SetBaseSalary(parameter);
             parameter.Close();
@@ -184,17 +184,37 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
         }
-        //UC Employee
-        public void DeleteEmployee(string id)
+        public void SetPickedDay(object sender, RoutedEventArgs e)
         {
-            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
-            foreach (var employee in employees)
+            DatePicker datePicker = sender as DatePicker;
+            try
             {
-                if (employee.IdEmployee.ToString() == id)
+                datePicker.Text = ((DateTime)datePicker.SelectedDate).ToString();
+            }
+            catch
+            {
+
+            }
+        }
+        //UC Employee
+        public void DeleteEmployee(EmployeeControl parameter)
+        {
+            MessageBoxResult result = MessageBox.Show("Xác nhận xóa nhân viên?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+                foreach (var employee in employees)
                 {
-                    SalaryDAL.Instance.DeleteSalary(id);
-                    EmployeeDAL.Instance.DeleteEmployee(employee);
-                    break;
+                    if (employee.IdEmployee.ToString() == parameter.txbId.Text)
+                    {
+                        SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
+                        if (EmployeeDAL.Instance.DeleteEmployee(employee))
+                        {
+                            MessageBox.Show("Đã xóa thành công!");
+                        }
+                        break;
+                    }
                 }
             }
         }
@@ -254,6 +274,7 @@ namespace FootballFieldManagement.ViewModels
         //Set Salary Window    
         public void SelectionChanged(SetSalaryWindow parameter)
         {
+
             foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
             {
                 ComboBoxItem tmp = (ComboBoxItem)parameter.cboTypeEmployee.SelectedItem;
@@ -266,6 +287,10 @@ namespace FootballFieldManagement.ViewModels
                     return;
                 }
             }
+            parameter.txtSalaryBasic.Text = "";
+            parameter.cboStandardWorkDays.Text = "";
+            parameter.txtOvertime.Text = "";
+            parameter.txtSalaryDeduction.Text = "";
         }//select item của combobox loại nhân viên trong SetSalaryWindow
         public void setItemSourceDay()
         {
@@ -273,7 +298,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 itemSourceDay.Add(i);
             }
-        }     
+        }
         public void SaveSetSalary(SetSalaryWindow parameter)
         {
             if (parameter == null)
@@ -394,7 +419,7 @@ namespace FootballFieldManagement.ViewModels
                 Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0, 0);
                 SalaryDAL.Instance.AddIntoDB(salary1);
             }
-        }    
+        }
         public long CovertToNumber(string str)
         {
             string[] s = str.Split(',');
@@ -414,7 +439,7 @@ namespace FootballFieldManagement.ViewModels
                 txt.Text = String.Format(culture, "{0:N0}", valueBefore);
                 txt.Select(txt.Text.Length, 0);
             }
-        }    
+        }
         public void SetMaxValue(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("\\b([1-9]|[12][0-9]|3[01])\\b");
@@ -426,6 +451,6 @@ namespace FootballFieldManagement.ViewModels
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         } //Chỉ cho nhập số
-        
+
     }
 }

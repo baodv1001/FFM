@@ -44,23 +44,56 @@ namespace FootballFieldManegement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
+                int idAccount = -1;
+                if (dt.Rows[i].ItemArray[9].ToString() != "")
+                {
+                    idAccount = int.Parse(dt.Rows[i].ItemArray[9].ToString());
+                }
                 Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
                     dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(),
                     dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(),
                     DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()),
                     dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()),
-                    int.Parse(dt.Rows[i].ItemArray[9].ToString()), Convert.FromBase64String(dt.Rows[i].ItemArray[10].ToString()));
+                    idAccount, Convert.FromBase64String(dt.Rows[i].ItemArray[10].ToString()));
                 employees.Add(employee);
             }
             //conn.Close();
             return employees;
+        }
+        public bool UpdateIdAccount(Employee employee)
+        {
+            try
+            {
+                conn.Open();
+                string query = "update Employee set idAccount = @idAccount where idEmployee = @idEmployee";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
+                command.Parameters.AddWithValue("@idAccount", employee.IdAccount);
+                int rs = command.ExecuteNonQuery();
+                if (rs != 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
         public bool AddIntoDB(Employee employee)
         {
             try
             {
                 conn.Open();
-                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,idAccount,imageFile) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@idAccount,@imageFile)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,imageFile) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@imageFile)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
@@ -71,7 +104,6 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
-                command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
@@ -91,13 +123,13 @@ namespace FootballFieldManegement.DAL
             {
                 conn.Close();
             }
-}
+        }
         public bool UpdateOnDB(Employee employee)
         {
             try
             {
                 conn.Open();
-                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,idAccount=@idAccount,imageFile=@imageFile where idEmployee=" + employee.IdEmployee;
+                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,imageFile=@imageFile where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
@@ -107,7 +139,6 @@ namespace FootballFieldManegement.DAL
                 command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
-                command.Parameters.AddWithValue("@idAccount", employee.IdAccount.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
@@ -140,7 +171,7 @@ namespace FootballFieldManegement.DAL
                 else
                 {
                     return false;
-                }    
+                }
             }
             catch
             {

@@ -11,7 +11,9 @@ namespace FootballFieldManagement.ViewModels
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             ValidationResult result = new ValidationResult(true, null);
-            if(value.ToString().Length == 0)
+            if (value == null)
+                return result;
+            if (value.ToString().Length == 0)
             {
                 result = new ValidationResult(false, "Vui lòng nhập tên đăng nhập");
             }

@@ -39,7 +39,7 @@ namespace FootballFieldManagement.ViewModels
 
         //Column chart - report tab
         private ObservableCollection<string> report_itemSourceTime = new ObservableCollection<string>();
-        public ObservableCollection<string> report_ItemSourceTime { get => itemSourceTime; set { itemSourceTime = value; OnPropertyChanged(); } }
+        public ObservableCollection<string> report_ItemSourceTime { get => report_itemSourceTime; set { report_itemSourceTime = value; OnPropertyChanged(); } }
 
         private SeriesCollection report_seriesCollection;
         public SeriesCollection report_SeriesCollection { get => report_seriesCollection; set { report_seriesCollection = value; OnPropertyChanged(); } }

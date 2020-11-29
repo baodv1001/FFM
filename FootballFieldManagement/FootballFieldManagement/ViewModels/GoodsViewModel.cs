@@ -224,15 +224,6 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng thêm hình ảnh!");
                 return;
             }
-            foreach(var goods in goodsList)
-            {
-                if(goods.Name == parameter.txtName.Text)
-                {
-                    MessageBox.Show("Mặt hàng đã tồn tại!");
-                    parameter.txtName.Clear();
-                    return;
-                }
-            }
             byte[] imgByteArr;
             try
             {
@@ -248,6 +239,15 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
+                foreach (var goods in goodsList)
+                {
+                    if (goods.Name == parameter.txtName.Text)
+                    {
+                        MessageBox.Show("Mặt hàng đã tồn tại!");
+                        parameter.txtName.Clear();
+                        return;
+                    }
+                }
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
                 if (isSuccessed1)
                 {

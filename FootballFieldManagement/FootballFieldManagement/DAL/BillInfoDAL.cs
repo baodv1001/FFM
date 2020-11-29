@@ -66,6 +66,33 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+
+        //Xóa bill info khi xóa goods
+        public bool DeleteIdGoods(string idGoods )
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "delete from BillInfo where idGoods=" + idGoods;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                if (command.ExecuteNonQuery() < 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         public bool AddIntoDB(BillInfo billInfo)
         {
             try

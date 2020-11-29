@@ -125,11 +125,45 @@ namespace FootballFieldManagement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()), dt.Rows[i].ItemArray[8].ToString());
+                int idAccount = -1;
+                if (dt.Rows[i].ItemArray[1].ToString() != "")
+                {
+                    idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
+                }
+                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount, DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()), dt.Rows[i].ItemArray[8].ToString());
                 bills.Add(bill);
             }
             conn.Close();
             return bills;
         }
+
+        //Sau khi xóa nhân viên => xóa Account => update idAccount về NULL 
+        public bool UpdateIdAccount(string idAccount)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "update Bill set idAccount = NULL where idAccount = " + idAccount;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                int rs = command.ExecuteNonQuery();
+                if (rs == 1)
+                {
+                    return true;
+
+                }
+                else
+                    return false;
+
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
     }
 }

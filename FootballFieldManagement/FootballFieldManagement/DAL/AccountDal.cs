@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using FootballFieldManagement.Models;
 
 namespace FootballFieldManagement.DAL
@@ -54,7 +55,30 @@ namespace FootballFieldManagement.DAL
             cmd.ExecuteNonQuery();
             conn.Close();
         }
-
+        public bool DeleteAccount(string idAccount)
+        {
+            try
+            {
+                conn.Open();
+                string query = "delete from Account where IdAccount = " + idAccount;
+                SqlCommand command = new SqlCommand(query, conn);
+                if (command.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("");
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
 
     }
 }

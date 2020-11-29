@@ -209,8 +209,12 @@ namespace FootballFieldManagement.ViewModels
                     if (employee.IdEmployee.ToString() == parameter.txbId.Text)
                     {
                         SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
+                        AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
                         if (EmployeeDAL.Instance.DeleteEmployee(employee))
                         {
+                            BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                            StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                            AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
                             MessageBox.Show("Đã xóa thành công!");
                         }
                         break;

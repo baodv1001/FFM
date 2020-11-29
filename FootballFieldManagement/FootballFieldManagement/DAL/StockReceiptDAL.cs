@@ -38,7 +38,12 @@ namespace FootballFieldManagement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
+                int idAccount = -1;
+                if (dt.Rows[i].ItemArray[1].ToString() != "")
+                {
+                    idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
+                }
+                StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount,
                     DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()));
                 stockReceiptList.Add(acc);
             }
@@ -92,6 +97,31 @@ namespace FootballFieldManagement.DAL
                 {
                     return true;
                 }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool UpdateIdAccount(string idAccount)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "update StockReceipt set idAccount = NULL where idAccount = " + idAccount;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                int rs = command.ExecuteNonQuery();
+                if (rs == 1)
+                {
+                    return true;
+                }
+                else
+                    return false;
+
             }
             catch
             {

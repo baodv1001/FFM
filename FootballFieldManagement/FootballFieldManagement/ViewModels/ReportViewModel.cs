@@ -99,6 +99,8 @@ namespace FootballFieldManagement.ViewModels
         }
         public ReportViewModel(HomeWindow homeWindow)
         {
+            homeWindow.cboSelectTimePie.SelectedIndex = 0;
+            homeWindow.cboSelectPeriod.SelectedIndex = 0;
             LoadDefaultChart(homeWindow);
         }
         public void LoadDefaultChart(HomeWindow parameter)

@@ -493,6 +493,7 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
+                                x:Name="txbTodayRevenue"
                                 Grid.Row="1"
                                 Text="{Binding TodayRevenue}"
                                 HorizontalAlignment="Left"
@@ -503,6 +504,7 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
+                                x:Name="txbToday"
                                 Grid.Row="2"
                                 Text="{Binding CurrentDate}"
                                 HorizontalAlignment="Left"
@@ -546,6 +548,7 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
+                                x:Name="txbThisMonthRevenue"
                                 Grid.Row="1"
                                 Text="{Binding ThisMonthRevenue}"
                                 HorizontalAlignment="Left"
@@ -556,6 +559,7 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
+                                x:Name="txbThisMonth"
                                 Grid.Row="2"
                                 Text="{Binding CurrentMonth}"
                                 HorizontalAlignment="Left"
@@ -598,6 +602,7 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
+                                x:Name="txbNumOfHiredField"
                                 Grid.Row="1"
                                 Text="{Binding NumOfHiredField}"
                                 HorizontalAlignment="Left"
@@ -608,6 +613,7 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
+                                x:Name="txbThisMonth1"
                                 Grid.Row="2"
                                 Text="{Binding CurrentMonth}"
                                 HorizontalAlignment="Left"
@@ -640,7 +646,12 @@
                     CornerRadius="4" 
                     Background="{DynamicResource White}">
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="8" ShadowDepth="1.5" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42"/>
+                        <DropShadowEffect 
+                            BlurRadius="8" 
+                            ShadowDepth="1.5" 
+                            Direction="270" 
+                            Color="{StaticResource MaterialDesignShadow}"
+                            Opacity=".42"/>
                     </Border.Effect>
                     <Grid 
                         HorizontalAlignment="Left" 
@@ -812,8 +823,8 @@
                                 <ComboBoxItem Content="Theo năm"/>
                             </ComboBox>
                             <ComboBox
-                                DataContext="{StaticResource ReportVM}"
                                 x:Name="cboSelectTime"
+                                DataContext="{StaticResource ReportVM}"
                                 ItemsSource="{Binding ItemSourceTime, Mode=TwoWay}"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
                                 FontSize="16"
@@ -836,9 +847,7 @@
                             </ComboBox>
                         </StackPanel>
                         <lvc:CartesianChart 
-                            x:Name="clcCome"
                             DataContext="{StaticResource ReportVM}"
-                            DataClickCommand="{Binding DataClickColumnChartCommand}"
                             Series="{Binding SeriesCollection}" 
                             LegendLocation="Bottom"
                             Width="540" 
@@ -1225,6 +1234,130 @@
                 Margin="0"
                 Grid.Row="1"
                 Visibility="Hidden"/>
+            <Grid 
+                x:Name="grdBody_Report" 
+                HorizontalAlignment="Left" 
+                Height="720" 
+                VerticalAlignment="Top" 
+                Width="1201"
+                Margin="0"
+                Grid.Row="1"
+                Visibility="Hidden">
+                <Border 
+                    BorderThickness="1"
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Height="560" 
+                    Width="1120"
+                    Margin="40,120,0,0" 
+                    CornerRadius="2" 
+                    Background="{DynamicResource White}">
+                    <Border.Effect>
+                        <DropShadowEffect 
+                            BlurRadius="8" 
+                            ShadowDepth="1.5" 
+                            Direction="270"
+                            Color="{StaticResource MaterialDesignShadow}" 
+                            Opacity=".42"/>
+                    </Border.Effect>
+                    <Grid
+                        Margin="0" 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Height="560" 
+                        Width="1120">
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left" 
+                            Margin="60,20,0,0">
+                            <ComboBox
+                                DataContext="{StaticResource ReportVM}"
+                                x:Name="cboSelectPeriod_Report"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn chu kỳ"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="0">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding Report_SelectionChangedCommand}" 
+                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem Content="Theo tháng"/>
+                                <ComboBoxItem Content="Theo quý"/>
+                                <ComboBoxItem Content="Theo năm"/>
+                            </ComboBox>
+                            <ComboBox
+                                x:Name="cboSelectTime_Report"
+                                DataContext="{StaticResource ReportVM}"
+                                ItemsSource="{Binding report_ItemSourceTime, Mode=TwoWay}"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="60,0,0,0" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
+                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                        <lvc:CartesianChart 
+                            DataContext="{StaticResource ReportVM}"
+                            Series="{Binding report_SeriesCollection}" 
+                            LegendLocation="Bottom"
+                            Width="1000" 
+                            Height="460" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,15" >
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis 
+                                    Title="{Binding report_AxisXTitle, Mode=TwoWay}" 
+                                    Labels="{Binding report_Labels, Mode=TwoWay}" 
+                                    Foreground="{DynamicResource Gray1}"
+                                    FontSize="14">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator Step="1"></lvc:Separator>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis 
+                                    Title="VNĐ" 
+                                    LabelFormatter="{Binding report_Formatter}"
+                                    Foreground="{DynamicResource Gray1}"
+                                    FontSize="14">
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Initialized">
+                                    <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
+                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

@@ -115,22 +115,23 @@ namespace FootballFieldManagement.ViewModels
             TotalGoods = 0;
             parameter.stkPickedGoods.Children.Clear();
             DataTable billInfos = BillInfoDAL.Instance.LoadData("BillInfo");
-            ProductDetailsControl infoControl = new ProductDetailsControl();
             for (int i = 0; i < billInfos.Rows.Count; i++)
             {
-
-                infoControl = new ProductDetailsControl();
-                infoControl.txbNo.Text = (i + 1).ToString();
-                infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
-                infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
-                infoControl.txbName.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).Name;
-                infoControl.txbPrice.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).UnitPrice.ToString();
-                infoControl.nmsQuantity.Text = decimal.Parse(billInfos.Rows[i].ItemArray[2].ToString());
-                infoControl.nmsQuantity.MinValue = 1;
-                infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGood(infoControl.txbIdGoods.Text).Quantity;
-                infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
-
-                parameter.stkPickedGoods.Children.Add(infoControl);
+                if (billInfos.Rows[i].ItemArray[0].ToString() == parameter.txbIdBill.Text)
+                {
+                    ProductDetailsControl infoControl = new ProductDetailsControl();
+                    infoControl.txbNo.Text = (i + 1).ToString();
+                    infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
+                    infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
+                    infoControl.txbName.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).Name;
+                    infoControl.txbPrice.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).UnitPrice.ToString();
+                    infoControl.nmsQuantity.Text = decimal.Parse(billInfos.Rows[i].ItemArray[2].ToString());
+                    infoControl.nmsQuantity.MinValue = 1;
+                    infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGood(infoControl.txbIdGoods.Text).Quantity;
+                    infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
+                    
+                    parameter.stkPickedGoods.Children.Add(infoControl);
+                }
             }
             TotalGoods = BillInfoDAL.Instance.CountSumMoney();
             Total = TotalGoods + int.Parse(parameter.txbFieldPrice.Text) - int.Parse(parameter.txbDiscount.Text);

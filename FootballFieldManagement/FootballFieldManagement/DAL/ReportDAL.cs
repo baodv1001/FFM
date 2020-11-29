@@ -124,14 +124,14 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                long[] revenue = new long[dataTable.Rows.Count];
+                long[] revenue = new long[daysOfMonth.Length];
                 int j = 0;
                 int numOfRows = dataTable.Rows.Count;
                 for (int i = 0; i < daysOfMonth.Length && j < numOfRows; i++)
                 {
                     if (daysOfMonth[i] == dataTable.Rows[j].ItemArray[0].ToString())
                     {
-                        revenue[i] = long.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                        revenue[i] = long.Parse(dataTable.Rows[j].ItemArray[1].ToString());
                         j++;
                     }
                 }
@@ -163,7 +163,7 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                long[] revenue = new long[dataTable.Rows.Count];
+                long[] revenue = new long[monthsOfYear.Length];
                 int j = 0;
                 int numOfRows = dataTable.Rows.Count;
 
@@ -171,7 +171,7 @@ namespace FootballFieldManagement.DAL
                 {
                     if (monthsOfYear[i] == dataTable.Rows[j].ItemArray[0].ToString())
                     {
-                        revenue[i] = long.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                        revenue[i] = long.Parse(dataTable.Rows[j].ItemArray[1].ToString());
                         j++;
                     }
                 }
@@ -203,7 +203,7 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                long[] revenue = new long[dataTable.Rows.Count];
+                long[] revenue = new long[quartersOfYear.Length];
                 int j = 0;
                 int numOfRows = dataTable.Rows.Count;
 
@@ -211,7 +211,7 @@ namespace FootballFieldManagement.DAL
                 {
                     if (quartersOfYear[i] == dataTable.Rows[j].ItemArray[0].ToString())
                     {
-                        revenue[i] = long.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                        revenue[i] = long.Parse(dataTable.Rows[j].ItemArray[1].ToString());
                         j++;
                     }
                 }
@@ -244,7 +244,7 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                long[] revenue = new long[dataTable.Rows.Count];
+                long[] revenue = new long[daysOfMonth.Length];
                 int j = 0;
                 int numOfRows = dataTable.Rows.Count;
 
@@ -252,7 +252,7 @@ namespace FootballFieldManagement.DAL
                 {
                     if (daysOfMonth[i] == dataTable.Rows[j].ItemArray[0].ToString())
                     {
-                        revenue[i] = long.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                        revenue[i] = long.Parse(dataTable.Rows[j].ItemArray[1].ToString());
                         j++;
                     }
                 }
@@ -284,7 +284,7 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                long[] revenue = new long[dataTable.Rows.Count];
+                long[] revenue = new long[monthsOfYear.Length];
                 int j = 0;
                 int numOfRows = dataTable.Rows.Count;
 
@@ -292,7 +292,7 @@ namespace FootballFieldManagement.DAL
                 {
                     if (monthsOfYear[i] == dataTable.Rows[j].ItemArray[0].ToString())
                     {
-                        revenue[i] = long.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                        revenue[i] = long.Parse(dataTable.Rows[j].ItemArray[1].ToString());
                         j++;
                     }
                 }
@@ -324,7 +324,7 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                long[] revenue = new long[dataTable.Rows.Count];
+                long[] revenue = new long[quartersOfYear.Length];
                 int j = 0;
                 int numOfRows = dataTable.Rows.Count;
 
@@ -332,7 +332,7 @@ namespace FootballFieldManagement.DAL
                 {
                     if (quartersOfYear[i] == dataTable.Rows[j].ItemArray[0].ToString())
                     {
-                        revenue[i] = long.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                        revenue[i] = long.Parse(dataTable.Rows[j].ItemArray[1].ToString());
                         j++;
                     }
                 }

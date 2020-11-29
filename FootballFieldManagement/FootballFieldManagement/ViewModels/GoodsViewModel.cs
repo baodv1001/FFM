@@ -235,10 +235,19 @@ namespace FootballFieldManagement.ViewModels
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
+                parameter. cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
+                foreach (var goods in goodsList)
+                {
+                    if (goods.Name == parameter.txtName.Text)
+                    {
+                        MessageBox.Show("Mặt hàng đã tồn tại!");
+                        parameter.txtName.Clear();
+                        return;
+                    }
+                }
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
                 if (isSuccessed1)
                 {
@@ -280,7 +289,7 @@ namespace FootballFieldManagement.ViewModels
                 parameter.cboUnit.Text, 1, GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile, int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
-            StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), 1,
+            StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), CurrentAccount.IdAccount,
                 DateTime.Parse(parameter.dpImportDate.Text), int.Parse(parameter.txtTotal.Text));
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 

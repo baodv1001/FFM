@@ -38,7 +38,9 @@ namespace FootballFieldManagement.ViewModels
         public void ShowTableCheckAttendance(CheckAttendanceWindow parameter)
         {
             if (selectedEmployee == null)
+            {
                 return;
+            }
             LoadDay(parameter);
             parameter.btnCheckIn.IsEnabled = true;
             int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
@@ -67,18 +69,10 @@ namespace FootballFieldManagement.ViewModels
         }
         public void CheckIn(CheckAttendanceWindow parameter)
         {
-            if (string.IsNullOrEmpty(parameter.cboSelectEmployee.Text))
+            Attendance attendance = new Attendance(DateTime.Now.Day, DateTime.Now.Month, selectedEmployee.IdEmployee);
+            if (AttendanceDAL.Instance.AddDay(attendance))
             {
-                MessageBox.Show("Vui lòng chọn nhân viên!");
-                parameter.cboSelectEmployee.Focus();
-            }
-            else
-            {
-                Attendance attendance = new Attendance(DateTime.Now.Day, DateTime.Now.Month, selectedEmployee.IdEmployee);
-                if (AttendanceDAL.Instance.AddDay(attendance))
-                {
-                    ShowTableCheckAttendance(parameter);
-                }
+                ShowTableCheckAttendance(parameter);
             }
         }
         public void HandelLoadEvent(CheckAttendanceWindow parameter)
@@ -91,6 +85,10 @@ namespace FootballFieldManagement.ViewModels
                     MessageBox.Show("Lỗi hệ thống!");
                     parameter.Close();
                 }
+            }
+            if (parameter.cboSelectEmployee.SelectedIndex == -1)
+            {
+                parameter.btnCheckIn.IsEnabled = false;
             }
             parameter.txbMonth.Text = "Bảng chấm công tháng " + DateTime.Now.Month;
             LoadDay(parameter);
@@ -131,13 +129,13 @@ namespace FootballFieldManagement.ViewModels
             {
                 parameter.wdCheckAttendance.Height = 800;
                 parameter.wpMonthView.Height = 576;
-                maxSquare = 42; 
+                maxSquare = 42;
                 double screenWidth = SystemParameters.PrimaryScreenWidth;
                 double screenHeight = SystemParameters.PrimaryScreenHeight;
                 parameter.Left = (screenWidth / 2) - (parameter.Width / 2);
                 parameter.Top = (screenHeight / 2) - (parameter.Height / 2);
             }
-            else if(daysInMonth == 28)
+            else if (daysInMonth == 28)
             {
                 parameter.wdCheckAttendance.Height = 600;
                 parameter.wpMonthView.Height = 384;
@@ -182,7 +180,7 @@ namespace FootballFieldManagement.ViewModels
             }
 
             //Những ngày trống ở cuối
-            for(int i = daysInMonth + dayOfWeek - tmp -1; i <= maxSquare; i++)
+            for (int i = daysInMonth + dayOfWeek - tmp - 1; i <= maxSquare; i++)
             {
                 parameter.wpMonthView.Children.Add(new DateControl());
             }

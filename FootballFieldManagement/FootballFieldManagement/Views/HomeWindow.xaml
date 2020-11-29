@@ -842,7 +842,6 @@
                         </StackPanel>
                         <lvc:CartesianChart 
                             DataContext="{StaticResource ReportVM}"
-                            DataClickCommand="{Binding DataClickColumnChartCommand}"
                             Series="{Binding SeriesCollection}" 
                             LegendLocation="Bottom"
                             Width="540" 

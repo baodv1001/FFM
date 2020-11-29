@@ -62,19 +62,19 @@ namespace FootballFieldManagement.ViewModels
 
         //Dashboard
         private string todayRevenue = "0 đồng";
-        public string TodayRevenue { get => todayRevenue; set => todayRevenue = value; }
+        public string TodayRevenue { get => todayRevenue; set { todayRevenue = value; OnPropertyChanged(); } }
 
         private string thisMonthRevenue = "0 đồng";
-        public string ThisMonthRevenue { get => thisMonthRevenue; set => thisMonthRevenue = value; }
+        public string ThisMonthRevenue { get => thisMonthRevenue; set { thisMonthRevenue = value; OnPropertyChanged(); } }
 
         private string numOfHiredField;
-        public string NumOfHiredField { get => numOfHiredField; set => numOfHiredField = value; }
+        public string NumOfHiredField { get => numOfHiredField; set { numOfHiredField = value; OnPropertyChanged(); } }
 
         private string currentDate;
-        public string CurrentDate { get => currentDate; set => currentDate = value; }
+        public string CurrentDate { get => currentDate; set { currentDate = value; OnPropertyChanged(); } }
 
         private string currentMonth;
-        public string CurrentMonth { get => currentMonth; set => currentMonth = value; }
+        public string CurrentMonth { get => currentMonth; set { currentMonth = value; OnPropertyChanged(); } }
 
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand InitColumnChartCommand { get; set; }
@@ -88,7 +88,6 @@ namespace FootballFieldManagement.ViewModels
 
         public ReportViewModel()
         {
-            InitDashboard();
             SelectionChangedCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => UpdateSelectTimeItemSource(parameter));
             InitColumnChartCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => InitColumnChart(parameter));
             InitPieChartCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => InitPieChart(parameter));
@@ -115,6 +114,8 @@ namespace FootballFieldManagement.ViewModels
                 timer.Stop();
             };
             timer.Start();
+
+            InitDashboard();
         }
         public void InitDashboard()
         {

@@ -161,6 +161,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;
             parameter.grdBody_Home.Visibility = Visibility.Hidden;
             parameter.grdBody_Employee.Visibility = Visibility.Hidden;
+            parameter.grdBody_Report.Visibility = Visibility.Hidden;
 
             parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
             parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
@@ -198,6 +199,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 4:
+                    parameter.grdBody_Report.Visibility = Visibility.Visible;
                     parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;

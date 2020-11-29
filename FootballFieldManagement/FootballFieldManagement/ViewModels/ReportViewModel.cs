@@ -97,8 +97,20 @@ namespace FootballFieldManagement.ViewModels
             Report_SelectionChangedCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => Report_UpdateSelectTimeItemSource(parameter));
             Report_InitColumnChartCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => Report_InitColumnChart(parameter));
         }
+        public ReportViewModel(HomeWindow homeWindow)
+        {
+            LoadDefaultChart(homeWindow);
+        }
         public void LoadDefaultChart(HomeWindow parameter)
         {
+            string currentDay = DateTime.Now.Day.ToString();
+            string currentMonth = DateTime.Now.Month.ToString();
+            string currentYear = DateTime.Now.Year.ToString();
+            parameter.txbToday.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            parameter.txbThisMonth1.Text = parameter.txbThisMonth.Text = DateTime.Now.ToString("MM/yyyy");
+            parameter.txbNumOfHiredField.Text = ReportDAL.Instance.QueryRevenueNumOfHiredFieldInMonth(currentMonth, currentYear);
+            parameter.txbTodayRevenue.Text = ReportDAL.Instance.QueryRevenueInDay(currentDay, currentMonth, currentYear);
+            parameter.txbThisMonthRevenue.Text = ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear);
             DispatcherTimer timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(1)
@@ -111,22 +123,10 @@ namespace FootballFieldManagement.ViewModels
 
                 parameter.cboSelectPeriod_Report.SelectedIndex = 0;
                 parameter.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
+
                 timer.Stop();
             };
             timer.Start();
-
-            InitDashboard();
-        }
-        public void InitDashboard()
-        {
-            string currentDay = DateTime.Now.Day.ToString();
-            string currentMonth = DateTime.Now.Month.ToString();
-            string currentYear = DateTime.Now.Year.ToString();
-            CurrentDate = DateTime.Now.ToString("dd/MM/yyyy");
-            CurrentMonth = DateTime.Now.ToString("MM/yyyy");
-            NumOfHiredField = ReportDAL.Instance.QueryRevenueNumOfHiredFieldInMonth(currentMonth, currentYear);
-            TodayRevenue = ReportDAL.Instance.QueryRevenueInDay(currentDay, currentMonth, currentYear);
-            ThisMonthRevenue = ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear);
         }
         public void DataClick(ChartPoint p)
         {

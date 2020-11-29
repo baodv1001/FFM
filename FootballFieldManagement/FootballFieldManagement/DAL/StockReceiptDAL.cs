@@ -49,11 +49,11 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "insert into StockReceipt(idStockReceipt, idEmployee, dateTimeStockReceipt, total) " +
-                    "values(@idStockReceipt, @idEmployee, @dateTimeStockReceipt, @total)";
+                string queryString = "insert into StockReceipt(idStockReceipt, idAccount, dateTimeStockReceipt, total) " +
+                    "values(@idStockReceipt, @idAccount, @dateTimeStockReceipt, @total)";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idStockReceipt", stockReceipt.IdStockReceipt.ToString());
-                command.Parameters.AddWithValue("@idEmployee", stockReceipt.IdEmployee.ToString());
+                command.Parameters.AddWithValue("@idAccount", stockReceipt.IdAccount.ToString());
                 command.Parameters.AddWithValue("@dateTimeStockReceipt", stockReceipt.DateTimeStockReceipt);
                 command.Parameters.AddWithValue("@total", stockReceipt.Total.ToString());
 

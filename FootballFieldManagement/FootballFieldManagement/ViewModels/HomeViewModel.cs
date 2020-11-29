@@ -180,6 +180,7 @@ namespace FootballFieldManagement.ViewModels
             switch (index)
             {
                 case 0:
+                    ReportViewModel reportViewModel = new ReportViewModel(parameter);
                     parameter.grdBody_Home.Visibility = Visibility.Visible;
                     parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");

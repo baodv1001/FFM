@@ -214,7 +214,7 @@ namespace FootballFieldManagement.ViewModels
                         bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
                         bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
                         bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
-                        if((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) ||(isSuccess3 && isSuccess6))
+                        if((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) ||(isSuccess3))
                         {
                             MessageBox.Show("Đã xóa thành công!");
                         }

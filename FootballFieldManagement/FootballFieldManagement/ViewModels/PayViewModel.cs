@@ -113,14 +113,16 @@ namespace FootballFieldManagement.ViewModels
         public void LoadBillInfoToView(PayWindow parameter)
         {
             TotalGoods = 0;
+            int j = 0;
             parameter.stkPickedGoods.Children.Clear();
             DataTable billInfos = BillInfoDAL.Instance.LoadData("BillInfo");
             for (int i = 0; i < billInfos.Rows.Count; i++)
             {
                 if (billInfos.Rows[i].ItemArray[0].ToString() == parameter.txbIdBill.Text)
                 {
+                    j++;
                     ProductDetailsControl infoControl = new ProductDetailsControl();
-                    infoControl.txbNo.Text = (i + 1).ToString();
+                    infoControl.txbNo.Text = j.ToString();
                     infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
                     infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
                     infoControl.txbName.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).Name;

@@ -184,15 +184,8 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string query = "DELETE FROM Attendance where idEmployee = " + idEmployee;
                 SqlCommand cmd = new SqlCommand(query, conn);
-                if (cmd.ExecuteNonQuery() != 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-
+                int rs = cmd.ExecuteNonQuery();
+                return true;
             }
             catch
             {

@@ -71,7 +71,6 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("");
                 return false;
             }
             finally

@@ -68,21 +68,14 @@ namespace FootballFieldManagement.DAL
         }
 
         //Xóa bill info khi xóa goods
-        public bool DeleteIdGoods(string idGoods )
+        public bool DeleteIdGoods(string idGoods)
         {
             try
             {
                 conn.Open();
                 string queryString = "delete from BillInfo where idGoods=" + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
-                if (command.ExecuteNonQuery() < 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch
             {
@@ -111,7 +104,7 @@ namespace FootballFieldManagement.DAL
                 else
                 {
                     return false;
-                }    
+                }
             }
             catch
             {

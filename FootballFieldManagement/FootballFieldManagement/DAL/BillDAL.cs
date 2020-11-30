@@ -146,14 +146,7 @@ namespace FootballFieldManagement.DAL
                 string queryString = "update Bill set idAccount = NULL where idAccount = " + idAccount;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
-                if (rs == 1)
-                {
-                    return true;
-
-                }
-                else
-                    return false;
-
+                return true;
             }
             catch
             {

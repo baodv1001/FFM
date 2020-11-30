@@ -62,14 +62,7 @@ namespace FootballFieldManagement.DAL
                 string queryString = "delete from StockReceiptInfo where idGoods=" + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
-                if (rs < 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch
             {

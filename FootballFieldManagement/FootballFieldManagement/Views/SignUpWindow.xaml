@@ -13,7 +13,8 @@
         Title="Đăng ký tài khoản" 
         Height="610"
         Width="390" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadCommand}" CommandParameter="{Binding ElementName=wdSignUp}"/>

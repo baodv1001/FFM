@@ -113,14 +113,16 @@ namespace FootballFieldManagement.ViewModels
         public void LoadBillInfoToView(PayWindow parameter)
         {
             TotalGoods = 0;
+            int j = 0;
             parameter.stkPickedGoods.Children.Clear();
             DataTable billInfos = BillInfoDAL.Instance.LoadData("BillInfo");
             for (int i = 0; i < billInfos.Rows.Count; i++)
             {
                 if (billInfos.Rows[i].ItemArray[0].ToString() == parameter.txbIdBill.Text)
                 {
+                    j++;
                     ProductDetailsControl infoControl = new ProductDetailsControl();
-                    infoControl.txbNo.Text = (i + 1).ToString();
+                    infoControl.txbNo.Text = j.ToString();
                     infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
                     infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
                     infoControl.txbName.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).Name;
@@ -133,7 +135,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.stkPickedGoods.Children.Add(infoControl);
                 }
             }
-            TotalGoods = BillInfoDAL.Instance.CountSumMoney();
+            TotalGoods = BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text);
             Total = TotalGoods + int.Parse(parameter.txbFieldPrice.Text) - int.Parse(parameter.txbDiscount.Text);
         }
         public void LoadTotalMoney(PayWindow parameter)
@@ -219,7 +221,7 @@ namespace FootballFieldManagement.ViewModels
             BillInfoDAL.Instance.UpdateOnDB(billInfo);
             parameter.txbtotal.Text = (parameter.nmsQuantity.Value * int.Parse(parameter.txbPrice.Text)).ToString();
             Total -= TotalGoods;
-            TotalGoods = BillInfoDAL.Instance.CountSumMoney();
+            TotalGoods = BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text);
             Total += TotalGoods;
         }
         public void DeleteBillInfo(ProductDetailsControl paramter)
@@ -228,7 +230,7 @@ namespace FootballFieldManagement.ViewModels
             BillInfoDAL.Instance.DeleteFromDB(billInfo);
             ((StackPanel)paramter.Parent).Children.Remove(paramter);
             Total -= TotalGoods;
-            TotalGoods = BillInfoDAL.Instance.CountSumMoney();
+            TotalGoods = BillInfoDAL.Instance.CountSumMoney(paramter.txbIdBill.Text);
             Total += TotalGoods;
         }
     }

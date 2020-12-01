@@ -265,9 +265,11 @@
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left">
-                    <ComboBoxItem x:Name="cboUnit1" Content="Chai"/>
-                    <ComboBoxItem x:Name="cboUnit2" Content="Đôi"/>
-                    <ComboBoxItem x:Name="cboUnit3" Content="Cái"/>
+                    <ComboBoxItem Content="Chai"/>
+                    <ComboBoxItem Content="Đôi"/>
+                    <ComboBoxItem Content="Cái"/>
+                    <ComboBoxItem Content="Lon"/>
+                    <ComboBoxItem Content="Cuộn"/>
                 </ComboBox>
             </Grid>
             <Grid 

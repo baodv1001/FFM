@@ -208,10 +208,19 @@ namespace FootballFieldManagement.ViewModels
                 {
                     if (employee.IdEmployee.ToString() == parameter.txbId.Text)
                     {
-                        SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
-                        if (EmployeeDAL.Instance.DeleteEmployee(employee))
+                        bool isSuccess1 = SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
+                        bool isSuccess2 = AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
+                        bool isSuccess3 = EmployeeDAL.Instance.DeleteEmployee(employee);
+                        bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                        bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                        bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
+                        if((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) ||(isSuccess3))
                         {
                             MessageBox.Show("Đã xóa thành công!");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Xoá thất bại");
                         }
                         break;
                     }
@@ -294,6 +303,7 @@ namespace FootballFieldManagement.ViewModels
         }//select item của combobox loại nhân viên trong SetSalaryWindow
         public void setItemSourceDay()
         {
+            itemSourceDay.Clear();
             for (int i = 1; i <= 31; i++)
             {
                 itemSourceDay.Add(i);

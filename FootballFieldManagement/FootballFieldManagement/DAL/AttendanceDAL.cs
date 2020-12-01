@@ -173,7 +173,28 @@ namespace FootballFieldManagement.DAL
             {
                 conn.Close();
             }
-        } 
+        }
 
+        //Xóa ngày làm của nhân viên khi xóa nhân viên
+
+        public bool DeleteAttendance(string idEmployee)
+        {
+            try
+            {
+                conn.Open();
+                string query = "DELETE FROM Attendance where idEmployee = " + idEmployee;
+                SqlCommand cmd = new SqlCommand(query, conn);
+                int rs = cmd.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

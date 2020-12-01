@@ -149,14 +149,8 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 string idGoods = txb.Text;
-                List<string> idStockReceiptList = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
-
                 bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-                bool isSuccessed2 = true;
-                foreach (var idStockReceipt in idStockReceiptList)
-                {
-                    isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
-                }
+                bool isSuccessed2 = BillInfoDAL.Instance.DeleteIdGoods(idGoods);
                 bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
                 if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
                 {

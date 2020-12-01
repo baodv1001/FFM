@@ -9,7 +9,8 @@
         Height="700"
         Width="440" 
         WindowStartupLocation="CenterScreen" 
-        ResizeMode="CanMinimize" Background="{DynamicResource White}">
+        ResizeMode="CanMinimize" 
+        Background="{DynamicResource White}">
     <!--Form đã đặt sân-->
     <Grid 
         x:Name="frmBooking" 

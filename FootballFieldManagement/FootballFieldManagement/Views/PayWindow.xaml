@@ -36,7 +36,7 @@
     <Grid>
         <TextBox 
             x:Name="txbIdBill" 
-            Text="1" 
+            Text="19" 
             HorizontalAlignment="Left" 
             Height="23" 
             Margin="239,10,0,0" 

@@ -148,13 +148,14 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public int CountSumMoney() // Tính tổng số tiền 
+        public int CountSumMoney(string idBill) // Tính tổng số tiền 
         {
             conn.Open();
             int sum = 0;
             DataTable dataTable = new DataTable();
-            string queryString = "select BillInfo.quantity,unitPrice from BillInfo Inner join Goods on Goods.idGoods = BillInfo.idGoods ";
+            string queryString = "select BillInfo.quantity,unitPrice from BillInfo Inner join Goods on Goods.idGoods = BillInfo.idGoods where idBill=@idBill ";
             SqlCommand commnad = new SqlCommand(queryString, conn);
+            commnad.Parameters.AddWithValue("@idBill", idBill);
             SqlDataAdapter adapter = new SqlDataAdapter(commnad);
             adapter.Fill(dataTable);
             for (int i = 0; i < dataTable.Rows.Count; i++)

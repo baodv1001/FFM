@@ -258,6 +258,7 @@ namespace FootballFieldManagement.ViewModels
             switch (index)
             {
                 case 0:
+                    ReportViewModel reportViewModel = new ReportViewModel(parameter);
                     parameter.grdBody_Home.Visibility = Visibility.Visible;
                     parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
@@ -277,6 +278,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 4:
+                    parameter.grdBody_Report.Visibility = Visibility.Visible;
                     parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;

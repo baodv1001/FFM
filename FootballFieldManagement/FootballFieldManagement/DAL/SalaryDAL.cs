@@ -109,7 +109,6 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-
         public bool UpdateTotalSalary(Salary salary)
         {
             try
@@ -137,7 +136,6 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-
         public bool AddIntoDB(Salary salary)
         {
             try
@@ -172,7 +170,6 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-
         public bool DeleteSalary(string id)
         {
             try
@@ -180,12 +177,8 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string query = "delete from Salary where idEmployee = " + id;
                 SqlCommand command = new SqlCommand(query, conn);
-                if (command.ExecuteNonQuery() > 0)
-                    return true;
-                else
-                {
-                    return false;
-                }
+                int rs = command.ExecuteNonQuery();
+                return true;
             }
             catch
             {

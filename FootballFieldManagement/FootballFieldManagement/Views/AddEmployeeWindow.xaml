@@ -14,7 +14,8 @@
         Width="700" 
         Background="#FFFF" 
         DataContext="{StaticResource EmployeeVM}"
-        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize">
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="CanMinimize">
     <Grid Margin="0">
         <Grid  
             x:Name="grdSelectImage"

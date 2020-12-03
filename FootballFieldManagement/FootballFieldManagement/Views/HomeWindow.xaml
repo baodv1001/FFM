@@ -491,6 +491,7 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
+                                x:Name="txbTodayRevenue"
                                 Grid.Row="1"
                                 Text="{Binding TodayRevenue}"
                                 HorizontalAlignment="Left"
@@ -501,6 +502,7 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
+                                x:Name="txbToday"
                                 Grid.Row="2"
                                 Text="{Binding CurrentDate}"
                                 HorizontalAlignment="Left"
@@ -544,6 +546,7 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
+                                x:Name="txbThisMonthRevenue"
                                 Grid.Row="1"
                                 Text="{Binding ThisMonthRevenue}"
                                 HorizontalAlignment="Left"
@@ -554,6 +557,7 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
+                                x:Name="txbThisMonth"
                                 Grid.Row="2"
                                 Text="{Binding CurrentMonth}"
                                 HorizontalAlignment="Left"
@@ -596,6 +600,7 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
+                                x:Name="txbNumOfHiredField"
                                 Grid.Row="1"
                                 Text="{Binding NumOfHiredField}"
                                 HorizontalAlignment="Left"
@@ -606,6 +611,7 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
+                                x:Name="txbThisMonth1"
                                 Grid.Row="2"
                                 Text="{Binding CurrentMonth}"
                                 HorizontalAlignment="Left"
@@ -638,7 +644,12 @@
                     CornerRadius="4" 
                     Background="{DynamicResource White}">
                     <Border.Effect>
-                        <DropShadowEffect BlurRadius="8" ShadowDepth="1.5" Direction="270" Color="{StaticResource MaterialDesignShadow}" Opacity=".42"/>
+                        <DropShadowEffect 
+                            BlurRadius="8" 
+                            ShadowDepth="1.5" 
+                            Direction="270" 
+                            Color="{StaticResource MaterialDesignShadow}"
+                            Opacity=".42"/>
                     </Border.Effect>
                     <Grid 
                         HorizontalAlignment="Left" 
@@ -810,8 +821,8 @@
                                 <ComboBoxItem Content="Theo năm"/>
                             </ComboBox>
                             <ComboBox
-                                DataContext="{StaticResource ReportVM}"
                                 x:Name="cboSelectTime"
+                                DataContext="{StaticResource ReportVM}"
                                 ItemsSource="{Binding ItemSourceTime, Mode=TwoWay}"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
                                 FontSize="16"
@@ -834,9 +845,7 @@
                             </ComboBox>
                         </StackPanel>
                         <lvc:CartesianChart 
-                            x:Name="clcCome"
                             DataContext="{StaticResource ReportVM}"
-                            DataClickCommand="{Binding DataClickColumnChartCommand}"
                             Series="{Binding SeriesCollection}" 
                             LegendLocation="Bottom"
                             Width="540" 

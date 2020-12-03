@@ -13,7 +13,7 @@ namespace FootballFieldManagement.DAL
         public SqlConnection conn;
         public SQLConnection()
         {
-            strConn = @"Data Source=ffm-dbs.database.windows.net;Initial Catalog=ffm-db;User ID=ffm;Password=Football2020";
+            strConn = @"Data Source=(local);Initial Catalog=FootballFieldManagement;Integrated Security=True";
             conn = new SqlConnection(strConn);
         }
     }

@@ -38,7 +38,12 @@ namespace FootballFieldManagement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
+                int idAccount = -1;
+                if (dt.Rows[i].ItemArray[1].ToString() != "")
+                {
+                    idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
+                }
+                StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount,
                     DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()));
                 stockReceiptList.Add(acc);
             }
@@ -49,11 +54,11 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "insert into StockReceipt(idStockReceipt, idEmployee, dateTimeStockReceipt, total) " +
-                    "values(@idStockReceipt, @idEmployee, @dateTimeStockReceipt, @total)";
+                string queryString = "insert into StockReceipt(idStockReceipt, idAccount, dateTimeStockReceipt, total) " +
+                    "values(@idStockReceipt, @idAccount, @dateTimeStockReceipt, @total)";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idStockReceipt", stockReceipt.IdStockReceipt.ToString());
-                command.Parameters.AddWithValue("@idEmployee", stockReceipt.IdEmployee.ToString());
+                command.Parameters.AddWithValue("@idAccount", stockReceipt.IdAccount.ToString());
                 command.Parameters.AddWithValue("@dateTimeStockReceipt", stockReceipt.DateTimeStockReceipt);
                 command.Parameters.AddWithValue("@total", stockReceipt.Total.ToString());
 
@@ -92,6 +97,25 @@ namespace FootballFieldManagement.DAL
                 {
                     return true;
                 }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool UpdateIdAccount(string idAccount)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "update StockReceipt set idAccount = NULL where idAccount = " + idAccount;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                int rs = command.ExecuteNonQuery();
+                return true;
             }
             catch
             {

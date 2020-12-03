@@ -149,14 +149,8 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 string idGoods = txb.Text;
-                List<string> idStockReceiptList = StockReceiptInfoDAL.Instance.QueryIdStockReceipt(idGoods);
-
                 bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-                bool isSuccessed2 = true;
-                foreach (var idStockReceipt in idStockReceiptList)
-                {
-                    isSuccessed2 = StockReceiptDAL.Instance.DeleteFromDB(idStockReceipt);
-                }
+                bool isSuccessed2 = BillInfoDAL.Instance.DeleteIdGoods(idGoods);
                 bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
                 if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
                 {
@@ -235,10 +229,19 @@ namespace FootballFieldManagement.ViewModels
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
+                parameter. cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
+                foreach (var goods in goodsList)
+                {
+                    if (goods.Name == parameter.txtName.Text)
+                    {
+                        MessageBox.Show("Mặt hàng đã tồn tại!");
+                        parameter.txtName.Clear();
+                        return;
+                    }
+                }
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
                 if (isSuccessed1)
                 {
@@ -280,7 +283,7 @@ namespace FootballFieldManagement.ViewModels
                 parameter.cboUnit.Text, 1, GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile, int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
-            StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), 1,
+            StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), CurrentAccount.IdAccount,
                 DateTime.Parse(parameter.dpImportDate.Text), int.Parse(parameter.txtTotal.Text));
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 

@@ -10,10 +10,12 @@ using FootballFieldManagement.Models;
 using FootballFieldManagement.DAL;
 using System.Linq;
 using System;
+using System.ComponentModel;
+using System.Data.SqlClient;
 
 namespace FootballFieldManagement.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel: BaseViewModel
     {
         public ICommand LogOutCommand { get; set; }
         public ICommand SwitchTabCommand { get; set; }
@@ -26,7 +28,12 @@ namespace FootballFieldManagement.ViewModels
         public ICommand GetUidCommand { get; set; }
         public ICommand E_SetSalaryCommand { get; set; }
         public ICommand E_CalculateSalaryCommand { get; set; }
-        public ICommand E_PaySalaryCommand { get; set; }
+        public ICommand E_PaySalaryCommand { get; set; } 
+
+        public ICommand S_EnableBtnSaveFieldNameCommand { get; set; }
+        public ICommand S_SaveNewNameOfField { get; set; }
+        public ICommand S_EnableBtnSavePassCommand { get; set; }
+        public ICommand S_SaveNewPassword { get; set; }
         public StackPanel Stack { get => stack; set => stack = value; }
 
         private StackPanel stack = new StackPanel();
@@ -45,6 +52,76 @@ namespace FootballFieldManagement.ViewModels
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
             E_PaySalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => PaySalary(parameter));
+
+            S_EnableBtnSaveFieldNameCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSaveFieldName(parameter)) ;
+            S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
+            S_SaveNewNameOfField = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewName(parameter));
+            S_SaveNewPassword = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
+        }
+        public void SaveNewPassword(HomeWindow parameter)
+        {
+
+            if (MD5Hash(parameter.pwbOldPassword.Password) == CurrentAccount.Password)
+            {
+                MessageBoxResult result = MessageBox.Show("Xác nhận đổi mật khẩu?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (parameter.pwbNewPassword.Password == parameter.pwbConfirmedPassword.Password)
+                    {
+                        CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
+                        Account account = new Account(CurrentAccount.IdAccount, CurrentAccount.DisplayName, CurrentAccount.Password, CurrentAccount.Type?1:0);
+                        if(AccountDAL.Instance.UpdatePassword(account))
+                        {
+                            MessageBox.Show("Đổi mật khẩu thành công!");
+                        }   
+                        else
+                        {
+                            MessageBox.Show("Đổi mật khẩu thất bại!");
+                        }    
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nhập mật khẩu xác thực không khớp!","Thông báo");
+                    }    
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nhập mật khẩu hiện tại không đúng!","Thông báo");
+            }    
+            
+        }
+        public void SaveNewName(HomeWindow parameter)
+        {
+            MessageBoxResult result = MessageBox.Show("Xác nhận sửa tên sân?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                parameter.lbTitle.Content = parameter.txtNewFieldName.Text;
+                SQLConnection connection = new SQLConnection();
+                connection.conn.Open();
+                string queryString = "update FieldName set fieldName=N'" + parameter.txtNewFieldName.Text + "'";
+                SqlCommand command = new SqlCommand(queryString,connection.conn);
+                try
+                {
+                    int rs = command.ExecuteNonQuery();
+                    parameter.lbTitle.Content = parameter.txtNewFieldName.Text;
+                }
+                catch
+                {
+                    MessageBox.Show("Đổi tên thất bại!");
+                }
+                connection.conn.Close();
+            }
+        }
+        public void EnableButtonSaveFieldName(HomeWindow parameter)
+        {
+            parameter.btnSaveFieldName.IsEnabled = !string.IsNullOrEmpty(parameter.txtNewFieldName.Text);
+        }
+        public void EnableButtonSavePass(HomeWindow parameter)
+        {
+            parameter.btnSavePassword.IsEnabled = !string.IsNullOrEmpty(parameter.pwbOldPassword.Password) && !string.IsNullOrEmpty(parameter.pwbNewPassword.Password) && !string.IsNullOrEmpty(parameter.pwbConfirmedPassword.Password);
         }
         public void PaySalary(HomeWindow parameter)
         {
@@ -161,6 +238,8 @@ namespace FootballFieldManagement.ViewModels
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;
             parameter.grdBody_Home.Visibility = Visibility.Hidden;
             parameter.grdBody_Employee.Visibility = Visibility.Hidden;
+            parameter.grdBody_Report.Visibility = Visibility.Hidden;
+            parameter.grdBody_Setting.Visibility = Visibility.Hidden;
 
             parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
             parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
@@ -202,6 +281,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 5:
+                    parameter.grdBody_Setting.Visibility = Visibility.Visible;
                     parameter.btnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;

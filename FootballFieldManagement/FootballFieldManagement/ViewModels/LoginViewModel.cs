@@ -7,6 +7,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Policy;
@@ -33,6 +34,7 @@ namespace FootballFieldManagement.ViewModels
         public string UserName { get => userName; set { userName = value; OnPropertyChanged(); } }
         private bool isLogin;
         public bool IsLogin { get => isLogin; set => isLogin = value; }
+        public Employee employee;
         public LoginViewModel()
         {
             LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) => Login(parameter));
@@ -83,6 +85,8 @@ namespace FootballFieldManagement.ViewModels
                             CurrentAccount.DisplayName = employee.Name;
                             CurrentAccount.Image = employee.ImageFile;
                             CurrentAccount.IdAccount = employee.IdAccount;
+                            CurrentAccount.Password = password;
+                            this.employee = employee;
                             break;
                         }
                     }
@@ -92,11 +96,13 @@ namespace FootballFieldManagement.ViewModels
             if (isLogin)
             {
                 HomeWindow home = new HomeWindow();
+                home.lbTitle.Content = new DataProvider().LoadData("FieldName").Rows[0].ItemArray[0].ToString();
                 SetJurisdiction(home);
                 DisplayAccount(home);
+                DisplayEmployee(employee, home);
                 parameter.Hide();
                 home.ShowDialog();
-                parameter.txtPassword.Password = null;
+                parameter.txtPassword.Password = null;  
                 parameter.Show();
             }
             else
@@ -104,11 +110,41 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
             }
         }
+        public void DisplayEmployee(Employee employee,HomeWindow home)
+        {
+            if (CurrentAccount.Type)
+            {
+                home.txtIDEmployee.Text = employee.IdEmployee.ToString();
+                home.txtName.Text = employee.Name;
+                home.txtPosition.Text = employee.Position;
+                home.txtDayOfBirth.Text = employee.DateOfBirth.ToShortDateString();
+                home.txtGender.Text = employee.Gender;
+                home.txtAddress.Text = employee.Address;
+                home.txtPhoneNumber.Text = employee.Phonenumber;
+                ImageBrush imageBrush = new ImageBrush();
+                BitmapImage bitmapImage = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
+                imageBrush.ImageSource = bitmapImage;
+                if (bitmapImage != null)
+                    home.grdImageEmployee.Background = imageBrush; // Hiển thị hình ảnh 
+            }
+            else
+            {
+                home.txtIDEmployee.Text = 0.ToString();
+                home.txtName.Text = "Chủ sân";
+                home.txtPosition.Text = "Chủ sân";
+                home.txtDayOfBirth.IsEnabled = false;
+                home.txtGender.IsEnabled = false;
+                home.txtAddress.IsEnabled = false;
+                home.txtPhoneNumber.IsEnabled = false;
+            }    
+        }
         public void SetJurisdiction(HomeWindow home)
         {
             if (CurrentAccount.Type)
             {
                 //Không cấp quyền cho nhân viên
+                home.stkMenu.Children.Remove(home.stkMenu.Children[0]);
+                home.txtNewFieldName.IsEnabled = false;
                 home.btnEmployee.IsEnabled = false;
                 home.btnReport.IsEnabled = false;
                 home.btnAddGoods.IsEnabled = false;

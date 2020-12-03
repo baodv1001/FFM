@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootballFieldManagement.Models
+namespace FootballFieldManagement.DAL
 {
-    class SQLConnection
+    public class SQLConnection
     {
         private string strConn;
-        protected SqlConnection conn;
+        public SqlConnection conn;
         public SQLConnection()
         {
             strConn = @"Data Source=ffm-dbs.database.windows.net;Initial Catalog=ffm-db;User ID=ffm;Password=Football2020";

@@ -243,7 +243,7 @@ namespace FootballFieldManagement.ViewModels
 
                     child.cboPosition.Text = employee.Position;
 
-                    if (employee.Gender == "Nam")
+                    if (employee.Gender == "Nam  ")
                         child.rdoMale.IsChecked = true;
                     else
                         child.rdoFemale.IsChecked = true;

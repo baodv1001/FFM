@@ -54,13 +54,11 @@
                     Foreground="{StaticResource Primary}" 
                     HorizontalAlignment="Center" />
                 <Label 
-                    x:Name="lbTitle" 
-                    Content="Sân liên hợp" 
+                    x:Name="lbTitle"  
                     HorizontalAlignment="Center"
                     Height="50" 
                     Margin="0" 
                     VerticalAlignment="Bottom" 
-                    Width="140" 
                     VerticalContentAlignment="Center"
                     Padding="6,5,5,5" 
                     FontSize="22" 
@@ -457,7 +455,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}" 
@@ -1225,6 +1223,682 @@
                 Margin="0"
                 Grid.Row="1"
                 Visibility="Hidden"/>
+            <Grid 
+                x:Name="grdBody_Report" 
+                HorizontalAlignment="Left" 
+                Height="720" 
+                VerticalAlignment="Top" 
+                Width="1201"
+                Margin="0"
+                Grid.Row="1"
+                Visibility="Hidden">
+                <Border 
+                    BorderThickness="1"
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Height="560" 
+                    Width="1120"
+                    Margin="40,120,0,0" 
+                    CornerRadius="2" 
+                    Background="{DynamicResource White}">
+                    <Border.Effect>
+                        <DropShadowEffect 
+                            BlurRadius="8" 
+                            ShadowDepth="1.5" 
+                            Direction="270"
+                            Color="{StaticResource MaterialDesignShadow}" 
+                            Opacity=".42"/>
+                    </Border.Effect>
+                    <Grid
+                        Margin="0" 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Height="560" 
+                        Width="1120">
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left" 
+                            Margin="60,20,0,0">
+                            <ComboBox
+                                DataContext="{StaticResource ReportVM}"
+                                x:Name="cboSelectPeriod_Report"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn chu kỳ"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="0">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding Report_SelectionChangedCommand}" 
+                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem Content="Theo tháng"/>
+                                <ComboBoxItem Content="Theo quý"/>
+                                <ComboBoxItem Content="Theo năm"/>
+                            </ComboBox>
+                            <ComboBox
+                                x:Name="cboSelectTime_Report"
+                                DataContext="{StaticResource ReportVM}"
+                                ItemsSource="{Binding report_ItemSourceTime, Mode=TwoWay}"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="60,0,0,0" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
+                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </StackPanel>
+                        <lvc:CartesianChart 
+                            DataContext="{StaticResource ReportVM}"
+                            Series="{Binding report_SeriesCollection}" 
+                            LegendLocation="Bottom"
+                            Width="1000" 
+                            Height="460" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,0,15" >
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis 
+                                    Title="{Binding report_AxisXTitle, Mode=TwoWay}" 
+                                    Labels="{Binding report_Labels, Mode=TwoWay}" 
+                                    Foreground="{DynamicResource Gray1}"
+                                    FontSize="14">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator Step="1"></lvc:Separator>
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis 
+                                    Title="VNĐ" 
+                                    LabelFormatter="{Binding report_Formatter}"
+                                    Foreground="{DynamicResource Gray1}"
+                                    FontSize="14">
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Initialized">
+                                    <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
+                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </lvc:CartesianChart>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Grid 
+                x:Name="grdBody_Setting" 
+                HorizontalAlignment="Left" 
+                Height="720" 
+                VerticalAlignment="Top" 
+                Width="1201"
+                Margin="0"
+                Grid.Row="1"
+                Visibility="Visible">
+                <Border 
+                    BorderThickness="1"
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top"
+                    Height="639" 
+                    Width="1120"
+                    Margin="40,40,0,0" 
+                    CornerRadius="2" 
+                    Background="{DynamicResource White}">
+                    <Border.Effect>
+                        <DropShadowEffect 
+                            BlurRadius="8" 
+                            ShadowDepth="1.5" 
+                            Direction="270"
+                            Color="{StaticResource MaterialDesignShadow}" 
+                            Opacity=".42"/>
+                    </Border.Effect>
+                    <Grid
+                        Margin="0" 
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Height="560" 
+                        Width="1120">
+                        <StackPanel 
+                            Orientation="Horizontal"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Left" 
+                            Margin="60,20,0,0">
+                        </StackPanel>
+                        <materialDesign:Card
+                            Background="#FFFEC007"
+                            HorizontalAlignment="Left" 
+                            Width="480"
+                            Height="200" 
+                            Margin="50,20,0,0" 
+                            VerticalAlignment="Top">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                Text="Đổi tên sân"
+                                HorizontalAlignment="Left"
+                                Margin="20,20,0,0" 
+                                TextWrapping="Wrap" 
+                                VerticalAlignment="Top" 
+                                FontSize="22" 
+                                Foreground="{DynamicResource White}" 
+                                FontWeight="Medium"/>
+                                <TextBox 
+                                    Grid.Row="1"
+                                    x:Name="txtNewFieldName"
+                                    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                    VerticalAlignment="Center"
+                                    AcceptsReturn="True"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto"
+                                    materialDesign:HintAssist.Hint="Tên sân mới"
+                                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
+                                    HorizontalAlignment="Center" 
+                                    Foreground="Black" 
+                                    BorderBrush="White" 
+                                    FontSize="16" Width="460" Margin="0,1,0,0" CaretBrush="#FF0078D7" Background="White" Cursor="No" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="TextChanged">
+                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSaveFieldNameCommand}"
+                                                       CommandParameter="{Binding ElementName=wdHome}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <Button
+                                    Grid.Row="2"
+                                    x:Name="btnSaveFieldName"
+                                    Command="{Binding S_SaveNewNameOfField}"
+                                    CommandParameter="{Binding ElementName=wdHome}"
+                                    IsDefault="True"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Height="40" 
+                                    Width="100"
+                                    materialDesign:ButtonAssist.CornerRadius="6"
+                                    ToolTip="Lưu thông tin" 
+                                    Background="{StaticResource Success}" 
+                                    BorderBrush="{StaticResource Success}"
+                                    Margin="350,5,0,0" 
+                                    HorizontalAlignment="Left"
+                                    FocusVisualStyle="{x:Null}"
+                                    Content="Lưu" 
+                                    FontSize="18" 
+                                    VerticalAlignment="Top"
+                                    Padding="0" 
+                                    IsEnabled="False">
+                                </Button>
+                                <Grid 
+                                Width="50" 
+                                Height="50"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,20,20,0">
+                                    <Grid.Background>
+                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
+                                    </Grid.Background>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card
+                            Background="#FF2195F2"
+                            HorizontalAlignment="Left" 
+                            Width="480"
+                            Height="298" 
+                            Margin="50,0,0,20" 
+                            VerticalAlignment="Bottom">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Text="Đổi mật khẩu"
+                                    HorizontalAlignment="Left"
+                                    Margin="20,20,0,0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Top" 
+                                    FontSize="22" 
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="Medium"/>
+                                <PasswordBox 
+                                    Grid.Row="1"
+                                    x:Name="pwbOldPassword"
+                                    Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Mật khẩu hiện tại"
+                                    HorizontalAlignment="Center" 
+                                    Foreground="Black" 
+                                    BorderBrush="#FF0078D7" 
+                                    FontSize="16" Width="460" Margin="0" CaretBrush="#FF0078D7" Background="White" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PasswordChanged">
+                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
+                                                       CommandParameter="{Binding ElementName=wdHome}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </PasswordBox>
+                                <PasswordBox 
+                                    Grid.Row="2"
+                                    x:Name="pwbNewPassword"
+                                    Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Mật khẩu mới"
+                                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
+                                    HorizontalAlignment="Center" 
+                                    Foreground="Black" 
+                                    BorderBrush="Black" 
+                                    FontSize="16" Width="460" Margin="0" CaretBrush="#FF0078D7" Background="White" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PasswordChanged">
+                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
+                                                       CommandParameter="{Binding ElementName=wdHome}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </PasswordBox>
+                                <PasswordBox 
+                                    Grid.Row="3"
+                                    x:Name="pwbConfirmedPassword"
+                                    Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
+                                    VerticalAlignment="Center"
+                                    materialDesign:HintAssist.Hint="Nhập lại mật khẩu mới"
+                                    IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
+                                    HorizontalAlignment="Center" 
+                                    Foreground="Black" 
+                                    BorderBrush="Black" 
+                                    FontSize="16" Width="460" Margin="0" CaretBrush="#FF0078D7" Background="White" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PasswordChanged">
+                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
+                                                       CommandParameter="{Binding ElementName=wdHome}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </PasswordBox>
+                                <Button
+                                    Grid.Row="4"
+                                    x:Name="btnSavePassword"
+                                    Command="{Binding S_SaveNewPassword}"
+                                    CommandParameter="{Binding ElementName=wdHome}"
+                                    IsDefault="True"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    Height="40" 
+                                    Width="100"
+                                    materialDesign:ButtonAssist.CornerRadius="6"
+                                    ToolTip="Lưu thông tin" 
+                                    Background="{StaticResource Success}" 
+                                    BorderBrush="{StaticResource Success}"
+                                    Margin="350,5,0,0" 
+                                    HorizontalAlignment="Left"
+                                    FocusVisualStyle="{x:Null}"
+                                    Content="Lưu" 
+                                    FontSize="18" 
+                                    VerticalAlignment="Top"
+                                    Padding="0" 
+                                    IsEnabled="False">
+                                </Button>
+                                <Grid 
+                                    Width="50" 
+                                    Height="50"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,20,20,0">
+                                    <Grid.Background>
+                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
+                                    </Grid.Background>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card
+                            Background="#FFF34336"
+                            HorizontalAlignment="Right" 
+                            Width="480"
+                            Height="520" 
+                            Margin="0,20,50,20" 
+                            VerticalAlignment="Center">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Text="Thông tin nhân viên"
+                                    HorizontalAlignment="Left"
+                                    Margin="20,20,0,0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Top" 
+                                    FontSize="22" 
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="Medium"/>
+                                <Grid 
+                                    Grid.Row="0"
+                                    x:Name="grdIDEmployee"
+                                    Margin="20,80,125,0"
+                                    VerticalAlignment="Top" 
+                                    Height="50">
+                                    <Label
+                                        x:Name="lbIDEmployee"
+                                        Content="Mã nhân viên" 
+                                        HorizontalAlignment="Left"
+                                        FontSize="18" 
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}"
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle
+                                        x:Name="recIDEmployee"
+                                        Width="200" 
+                                        Height="40"
+                                        RadiusY="6"
+                                        RadiusX="6" 
+                                        Margin="0"
+                                        Stroke="{StaticResource Gray4}" HorizontalAlignment="Right" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtIDEmployee"
+                                        materialDesign:HintAssist.Hint="Mã tự động"
+                                        HorizontalAlignment="Right"  
+                                        Width="184" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        IsReadOnly="True" 
+                                        Height="40" 
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center" 
+                                        VerticalAlignment="Center" 
+                                        SelectionBrush="{x:Null}" IsEnabled="False" >
+                                    </TextBox>
+                                </Grid>
+                                <Grid 
+                                    Grid.Row="1"
+                                    Margin="20,0,0,0" 
+                                    VerticalAlignment="Center" 
+                                    x:Name="grdName" 
+                                    Width="420" 
+                                    Height="50" HorizontalAlignment="Left">
+                                    <Label 
+                                        x:Name="lbName"
+                                        Content="Họ tên"
+                                        HorizontalAlignment="Left"
+                                        FontSize="18"
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}" 
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle 
+                                        x:Name="recName"
+                                        HorizontalAlignment="Right" 
+                                        Height="40" 
+                                        Width="284" 
+                                        RadiusY="6" 
+                                        RadiusX="6"
+                                        Stroke="{StaticResource Gray4}" 
+                                        Margin="0" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtName"
+                                        materialDesign:HintAssist.Hint="Họ và tên"
+                                        HorizontalAlignment="Right"
+                                        Cursor="IBeam"
+                                        Height="40" 
+                                        Width="264" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                </Grid>
+                                <Grid 
+                                    Grid.Row="2"
+                                    Margin="20,0,0,0" 
+                                    VerticalAlignment="Center" 
+                                    x:Name="grdPosition" 
+                                    Width="420" 
+                                    Height="50" HorizontalAlignment="Left">
+                                    <Label 
+                                        Content="Chức vụ"
+                                        HorizontalAlignment="Left"
+                                        FontSize="18"
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}" 
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle 
+                                        HorizontalAlignment="Right" 
+                                        Height="40" 
+                                        Width="284" 
+                                        RadiusY="6" 
+                                        RadiusX="6"
+                                        Stroke="{StaticResource Gray4}" 
+                                        Margin="0" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtPosition"
+                                        materialDesign:HintAssist.Hint="Chức vụ"
+                                        HorizontalAlignment="Right"
+                                        Cursor="IBeam"
+                                        Height="40" 
+                                        Width="264" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                </Grid>
+                                <Grid x:Name="grdImageEmployee" 
+                                    Width="105" 
+                                    Height="105"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Margin="0,20,10,0">
+                                    <Grid.Background>
+                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
+                                    </Grid.Background>
+                                </Grid>
+                                <Grid 
+                                    Grid.Row="3"
+                                    Margin="20,13.4,0,13.4" 
+                                    VerticalAlignment="Center" 
+                                    x:Name="grdPosition_Copy" 
+                                    Width="420" 
+                                    Height="50" HorizontalAlignment="Left">
+                                    <Label 
+                                        Content="Ngày sinh"
+                                        HorizontalAlignment="Left"
+                                        FontSize="18"
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}" 
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle 
+                                        HorizontalAlignment="Right" 
+                                        Height="40" 
+                                        Width="284" 
+                                        RadiusY="6" 
+                                        RadiusX="6"
+                                        Stroke="{StaticResource Gray4}" 
+                                        Margin="0" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtDayOfBirth"
+                                        materialDesign:HintAssist.Hint="Ngày sinh"
+                                        HorizontalAlignment="Right"
+                                        Cursor="IBeam"
+                                        Height="40" 
+                                        Width="264" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                </Grid>
+                                <Grid 
+                                    Grid.Row="4"
+                                    Margin="20,13.4,0,13.4" 
+                                    VerticalAlignment="Center" 
+                                    x:Name="grdPosition_Copy1" 
+                                    Width="420" 
+                                    Height="50" HorizontalAlignment="Left">
+                                    <Label 
+                                        Content="Giới tính"
+                                        HorizontalAlignment="Left"
+                                        FontSize="18"
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}" 
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle 
+                                        HorizontalAlignment="Right" 
+                                        Height="40" 
+                                        Width="284" 
+                                        RadiusY="6" 
+                                        RadiusX="6"
+                                        Stroke="{StaticResource Gray4}" 
+                                        Margin="0" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtGender"
+                                        materialDesign:HintAssist.Hint="Giới tính"
+                                        HorizontalAlignment="Right"
+                                        Cursor="IBeam"
+                                        Height="40" 
+                                        Width="264" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                </Grid>
+                                <Grid 
+                                    Grid.Row="5"
+                                    Margin="20,7.4,0,7.4" 
+                                    VerticalAlignment="Center" 
+                                    x:Name="grdPosition_Copy2" 
+                                    Width="420" 
+                                    Height="50" HorizontalAlignment="Left">
+                                    <Label 
+                                        Content="Địa chỉ"
+                                        HorizontalAlignment="Left"
+                                        FontSize="18"
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}" 
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle 
+                                        HorizontalAlignment="Right" 
+                                        Height="40" 
+                                        Width="284" 
+                                        RadiusY="6" 
+                                        RadiusX="6"
+                                        Stroke="{StaticResource Gray4}" 
+                                        Margin="0" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtAddress"
+                                        materialDesign:HintAssist.Hint="Địa chỉ"
+                                        HorizontalAlignment="Right"
+                                        Cursor="IBeam"
+                                        Height="40" 
+                                        Width="264" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                </Grid>
+                                <Grid 
+                                    Grid.Row="6"
+                                    Margin="20,7.4,0,7.4" 
+                                    VerticalAlignment="Center" 
+                                    x:Name="grdPosition_Copy3" 
+                                    Width="420" 
+                                    Height="50" HorizontalAlignment="Left">
+                                    <Label 
+                                        Content="Số điện thoại"
+                                        HorizontalAlignment="Left"
+                                        FontSize="18"
+                                        FontWeight="SemiBold" 
+                                        Foreground="{StaticResource Gray1}" 
+                                        Height="32" 
+                                        Margin="0" 
+                                        VerticalAlignment="Center"/>
+                                    <Rectangle 
+                                        HorizontalAlignment="Right" 
+                                        Height="40" 
+                                        Width="284" 
+                                        RadiusY="6" 
+                                        RadiusX="6"
+                                        Stroke="{StaticResource Gray4}" 
+                                        Margin="0" Fill="White"/>
+                                    <TextBox 
+                                        x:Name="txtPhoneNumber"
+                                        materialDesign:HintAssist.Hint="Số điện thoại"
+                                        HorizontalAlignment="Right"
+                                        Cursor="IBeam"
+                                        Height="40" 
+                                        Width="264" 
+                                        FontSize="14" 
+                                        BorderThickness="0" 
+                                        MaxLines="1"
+                                        Padding="0" 
+                                        Foreground="{StaticResource Gray3}" 
+                                        Margin="0,0,10,0" 
+                                        HorizontalContentAlignment="Left" 
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                </Grid>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

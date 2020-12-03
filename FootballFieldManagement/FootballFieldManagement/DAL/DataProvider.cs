@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FootballFieldManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootballFieldManagement.Models
+namespace FootballFieldManagement.DAL
 {
-    class DataProvider : SQLConnection
+    public class DataProvider : SQLConnection
     {
         public DataTable LoadData(string tableName)
         {
@@ -21,16 +22,6 @@ namespace FootballFieldManagement.Models
             adapter.Fill(dt);
             conn.Close();
             return dt;
-        }
-        public void ResetData(string tableName)
-        {
-            conn.Open();
-            String sqlQuery = "DBCC CHECKIDENT ('" + tableName + "', RESEED, 0) ";
-
-            SqlCommand command = new SqlCommand(sqlQuery, conn);
-
-            command.ExecuteNonQuery();
-            conn.Close();
         }
     }
 }

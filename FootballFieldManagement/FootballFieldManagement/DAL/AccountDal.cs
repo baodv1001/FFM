@@ -54,7 +54,52 @@ namespace FootballFieldManagement.DAL
             cmd.ExecuteNonQuery();
             conn.Close();
         }
-
-
+        public bool DeleteAccount(string idAccount)
+        {
+            try
+            {
+                conn.Open();
+                string query = "delete from Account where IdAccount = " + idAccount;
+                SqlCommand command = new SqlCommand(query, conn);
+                if (command.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool UpdatePassword(Account account)
+        {
+            try
+            {
+                conn.Open();
+                string query = "update Account set password=@password where IdAccount = " + account.IdAccount;
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@password", account.Password);
+                if (command.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

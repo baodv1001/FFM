@@ -96,13 +96,13 @@ namespace FootballFieldManagement.ViewModels
             if (isLogin)
             {
                 HomeWindow home = new HomeWindow();
-                home.lbTitle.Content = new DataProvider().LoadData("FieldName").Rows[0].ItemArray[0].ToString();
+                home.lbTitle.Content = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
                 SetJurisdiction(home);
                 DisplayAccount(home);
                 DisplayEmployee(employee, home);
                 parameter.Hide();
                 home.ShowDialog();
-                parameter.txtPassword.Password = null;  
+                parameter.txtPassword.Password = null;
                 parameter.Show();
             }
             else
@@ -110,7 +110,7 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
             }
         }
-        public void DisplayEmployee(Employee employee,HomeWindow home)
+        public void DisplayEmployee(Employee employee, HomeWindow home)
         {
             if (CurrentAccount.Type)
             {
@@ -170,14 +170,14 @@ namespace FootballFieldManagement.ViewModels
             }
         }
         public void DisplayAccount(HomeWindow home)
-        {      
-            if (CurrentAccount.Type==true)
+        {
+            if (CurrentAccount.Type == true)
             {
                 home.lbAccount.Content = CurrentAccount.DisplayName;// Hiển thị tên nhân viên
                 ImageBrush imageBrush = new ImageBrush();
                 BitmapImage bitmapImage = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
                 imageBrush.ImageSource = bitmapImage;
-                if(bitmapImage!=null)
+                if (bitmapImage != null)
                     home.imgAccount.Fill = imageBrush; // Hiển thị hình ảnh 
             }
         }

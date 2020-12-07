@@ -16,6 +16,14 @@
         WindowStartupLocation="CenterScreen" 
         Background="#FFF4EEFF"
         ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Flipper.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Activated">
             <i:InvokeCommandAction Command="{Binding G_LoadCommand}" 
@@ -85,7 +93,7 @@
                         Height="32" 
                         VerticalAlignment="Center"
                         Cursor="Hand"
-                        Foreground="{DynamicResource Primary}" />
+                        Foreground="{DynamicResource Gray2}" />
                     <Button 
                         x:Name="btnHome" 
                         Uid="0"
@@ -103,7 +111,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand" 
-                        Foreground="{DynamicResource Primary}">
+                        Foreground="{DynamicResource Gray2}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding SwitchTabCommand}"
@@ -455,7 +463,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}" 
@@ -1364,83 +1372,66 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
-                Visibility="Visible">
-                <Border 
-                    BorderThickness="1"
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Top"
-                    Height="639" 
-                    Width="1120"
-                    Margin="40,40,0,0" 
-                    CornerRadius="2" 
-                    Background="{DynamicResource White}">
-                    <Border.Effect>
-                        <DropShadowEffect 
-                            BlurRadius="8" 
-                            ShadowDepth="1.5" 
-                            Direction="270"
-                            Color="{StaticResource MaterialDesignShadow}" 
-                            Opacity=".42"/>
-                    </Border.Effect>
-                    <Grid
+                Visibility="Hidden">
+                <Grid
                         Margin="0" 
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Height="560" 
+                        Height="660" 
                         Width="1120">
-                        <StackPanel 
+                    <StackPanel 
                             Orientation="Horizontal"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Left" 
                             Margin="60,20,0,0">
-                        </StackPanel>
-                        <materialDesign:Card
-                            Background="#FFFEC007"
+                    </StackPanel>
+                    <materialDesign:Card
+                            Background="White"
                             HorizontalAlignment="Left" 
                             Width="480"
-                            Height="200" 
+                            Height="230" 
                             Margin="50,20,0,0" 
                             VerticalAlignment="Top">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
                                 Text="Đổi tên sân"
                                 HorizontalAlignment="Left"
                                 Margin="20,20,0,0" 
                                 TextWrapping="Wrap" 
                                 VerticalAlignment="Top" 
                                 FontSize="22" 
-                                Foreground="{DynamicResource White}" 
-                                FontWeight="Medium"/>
-                                <TextBox 
+                                Foreground="{DynamicResource Black1}" 
+                                FontWeight="Medium" />
+                            <TextBox 
                                     Grid.Row="1"
                                     x:Name="txtNewFieldName"
-                                    Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                                     VerticalAlignment="Center"
                                     AcceptsReturn="True"
                                     TextWrapping="Wrap"
                                     VerticalScrollBarVisibility="Auto"
                                     materialDesign:HintAssist.Hint="Tên sân mới"
                                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
-                                    HorizontalAlignment="Center" 
-                                    Foreground="Black" 
-                                    BorderBrush="White" 
-                                    FontSize="16" Width="460" Margin="0,1,0,0" CaretBrush="#FF0078D7" Background="White" Cursor="No" >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="TextChanged">
-                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSaveFieldNameCommand}"
+                                    HorizontalAlignment="Left" 
+                                    Foreground="{DynamicResource Black1}" 
+                                    BorderBrush="{DynamicResource DisabledForegroundBrush}" 
+                                    FontSize="16" Width="400" Margin="50,1,0,0" CaretBrush="#FF0078D7" Background="White" Cursor="None" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="TextChanged">
+                                        <i:InvokeCommandAction Command="{Binding S_EnableBtnSaveFieldNameCommand}"
                                                        CommandParameter="{Binding ElementName=wdHome}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </TextBox>
-                                <Button
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                            <Button
                                     Grid.Row="2"
                                     x:Name="btnSaveFieldName"
-                                    Command="{Binding S_SaveNewNameOfField}"
+                                    Command="{Binding S_SaveNewNameOfFieldCommand}"
                                     CommandParameter="{Binding ElementName=wdHome}"
                                     IsDefault="True"
                                     Style="{StaticResource MaterialDesignRaisedButton}"
@@ -1458,100 +1449,100 @@
                                     VerticalAlignment="Top"
                                     Padding="0" 
                                     IsEnabled="False">
-                                </Button>
-                                <Grid 
-                                Width="50" 
-                                Height="50"
+                            </Button>
+                            <Grid 
+                                Width="80" 
+                                Height="80"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Top"
                                 Margin="0,20,20,0">
-                                    <Grid.Background>
-                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
-                                    </Grid.Background>
-                                </Grid>
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
+                                </Grid.Background>
                             </Grid>
-                        </materialDesign:Card>
-                        <materialDesign:Card
-                            Background="#FF2195F2"
+                        </Grid>
+                    </materialDesign:Card>
+                    <materialDesign:Card
+                            Background="White"
                             HorizontalAlignment="Left" 
                             Width="480"
-                            Height="298" 
+                            Height="371" 
                             Margin="50,0,0,20" 
                             VerticalAlignment="Bottom">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
                                     Text="Đổi mật khẩu"
                                     HorizontalAlignment="Left"
                                     Margin="20,20,0,0" 
                                     TextWrapping="Wrap" 
                                     VerticalAlignment="Top" 
                                     FontSize="22" 
-                                    Foreground="{DynamicResource White}" 
+                                    Foreground="{DynamicResource Black1}" 
                                     FontWeight="Medium"/>
-                                <PasswordBox 
+                            <PasswordBox 
                                     Grid.Row="1"
                                     x:Name="pwbOldPassword"
-                                    Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
+                                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                                     VerticalAlignment="Center"
                                     materialDesign:HintAssist.Hint="Mật khẩu hiện tại"
-                                    HorizontalAlignment="Center" 
-                                    Foreground="Black" 
-                                    BorderBrush="#FF0078D7" 
-                                    FontSize="16" Width="460" Margin="0" CaretBrush="#FF0078D7" Background="White" >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PasswordChanged">
-                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
+                                    HorizontalAlignment="Left" 
+                                    Foreground="{DynamicResource Black1}" 
+                                    BorderBrush="{DynamicResource DisabledForegroundBrush}" 
+                                    FontSize="16" Width="400" Margin="50,0,0,0" CaretBrush="#FF0078D7" Background="White" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PasswordChanged">
+                                        <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
                                                        CommandParameter="{Binding ElementName=wdHome}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </PasswordBox>
-                                <PasswordBox 
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </PasswordBox>
+                            <PasswordBox 
                                     Grid.Row="2"
                                     x:Name="pwbNewPassword"
-                                    Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
+                                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                                     VerticalAlignment="Center"
                                     materialDesign:HintAssist.Hint="Mật khẩu mới"
                                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
-                                    HorizontalAlignment="Center" 
-                                    Foreground="Black" 
-                                    BorderBrush="Black" 
-                                    FontSize="16" Width="460" Margin="0" CaretBrush="#FF0078D7" Background="White" >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PasswordChanged">
-                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
+                                    HorizontalAlignment="Left" 
+                                    Foreground="{DynamicResource Black1}" 
+                                    BorderBrush="{DynamicResource DisabledForegroundBrush}" 
+                                    FontSize="16" Width="400" Margin="50,0,0,0" CaretBrush="#FF0078D7" Background="White" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PasswordChanged">
+                                        <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
                                                        CommandParameter="{Binding ElementName=wdHome}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </PasswordBox>
-                                <PasswordBox 
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </PasswordBox>
+                            <PasswordBox 
                                     Grid.Row="3"
                                     x:Name="pwbConfirmedPassword"
-                                    Style="{StaticResource MaterialDesignOutlinedPasswordFieldPasswordBox}"
+                                    Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                                     VerticalAlignment="Center"
                                     materialDesign:HintAssist.Hint="Nhập lại mật khẩu mới"
                                     IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
-                                    HorizontalAlignment="Center" 
-                                    Foreground="Black" 
-                                    BorderBrush="Black" 
-                                    FontSize="16" Width="460" Margin="0" CaretBrush="#FF0078D7" Background="White" >
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="PasswordChanged">
-                                            <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
+                                    HorizontalAlignment="Left" 
+                                    Foreground="{DynamicResource Black1}" 
+                                    BorderBrush="{DynamicResource Gray4}" 
+                                    FontSize="16" Width="400" Margin="50,0,0,0" CaretBrush="#FF0078D7" Background="White" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PasswordChanged">
+                                        <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
                                                        CommandParameter="{Binding ElementName=wdHome}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </PasswordBox>
-                                <Button
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </PasswordBox>
+                            <Button
                                     Grid.Row="4"
                                     x:Name="btnSavePassword"
-                                    Command="{Binding S_SaveNewPassword}"
+                                    Command="{Binding S_SaveNewPasswordCommand}"
                                     CommandParameter="{Binding ElementName=wdHome}"
                                     IsDefault="True"
                                     Style="{StaticResource MaterialDesignRaisedButton}"
@@ -1569,27 +1560,71 @@
                                     VerticalAlignment="Top"
                                     Padding="0" 
                                     IsEnabled="False">
-                                </Button>
-                                <Grid 
-                                    Width="50" 
-                                    Height="50"
+                            </Button>
+                            <Grid 
+                                    Width="80" 
+                                    Height="80"
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
                                     Margin="0,20,20,0">
-                                    <Grid.Background>
-                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
-                                    </Grid.Background>
-                                </Grid>
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
+                                </Grid.Background>
                             </Grid>
-                        </materialDesign:Card>
-                        <materialDesign:Card
-                            Background="#FFF34336"
-                            HorizontalAlignment="Right" 
-                            Width="480"
-                            Height="520" 
-                            Margin="0,20,50,20" 
-                            VerticalAlignment="Center">
-                            <Grid>
+                        </Grid>
+                    </materialDesign:Card>
+                    <materialDesign:Flipper 
+                        x:Name="flpEmployeeInfo"
+                        Style="{StaticResource MaterialDesignCardFlipper}" 
+                        BorderBrush="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" 
+                        
+                        HorizontalAlignment="Left" 
+                        Margin="600,21,0,0" 
+                        VerticalAlignment="Top"
+                        Background="White">
+                        <materialDesign:Flipper.FrontContent>
+                            <Grid Width="400"
+                                  Height="400">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height="160" />
+                                    <RowDefinition
+                                        Height="*" />
+                                </Grid.RowDefinitions>
+                                <Ellipse 
+                                    x:Name="imgSumaryEmployee" 
+                                    Height="105"
+                                    Width="105" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Top" 
+                                    Cursor="Hand" Margin="0,50,0,0">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <TextBlock 
+                                        x:Name="txtSumaryName"
+                                        TextAlignment="Center" FontSize="20">
+                                        Chủ sân
+                                    </TextBlock>
+                                    <Button
+                                        x:Name="btnViewInfo"
+                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                        Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                        Margin="0 4 0 0">
+                                        Xem chi tiết
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Flipper.FrontContent>
+                        <materialDesign:Flipper.BackContent>
+                            <Grid
+                                Width="480"
+                                Height="520">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="2*"/>
                                     <RowDefinition Height="1*"/>
@@ -1599,14 +1634,34 @@
                                     <RowDefinition Height="1*"/>
                                     <RowDefinition Height="1*"/>
                                 </Grid.RowDefinitions>
+                                <materialDesign:ColorZone
+                                    Mode="Accent"
+                                    Padding="6" Background="#FF2195F2">
+                                    <StackPanel
+                                        Orientation="Horizontal">
+                                        <Button
+                                            Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                            Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                            HorizontalAlignment="Left"
+                                            Height="40"
+                                            Width="40"
+                                            Margin="5,10">
+                                            <materialDesign:PackIcon
+                                                Height="30"
+                                                Width="30"
+                                                Kind="ArrowLeft"
+                                                HorizontalAlignment="Right" />
+                                        </Button>
+                                    </StackPanel>
+                                </materialDesign:ColorZone>
                                 <TextBlock
                                     Text="Thông tin nhân viên"
                                     HorizontalAlignment="Left"
-                                    Margin="20,20,0,0" 
+                                    Margin="60,20,0,0" 
                                     TextWrapping="Wrap" 
                                     VerticalAlignment="Top" 
                                     FontSize="22" 
-                                    Foreground="{DynamicResource White}" 
+                                    Foreground="{DynamicResource {x:Static SystemColors.ActiveCaptionTextBrushKey}}" 
                                     FontWeight="Medium"/>
                                 <Grid 
                                     Grid.Row="0"
@@ -1620,10 +1675,10 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18" 
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}"
+                                        Foreground="{DynamicResource Black1}"
                                         Height="32" 
                                         Margin="0" 
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center" Background="White"/>
                                     <Rectangle
                                         x:Name="recIDEmployee"
                                         Width="200" 
@@ -1631,7 +1686,7 @@
                                         RadiusY="6"
                                         RadiusX="6" 
                                         Margin="0"
-                                        Stroke="{StaticResource Gray4}" HorizontalAlignment="Right" Fill="White"/>
+                                        Stroke="{DynamicResource Gray4}" HorizontalAlignment="Right" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtIDEmployee"
                                         materialDesign:HintAssist.Hint="Mã tự động"
@@ -1641,7 +1696,7 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         IsReadOnly="True" 
                                         Height="40" 
@@ -1664,10 +1719,10 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18"
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Height="32" 
                                         Margin="0" 
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center" Background="White"/>
                                     <Rectangle 
                                         x:Name="recName"
                                         HorizontalAlignment="Right" 
@@ -1675,7 +1730,7 @@
                                         Width="284" 
                                         RadiusY="6" 
                                         RadiusX="6"
-                                        Stroke="{StaticResource Gray4}" 
+                                        Stroke="{DynamicResource Gray4}" 
                                         Margin="0" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtName"
@@ -1688,10 +1743,10 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         HorizontalContentAlignment="Left" 
-                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False" Background="{x:Null}"/>
                                 </Grid>
                                 <Grid 
                                     Grid.Row="2"
@@ -1705,7 +1760,7 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18"
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Height="32" 
                                         Margin="0" 
                                         VerticalAlignment="Center"/>
@@ -1715,7 +1770,7 @@
                                         Width="284" 
                                         RadiusY="6" 
                                         RadiusX="6"
-                                        Stroke="{StaticResource Gray4}" 
+                                        Stroke="{DynamicResource Gray4}" 
                                         Margin="0" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtPosition"
@@ -1728,24 +1783,25 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         HorizontalContentAlignment="Left" 
                                         VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
                                 </Grid>
-                                <Grid x:Name="grdImageEmployee" 
-                                    Width="105" 
-                                    Height="105"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Top"
-                                    Margin="0,20,10,0">
-                                    <Grid.Background>
-                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
-                                    </Grid.Background>
-                                </Grid>
+                                <Ellipse 
+                        x:Name="imgEmployee" 
+                        Height="105"
+                        Width="105" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Top" 
+                        Cursor="Hand" Margin="0,20,10,0">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
                                 <Grid 
                                     Grid.Row="3"
-                                    Margin="20,13.4,0,13.4" 
+                                    Margin="20,0,0,0" 
                                     VerticalAlignment="Center" 
                                     x:Name="grdPosition_Copy" 
                                     Width="420" 
@@ -1755,7 +1811,7 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18"
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Height="32" 
                                         Margin="0" 
                                         VerticalAlignment="Center"/>
@@ -1765,7 +1821,7 @@
                                         Width="284" 
                                         RadiusY="6" 
                                         RadiusX="6"
-                                        Stroke="{StaticResource Gray4}" 
+                                        Stroke="{DynamicResource Gray4}" 
                                         Margin="0" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtDayOfBirth"
@@ -1778,14 +1834,14 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         HorizontalContentAlignment="Left" 
                                         VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
                                 </Grid>
                                 <Grid 
                                     Grid.Row="4"
-                                    Margin="20,13.4,0,13.4" 
+                                    Margin="20,0,0,0" 
                                     VerticalAlignment="Center" 
                                     x:Name="grdPosition_Copy1" 
                                     Width="420" 
@@ -1795,7 +1851,7 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18"
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Height="32" 
                                         Margin="0" 
                                         VerticalAlignment="Center"/>
@@ -1805,7 +1861,7 @@
                                         Width="284" 
                                         RadiusY="6" 
                                         RadiusX="6"
-                                        Stroke="{StaticResource Gray4}" 
+                                        Stroke="{DynamicResource Gray4}" 
                                         Margin="0" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtGender"
@@ -1818,14 +1874,14 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         HorizontalContentAlignment="Left" 
                                         VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
                                 </Grid>
                                 <Grid 
                                     Grid.Row="5"
-                                    Margin="20,7.4,0,7.4" 
+                                    Margin="20,0,0,0" 
                                     VerticalAlignment="Center" 
                                     x:Name="grdPosition_Copy2" 
                                     Width="420" 
@@ -1835,17 +1891,17 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18"
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Height="32" 
                                         Margin="0" 
-                                        VerticalAlignment="Center"/>
+                                        VerticalAlignment="Center" Background="{x:Null}"/>
                                     <Rectangle 
                                         HorizontalAlignment="Right" 
                                         Height="40" 
                                         Width="284" 
                                         RadiusY="6" 
                                         RadiusX="6"
-                                        Stroke="{StaticResource Gray4}" 
+                                        Stroke="{DynamicResource Gray4}" 
                                         Margin="0" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtAddress"
@@ -1858,14 +1914,14 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         HorizontalContentAlignment="Left" 
-                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False" Background="{x:Null}"/>
                                 </Grid>
                                 <Grid 
                                     Grid.Row="6"
-                                    Margin="20,7.4,0,7.4" 
+                                    Margin="20,0,0,0" 
                                     VerticalAlignment="Center" 
                                     x:Name="grdPosition_Copy3" 
                                     Width="420" 
@@ -1875,7 +1931,7 @@
                                         HorizontalAlignment="Left"
                                         FontSize="18"
                                         FontWeight="SemiBold" 
-                                        Foreground="{StaticResource Gray1}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Height="32" 
                                         Margin="0" 
                                         VerticalAlignment="Center"/>
@@ -1885,7 +1941,7 @@
                                         Width="284" 
                                         RadiusY="6" 
                                         RadiusX="6"
-                                        Stroke="{StaticResource Gray4}" 
+                                        Stroke="{DynamicResource Gray4}" 
                                         Margin="0" Fill="White"/>
                                     <TextBox 
                                         x:Name="txtPhoneNumber"
@@ -1898,15 +1954,16 @@
                                         BorderThickness="0" 
                                         MaxLines="1"
                                         Padding="0" 
-                                        Foreground="{StaticResource Gray3}" 
+                                        Foreground="{DynamicResource Black1}" 
                                         Margin="0,0,10,0" 
                                         HorizontalContentAlignment="Left" 
-                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False"/>
+                                        VerticalContentAlignment="Center" IsReadOnly="True" IsEnabled="False" Background="{x:Null}"/>
                                 </Grid>
                             </Grid>
-                        </materialDesign:Card>
-                    </Grid>
-                </Border>
+                        </materialDesign:Flipper.BackContent>
+                    </materialDesign:Flipper>
+                </Grid>
+                <!--</Border>-->
             </Grid>
         </Grid>
     </Grid>

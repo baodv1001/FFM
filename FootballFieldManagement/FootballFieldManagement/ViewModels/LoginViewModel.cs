@@ -116,6 +116,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 home.txtIDEmployee.Text = employee.IdEmployee.ToString();
                 home.txtName.Text = employee.Name;
+                home.txtSumaryName.Text = employee.Name;
                 home.txtPosition.Text = employee.Position;
                 home.txtDayOfBirth.Text = employee.DateOfBirth.ToShortDateString();
                 home.txtGender.Text = employee.Gender;
@@ -125,33 +126,47 @@ namespace FootballFieldManagement.ViewModels
                 BitmapImage bitmapImage = Converter.Instance.ConvertByteToBitmapImage(CurrentAccount.Image);
                 imageBrush.ImageSource = bitmapImage;
                 if (bitmapImage != null)
-                    home.grdImageEmployee.Background = imageBrush; // Hiển thị hình ảnh 
+                {
+                    home.imgEmployee.Fill = imageBrush; // Hiển thị hình ảnh 
+                    home.imgSumaryEmployee.Fill = imageBrush;
+                }
+                home.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.grdCursor.Margin = new Thickness(0, (175 + 70 * 1), 40, 0);
             }
             else
             {
                 home.txtIDEmployee.Text = 0.ToString();
                 home.txtName.Text = "Chủ sân";
                 home.txtPosition.Text = "Chủ sân";
-                home.txtDayOfBirth.IsEnabled = false;
-                home.txtGender.IsEnabled = false;
-                home.txtAddress.IsEnabled = false;
-                home.txtPhoneNumber.IsEnabled = false;
-            }    
+                home.txtDayOfBirth.Text = " ";
+                home.txtGender.Text = " ";
+                home.txtAddress.Text = " ";
+                home.txtPhoneNumber.Text = " ";
+                home.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.grdCursor.Margin = new Thickness(0, 175, 40, 0);
+            }
+            home.txtDayOfBirth.IsEnabled = false;
+            home.txtGender.IsEnabled = false;
+            home.txtAddress.IsEnabled = false;
+            home.txtPhoneNumber.IsEnabled = false;
         }
         public void SetJurisdiction(HomeWindow home)
         {
             if (CurrentAccount.Type)
             {
                 //Không cấp quyền cho nhân viên
-                home.stkMenu.Children.Remove(home.stkMenu.Children[0]);
+                home.grdBody_Home.Visibility = Visibility.Hidden;
+                home.grdBody_Field.Visibility = Visibility.Visible;
                 home.txtNewFieldName.IsEnabled = false;
                 home.btnEmployee.IsEnabled = false;
                 home.btnReport.IsEnabled = false;
                 home.btnAddGoods.IsEnabled = false;
                 home.btnAddEmployee.IsEnabled = false;
                 home.btnSetSalary.IsEnabled = false;
-                home.icnEmployee.Foreground = Brushes.LightGray;
-                home.icnReport.Foreground = Brushes.LightGray;
+                home.btnHome.IsEnabled = false;
+
             }
         }
         public void DisplayAccount(HomeWindow home)

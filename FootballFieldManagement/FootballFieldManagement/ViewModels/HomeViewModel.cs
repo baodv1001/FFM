@@ -31,9 +31,9 @@ namespace FootballFieldManagement.ViewModels
         public ICommand E_PaySalaryCommand { get; set; } 
 
         public ICommand S_EnableBtnSaveFieldNameCommand { get; set; }
-        public ICommand S_SaveNewNameOfField { get; set; }
+        public ICommand S_SaveNewNameOfFieldCommand { get; set; }
         public ICommand S_EnableBtnSavePassCommand { get; set; }
-        public ICommand S_SaveNewPassword { get; set; }
+        public ICommand S_SaveNewPasswordCommand { get; set; }
         public StackPanel Stack { get => stack; set => stack = value; }
 
         private StackPanel stack = new StackPanel();
@@ -55,8 +55,8 @@ namespace FootballFieldManagement.ViewModels
 
             S_EnableBtnSaveFieldNameCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSaveFieldName(parameter)) ;
             S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
-            S_SaveNewNameOfField = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewName(parameter));
-            S_SaveNewPassword = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
+            S_SaveNewNameOfFieldCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewName(parameter));
+            S_SaveNewPasswordCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
         }
         public void SaveNewPassword(HomeWindow parameter)
         {
@@ -232,7 +232,7 @@ namespace FootballFieldManagement.ViewModels
         public void SwitchTab(HomeWindow parameter)
         {
             int index = int.Parse(uid);
-
+               
             parameter.grdCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
 
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;

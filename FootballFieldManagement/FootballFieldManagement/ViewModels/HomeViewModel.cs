@@ -10,10 +10,12 @@ using FootballFieldManagement.Models;
 using FootballFieldManagement.DAL;
 using System.Linq;
 using System;
+using System.ComponentModel;
+using System.Data.SqlClient;
 
 namespace FootballFieldManagement.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel : BaseViewModel
     {
         public ICommand LogOutCommand { get; set; }
         public ICommand SwitchTabCommand { get; set; }
@@ -27,6 +29,11 @@ namespace FootballFieldManagement.ViewModels
         public ICommand E_SetSalaryCommand { get; set; }
         public ICommand E_CalculateSalaryCommand { get; set; }
         public ICommand E_PaySalaryCommand { get; set; }
+
+        public ICommand S_EnableBtnSaveFieldNameCommand { get; set; }
+        public ICommand S_SaveNewNameOfFieldCommand { get; set; }
+        public ICommand S_EnableBtnSavePassCommand { get; set; }
+        public ICommand S_SaveNewPasswordCommand { get; set; }
         public StackPanel Stack { get => stack; set => stack = value; }
 
         private StackPanel stack = new StackPanel();
@@ -36,7 +43,7 @@ namespace FootballFieldManagement.ViewModels
             LogOutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
             SwitchTabCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SwitchTab(parameter));
 
-            E_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
+            E_LoadCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
             E_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddEmployee(parameter));
 
             GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
@@ -45,6 +52,79 @@ namespace FootballFieldManagement.ViewModels
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
             E_PaySalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => PaySalary(parameter));
+
+            S_EnableBtnSaveFieldNameCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSaveFieldName(parameter));
+            S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
+            S_SaveNewNameOfFieldCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewName(parameter));
+            S_SaveNewPasswordCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
+        }
+        public void SaveNewPassword(HomeWindow parameter)
+        {
+
+            if (MD5Hash(parameter.pwbOldPassword.Password) == CurrentAccount.Password)
+            {
+                MessageBoxResult result = MessageBox.Show("Xác nhận đổi mật khẩu?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    if (parameter.pwbNewPassword.Password == parameter.pwbConfirmedPassword.Password)
+                    {
+                        CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
+                        Account account = new Account(CurrentAccount.IdAccount, CurrentAccount.DisplayName, CurrentAccount.Password, CurrentAccount.Type);
+                        if (AccountDAL.Instance.UpdatePassword(account))
+                        {
+                            MessageBox.Show("Đổi mật khẩu thành công!");
+                            parameter.pwbOldPassword.Password = null;
+                            parameter.pwbNewPassword.Password = null;
+                            parameter.pwbConfirmedPassword.Password = null;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Đổi mật khẩu thất bại!");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nhập mật khẩu xác thực không khớp!", "Thông báo");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nhập mật khẩu hiện tại không đúng!", "Thông báo");
+            }
+
+        }
+        public void SaveNewName(HomeWindow parameter)
+        {
+            MessageBoxResult result = MessageBox.Show("Xác nhận sửa tên sân?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                parameter.lbTitle.Content = parameter.txtNewFieldName.Text;
+                SQLConnection connection = new SQLConnection();
+                connection.conn.Open();
+                string queryString = "update Information set fieldName=N'" + parameter.txtNewFieldName.Text + "'";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                try
+                {
+                    int rs = command.ExecuteNonQuery();
+                    parameter.lbTitle.Content = parameter.txtNewFieldName.Text;
+                }
+                catch
+                {
+                    MessageBox.Show("Đổi tên thất bại!");
+                }
+                connection.conn.Close();
+            }
+        }
+        public void EnableButtonSaveFieldName(HomeWindow parameter)
+        {
+            parameter.btnSaveFieldName.IsEnabled = !string.IsNullOrEmpty(parameter.txtNewFieldName.Text);
+        }
+        public void EnableButtonSavePass(HomeWindow parameter)
+        {
+            parameter.btnSavePassword.IsEnabled = !string.IsNullOrEmpty(parameter.pwbOldPassword.Password) && !string.IsNullOrEmpty(parameter.pwbNewPassword.Password) && !string.IsNullOrEmpty(parameter.pwbConfirmedPassword.Password);
         }
         public void PaySalary(HomeWindow parameter)
         {
@@ -87,7 +167,7 @@ namespace FootballFieldManagement.ViewModels
             DateTime today = DateTime.Today;
             if (today.Day != 1)
             {
-                if(SalaryDAL.Instance.ConvertDBToList().Count == 0)
+                if (SalaryDAL.Instance.ConvertDBToList().Count == 0)
                 {
                     MessageBox.Show("Vui lòng thiết lập lương");
                     SetSalaryWindow wdSetSalary = new SetSalaryWindow();
@@ -121,7 +201,7 @@ namespace FootballFieldManagement.ViewModels
                             salary.NumOfShift += (workdays - salary.StandardWorkDays);
                             salary.TotalSalary = salary.SalaryBasic + salary.NumOfShift * salary.MoneyPerShift - salary.NumOfFault * salary.MoneyPerFault;
                         }
-                        if(salary.TotalSalary < 0)
+                        if (salary.TotalSalary < 0)
                         {
                             salary.TotalSalary = 0;
                         }
@@ -162,6 +242,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.grdBody_Home.Visibility = Visibility.Hidden;
             parameter.grdBody_Employee.Visibility = Visibility.Hidden;
             parameter.grdBody_Report.Visibility = Visibility.Hidden;
+            parameter.grdBody_Setting.Visibility = Visibility.Hidden;
 
             parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
             parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
@@ -205,6 +286,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 5:
+                    parameter.grdBody_Setting.Visibility = Visibility.Visible;
                     parameter.btnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
@@ -226,13 +308,15 @@ namespace FootballFieldManagement.ViewModels
                 addEmployee.txtIDEmployee.Text = "1";
             }
             addEmployee.txbConfirm.Text = "Thêm";
+            if (CurrentAccount.Type == 1)
+                addEmployee.cboPositionManage.IsEnabled = false;
             addEmployee.ShowDialog();
         }
 
-        public void LoadEmployeesToView(StackPanel stackPanel)
+        public void LoadEmployeesToView(HomeWindow homeWindow)
         {
             int i = 1;
-            stackPanel.Children.Clear();
+            homeWindow.stkEmployee.Children.Clear();
             bool flag = false;
             foreach (var employee in EmployeeDAL.Instance.ConvertDBToList())
             {
@@ -258,7 +342,14 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbId.Text = employee.IdEmployee.ToString();
                 temp.txbName.Text = employee.Name.ToString();
                 temp.txbPosition.Text = employee.Position.ToString();
-                stackPanel.Children.Add(temp);
+                if (CurrentAccount.Type == 1)
+                {
+                    if (employee.Position == "Nhân viên quản lý")
+                    {
+                        temp.btnEditEmployee.IsEnabled = false;
+                    }
+                }
+                homeWindow.stkEmployee.Children.Add(temp);
             }
         }
         public void LoadGoodsToView(StackPanel stk)
@@ -281,11 +372,11 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbQuantity.Text = goods.Quantity.ToString();
                 temp.txbUnit.Text = goods.Unit.ToString();
                 temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
-                if(CurrentAccount.Type)
+                if (CurrentAccount.Type == 2)
                 {
                     temp.btnDeleteGoods.IsEnabled = false;
                     temp.btnEditGoods.IsEnabled = false;
-                }    
+                }
                 stk.Children.Add(temp);
                 i++;
             }

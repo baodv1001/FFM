@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FootballFieldManagement.Models
+namespace FootballFieldManagement.DAL
 {
-    class SQLConnection
+    public class SQLConnection
     {
         private string strConn;
-        protected SqlConnection conn;
+        public SqlConnection conn;
         public SQLConnection()
         {
             strConn = @"Data Source=(local);Initial Catalog=FootballFieldManagement;Integrated Security=True";

@@ -95,6 +95,7 @@
                                     Height="Auto" 
                                     HorizontalAlignment="Left"/>
                                 <TextBlock 
+                                    x:Name="txbidEmployee" 
                                     Text="{Binding IdEmployee}" 
                                     Width="50" 
                                     Height="Auto" 

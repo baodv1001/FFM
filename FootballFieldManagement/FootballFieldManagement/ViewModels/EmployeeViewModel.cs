@@ -78,7 +78,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                if (parameter.cboPosition.Text != "Bảo vệ" && parameter.cboPosition.Text != "Nhân viên quản lý")
+                if (parameter.cboPosition.Text != "Bảo vệ" && parameter.cboPosition.Text != "Nhân viên quản lý" && parameter.cboPosition.Text != "Nhân viên thu ngân")
                 {
                     MessageBox.Show("Vui lòng nhập đúng chức vụ!");
                     parameter.cboPosition.Focus();

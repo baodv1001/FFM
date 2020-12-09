@@ -199,6 +199,7 @@
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left">
                     <ComboBoxItem x:Name="cboPositionManage" Content="Nhân viên quản lý"/>
+                    <ComboBoxItem x:Name="cboPositionCashier" Content="Nhân viên thu ngân"/>
                     <ComboBoxItem x:Name="cboPositionGuard" Content="Bảo vệ"/>
                 </ComboBox>
             </Grid>

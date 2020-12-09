@@ -70,10 +70,13 @@ namespace FootballFieldManagement.ViewModels
                     if (parameter.pwbNewPassword.Password == parameter.pwbConfirmedPassword.Password)
                     {
                         CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
-                        Account account = new Account(CurrentAccount.IdAccount, CurrentAccount.DisplayName, CurrentAccount.Password, CurrentAccount.Type ? 1 : 0);
+                        Account account = new Account(CurrentAccount.IdAccount, CurrentAccount.DisplayName, CurrentAccount.Password, CurrentAccount.Type);
                         if (AccountDAL.Instance.UpdatePassword(account))
                         {
                             MessageBox.Show("Đổi mật khẩu thành công!");
+                            parameter.pwbOldPassword.Password = null;
+                            parameter.pwbNewPassword.Password = null;
+                            parameter.pwbConfirmedPassword.Password = null;
                         }
                         else
                         {
@@ -305,6 +308,8 @@ namespace FootballFieldManagement.ViewModels
                 addEmployee.txtIDEmployee.Text = "1";
             }
             addEmployee.txbConfirm.Text = "Thêm";
+            if(CurrentAccount.Type==1)
+                addEmployee.cboPositionManage.IsEnabled = false;
             addEmployee.ShowDialog();
         }
 
@@ -360,7 +365,7 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbQuantity.Text = goods.Quantity.ToString();
                 temp.txbUnit.Text = goods.Unit.ToString();
                 temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
-                if (CurrentAccount.Type)
+                if (CurrentAccount.Type==2)
                 {
                     temp.btnDeleteGoods.IsEnabled = false;
                     temp.btnEditGoods.IsEnabled = false;

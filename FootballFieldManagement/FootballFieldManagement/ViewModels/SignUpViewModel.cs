@@ -78,7 +78,7 @@ namespace FootballFieldManagement.ViewModels
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
             foreach (var employee in employees)
             {
-                if (employee.Position == "Nhân viên quản lý" && employee.IdAccount == -1)
+                if ((employee.Position == "Nhân viên quản lý" || employee.Position == "Nhân viên thu ngân") && employee.IdAccount == -1)
                 {
                     itemSourceEmployee.Add(employee);
                 }
@@ -162,7 +162,12 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Mật khẩu không trùng khớp!");
                 return;
             }
-            Account newAccount = new Account(setID(accounts), parameter.txtUsername.Text.ToString(), password, 1);
+            int type = 0;
+            if (selectedEmployee.Position == "Nhân viên quản lý")
+                type = 1;
+            else
+                type = 2;
+            Account newAccount = new Account(setID(accounts), parameter.txtUsername.Text.ToString(), password, type);
             AccountDAL.Instance.AddIntoDB(newAccount);
             selectedEmployee.IdAccount = setID(accounts);
             if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))

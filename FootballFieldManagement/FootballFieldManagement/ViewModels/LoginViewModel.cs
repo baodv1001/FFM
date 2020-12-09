@@ -75,21 +75,24 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password)
                 {
-                    CurrentAccount.Type = account.Type == 1 ? true : false; // Kiểm tra quyền
-                    List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
-                    foreach (var employee in employees)
+                    CurrentAccount.Type = account.Type; // Kiểm tra quyền
+                    if (CurrentAccount.Type != 0)
                     {
-                        if (employee.IdAccount == account.IdAccount)
+                        List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
+                        foreach (var employee in employees)
                         {
-                            //Lấy thông tin người đăng nhập
-                            CurrentAccount.DisplayName = employee.Name;
-                            CurrentAccount.Image = employee.ImageFile;
-                            CurrentAccount.IdAccount = employee.IdAccount;
-                            CurrentAccount.Password = password;
-                            this.employee = employee;
-                            break;
+                            if (employee.IdAccount == account.IdAccount)
+                            {
+                                //Lấy thông tin người đăng nhập
+                                CurrentAccount.DisplayName = employee.Name;
+                                CurrentAccount.Image = employee.ImageFile;                                
+                                this.employee = employee;
+                                break;
+                            }
                         }
                     }
+                    CurrentAccount.IdAccount = account.IdAccount;
+                    CurrentAccount.Password = password;
                     isLogin = true;
                 }
             }
@@ -112,7 +115,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DisplayEmployee(Employee employee, HomeWindow home)
         {
-            if (CurrentAccount.Type)
+            if (CurrentAccount.Type!=0)
             {
                 home.txtIDEmployee.Text = employee.IdEmployee.ToString();
                 home.txtName.Text = employee.Name;
@@ -152,7 +155,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void SetJurisdiction(HomeWindow home)
         {
-            if (CurrentAccount.Type)
+            if (CurrentAccount.Type!=0)
             {
                 //Không cấp quyền cho nhân viên
                 home.grdBody_Home.Visibility = Visibility.Hidden;
@@ -161,15 +164,19 @@ namespace FootballFieldManagement.ViewModels
                 home.btnEmployee.IsEnabled = false;
                 home.btnReport.IsEnabled = false;
                 home.btnAddGoods.IsEnabled = false;
-                home.btnAddEmployee.IsEnabled = false;
+                home.btnPaySalary.IsEnabled = false;
                 home.btnSetSalary.IsEnabled = false;
                 home.btnHome.IsEnabled = false;
-
             }
+            if(CurrentAccount.Type==1)
+            {
+                home.btnAddGoods.IsEnabled = true;
+                home.btnEmployee.IsEnabled = true;
+            }    
         }
         public void DisplayAccount(HomeWindow home)
         {
-            if (CurrentAccount.Type == true)
+            if (CurrentAccount.Type != 0)
             {
                 home.lbAccount.Content = CurrentAccount.DisplayName;// Hiển thị tên nhân viên
                 ImageBrush imageBrush = new ImageBrush();

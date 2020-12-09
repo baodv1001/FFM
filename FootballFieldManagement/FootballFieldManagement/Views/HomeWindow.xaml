@@ -454,7 +454,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}" 
@@ -1363,7 +1363,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <materialDesign:Card
                     Background="{StaticResource White}"
                     HorizontalAlignment="Left" 
@@ -1383,9 +1383,9 @@
                             Margin="20,20,0,0" 
                             TextWrapping="Wrap" 
                             VerticalAlignment="Top" 
-                            FontSize="22" 
-                            Foreground="{DynamicResource Black1}" 
-                            FontWeight="Medium" />
+                            FontSize="24" 
+                            Foreground="{DynamicResource Primary}" 
+                            FontWeight="Bold" />
                         <TextBox 
                             Grid.Row="1"
                             x:Name="txtNewFieldName"
@@ -1393,17 +1393,20 @@
                             VerticalAlignment="Center"
                             AcceptsReturn="True"
                             TextWrapping="Wrap"
-                            VerticalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Disabled"
                             materialDesign:HintAssist.Hint="Tên sân mới"
                             IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
                             HorizontalAlignment="Left" 
                             Foreground="{DynamicResource Gray1}" 
                             BorderBrush="{DynamicResource DisabledForegroundBrush}" 
-                            FontSize="16" Width="400" 
+                            FontSize="16" 
+                            Width="400" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
                             Background="{StaticResource White}" 
-                            Cursor="None" FontWeight="SemiBold" >
+                            FontWeight="SemiBold" 
+                            MaxLines="1" 
+                            MaxLength="50" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSaveFieldNameCommand}"
@@ -1416,7 +1419,6 @@
                             x:Name="btnSaveFieldName"
                             Command="{Binding S_SaveNewNameOfFieldCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
-                            IsDefault="True"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Height="40" 
                             Width="100"
@@ -1431,17 +1433,20 @@
                             FontSize="18" 
                             VerticalAlignment="Bottom"
                             Padding="0" 
-                            IsEnabled="False">
-                        </Button>
+                            IsEnabled="False"/>
                         <Grid 
-                            Width="80" 
-                            Height="80"
+                            Width="50" 
+                            Height="50"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Margin="0,20,20,0">
-                            <Grid.Background>
-                                <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
-                            </Grid.Background>
+                            <materialDesign:PackIcon  
+                                Kind="ClipboardEditOutline"
+                                Width="50" 
+                                Height="50" 
+                                VerticalAlignment="Center" 
+                                Cursor="Hand" 
+                                Foreground="{StaticResource Gray2}" />
                         </Grid>
                     </Grid>
                 </materialDesign:Card>
@@ -1466,9 +1471,9 @@
                             Margin="20,20,0,0" 
                             TextWrapping="Wrap" 
                             VerticalAlignment="Top" 
-                            FontSize="22" 
-                            Foreground="{DynamicResource Black1}" 
-                            FontWeight="Medium"/>
+                            FontSize="24" 
+                            Foreground="{DynamicResource Primary}" 
+                            FontWeight="Bold"/>
                         <PasswordBox 
                             Grid.Row="1"
                             x:Name="pwbOldPassword"
@@ -1482,7 +1487,8 @@
                             Width="400" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
-                            Background="{StaticResource White}" FontWeight="SemiBold" >
+                            Background="{StaticResource White}" 
+                            FontWeight="SemiBold" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
@@ -1504,7 +1510,8 @@
                             Width="400" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
-                            Background="{StaticResource White}" FontWeight="SemiBold" >
+                            Background="{StaticResource White}" 
+                            FontWeight="SemiBold" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
@@ -1526,7 +1533,8 @@
                             Width="400" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
-                            Background="{StaticResource White}" FontWeight="SemiBold" >
+                            Background="{StaticResource White}" 
+                            FontWeight="SemiBold" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
@@ -1539,7 +1547,6 @@
                             x:Name="btnSavePassword"
                             Command="{Binding S_SaveNewPasswordCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
-                            IsDefault="True"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Height="40" 
                             Width="100"
@@ -1554,17 +1561,20 @@
                             FontSize="18" 
                             VerticalAlignment="Bottom"
                             Padding="0" 
-                            IsEnabled="False">
-                        </Button>
+                            IsEnabled="False"/>
                         <Grid 
-                            Width="80" 
-                            Height="80"
+                            Width="50" 
+                            Height="50"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Top"
                             Margin="0,20,20,0">
-                            <Grid.Background>
-                                <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png" Stretch="UniformToFill"/>
-                            </Grid.Background>
+                            <materialDesign:PackIcon  
+                                Kind="AccountEditOutline"
+                                Width="50" 
+                                Height="50" 
+                                VerticalAlignment="Center" 
+                                Cursor="Hand" 
+                                Foreground="{StaticResource Gray2}" />
                         </Grid>
                     </Grid>
                 </materialDesign:Card>
@@ -1598,14 +1608,15 @@
                                 Margin="20,20,0,0" 
                                 TextWrapping="Wrap" 
                                 VerticalAlignment="Top" 
-                                FontSize="22" 
-                                Foreground="{DynamicResource Gray1}" 
-                                FontWeight="Medium"/>
+                                FontSize="24" 
+                                Foreground="{DynamicResource Primary}" 
+                                FontWeight="Bold"/>
                         <Grid 
                             Grid.Row="0"
                             Margin="20,110,0,0"
                             VerticalAlignment="Top" 
-                            Height="50" Width="340" 
+                            Height="50"
+                            Width="340" 
                             HorizontalAlignment="Left">
                             <Label
                                 Content="Mã nhân viên" 

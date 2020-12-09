@@ -43,7 +43,7 @@ namespace FootballFieldManagement.ViewModels
             LogOutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
             SwitchTabCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SwitchTab(parameter));
 
-            E_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
+            E_LoadCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
             E_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddEmployee(parameter));
 
             GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
@@ -308,10 +308,10 @@ namespace FootballFieldManagement.ViewModels
             addEmployee.ShowDialog();
         }
 
-        public void LoadEmployeesToView(StackPanel stackPanel)
+        public void LoadEmployeesToView(HomeWindow homeWindow)
         {
             int i = 1;
-            stackPanel.Children.Clear();
+            homeWindow.stkEmployee.Children.Clear();
             bool flag = false;
             foreach (var employee in EmployeeDAL.Instance.ConvertDBToList())
             {
@@ -337,7 +337,7 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbId.Text = employee.IdEmployee.ToString();
                 temp.txbName.Text = employee.Name.ToString();
                 temp.txbPosition.Text = employee.Position.ToString();
-                stackPanel.Children.Add(temp);
+                homeWindow.stkEmployee.Children.Add(temp);
             }
         }
         public void LoadGoodsToView(StackPanel stk)

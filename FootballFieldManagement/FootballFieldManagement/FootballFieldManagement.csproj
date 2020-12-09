@@ -87,6 +87,12 @@
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
     <Compile Include="Models\FieldInfo.cs" />
     <Compile Include="Models\Report.cs" />
+    <Compile Include="Resources\UserControls\FieldBookingControl.xaml.cs">
+      <DependentUpon>FieldBookingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\FieldButtonControl.xaml.cs">
+      <DependentUpon>FieldButtonControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\ProductDetailsControl.xaml.cs">
       <DependentUpon>ProductDetailsControl.xaml</DependentUpon>
     </Compile>
@@ -147,6 +153,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\UserControls\EmployeeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\FieldBookingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\FieldButtonControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

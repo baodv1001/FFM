@@ -116,7 +116,6 @@ namespace FootballFieldManagement.ViewModels
             {
                 home.txtIDEmployee.Text = employee.IdEmployee.ToString();
                 home.txtName.Text = employee.Name;
-                home.txtSumaryName.Text = employee.Name;
                 home.txtPosition.Text = employee.Position;
                 home.txtDayOfBirth.Text = employee.DateOfBirth.ToShortDateString();
                 home.txtGender.Text = employee.Gender;
@@ -128,7 +127,6 @@ namespace FootballFieldManagement.ViewModels
                 if (bitmapImage != null)
                 {
                     home.imgEmployee.Fill = imageBrush; // Hiển thị hình ảnh 
-                    home.imgSumaryEmployee.Fill = imageBrush;
                 }
                 home.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");

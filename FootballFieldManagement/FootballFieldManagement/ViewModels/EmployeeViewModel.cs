@@ -157,6 +157,25 @@ namespace FootballFieldManagement.ViewModels
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender,
                 parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text), 0,
                 parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), -1, imgByteArr);
+            Employee current = EmployeeDAL.Instance.GetEmployee(parameter.txtIDEmployee.Text);
+            if (current!=null && current.IdAccount != -1)
+            {
+                if (employee.Position == "Nhân viên thu ngân")
+                {
+                    AccountDAL.Instance.UpdateType(new Account(current.IdAccount, "", "", 2));
+                }
+                if(employee.Position=="Nhân viên quản lý")
+                {
+                    AccountDAL.Instance.UpdateType(new Account(current.IdAccount, "", "", 1));
+                }    
+                if (employee.Position == "Bảo vệ")
+                {
+                    int temp = current.IdAccount;
+                    current.IdAccount = -1;
+                    EmployeeDAL.Instance.UpdateIdAccount(current);
+                    AccountDAL.Instance.DeleteAccount(temp.ToString());              
+                }
+            }
             EmployeeDAL.Instance.AddEmployee(employee);
             SetBaseSalary(parameter);
             parameter.Close();
@@ -214,7 +233,7 @@ namespace FootballFieldManagement.ViewModels
                         bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
                         bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
                         bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
-                        if((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) ||(isSuccess3))
+                        if ((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) || (isSuccess3))
                         {
                             MessageBox.Show("Đã xóa thành công!");
                         }
@@ -270,6 +289,10 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             child.btnSave.ToolTip = "Cập nhật thông tin nhân viên";
+            if(CurrentAccount.Type==1)
+            {
+                child.cboPositionManage.IsEnabled = false;
+            }    
             child.ShowDialog();
         }
         public void UpdateQuantity(EmployeeControl parameter)

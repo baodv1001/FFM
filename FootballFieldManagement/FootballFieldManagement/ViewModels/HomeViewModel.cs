@@ -342,6 +342,13 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbId.Text = employee.IdEmployee.ToString();
                 temp.txbName.Text = employee.Name.ToString();
                 temp.txbPosition.Text = employee.Position.ToString();
+                if(CurrentAccount.Type==1)
+                {
+                    if(employee.Position=="Nhân viên quản lý")
+                    {
+                        temp.btnEditEmployee.IsEnabled = false;
+                    }
+                }    
                 homeWindow.stkEmployee.Children.Add(temp);
             }
         }

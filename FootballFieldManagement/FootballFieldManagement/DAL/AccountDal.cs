@@ -102,5 +102,29 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public bool UpdateType(Account account)
+        {
+            try
+            {
+                conn.Open();
+                string query = "update Account set type=@type where IdAccount = " + account.IdAccount;
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@type  ", account.Type);
+                if (command.ExecuteNonQuery() > 0)
+                    return true;
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

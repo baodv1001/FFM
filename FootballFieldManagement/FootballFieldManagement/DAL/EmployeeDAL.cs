@@ -65,10 +65,15 @@ namespace FootballFieldManegement.DAL
             try
             {
                 conn.Open();
-                string query = "update Employee set idAccount = @idAccount where idEmployee = @idEmployee";
+                string query;
+                if (employee.IdAccount != -1)
+                    query = "update Employee set idAccount = " + employee.IdAccount + " where idEmployee = @idEmployee";
+                else
+                    query = "update Employee set idAccount = NULL where idEmployee = @idEmployee";
+
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
-                command.Parameters.AddWithValue("@idAccount", employee.IdAccount);
+
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {

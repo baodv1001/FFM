@@ -308,7 +308,7 @@ namespace FootballFieldManagement.ViewModels
                 addEmployee.txtIDEmployee.Text = "1";
             }
             addEmployee.txbConfirm.Text = "Thêm";
-            if(CurrentAccount.Type==1)
+            if (CurrentAccount.Type == 1)
                 addEmployee.cboPositionManage.IsEnabled = false;
             addEmployee.ShowDialog();
         }
@@ -342,13 +342,13 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbId.Text = employee.IdEmployee.ToString();
                 temp.txbName.Text = employee.Name.ToString();
                 temp.txbPosition.Text = employee.Position.ToString();
-                if(CurrentAccount.Type==1)
+                if (CurrentAccount.Type == 1)
                 {
-                    if(employee.Position=="Nhân viên quản lý")
+                    if (employee.Position == "Nhân viên quản lý")
                     {
                         temp.btnEditEmployee.IsEnabled = false;
                     }
-                }    
+                }
                 homeWindow.stkEmployee.Children.Add(temp);
             }
         }
@@ -372,7 +372,7 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbQuantity.Text = goods.Quantity.ToString();
                 temp.txbUnit.Text = goods.Unit.ToString();
                 temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
-                if (CurrentAccount.Type==2)
+                if (CurrentAccount.Type == 2)
                 {
                     temp.btnDeleteGoods.IsEnabled = false;
                     temp.btnEditGoods.IsEnabled = false;

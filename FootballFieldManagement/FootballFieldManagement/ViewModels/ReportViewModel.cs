@@ -127,6 +127,10 @@ namespace FootballFieldManagement.ViewModels
         public void LoadBillByYear(HomeWindow homeWindow)
         {
             homeWindow.stkBill.Children.Clear();
+            if (homeWindow.cboSelectYearBill.SelectedIndex == -1)
+            {
+                return;
+            }
             string[] tmp = homeWindow.cboSelectYearBill.SelectedValue.ToString().Split(' ');
             string selectedYear = tmp[1];
             DataTable dataTable = BillDAL.Instance.LoadBillByYear(selectedYear);
@@ -154,6 +158,10 @@ namespace FootballFieldManagement.ViewModels
         public void LoadBillByMonth(HomeWindow homeWindow)
         {
             homeWindow.stkBill.Children.Clear();
+            if (homeWindow.cboSelectMonthBill.SelectedIndex == -1)
+            {
+                return;
+            }
             string[] tmp = homeWindow.cboSelectMonthBill.SelectedValue.ToString().Split(' ');
             string selectedMonth = tmp[1];
             DataTable dataTable = BillDAL.Instance.LoadBillByMonth(selectedMonth, DateTime.Now.Year.ToString());

@@ -26,6 +26,7 @@
     <SolidColorBrush x:Key="Gray3" Color="#FF828282" />
     <SolidColorBrush x:Key="Gray4" Color="#FFBDBDBD" />
     <SolidColorBrush x:Key="Gray5" Color="#FFE0E0E0" />
+    <SolidColorBrush x:Key="Gray6" Color="#FFF1F1F1" />
     <SolidColorBrush x:Key="Theme_Brush_Bg" Color="White" />
     <SolidColorBrush x:Key="Theme_Brush_SilverBorder" Color="Silver" />
     <Color x:Key="ThemeColor">#40a6d1</Color>

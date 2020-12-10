@@ -115,7 +115,6 @@ namespace FootballFieldManagement.DAL
             List<Bill> bills = new List<Bill>();
             try
             {
-
                 dt = LoadData("Bill");
             }
             catch
@@ -158,5 +157,77 @@ namespace FootballFieldManagement.DAL
             }
         }
 
+        public DataTable LoadBillByDate(string day, string month, string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select idBill, name, invoiceDate, checkOutTime, totalMoney from Bill join Account" +
+                    " on Bill.idAccount = Account.idAccount join Employee on Account.idAccount = Employee.idAccount " +
+                    "where year(invoiceDate) = {0} and month(invoiceDate) = {1} and day(invoiceDate) = {2} order by idBill", year, month, day);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public DataTable LoadBillByMonth(string month, string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select idBill, name, invoiceDate, checkOutTime, totalMoney from Bill join Account" +
+                    " on Bill.idAccount = Account.idAccount join Employee on Account.idAccount = Employee.idAccount " +
+                    "where year(invoiceDate) = {0} and month(invoiceDate) = {1} order by idBill", year, month);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public DataTable LoadBillByYear(string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select idBill, name, invoiceDate, checkOutTime, totalMoney from Bill join Account" +
+                    " on Bill.idAccount = Account.idAccount join Employee on Account.idAccount = Employee.idAccount " +
+                    "where year(invoiceDate) = {0} order by idBill", year);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

@@ -30,7 +30,6 @@
             x:Name="stkMain"
             Orientation="Horizontal"
             Grid.Column="1">
-            <local:FieldButtonControl Height="36" Width="36" VerticalAlignment="Center" Margin="0"/>
         </StackPanel>
     </Grid>
 </UserControl>

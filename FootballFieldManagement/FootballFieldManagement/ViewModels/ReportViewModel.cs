@@ -182,6 +182,7 @@ namespace FootballFieldManagement.ViewModels
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 billTemplate.txbFieldName.Text = dataTable.Rows[0].ItemArray[0].ToString();
+                billTemplate.txbFieldNameBrand.Text = dataTable.Rows[0].ItemArray[0].ToString();
                 billTemplate.txbPhoneNumber.Text = dataTable.Rows[0].ItemArray[1].ToString();
                 billTemplate.txbAddress.Text = dataTable.Rows[0].ItemArray[2].ToString();
             }

@@ -45,7 +45,7 @@
                 Height="60"
                 Margin="40,15,0,0"
                 VerticalAlignment="Top"
-                Width="240">
+                Width="280">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition/>
@@ -75,6 +75,7 @@
                 <StackPanel
                     Grid.Column="1">
                     <TextBlock 
+                        x:Name="txbFieldNameBrand"
                         Grid.Column="1"
                         HorizontalAlignment="Left" 
                         Margin="10,8,0,0"
@@ -392,7 +393,7 @@
         <Grid
             Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="270"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
@@ -402,7 +403,7 @@
                 HorizontalAlignment="Right"
                 Margin="0,68,2,0" 
                 TextWrapping="Wrap" 
-                Text="12.000.000" 
+                Text="1.100.000" 
                 VerticalAlignment="Top"
                 FontSize="14" 
                 FontWeight="SemiBold" 
@@ -449,86 +450,101 @@
                 Foreground="{DynamicResource White}" 
                 Panel.ZIndex="1" 
                 TextAlignment="Right"/>
-            <StackPanel
-                HorizontalAlignment="Left" 
-                Margin="30,15,0,0" 
-                VerticalAlignment="Top" 
-                Width="220">
-                <TextBlock 
-                    TextWrapping="Wrap" 
-                    Text="Thông tin:" 
-                    FontSize="16" 
-                    FontWeight="Black" 
-                    Foreground="{DynamicResource Gray2}"/>
-                <TextBlock 
-                    x:Name="txbFieldName"
-                    TextWrapping="Wrap" 
-                    Text="Sân liên hợp" 
-                    FontWeight="Bold" 
-                    Margin="0,2" 
-                    Foreground="{DynamicResource Gray1}"/>
-                <TextBlock 
-                    x:Name="txbAddress"
-                    TextWrapping="Wrap" 
-                    Text="1 Hàn Thuyên, Phường Linh Trung, Quận Thủ Đức, Tp. HCM" 
-                    FontWeight="SemiBold"
-                    Margin="0,0,0,2" 
-                    Foreground="{DynamicResource Gray2}"/>
-                <TextBlock 
-                    x:Name="txbPhoneNumber"
-                    TextWrapping="Wrap" 
-                    Text="0123456789" 
-                    FontWeight="SemiBold"
-                    Margin="0"
-                    Foreground="{DynamicResource Gray2}"/>
-                <Grid
-                    Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="85"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <Grid 
+                Margin="30,10,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="32"/>
+                </Grid.RowDefinitions>
+                <StackPanel
+                    HorizontalAlignment="Left" 
+                    Margin="0" 
+                    VerticalAlignment="Top" 
+                    Width="230" 
+                    Height="105">
                     <TextBlock 
                         TextWrapping="Wrap" 
-                        Text="Mã nhân viên:" 
-                        FontWeight="SemiBold"
-                        Margin="0" 
+                        Text="Thông tin:" 
+                        FontSize="16" 
+                        FontWeight="Black" 
                         Foreground="{DynamicResource Gray2}"/>
                     <TextBlock 
-                        x:Name="txbIdEmployee"
-                        Grid.Column="1"
+                        x:Name="txbFieldName"
                         TextWrapping="Wrap" 
-                        Text="#123" 
-                        FontWeight="SemiBold"
-                        Margin="0" 
-                        Foreground="{DynamicResource Black2}"/>
-                </Grid>
-                <Grid
-                    Margin="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="85"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                        Text="Sân liên hợp" 
+                        FontWeight="Bold" 
+                        Margin="0,2,0,0" 
+                        Foreground="{DynamicResource Gray1}"/>
                     <TextBlock 
+                        x:Name="txbAddress"
+                        TextTrimming="WordEllipsis"
                         TextWrapping="Wrap" 
-                        Text="Tên nhân viên:" 
                         FontWeight="SemiBold"
-                        Margin="0" 
+                        Margin="0,0,0,2" 
+                        Foreground="{DynamicResource Gray2}" 
+                        Text="Song Hành, khu phố 6, Thủ Đức, Thành phố Hồ Chí Minh"
+                        MaxHeight="48" />
+                    <TextBlock 
+                        x:Name="txbPhoneNumber"
+                        TextWrapping="Wrap" 
+                        Text="0123456789" 
+                        FontWeight="SemiBold"
+                        Margin="0"
                         Foreground="{DynamicResource Gray2}"/>
-                    <TextBlock 
-                        x:Name="txbEmployeeName"
-                        Grid.Column="1"
-                        TextWrapping="Wrap" 
-                        Text="Đỗ Văn Bảo" 
-                        FontWeight="SemiBold"
-                        Margin="0" 
-                        Foreground="{DynamicResource Black2}"/>
-                </Grid>
-            </StackPanel>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="1" 
+                    VerticalAlignment="Bottom">
+                    <Grid
+                        Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock 
+                            TextWrapping="Wrap" 
+                            Text="Mã nhân viên:" 
+                            FontWeight="SemiBold"
+                            Margin="0" 
+                            Foreground="{DynamicResource Gray2}"/>
+                        <TextBlock 
+                            x:Name="txbIdEmployee"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" 
+                            Text="#123" 
+                            FontWeight="SemiBold"
+                            Margin="0" 
+                            Foreground="{DynamicResource Gray1}"/>
+                    </Grid>
+                    <Grid
+                        Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock 
+                            TextWrapping="Wrap" 
+                            Text="Tên nhân viên:" 
+                            FontWeight="SemiBold"
+                            Margin="0" 
+                            Foreground="{DynamicResource Gray2}"/>
+                        <TextBlock 
+                            x:Name="txbEmployeeName"
+                            Grid.Column="1"
+                            TextWrapping="Wrap" 
+                            TextTrimming="WordEllipsis"
+                            Text="Đỗ Văn Bảo" 
+                            FontWeight="SemiBold"
+                            Margin="0" 
+                            Foreground="{DynamicResource Gray1}"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
             <Button 
                 x:Name="btnPrint"
                 Command="{Binding PrintCommand}"
                 CommandParameter="{Binding ElementName=wdBillTemplate}"
-                Background="{DynamicResource Success}"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Content="In hóa đơn"
                 Grid.Column="1"
                 HorizontalAlignment="Right" 

@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using FootballFieldManagement.DAL;
 using FootballFieldManagement.Models;
 using System.Collections.ObjectModel;
-using FootballFieldManegement.DAL;
 
 namespace FootballFieldManagement.ViewModels
 {

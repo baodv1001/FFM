@@ -16,6 +16,8 @@ using System.Windows.Threading;
 using FootballFieldManagement.Models;
 using FootballFieldManagement.Resources.UserControls;
 using System.Data;
+using FootballFieldManagement.Resources.Template;
+using System.Data.SqlClient;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -101,6 +103,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ViewBillByMonthCommand { get; set; }
         public ICommand ViewBillByYearCommand { get; set; }
 
+        public ICommand ViewBillTemplateCommand { get; set; }
+
         public ReportViewModel()
         {
             SelectionChangedCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => UpdateSelectTimeItemSource(parameter));
@@ -116,6 +120,8 @@ namespace FootballFieldManagement.ViewModels
             ViewBillByDateCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadBillByDate(parameter));
             ViewBillByMonthCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadBillByMonth(parameter));
             ViewBillByYearCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadBillByYear(parameter));
+
+            ViewBillTemplateCommand = new RelayCommand<BillControl>(parameter => true, parameter => ViewBillTemplate(parameter));
         }
         public ReportViewModel(HomeWindow homeWindow)
         {
@@ -124,13 +130,80 @@ namespace FootballFieldManagement.ViewModels
             LoadDefaultChart(homeWindow);
         }
 
+        public void ViewBillTemplate(BillControl billControl)
+        {
+            //Thông tin bill
+            string idBill = billControl.txbId.Text;
+            BillTemplate billTemplate = new BillTemplate();
+            Bill bill = BillDAL.Instance.GetBill(idBill);
+            billTemplate.txbIdBill.Text = "# " + idBill;
+            billTemplate.txbInvoiceDate.Text = bill.InvoiceDate.ToString("dd/MM/yyyy");
+            billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("H:mm");
+            billTemplate.txbCheckOutTime.Text = bill.CheckOutTime.ToString("H:mm");
+            billTemplate.txbTotal.Text = bill.TotalMoney.ToString();
+
+            //Load các mặt hàng trong Bill
+            List<BillInfo> listBillInfo = BillInfoDAL.Instance.GetBillInfos(idBill);
+            int i = 1;
+            foreach (var billInfo in listBillInfo)
+            {
+                Goods goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
+                BillInfoControl billInfoControl = new BillInfoControl();
+                billInfoControl.txbOrderNum.Text = i.ToString();
+                billInfoControl.txbName.Text = goods.Name;
+                billInfoControl.txbUnitPrice.Text = goods.UnitPrice.ToString();
+                billInfoControl.txbQuantity.Text = billInfo.Quantity.ToString();
+                billInfoControl.txbTotal.Text = (goods.UnitPrice * billInfo.Quantity).ToString();
+
+                billTemplate.stkBillInfo.Children.Add(billInfoControl);
+                i++;
+            }
+
+            //Thông tin khách hàng
+            FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
+            billTemplate.txbCustomerName.Text = fieldInfo.CustumerName;
+            billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
+            billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
+            billTemplate.txbTotalBefore.Text = (bill.TotalMoney - fieldInfo.Discount).ToString();
+
+            //Thông tin nhân viên
+            billTemplate.txbIdEmployee.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).IdEmployee.ToString();
+            billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).Name;
+
+            //Thông tin sân
+            SQLConnection connection = new SQLConnection();
+            try
+            {
+                connection.conn.Open();
+                string queryString = "select * from Information";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                billTemplate.txbFieldName.Text = dataTable.Rows[0].ItemArray[0].ToString();
+                billTemplate.txbPhoneNumber.Text = dataTable.Rows[0].ItemArray[1].ToString();
+                billTemplate.txbAddress.Text = dataTable.Rows[0].ItemArray[2].ToString();
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                connection.conn.Close();
+            }
+
+            billTemplate.ShowDialog();
+        }
+
         public void LoadBillByYear(HomeWindow homeWindow)
         {
-            homeWindow.stkBill.Children.Clear();
             if (homeWindow.cboSelectYearBill.SelectedIndex == -1)
             {
                 return;
             }
+            homeWindow.stkBill.Children.Clear();
             string[] tmp = homeWindow.cboSelectYearBill.SelectedValue.ToString().Split(' ');
             string selectedYear = tmp[1];
             DataTable dataTable = BillDAL.Instance.LoadBillByYear(selectedYear);
@@ -157,11 +230,11 @@ namespace FootballFieldManagement.ViewModels
         }
         public void LoadBillByMonth(HomeWindow homeWindow)
         {
-            homeWindow.stkBill.Children.Clear();
             if (homeWindow.cboSelectMonthBill.SelectedIndex == -1)
             {
                 return;
             }
+            homeWindow.stkBill.Children.Clear();
             string[] tmp = homeWindow.cboSelectMonthBill.SelectedValue.ToString().Split(' ');
             string selectedMonth = tmp[1];
             DataTable dataTable = BillDAL.Instance.LoadBillByMonth(selectedMonth, DateTime.Now.Year.ToString());
@@ -188,6 +261,10 @@ namespace FootballFieldManagement.ViewModels
         }
         public void LoadBillByDate(HomeWindow homeWindow)
         {
+            if (string.IsNullOrEmpty(homeWindow.dpSelectDateBill.Text))
+            {
+                return;
+            }
             homeWindow.stkBill.Children.Clear();
             string selectedDay = DateTime.Parse(homeWindow.dpSelectDateBill.Text).Day.ToString();
             string selectedMonth = DateTime.Parse(homeWindow.dpSelectDateBill.Text).Month.ToString();
@@ -220,10 +297,14 @@ namespace FootballFieldManagement.ViewModels
             homeWindow.cboSelectMonthBill.Visibility = Visibility.Hidden;
             homeWindow.cboSelectYearBill.Visibility = Visibility.Hidden;
 
+            homeWindow.stkBill.Children.Clear();
+
             switch (homeWindow.cboSelectViewMode.SelectedIndex)
             {
                 case 0:
                     homeWindow.dpSelectDateBill.Visibility = Visibility.Visible;
+                    homeWindow.dpSelectDateBill.SelectedDate = DateTime.Now;
+                    LoadBillByDate(homeWindow);
                     break;
                 case 1:
                     homeWindow.cboSelectMonthBill.Visibility = Visibility.Visible;
@@ -249,23 +330,23 @@ namespace FootballFieldManagement.ViewModels
         {
             MessageBox.Show("[COMMAND] you clicked " + p.X + ", " + p.Y);
         }
-        public void LoadDefaultChart(HomeWindow parameter)
+        public void LoadDefaultChart(HomeWindow homeWindow)
         {
             string currentDay = DateTime.Now.Day.ToString();
             string currentMonth = DateTime.Now.Month.ToString();
             string lastMonth = (int.Parse(currentMonth) - 1).ToString();
             string currentYear = DateTime.Now.Year.ToString();
-            parameter.txbToday.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            parameter.txbThisMonth1.Text = parameter.txbThisMonth.Text = DateTime.Now.ToString("MM/yyyy");
-            parameter.txbNumOfHiredField.Text = ReportDAL.Instance.QueryRevenueNumOfHiredFieldInMonth(currentMonth, currentYear).ToString() + " lượt";
-            parameter.txbThisMonthRevenue.Text = ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear).ToString() + " đồng";
+            homeWindow.txbToday.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            homeWindow.txbThisMonth1.Text = homeWindow.txbThisMonth.Text = DateTime.Now.ToString("MM/yyyy");
+            homeWindow.txbNumOfHiredField.Text = ReportDAL.Instance.QueryRevenueNumOfHiredFieldInMonth(currentMonth, currentYear).ToString() + " lượt";
+            homeWindow.txbThisMonthRevenue.Text = ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear).ToString() + " đồng";
             try
             {
-                parameter.txbIncreasingPercent.Text = (Math.Round((ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear) / ReportDAL.Instance.QueryRevenueInMonth(lastMonth, currentYear) * 100), 2)).ToString() + "%";
+                homeWindow.txbIncreasingPercent.Text = (Math.Round((ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear) / ReportDAL.Instance.QueryRevenueInMonth(lastMonth, currentYear) * 100), 2)).ToString() + "%";
             }
             catch
             {
-                parameter.txbIncreasingPercent.Text = "100%";
+                homeWindow.txbIncreasingPercent.Text = "100%";
             }
             DispatcherTimer timer = new DispatcherTimer
             {
@@ -273,21 +354,21 @@ namespace FootballFieldManagement.ViewModels
             };
             timer.Tick += (s, e) =>
             {
-                parameter.cboSelectTimePie.SelectedIndex = 0;
-                parameter.cboSelectPeriod.SelectedIndex = 0;
-                parameter.cboSelectTime.SelectedIndex = DateTime.Now.Month - 1;
+                homeWindow.cboSelectTimePie.SelectedIndex = 0;
+                homeWindow.cboSelectPeriod.SelectedIndex = 0;
+                homeWindow.cboSelectTime.SelectedIndex = DateTime.Now.Month - 1;
 
-                parameter.cboSelectPeriod_Report.SelectedIndex = 0;
-                parameter.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
+                homeWindow.cboSelectPeriod_Report.SelectedIndex = 0;
+                homeWindow.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
 
                 timer.Stop();
             };
             timer.Start();
         }
-        public void InitPieChart(HomeWindow parameter)
+        public void InitPieChart(HomeWindow homeWindow)
         {
             labelPoint = chartPoint => string.Format("{0}", chartPoint.Y);
-            if (parameter.cboSelectTimePie.SelectedIndex == 0)
+            if (homeWindow.cboSelectTimePie.SelectedIndex == 0)
             {
                 string currentDay = DateTime.Now.Day.ToString();
                 string currentMonth = DateTime.Now.Month.ToString();
@@ -341,14 +422,14 @@ namespace FootballFieldManagement.ViewModels
                 };
             }
         }
-        public void InitColumnChart(HomeWindow parameter)
+        public void InitColumnChart(HomeWindow homeWindow)
         {
-            if (parameter.cboSelectPeriod.SelectedIndex == 0) //Theo tháng => 31 ngày
+            if (homeWindow.cboSelectPeriod.SelectedIndex == 0) //Theo tháng => 31 ngày
             {
-                if (parameter.cboSelectTime.SelectedIndex != -1)
+                if (homeWindow.cboSelectTime.SelectedIndex != -1)
                 {
                     AxisXTitle = "Ngày";
-                    string[] tmp = parameter.cboSelectTime.SelectedValue.ToString().Split(' ');
+                    string[] tmp = homeWindow.cboSelectTime.SelectedValue.ToString().Split(' ');
                     string selectedMonth = tmp[1];
                     string currentYear = DateTime.Now.Year.ToString();
                     SeriesCollection = new SeriesCollection
@@ -370,12 +451,12 @@ namespace FootballFieldManagement.ViewModels
                     Formatter = value => value.ToString("N");
                 }
             }
-            else if (parameter.cboSelectPeriod.SelectedIndex == 1) //Theo quý => 4 quý
+            else if (homeWindow.cboSelectPeriod.SelectedIndex == 1) //Theo quý => 4 quý
             {
-                if (parameter.cboSelectTime.SelectedIndex != -1)
+                if (homeWindow.cboSelectTime.SelectedIndex != -1)
                 {
                     AxisXTitle = "Quý";
-                    string[] tmp = parameter.cboSelectTime.SelectedValue.ToString().Split(' ');
+                    string[] tmp = homeWindow.cboSelectTime.SelectedValue.ToString().Split(' ');
                     string selectedYear = tmp[1];
                     SeriesCollection = new SeriesCollection
                     {
@@ -398,10 +479,10 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                if (parameter.cboSelectTime.SelectedIndex != -1) //Theo năm => 12 tháng
+                if (homeWindow.cboSelectTime.SelectedIndex != -1) //Theo năm => 12 tháng
                 {
                     AxisXTitle = "Tháng";
-                    string[] tmp = parameter.cboSelectTime.SelectedValue.ToString().Split(' ');
+                    string[] tmp = homeWindow.cboSelectTime.SelectedValue.ToString().Split(' ');
                     string selectedYear = tmp[1];
                     SeriesCollection = new SeriesCollection
                     {
@@ -423,10 +504,10 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
         }
-        public void UpdateSelectTimeItemSource(HomeWindow parameter)
+        public void UpdateSelectTimeItemSource(HomeWindow homeWindow)
         {
             ItemSourceTime.Clear();
-            if (parameter.cboSelectPeriod.SelectedIndex == 0) //Theo tháng
+            if (homeWindow.cboSelectPeriod.SelectedIndex == 0) //Theo tháng
             {
                 int currentMonth = DateTime.Now.Month;
                 for (int i = 0; i < currentMonth; i++)
@@ -443,14 +524,14 @@ namespace FootballFieldManagement.ViewModels
             }
         }
 
-        public void Report_InitColumnChart(HomeWindow parameter)
+        public void Report_InitColumnChart(HomeWindow homeWindow)
         {
-            if (parameter.cboSelectPeriod_Report.SelectedIndex == 0) //Theo tháng => 31 ngày
+            if (homeWindow.cboSelectPeriod_Report.SelectedIndex == 0) //Theo tháng => 31 ngày
             {
-                if (parameter.cboSelectTime_Report.SelectedIndex != -1)
+                if (homeWindow.cboSelectTime_Report.SelectedIndex != -1)
                 {
                     report_AxisXTitle = "Ngày";
-                    string[] tmp = parameter.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
+                    string[] tmp = homeWindow.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
                     string selectedMonth = tmp[1];
                     string currentYear = DateTime.Now.Year.ToString();
                     report_SeriesCollection = new SeriesCollection
@@ -472,12 +553,12 @@ namespace FootballFieldManagement.ViewModels
                     report_Formatter = value => value.ToString("N");
                 }
             }
-            else if (parameter.cboSelectPeriod_Report.SelectedIndex == 1) //Theo quý => 4 quý
+            else if (homeWindow.cboSelectPeriod_Report.SelectedIndex == 1) //Theo quý => 4 quý
             {
-                if (parameter.cboSelectTime_Report.SelectedIndex != -1)
+                if (homeWindow.cboSelectTime_Report.SelectedIndex != -1)
                 {
                     report_AxisXTitle = "Quý";
-                    string[] tmp = parameter.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
+                    string[] tmp = homeWindow.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
                     string selectedYear = tmp[1];
                     report_SeriesCollection = new SeriesCollection
                     {
@@ -500,10 +581,10 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                if (parameter.cboSelectTime_Report.SelectedIndex != -1) //Theo năm => 12 tháng
+                if (homeWindow.cboSelectTime_Report.SelectedIndex != -1) //Theo năm => 12 tháng
                 {
                     report_AxisXTitle = "Tháng";
-                    string[] tmp = parameter.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
+                    string[] tmp = homeWindow.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
                     string selectedYear = tmp[1];
                     report_SeriesCollection = new SeriesCollection
                     {
@@ -525,10 +606,10 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
         }
-        public void Report_UpdateSelectTimeItemSource(HomeWindow parameter)
+        public void Report_UpdateSelectTimeItemSource(HomeWindow homeWindow)
         {
             report_ItemSourceTime.Clear();
-            if (parameter.cboSelectPeriod_Report.SelectedIndex == 0) //Theo tháng
+            if (homeWindow.cboSelectPeriod_Report.SelectedIndex == 0) //Theo tháng
             {
                 int currentMonth = DateTime.Now.Month;
                 for (int i = 0; i < currentMonth; i++)

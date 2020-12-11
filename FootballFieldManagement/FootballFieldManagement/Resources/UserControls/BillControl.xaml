@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800" 
+             x:Name="ucBillInfo"
+             DataContext="{StaticResource ReportVM}"
              Width="1120" 
              Height="40"
              HorizontalAlignment="Left"
@@ -79,5 +82,30 @@
             FontSize="18"
             Foreground="{DynamicResource Gray1}" 
             FontWeight="SemiBold"/>
+        <Button 
+            x:Name="btnViewBill"
+            Grid.Column="5"
+            Command="{Binding ViewBillTemplateCommand}"
+            CommandParameter="{Binding ElementName=ucBillInfo}"
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            ToolTip="Xem hóa đơn" 
+            Height="30"
+            materialDesign:ButtonAssist.CornerRadius="6"
+            Margin="0,0,35,0" 
+            Background="{x:Null}" 
+            BorderBrush="{x:Null}" 
+            Foreground="{DynamicResource Gray3}" 
+            FontSize="16" 
+            VerticalAlignment="Center" 
+            FocusVisualStyle="{x:Null}"
+            Width="40"
+            HorizontalAlignment="Right" 
+            FontWeight="SemiBold" 
+            Padding="0" >
+            <materialDesign:PackIcon 
+                Kind="Eye" 
+                Height="24"
+                Width="24" />
+        </Button>
     </Grid>
 </UserControl>

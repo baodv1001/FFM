@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootballFieldManagement.Models;
-using FootballFieldManegement.DAL;
 using FootballFieldManagement.Views;
 using System.Windows.Input;
 using System.Windows.Controls;

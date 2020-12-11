@@ -82,6 +82,7 @@
     <Compile Include="CurrentAccount.cs" />
     <Compile Include="DAL\BillDAL.cs" />
     <Compile Include="DAL\BillInfoDAL.cs" />
+    <Compile Include="DAL\FieldInfoDAL.cs" />
     <Compile Include="DAL\ReportDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />

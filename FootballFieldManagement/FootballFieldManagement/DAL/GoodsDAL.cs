@@ -166,16 +166,33 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public Goods GetGood(string idGood) // lấy thông tin hàng hóa khi biết id 
+        public Goods GetGoods(string idGoods) // lấy thông tin hàng hóa khi biết id 
         {
-            foreach (var good in ConvertDBToList())
+            try
             {
-                if (good.IdGoods.ToString() == idGood)
-                {
-                    return good;
-                }
+                conn.Open();
+                string queryString = "select * from Goods where idGoods = " + idGoods;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                Goods res = new Goods(int.Parse(idGoods), dataTable.Rows[0].ItemArray[1].ToString(), 
+                    dataTable.Rows[0].ItemArray[2].ToString(), double.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
+                    Convert.FromBase64String(dataTable.Rows[0].ItemArray[4].ToString()));
+
+                return res;
             }
-            return null;
+            catch
+            {
+                return new Goods();
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

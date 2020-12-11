@@ -2,7 +2,6 @@
 using FootballFieldManagement.Models;
 using FootballFieldManagement.ViewModels;
 using FootballFieldManagement.Views;
-using FootballFieldManegement.DAL;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;

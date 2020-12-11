@@ -91,6 +91,9 @@
     <Compile Include="Resources\UserControls\FieldBookingControl.xaml.cs">
       <DependentUpon>FieldBookingControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\UserControls\FieldButtonControl.xaml.cs">
+      <DependentUpon>FieldButtonControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Template\BillTemplate.xaml.cs">
       <DependentUpon>BillTemplate.xaml</DependentUpon>
     </Compile>

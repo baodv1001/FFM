@@ -144,6 +144,11 @@ namespace FootballFieldManagement.ViewModels
 
             //Load các mặt hàng trong Bill
             List<BillInfo> listBillInfo = BillInfoDAL.Instance.GetBillInfos(idBill);
+            int numOfGoods = listBillInfo.Count();
+            if (numOfGoods > 7)
+            {
+                billTemplate.Height += (numOfGoods - 7) * 35;
+            }
             int i = 1;
             foreach (var billInfo in listBillInfo)
             {
@@ -167,9 +172,16 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbTotalBefore.Text = (bill.TotalMoney - fieldInfo.Discount).ToString();
 
             //Thông tin nhân viên
-            billTemplate.txbIdEmployee.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).IdEmployee.ToString();
-            billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).Name;
-
+            if (bill.IdAccount == 0)
+            {
+                billTemplate.txbIdEmployee.Text = "";
+                billTemplate.txbEmployeeName.Text = "Nhân viên đã nghỉ";
+            }
+            else
+            {
+                billTemplate.txbIdEmployee.Text = "# " + EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).IdEmployee.ToString();
+                billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).Name;
+            }
             //Thông tin sân
             SQLConnection connection = new SQLConnection();
             try
@@ -218,13 +230,20 @@ namespace FootballFieldManagement.ViewModels
                 {
                     billControl.grdMain.Background = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
                 }
-                DateTime invoiceDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 billControl.txbId.Text = dataTable.Rows[i].ItemArray[0].ToString();
-                billControl.txbEmployeeName.Text = dataTable.Rows[i].ItemArray[1].ToString();
+                DateTime invoiceDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 billControl.txbInvoiceDate.Text = invoiceDate.ToString("dd/MM/yyyy");
                 billControl.txbTime.Text = dataTable.Rows[i].ItemArray[3].ToString();
                 billControl.txbTotal.Text = dataTable.Rows[i].ItemArray[4].ToString();
-
+                string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
+                if (string.IsNullOrEmpty(idAccount))
+                {
+                    billControl.txbEmployeeName.Text = "Nhân viên đã nghỉ";
+                }
+                else
+                {
+                    billControl.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(idAccount).Name;
+                }
                 homeWindow.stkBill.Children.Add(billControl);
                 temp++;
             }
@@ -249,13 +268,20 @@ namespace FootballFieldManagement.ViewModels
                 {
                     billControl.grdMain.Background = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
                 }
-                DateTime invoiceDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 billControl.txbId.Text = dataTable.Rows[i].ItemArray[0].ToString();
-                billControl.txbEmployeeName.Text = dataTable.Rows[i].ItemArray[1].ToString();
+                DateTime invoiceDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 billControl.txbInvoiceDate.Text = invoiceDate.ToString("dd/MM/yyyy");
                 billControl.txbTime.Text = dataTable.Rows[i].ItemArray[3].ToString();
                 billControl.txbTotal.Text = dataTable.Rows[i].ItemArray[4].ToString();
-
+                string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
+                if (string.IsNullOrEmpty(idAccount))
+                {
+                    billControl.txbEmployeeName.Text = "Nhân viên đã nghỉ";
+                }
+                else
+                {
+                    billControl.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(idAccount).Name;
+                }
                 homeWindow.stkBill.Children.Add(billControl);
                 temp++;
             }
@@ -281,13 +307,20 @@ namespace FootballFieldManagement.ViewModels
                 {
                     billControl.grdMain.Background = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
                 }
-                DateTime invoiceDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 billControl.txbId.Text = dataTable.Rows[i].ItemArray[0].ToString();
-                billControl.txbEmployeeName.Text = dataTable.Rows[i].ItemArray[1].ToString();
+                DateTime invoiceDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 billControl.txbInvoiceDate.Text = invoiceDate.ToString("dd/MM/yyyy");
                 billControl.txbTime.Text = dataTable.Rows[i].ItemArray[3].ToString();
                 billControl.txbTotal.Text = dataTable.Rows[i].ItemArray[4].ToString();
-
+                string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
+                if (string.IsNullOrEmpty(idAccount))
+                {
+                    billControl.txbEmployeeName.Text = "Nhân viên đã nghỉ";
+                }
+                else
+                {
+                    billControl.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(idAccount).Name;
+                }
                 homeWindow.stkBill.Children.Add(billControl);
                 temp++;
             }

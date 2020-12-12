@@ -10,7 +10,7 @@
         DataContext="{StaticResource PrintVM}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
-        Height="742" 
+        Height="650" 
         Width="530">
     <Grid
         x:Name="grdPrint">
@@ -385,10 +385,8 @@
             <StackPanel 
                 x:Name="stkBillInfo"
                 Margin="30,27,30,0" 
-                VerticalAlignment="Top" 
-                Width="463" 
-                Background="#FFF1F1F1"
-                Height="311"/>
+                Background="{StaticResource Gray6}">
+            </StackPanel>
         </Grid>
         <Grid
             Grid.Row="3">

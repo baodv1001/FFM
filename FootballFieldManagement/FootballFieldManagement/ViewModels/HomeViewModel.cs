@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using FootballFieldManagement.Views;
-using FootballFieldManegement.DAL;
 using FootballFieldManagement.Resources.UserControls;
 using System.Windows.Media;
 using FootballFieldManagement.Models;

@@ -11,7 +11,7 @@ using System.Collections.ObjectModel;
 using FootballFieldManagement.DAL;
 using System.IO;
 
-namespace FootballFieldManegement.DAL
+namespace FootballFieldManagement.DAL
 {
     class EmployeeDAL : DataProvider
     {
@@ -216,6 +216,36 @@ namespace FootballFieldManegement.DAL
                 }
             }
             return null;
+        }
+        public Employee GetEmployeeByIdAccount(string idAccount)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Employee where idAccount = " + idAccount;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                Employee res = new Employee(int.Parse(dataTable.Rows[0].ItemArray[0].ToString()),
+                     dataTable.Rows[0].ItemArray[1].ToString(), dataTable.Rows[0].ItemArray[2].ToString(),
+                     dataTable.Rows[0].ItemArray[3].ToString(), dataTable.Rows[0].ItemArray[4].ToString(),
+                     DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()), double.Parse(dataTable.Rows[0].ItemArray[6].ToString()),
+                     dataTable.Rows[0].ItemArray[7].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[8].ToString()),
+                     int.Parse(idAccount), Convert.FromBase64String(dataTable.Rows[0].ItemArray[10].ToString()));
+                return res;
+            }
+            catch
+            {
+                return new Employee();
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
     }
 }

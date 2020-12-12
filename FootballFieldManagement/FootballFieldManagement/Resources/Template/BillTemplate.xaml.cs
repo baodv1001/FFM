@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FootballFieldManagement.Resources.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +12,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using FootballFieldManagement.Models;
-using System.Text.RegularExpressions;
 
-namespace FootballFieldManagement.Views
+namespace FootballFieldManagement.Resources.Template
 {
     /// <summary>
-    /// Interaction logic for AddEmployeeWindow.xaml
+    /// Interaction logic for BillTemplate.xaml
     /// </summary>
-    public partial class AddEmployeeWindow : Window
+    public partial class BillTemplate : Window
     {
-
-        public AddEmployeeWindow()
+        public BillTemplate()
         {
             InitializeComponent();
         }
-        
     }
 }

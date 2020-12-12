@@ -168,22 +168,33 @@ namespace FootballFieldManagement.DAL
         public List<BillInfo> GetBillInfos(string idBill)
         {
             List<BillInfo> billInfos = new List<BillInfo>();
-            conn.Open();
-            string queryString = "select * from BillInfo where idBill=" + idBill;
-            SqlCommand command = new SqlCommand(queryString, conn);
-            command.ExecuteNonQuery();
-            SqlDataAdapter adapter = new SqlDataAdapter(command);
-            DataTable dt = new DataTable();
-            adapter.Fill(dt);
-            for (int i = 0; i < dt.Rows.Count; i++)
+            try
             {
-                if (dt.Rows[i].ItemArray[0].ToString() == idBill)
+                conn.Open();
+                string queryString = "select * from BillInfo where idBill=" + idBill;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    BillInfo billInfo = new BillInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), int.Parse(dt.Rows[i].ItemArray[2].ToString()));
-                    billInfos.Add(billInfo);
+                    if (dt.Rows[i].ItemArray[0].ToString() == idBill)
+                    {
+                        BillInfo billInfo = new BillInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), int.Parse(dt.Rows[i].ItemArray[2].ToString()));
+                        billInfos.Add(billInfo);
+                    }
                 }
+                return billInfos;
             }
-            return billInfos;
+            catch
+            {
+                return billInfos;
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
         public List<BillInfo> ConvertDBToList()
         {

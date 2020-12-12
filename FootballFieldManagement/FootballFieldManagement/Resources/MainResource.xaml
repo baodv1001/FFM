@@ -10,4 +10,5 @@
     <viewmodels:PayViewModel x:Key="PayVM"></viewmodels:PayViewModel>
     <viewmodels:CheckAttendanceViewModel x:Key="CheckAttendanceVM"></viewmodels:CheckAttendanceViewModel>
     <viewmodels:ReportViewModel x:Key="ReportVM"></viewmodels:ReportViewModel>
+    <viewmodels:PrintViewModel x:Key="PrintVM"></viewmodels:PrintViewModel>
 </ResourceDictionary>

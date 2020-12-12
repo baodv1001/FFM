@@ -15,10 +15,8 @@
              Margin="0,0,0,2">
     <Grid 
         x:Name="grdEmployee"
-        Margin="0">
-        <Grid.Background>
-            <SolidColorBrush Color="#FF007AFF" Opacity="0.3"/>
-        </Grid.Background>
+        Margin="0"
+        Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="2.5*"></ColumnDefinition>

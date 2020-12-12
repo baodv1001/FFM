@@ -125,11 +125,11 @@ namespace FootballFieldManagement.ViewModels
                     infoControl.txbNo.Text = j.ToString();
                     infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
                     infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
-                    infoControl.txbName.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).Name;
-                    infoControl.txbPrice.Text = GoodsDAL.Instance.GetGood(billInfos.Rows[i].ItemArray[1].ToString()).UnitPrice.ToString();
+                    infoControl.txbName.Text = GoodsDAL.Instance.GetGoods(billInfos.Rows[i].ItemArray[1].ToString()).Name;
+                    infoControl.txbPrice.Text = GoodsDAL.Instance.GetGoods(billInfos.Rows[i].ItemArray[1].ToString()).UnitPrice.ToString();
                     infoControl.nmsQuantity.Text = decimal.Parse(billInfos.Rows[i].ItemArray[2].ToString());
                     infoControl.nmsQuantity.MinValue = 1;
-                    infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGood(infoControl.txbIdGoods.Text).Quantity;
+                    infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGoods(infoControl.txbIdGoods.Text).Quantity;
                     infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
                     
                     parameter.stkPickedGoods.Children.Add(infoControl);
@@ -153,7 +153,7 @@ namespace FootballFieldManagement.ViewModels
             string note = @"";
             foreach (var billInfo in billInfos)
             {
-                var good = GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString());
+                var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                 note += good.Name + " x " + billInfo.Quantity.ToString() + "\t" + (good.UnitPrice * billInfo.Quantity).ToString() + Environment.NewLine;
             }
             Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
@@ -161,7 +161,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 foreach (var billInfo in billInfos)
                 {
-                    var good = GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString());
+                    var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                     good.Quantity -= billInfo.Quantity;
                     GoodsDAL.Instance.UpdateOnDB(good);
                 }
@@ -178,7 +178,7 @@ namespace FootballFieldManagement.ViewModels
         public void BuyGoods(SellGoodsControl parameter)
         {
             bool isExist = false;
-            if (GoodsDAL.Instance.GetGood(parameter.txbId.Text).Quantity == 0)
+            if (GoodsDAL.Instance.GetGoods(parameter.txbId.Text).Quantity == 0)
             {
                 MessageBox.Show("Đã hết hàng!");
                 return;
@@ -190,7 +190,7 @@ namespace FootballFieldManagement.ViewModels
                 {
                     isExist = true;
                     billInfo.Quantity += 1;
-                    if (billInfo.Quantity > GoodsDAL.Instance.GetGood(billInfo.IdGoods.ToString()).Quantity)
+                    if (billInfo.Quantity > GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString()).Quantity)
                     {
                         billInfo.Quantity -= 1;
                         MessageBox.Show("Đạt số lượng hàng tối đa!");

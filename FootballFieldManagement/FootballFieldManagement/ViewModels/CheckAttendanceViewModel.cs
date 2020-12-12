@@ -2,7 +2,6 @@
 using FootballFieldManagement.Models;
 using FootballFieldManagement.Resources.UserControls;
 using FootballFieldManagement.Views;
-using FootballFieldManegement.DAL;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

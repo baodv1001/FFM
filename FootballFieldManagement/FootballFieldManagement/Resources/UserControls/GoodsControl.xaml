@@ -11,12 +11,11 @@
              DataContext="{StaticResource GoodsVM}"
              Width="1120" 
              Height="40" 
-             Foreground="{DynamicResource Gray1}" 
+             Foreground="{DynamicResource Gray1}"
              Margin="0,0,0,2">
-    <Grid x:Name="grdMain">
-        <Grid.Background>
-            <SolidColorBrush Color="#FF007AFF" Opacity="0.3"/>
-        </Grid.Background>
+    <Grid 
+        x:Name="grdMain"
+        Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>

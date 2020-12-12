@@ -10,22 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FootballFieldManagement.Models;
-using System.Text.RegularExpressions;
 
-namespace FootballFieldManagement.Views
+namespace FootballFieldManagement.Resources.UserControls
 {
     /// <summary>
-    /// Interaction logic for AddEmployeeWindow.xaml
+    /// Interaction logic for BillInfoControl.xaml
     /// </summary>
-    public partial class AddEmployeeWindow : Window
+    public partial class BillInfoControl : UserControl
     {
-
-        public AddEmployeeWindow()
+        public BillInfoControl()
         {
             InitializeComponent();
         }
-        
     }
 }

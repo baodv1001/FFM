@@ -115,7 +115,6 @@ namespace FootballFieldManagement.DAL
             List<Bill> bills = new List<Bill>();
             try
             {
-
                 dt = LoadData("Bill");
             }
             catch
@@ -136,7 +135,45 @@ namespace FootballFieldManagement.DAL
             conn.Close();
             return bills;
         }
+        public Bill GetBill(string idBill)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Bill where idBill = " + idBill;
 
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                Bill res;
+                if (string.IsNullOrEmpty(dataTable.Rows[0].ItemArray[1].ToString()))
+                {
+                    res = new Bill(int.Parse(idBill), 0, DateTime.Parse(dataTable.Rows[0].ItemArray[2].ToString()),
+                        DateTime.Parse(dataTable.Rows[0].ItemArray[3].ToString()), DateTime.Parse(dataTable.Rows[0].ItemArray[4].ToString()),
+                        int.Parse(dataTable.Rows[0].ItemArray[5].ToString()), long.Parse(dataTable.Rows[0].ItemArray[6].ToString()),
+                        int.Parse(dataTable.Rows[0].ItemArray[7].ToString()), dataTable.Rows[0].ItemArray[8].ToString());
+                }
+                else
+                {
+                    res = new Bill(int.Parse(idBill), int.Parse(dataTable.Rows[0].ItemArray[1].ToString()),
+                        DateTime.Parse(dataTable.Rows[0].ItemArray[2].ToString()), DateTime.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
+                        DateTime.Parse(dataTable.Rows[0].ItemArray[4].ToString()), int.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
+                        long.Parse(dataTable.Rows[0].ItemArray[6].ToString()), int.Parse(dataTable.Rows[0].ItemArray[7].ToString()),
+                        dataTable.Rows[0].ItemArray[8].ToString());
+                }
+                return res;
+            }
+            catch
+            {
+                return new Bill();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         //Sau khi xóa nhân viên => xóa Account => update idAccount về NULL 
         public bool UpdateIdAccount(string idAccount)
         {
@@ -158,5 +195,74 @@ namespace FootballFieldManagement.DAL
             }
         }
 
+        public DataTable LoadBillByDate(string day, string month, string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select idBill, idAccount, invoiceDate, checkOutTime, totalMoney " +
+                    "from Bill where year(invoiceDate) = {0} and month(invoiceDate) = {1} and day(invoiceDate) = {2} order by idBill", year, month, day);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public DataTable LoadBillByMonth(string month, string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select idBill, idAccount, invoiceDate, checkOutTime, totalMoney " +
+                    "from Bill where year(invoiceDate) = {0} and month(invoiceDate) = {1} order by idBill", year, month);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public DataTable LoadBillByYear(string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select idBill, idAccount, invoiceDate, checkOutTime, totalMoney " +
+                    "from Bill where year(invoiceDate) = {0} order by idBill", year);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

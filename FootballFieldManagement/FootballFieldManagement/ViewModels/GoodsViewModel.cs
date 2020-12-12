@@ -225,7 +225,7 @@ namespace FootballFieldManagement.ViewModels
             }
             catch
             {
-                imgByteArr = GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile;
+                imgByteArr = GoodsDAL.Instance.GetGoods(parameter.txtIdGoods.Text).ImageFile;
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
@@ -280,7 +280,7 @@ namespace FootballFieldManagement.ViewModels
             }
 
             Goods goods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, 1, GoodsDAL.Instance.GetGood(parameter.txtIdGoods.Text).ImageFile, int.Parse(parameter.txtQuantity.Text));
+                parameter.cboUnit.Text, 1, GoodsDAL.Instance.GetGoods(parameter.txtIdGoods.Text).ImageFile, int.Parse(parameter.txtQuantity.Text));
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), CurrentAccount.IdAccount,

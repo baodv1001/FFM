@@ -218,26 +218,6 @@
                 Panel.ZIndex="-1">
             </Rectangle>
         </Grid>
-        <Button 
-            x:Name="btnCheckIn"
-            Content="Check in"
-            Command="{Binding OpenCheckAttendanceWindowCommand}"
-            CommandParameter="{Binding ElementName=wdLogin}"
-            Style="{StaticResource MyButtonStyle}"
-            FocusVisualStyle="{x:Null}"
-            Height="40" 
-            Width="180"
-            materialDesign:ButtonAssist.CornerRadius="18"
-            ToolTip="Đăng nhập" 
-            VerticalAlignment="Bottom" 
-            Margin="0,0,60,30" 
-            HorizontalAlignment="Right"
-            TabIndex="3" 
-            BorderThickness="0" 
-            BorderBrush="{x:Null}" 
-            FontSize="20" 
-            FontWeight="Bold"
-            Padding="0" />
         <Image 
             Margin="140,260,0,0" 
             Source="/FootballFieldManagement;component/Resources/Images/Goalkeeper.png" 

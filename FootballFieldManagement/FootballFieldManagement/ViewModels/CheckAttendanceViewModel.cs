@@ -76,7 +76,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void HandelLoadEvent(CheckAttendanceWindow parameter)
         {
-            setItemSourcEmloyee();
+            SetItemSourcEmloyee();
             if (AttendanceDAL.Instance.GetMonth() != DateTime.Now.Month && AttendanceDAL.Instance.GetMonth() != 0)
             {
                 if (!AttendanceDAL.Instance.DeleteData())
@@ -92,7 +92,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.txbMonth.Text = "Bảng chấm công tháng " + DateTime.Now.Month;
             LoadDay(parameter);
         }
-        public int checkDayOfWeek(DateTime dt)
+        public int CheckDayOfWeek(DateTime dt)
         {
             string str = dt.DayOfWeek.ToString();
             switch (str)
@@ -118,7 +118,7 @@ namespace FootballFieldManagement.ViewModels
         public void LoadDay(CheckAttendanceWindow parameter)
         {
             parameter.wpMonthView.Children.Clear();
-            int dayOfWeek = checkDayOfWeek(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
+            int dayOfWeek = CheckDayOfWeek(new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
             int daysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             int tmp = daysInMonth - 28 - 9 + dayOfWeek; // số ngày ở dòng cuối cùng
             int maxSquare = 35;
@@ -184,7 +184,7 @@ namespace FootballFieldManagement.ViewModels
                 parameter.wpMonthView.Children.Add(new DateControl());
             }
         }
-        public void setItemSourcEmloyee()
+        public void SetItemSourcEmloyee()
         {
             itemSourceEmployee.Clear();
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();

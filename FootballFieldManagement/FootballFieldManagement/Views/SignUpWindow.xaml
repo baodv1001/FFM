@@ -135,7 +135,7 @@
                     <TextBox.Text>
                         <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" >
                             <Binding.ValidationRules>
-                                <vm:TextBoxValidation ErrorMessage="Không nhập ký tự đặc biệt"/>
+                                <vm:TextBoxValidation ErrorMessage="Không nhập ký tự đặc biệt" TypeValidation="1"/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>

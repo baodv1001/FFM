@@ -45,7 +45,7 @@ namespace FootballFieldManagement.ViewModels
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingPassword(parameter));
             PasswordConfirmChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingConfirmPassword(parameter));
             OpenLoginWinDowCommand = new RelayCommand<Window>(parameter => true, parameter => parameter.Close());
-            LoadCommand = new RelayCommand<Window>(parameter => true, parameter => setItemSourcEmloyee());
+            LoadCommand = new RelayCommand<Window>(parameter => true, parameter => SetItemSourcEmloyee());
         }
         public void EncodingPassword(PasswordBox parameter)
         {
@@ -71,7 +71,7 @@ namespace FootballFieldManagement.ViewModels
             return id;
         }
 
-        public void setItemSourcEmloyee()
+        public void SetItemSourcEmloyee()
         {
             itemSourceEmployee.Clear();
             List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();

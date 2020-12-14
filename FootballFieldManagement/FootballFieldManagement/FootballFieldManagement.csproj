@@ -83,9 +83,11 @@
     <Compile Include="DAL\BillDAL.cs" />
     <Compile Include="DAL\BillInfoDAL.cs" />
     <Compile Include="DAL\FieldInfoDAL.cs" />
+    <Compile Include="DAL\FootballFieldDAL.cs" />
     <Compile Include="DAL\ReportDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
+    <Compile Include="DAL\TimeFrameDAL.cs" />
     <Compile Include="Models\FieldInfo.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Resources\UserControls\FieldBookingControl.xaml.cs">
@@ -103,12 +105,23 @@
     <Compile Include="Resources\UserControls\BillInfoControl.xaml.cs">
       <DependentUpon>BillInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\TimeFrame.cs" />
+    <Compile Include="Resources\UserControls\FieldControl.xaml.cs">
+      <DependentUpon>FieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\FieldDetailsControl.xaml.cs">
+      <DependentUpon>FieldDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\PeriodControl.xaml.cs">
+      <DependentUpon>PeriodControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\ProductDetailsControl.xaml.cs">
       <DependentUpon>ProductDetailsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\UserControls\SellGoodsControl.xaml.cs">
       <DependentUpon>SellGoodsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\FootballFieldViewModel.cs" />
     <Compile Include="ViewModels\PayViewModel.cs" />
     <Compile Include="DAL\AttendanceDAL.cs" />
     <Compile Include="DAL\SalaryDAL.cs" />
@@ -124,6 +137,13 @@
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="ViewModels\TextBoxValidation.cs" />
+    <Compile Include="ViewModels\TimeFrameViewModel.cs" />
+    <Compile Include="Views\AddFootballFieldWindow.xaml.cs">
+      <DependentUpon>AddFootballFieldWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddTimeFrameWindow.xaml.cs">
+      <DependentUpon>AddTimeFrameWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CheckAttendanceWindow.xaml.cs">
       <DependentUpon>CheckAttendanceWindow.xaml</DependentUpon>
     </Compile>
@@ -132,6 +152,9 @@
     </Compile>
     <Compile Include="Views\PayWindow.xaml.cs">
       <DependentUpon>PayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetTimeFrameWindow.xaml.cs">
+      <DependentUpon>SetTimeFrameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SetSalaryWindow.xaml.cs">
       <DependentUpon>SetSalaryWindow.xaml</DependentUpon>
@@ -191,7 +214,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\UserControls\FieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\FieldDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\UserControls\GoodsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\PeriodControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,7 +242,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AddFootballFieldWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AddGoodsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddTimeFrameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -283,6 +326,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\SetTimeFrameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SetSalaryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -337,6 +384,8 @@
     <Resource Include="Resources\Images\FieldCornerIcon.png" />
     <Resource Include="Resources\Images\IncomeIcon.png" />
     <Resource Include="Resources\Images\IncreaseIcon.png" />
+    <Resource Include="Resources\Images\ErrorIcon.png" />
+    <Resource Include="Resources\Images\Field.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

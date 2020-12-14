@@ -17,7 +17,7 @@
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded" >
-            <ei:CallMethodAction TargetObject="{Binding }" MethodName="setItemSourceDay"></ei:CallMethodAction>
+            <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetItemSourceDay"></ei:CallMethodAction>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>

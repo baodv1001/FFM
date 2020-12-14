@@ -70,7 +70,7 @@
             <StackPanel
                 x:Name="stkMenu" 
                 HorizontalAlignment="Center" 
-                Height="420" 
+                Height="490" 
                 Margin="0,160,0,0" 
                 VerticalAlignment="Top"
                 Width="170" >
@@ -119,6 +119,51 @@
                     </Button>
                 </Grid>
                 <Grid 
+                    x:Name="grdBusiness" 
+                    HorizontalAlignment="Left"
+                    Height="70" 
+                    Margin="0" 
+                    Width="170">
+                    <materialDesign:PackIcon 
+                        x:Name="icnBusiness" 
+                        Kind="CashRegister"
+                        Width="32" 
+                        Height="32" 
+                        VerticalAlignment="Center" 
+                        Cursor="Hand" 
+                        Foreground="{StaticResource Gray2}" 
+                        Margin="0,19" />
+                    <Button
+                        x:Name="btnBusiness" 
+                        Uid="1"
+                        Content="Kinh doanh"
+                        HorizontalAlignment="Left" 
+                        Height="40" 
+                        Margin="0" 
+                        Width="170" 
+                        VerticalAlignment="Center"
+                        BorderBrush="{x:Null}"
+                        Background="{x:Null}" 
+                        FontSize="20" 
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left" 
+                        FontWeight="SemiBold" 
+                        Padding="50,0,0,0" 
+                        Cursor="Hand"
+                        Foreground="{DynamicResource Gray2}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding SwitchTabCommand}"
+                                                       CommandParameter="{Binding ElementName=wdHome}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseMove">
+                                <i:InvokeCommandAction Command="{Binding GetUidCommand}"
+                                                       CommandParameter="{Binding ElementName=btnBusiness}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+                <Grid 
                     x:Name="grdField" 
                     HorizontalAlignment="Left"
                     Height="70" 
@@ -135,11 +180,11 @@
                         Margin="0,19" />
                     <Button
                         x:Name="btnField" 
-                        Uid="1"
+                        Uid="2"
                         Content="Sân bóng"
-                        HorizontalAlignment="Left" 
-                        Height="40" 
-                        Margin="0" 
+                        HorizontalAlignment="Left"
+                        Height="40"
+                        Margin="0"
                         Width="170" 
                         VerticalAlignment="Center"
                         BorderBrush="{x:Null}"
@@ -179,7 +224,7 @@
                         Foreground="{StaticResource Gray2}" />
                     <Button 
                         x:Name="btnGoods" 
-                        Uid="2"
+                        Uid="3"
                         Command="{Binding G_LoadCommand}"
                         CommandParameter="{Binding ElementName=stkGoods}"
                         Content="Hàng hóa"
@@ -225,7 +270,7 @@
                         Foreground="{StaticResource Gray2}" />
                     <Button 
                         x:Name="btnEmployee" 
-                        Uid="3"
+                        Uid="4"
                         Command="{Binding E_LoadCommand}"
                         CommandParameter="{Binding ElementName=wdHome}"
                         Content="Nhân viên"
@@ -271,7 +316,7 @@
                         Foreground="{StaticResource Gray2}" />
                     <Button 
                         x:Name="btnReport" 
-                        Uid="4"
+                        Uid="5"
                         Content="Báo cáo"
                         HorizontalAlignment="Right" 
                         Height="40" 
@@ -315,7 +360,7 @@
                         Foreground="{StaticResource Gray2}" />
                     <Button 
                         x:Name="btnSetting" 
-                        Uid="5"
+                        Uid="6"
                         Content="Cài đặt"
                         HorizontalAlignment="Right" 
                         Height="40" 
@@ -446,6 +491,26 @@
                         VerticalAlignment="Center" 
                         Cursor="Hand" />-->
                 </Grid>
+                <Button 
+                    x:Name="btnCheckIn"
+                    Content="Check in"
+                    Command="{Binding OpenCheckAttendanceWindowCommand}"
+                    CommandParameter="{Binding ElementName=wdHome}"
+                    Style="{StaticResource MyButtonStyle}"
+                    FocusVisualStyle="{x:Null}"
+                    Height="40" 
+                    Width="180"
+                    materialDesign:ButtonAssist.CornerRadius="18"
+                    ToolTip="Đăng nhập" 
+                    VerticalAlignment="Center" 
+                    Margin="0,0,250,0"
+                    TabIndex="3" 
+                    BorderThickness="0" 
+                    BorderBrush="{x:Null}" 
+                    FontSize="20" 
+                    FontWeight="Bold"
+                    Padding="0"
+                    HorizontalAlignment="Right" />
             </Grid>
             <Grid 
                 x:Name="grdBody_Home" 
@@ -459,7 +524,7 @@
                 Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding LoadCommand}" 
+                        <i:InvokeCommandAction Command="{Binding LoadCommand}"
                                                 CommandParameter="{Binding ElementName=wdHome}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -1227,42 +1292,225 @@
                 x:Name="grdBody_Field" 
                 HorizontalAlignment="Left" 
                 Height="720" 
+                DataContext="{StaticResource FieldVM}"
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
                 Visibility="Hidden">
-                <ScrollViewer
-                    VerticalScrollBarVisibility="Disabled"
-                    HorizontalScrollBarVisibility="Auto"
-                    Margin="40,80,50,30">
-                    <StackPanel 
-                        HorizontalAlignment="Left"  
-                        VerticalAlignment="Top" 
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding LoadedCommand }" CommandParameter="{Binding ElementName=wdHome}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="110"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid
+                    Grid.Row="0" 
+                    Height="50"
+                    Margin="40,0"
+                    VerticalAlignment="Center">
+                    <ComboBox
+                       x:Name="cboViews"
+                        materialDesign:ComboBoxAssist.ClassicMode="true"
+                        FontSize="16"
+                        FontWeight="Medium" 
                         Background="#FFF4EEFF"
-                        Height="610">
-                        <StackPanel
-                            x:Name="stk1"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Height="50" >
-                        </StackPanel>
-                        <Grid 
-                            Height="560">
-                            <ScrollViewer
-                                VerticalScrollBarVisibility="Auto"
-                                HorizontalScrollBarVisibility="Disabled" 
-                                Margin="0,0,0,20" >
-                                <StackPanel
-                                    x:Name="stk2"
-                                    Background="#FFF4EEFF"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top">
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                        materialDesign:ColorZoneAssist.Mode="Custom" 
+                        materialDesign:HintAssist.Hint="Chế độ xem"
+                        Width="160" 
+                        Height="40" 
+                        HorizontalAlignment="Left" 
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center" 
+                        Padding="3,0,0,5" 
+                        Margin="40,0,0,0"
+                        VerticalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                       CommandParameter="{Binding ElementName=wdHome}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ComboBoxItem Content="List"/>
+                        <ComboBoxItem Content="Card"/>
+                    </ComboBox>
+                    <materialDesign:PackIcon 
+                        Kind="ViewGridPlusOutline" 
+                        Height="30"
+                        Width="30" 
+                        Foreground="{StaticResource Gray2}"
+                        VerticalAlignment="Center"/>
+                    <StackPanel 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                        <Button 
+                            Content="Thiết lập khung giờ"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Height="44"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            ToolTip="Thêm sân bóng" 
+                            Margin="0,0,40,0" 
+                            Command="{Binding SetTimeFrameCommand}"
+                            CommandParameter="{Binding ElementName=wdHome}"
+                            Background="{DynamicResource Success}" 
+                            BorderBrush="{x:Null}" 
+                            Foreground="{StaticResource  White}" 
+                            FontSize="18" 
+                            VerticalAlignment="Center" 
+                            FocusVisualStyle="{x:Null}"
+                            Width="190"
+                            HorizontalAlignment="Right" 
+                            Padding="0,0,0,2" 
+                            FontWeight="SemiBold" />
+                        <Button 
+                            x:Name="btnAddField"
+                            Content="Thêm sân bóng"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Height="44"
+                            materialDesign:ButtonAssist.CornerRadius="6"
+                            ToolTip="Thêm sân bóng" 
+                            Margin="0" 
+                            Command="{Binding AddFieldCommand}"
+                            CommandParameter="{Binding ElementName=wdHome}"
+                            Background="{DynamicResource Success}" 
+                            BorderBrush="{x:Null}" 
+                            Foreground="{StaticResource  White}" 
+                            FontSize="18" 
+                            VerticalAlignment="Center" 
+                            FocusVisualStyle="{x:Null}"
+                            Width="180"
+                            HorizontalAlignment="Right" 
+                            Padding="0,0,0,2" 
+                            FontWeight="SemiBold" />
                     </StackPanel>
-                </ScrollViewer>
+                </Grid>
+                <Grid
+                    x:Name="grdListField"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center">
+                    <Grid 
+                        x:Name="grdFieldDetail"
+                        HorizontalAlignment="Center"
+                        Margin="0" 
+                        Width="1120" 
+                        Background="{DynamicResource Primary}"
+                        Height="50"
+                        VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="10"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock 
+                            Grid.Column="0"
+                            HorizontalAlignment="Center" 
+                            Margin="0" 
+                            TextWrapping="Wrap" 
+                            Text="STT" 
+                            VerticalAlignment="Center" 
+                            FontSize="18" 
+                            Foreground="{DynamicResource White}"
+                            FontWeight="SemiBold"/>
+                        <TextBlock
+                            Grid.Column="1" 
+                            HorizontalAlignment="Center" 
+                            Margin="20,0,0,0" 
+                            TextWrapping="Wrap" 
+                            Text="Tên sân bóng" 
+                            VerticalAlignment="Center"
+                            FontSize="18" 
+                            Foreground="{DynamicResource White}" 
+                            FontWeight="SemiBold"/>
+                        <TextBlock 
+                            Grid.Column="2" 
+                            HorizontalAlignment="Center"
+                            Margin="0" 
+                            TextWrapping="Wrap" 
+                            Text="Trình trạng"
+                            VerticalAlignment="Center" 
+                            FontSize="18"
+                            Foreground="{DynamicResource White}" 
+                            FontWeight="SemiBold"/>
+                        <TextBlock 
+                            Grid.Column="3" 
+                            HorizontalAlignment="Center"
+                            Margin="0" 
+                            TextWrapping="Wrap" 
+                            Text="Loại sân" 
+                            VerticalAlignment="Center" 
+                            FontSize="18"
+                            Foreground="{DynamicResource White}" 
+                            FontWeight="SemiBold"/>
+                        <TextBlock 
+                            Grid.Column="4" 
+                            HorizontalAlignment="Center"
+                            Margin="0" 
+                            TextWrapping="Wrap" 
+                            Text="Đơn giá" 
+                            VerticalAlignment="Center" 
+                            FontSize="18"
+                            Foreground="{DynamicResource White}" 
+                            FontWeight="SemiBold"/>
+                    </Grid>
+                    <Grid 
+                        HorizontalAlignment="Center" 
+                        Margin="0,50,0,40"
+                        Width="1120" 
+                        VerticalAlignment="Top" >
+                        <ScrollViewer 
+                            Grid.Row="1"
+                            HorizontalScrollBarVisibility="Disabled" 
+                            Margin="0" 
+                            Width="1120" 
+                            HorizontalAlignment="Left" 
+                            Style="{StaticResource FavsScrollViewer}"
+                            VerticalScrollBarVisibility="Auto"
+                            VerticalAlignment="Top">
+                            <WrapPanel  
+                                x:Name="wpListField"
+                                Width="1120" 
+                                HorizontalAlignment="Left" 
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                Margin="0">
+                            </WrapPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+                <Grid 
+                    x:Name="grdCardField"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center" 
+                    Margin="0,0,0,40"
+                    Width="1120" 
+                    VerticalAlignment="Top" >
+                    <ScrollViewer 
+                        Grid.Row="1"
+                        HorizontalScrollBarVisibility="Disabled" 
+                        Margin="0" 
+                        Width="1120" 
+                        HorizontalAlignment="Left" 
+                        Style="{StaticResource FavsScrollViewer}"
+                        VerticalScrollBarVisibility="Auto" 
+                        VerticalAlignment="Top">
+                        <WrapPanel  
+                            x:Name="wpCardField"
+                            Width="1120" 
+                            HorizontalAlignment="Left" 
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                            Margin="0">
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
             <Grid 
                 x:Name="grdBody_Report" 

@@ -22,7 +22,7 @@ using System.Runtime.Remoting.Metadata.W3cXsd2001;
 
 namespace FootballFieldManagement.ViewModels
 {
-    class EmployeeViewModel
+    class EmployeeViewModel : BaseViewModel
     {
         //UC Employee
         public ICommand UpdateCommand { get; set; }
@@ -55,7 +55,7 @@ namespace FootballFieldManagement.ViewModels
             UpdateCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => OpenUpdateWindow(parameter));
             DeleteCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => DeleteEmployee(parameter));
             //Set Salary Window
-            SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => separateThousands(parameter));
+            SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => SeparateThousands(parameter));
             SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
             ValueChangedCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
             SelectionChangedCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SelectionChanged(parameter));
@@ -323,7 +323,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.txtOvertime.Text = "";
             parameter.txtSalaryDeduction.Text = "";
         }//select item của combobox loại nhân viên trong SetSalaryWindow
-        public void setItemSourceDay()
+        public void SetItemSourceDay()
         {
             itemSourceDay.Clear();
             for (int i = 1; i <= 31; i++)
@@ -367,8 +367,8 @@ namespace FootballFieldManagement.ViewModels
                 parameter.txtSalaryDeduction.Focus();
                 return;
             }
-            Salary salary = new Salary(CovertToNumber(parameter.txtSalaryBasic.Text), 0,
-                CovertToNumber(parameter.txtOvertime.Text), 0, CovertToNumber(parameter.txtSalaryDeduction.Text), 0, 0,
+            Salary salary = new Salary(ConvertToNumber(parameter.txtSalaryBasic.Text), 0,
+                ConvertToNumber(parameter.txtOvertime.Text), 0, ConvertToNumber(parameter.txtSalaryDeduction.Text), 0, 0,
                 int.Parse(parameter.cboStandardWorkDays.Text));
             //update salary
             bool isExist = false;
@@ -452,37 +452,13 @@ namespace FootballFieldManagement.ViewModels
                 SalaryDAL.Instance.AddIntoDB(salary1);
             }
         }
-        public long CovertToNumber(string str)
-        {
-            string[] s = str.Split(',');
-            string tmp = "";
-            foreach (string a in s)
-            {
-                tmp = tmp + a;
-            }
-            return long.Parse(tmp);
-        }//chuyển từ format seperate thousands sang kiểu số nguyên
-        public void separateThousands(TextBox txt)
-        {
-            if (!string.IsNullOrEmpty(txt.Text))
-            {
-                System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("en-US");
-                ulong valueBefore = ulong.Parse(txt.Text, System.Globalization.NumberStyles.AllowThousands);
-                txt.Text = String.Format(culture, "{0:N0}", valueBefore);
-                txt.Select(txt.Text.Length, 0);
-            }
-        }
         public void SetMaxValue(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("\\b([1-9]|[12][0-9]|3[01])\\b");
 
             e.Handled = !regex.IsMatch(e.Text);
         }
-        public void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
-        } //Chỉ cho nhập số
 
+        
     }
 }

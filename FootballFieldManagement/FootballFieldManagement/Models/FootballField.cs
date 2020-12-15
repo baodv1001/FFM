@@ -24,9 +24,6 @@ namespace FootballFieldManagement.Models
         private int status;
         public int Status { get => status; set => status = value; }
 
-        private long price;
-        public long Price { get => price; set => price = value; }
-
         private string note;
 
         public string Note { get => note; set => note = value; }
@@ -38,13 +35,12 @@ namespace FootballFieldManagement.Models
 
         }
         
-        public FootballField(int idField, string name, int type,int status, long price, string note)
+        public FootballField(int idField, string name, int type,int status, string note)
         {
             this.idField = idField;
             this.name = name;
             this.type = type;
             this.status = status;
-            this.price = price;
             this.note = note;
         }
     }

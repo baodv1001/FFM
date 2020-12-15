@@ -10,28 +10,22 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Thêm nhân viên" 
-        Height="380"
-        Width="680" 
+        Height="340"
+        Width="400" 
         Background="#FFFF" 
         DataContext="{StaticResource FieldVM}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <Grid Margin="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <Grid 
-            Grid.Column="0"
-            HorizontalAlignment="Left"
-            Height="200"
-            Margin="20,40,0,0"
+            HorizontalAlignment="Center"
+            Margin="0,20,0,0"
             VerticalAlignment="Top" 
-            Width="300">
+            Width="320">
             <Grid 
                 Margin="0"
                 VerticalAlignment="Top"  
-                Width="300" 
+                Width="320" 
                 Height="40">
                 <Label
                     Content="Mã sân"
@@ -72,7 +66,7 @@
             <Grid 
                 Margin="0,60,0,0" 
                 VerticalAlignment="Top" 
-                Width="300" 
+                Width="320" 
                 Height="40">
                 <Label 
                     Content="Tên sân"
@@ -110,7 +104,7 @@
             <Grid 
                 Margin="0,120,0,0"
                 VerticalAlignment="Top"
-                Width="300" 
+                Width="320" 
                 Height="40">
                 <Label 
                     Content="Loại sân"
@@ -131,35 +125,36 @@
                     Margin="0" />
                 <ComboBox
                     x:Name="cboFieldType"
+                    IsEditable="True"
                     materialDesign:ComboBoxAssist.ClassicMode="true"
-                    materialDesign:HintAssist.Hint="Loại sân" 
+                    materialDesign:HintAssist.Hint="Nhập số để thêm loại sân" 
                     Height="40" 
                     FontSize="14" 
                     Width="180"
                     BorderThickness="0"
+                    ItemsSource="{Binding ItemSourceField}"
                     Foreground="{StaticResource Gray3}"  
                     Padding="0" 
                     Margin="0,0,5,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left">
-                    <ComboBoxItem  Content="Sân 5 người"/>
-                    <ComboBoxItem  Content="Sân 7 người"/>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput">
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="LostFocus">
+                            <i:InvokeCommandAction Command="{Binding LostFocusCommand}"
+                                                   CommandParameter="{Binding ElementName=wdAddFootballField}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ComboBox>
+               
             </Grid>
-        </Grid>
-        <Grid 
-            Grid.Column="1"
-            HorizontalAlignment="Right"
-            Height="200"
-            Margin="0,40,20,0"
-            VerticalAlignment="Top" 
-            Width="300">
-            <Grid 
-                Margin="0"
+            <Grid
                 VerticalAlignment="Top"  
-                Width="300" 
-                Height="40">
+                Width="320" 
+                Height="40" Margin="0,175,0,0">
                 <Label
                     Content="Trạng thái"
                     HorizontalAlignment="Left"
@@ -195,78 +190,26 @@
                     <ComboBoxItem  Content="Hỏng"/>
                 </ComboBox>
             </Grid>
-            <Grid 
-                Margin="0,60,0,0" 
-                VerticalAlignment="Top" 
-                Width="300" 
-                Height="40">
-                <Label 
-                    Content="Giá tiền"
-                    HorizontalAlignment="Left"
-                    FontSize="18"
-                    FontWeight="SemiBold" 
-                    Foreground="{StaticResource Gray1}" 
-                    Height="32" 
-                    Margin="0" 
-                    VerticalAlignment="Center"/>
-                <Rectangle 
-                    HorizontalAlignment="Right" 
-                    Height="40" 
-                    Width="190" 
-                    RadiusY="6" 
-                    RadiusX="6"
-                    Stroke="{StaticResource Gray4}" 
-                    Margin="0"/>
-                <TextBox 
-                    x:Name="txtPrice"
-                    materialDesign:HintAssist.Hint="Tên sân"
-                    HorizontalAlignment="Right"
-                    Cursor="IBeam"
-                    Height="40" 
-                    Width="180" 
-                    MaxLength="15"
-                    FontSize="14" 
-                    BorderThickness="0" 
-                    MaxLines="1"
-                    Padding="0" 
-                    Foreground="{StaticResource Gray3}" 
-                    Margin="0,0,5,0" 
-                    HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewTextInput">
-                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"/>
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="TextChanged">
-                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" 
-                                                   CommandParameter="{Binding ElementName=txtPrice}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </TextBox>
-            </Grid>
         </Grid>
         <Grid 
-            Margin="0,270,34,0" 
-            Grid.Column="1"
-            VerticalAlignment="Top"  
-            Height="40" 
-            Width="220" 
+            Margin="0,0,40,20" 
+            VerticalAlignment="Bottom" 
+            Width="190" 
             HorizontalAlignment="Right">
             <Button
                 x:Name="btnSave"
-                IsDefault="True"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=wdAddFootballField}"
                 Background="{StaticResource Success}" 
                 BorderBrush="{StaticResource Success}"
-                Height="40" 
-                Width="100"
+                Height="30" 
+                Width="90"
                 materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Thêm nhân viên" 
                 Margin="0" 
                 HorizontalAlignment="Left"
-                FocusVisualStyle="{x:Null}">
+                FocusVisualStyle="{x:Null}" FontSize="12">
                 <TextBlock
                     Text="Lưu" 
                     FontSize="18" 
@@ -275,18 +218,18 @@
             </Button>
             <Button
                 x:Name="btnCancel"
-                Height="40"
+                Height="30"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName= wdAddFootballField}"
-                Background="{StaticResource Gray4}" 
-                BorderBrush="{StaticResource Gray4}"
-                Width="100"
+                Background="{StaticResource Gray3}" 
+                BorderBrush="{StaticResource Gray3}"
+                Width="90"
                 ToolTip="Thoát"
                 materialDesign:ButtonAssist.CornerRadius="6"    
                 Margin="0" 
                 HorizontalAlignment="Right"
-                FocusVisualStyle="{x:Null}">
+                FocusVisualStyle="{x:Null}" FontSize="12">
                 <TextBlock
                     Text="Bỏ qua" 
                     FontSize="18"

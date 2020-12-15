@@ -90,7 +90,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"delete from TimeFrame where fiedlType = " + fieldType;
+                string query = @"delete from TimeFrame where fieldType = " + fieldType;
                 SqlCommand cmd = new SqlCommand(query, conn);
                 int rs = cmd.ExecuteNonQuery();
                 if (rs < 1)
@@ -194,12 +194,40 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public List<TimeFrame> GetTimeFrame( string fieldType)
+        public int GetIdMax()
         {
             try
             {
                 conn.Open();
-                string query = @"select * from TimeFrame where fieldType = " + fieldType;
+                string query = @"select max(id) from TimeFrame";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Rows[0].ItemArray[0].ToString() == "")
+                {
+                    return 0;
+                }
+                else
+                {
+                    return   int.Parse(dt.Rows[0].ItemArray[0].ToString());
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public List<TimeFrame> GetTimeFrame( )
+        {
+            try
+            {
+                conn.Open();
+                string query = @"select startTime, endTime from TimeFrame group by startTime, endTime";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -207,13 +235,8 @@ namespace FootballFieldManagement.DAL
                 List<TimeFrame> timeFrames = new List<TimeFrame>();
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    long price = -1;
-                    if (dt.Rows[i].ItemArray[4].ToString() != "")
-                    {
-                        price = long.Parse(dt.Rows[i].ItemArray[4].ToString());
-                    }
-                    TimeFrame tmp = new TimeFrame(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
-                        dt.Rows[i].ItemArray[2].ToString(), int.Parse(dt.Rows[i].ItemArray[3].ToString()), price);
+                    TimeFrame tmp = new TimeFrame(-1, dt.Rows[i].ItemArray[0].ToString(),
+                        dt.Rows[i].ItemArray[1].ToString(), -1, -1);
                     timeFrames.Add(tmp);
                 }
                 return timeFrames;

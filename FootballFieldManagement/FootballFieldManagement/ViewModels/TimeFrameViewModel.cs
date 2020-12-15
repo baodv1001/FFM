@@ -37,7 +37,7 @@ namespace FootballFieldManagement.ViewModels
         private SetTimeFrameWindow setTimeWd;
         public SetTimeFrameWindow SetTimeWd { get => setTimeWd; set => setTimeWd = value; }
 
-        public List<TimeFrame> tmpTimeFrames = TimeFrameDAL.Instance.ConvertDBToList();// Lưu những thứ chưa được lưu dưới DB => khi bấm nút Lưu =>Lưu DB
+        public List<TimeFrame> tmpTimeFrames;// Lưu những thứ chưa được lưu dưới DB => khi bấm nút Lưu =>Lưu DB
         public TimeFrameViewModel()
         {
             LoadedCommand = new RelayCommand<SetTimeFrameWindow>(parameter => true, parameter => Load(parameter));
@@ -62,9 +62,16 @@ namespace FootballFieldManagement.ViewModels
                 MessageBoxResult result = MessageBox.Show("Bạn có muốn lưu hay không?", "Thông báo", MessageBoxButton.YesNoCancel);
                 if (result == MessageBoxResult.Yes)
                 {
+                    if (tmpTimeFrames.Find(x => x.Price == -1) != null)
+                    {
+                        if (IsPriceNull(SetTimeWd))
+                        {
+                            e.Cancel = true;
+                        }
+                    }
                     SaveData(SetTimeWd);
                     e.Cancel = true;
-                    if (!isChanged)
+                    if (!isChanged )
                     {
                         e.Cancel = false;
                     }
@@ -84,9 +91,14 @@ namespace FootballFieldManagement.ViewModels
             this.IsChanged = false;
             this.setTimeWd = wdSetTime;
             setItemSourceFieldType();
+            tmpTimeFrames = TimeFrameDAL.Instance.ConvertDBToList();
             wdSetTime.cboFieldType.SelectedIndex = 0;
-            wdSetTime.tpkOpenTime.Text = tmpTimeFrames[0].StartTime;
-            wdSetTime.tpkCloseTime.Text = tmpTimeFrames[tmpTimeFrames.Count - 1].EndTime;
+            if (tmpTimeFrames.Count != 0)
+            {
+                wdSetTime.tpkOpenTime.Text = tmpTimeFrames[0].StartTime;
+                wdSetTime.tpkCloseTime.Text = tmpTimeFrames[tmpTimeFrames.Count - 1].EndTime;
+            }
+
             ChangedFieldType(wdSetTime);
         }
         public void GenerateTimeFrame(SetTimeFrameWindow wdSetTime)
@@ -170,15 +182,23 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteTimeFrame(PeriodControl control)
         {
-            this.tmpTimeFrames.RemoveAll(x => x.StartTime == control.txtStartTime.Text && x.EndTime == control.txtEndTime.Text);
-            this.setTimeWd.stkTime.Children.Remove(control);
-            setTimeWd.tpkOpenTime.Text = tmpTimeFrames[0].StartTime;
-            setTimeWd.tpkCloseTime.Text = tmpTimeFrames[tmpTimeFrames.Count - 1].EndTime;
-            this.isChanged = true;
-        }
-        public void SaveData(SetTimeFrameWindow wdSetTime)
+            MessageBoxResult result = MessageBox.Show("Sẽ xóa những loại sân có cùng khung giờ này. Bạn có muốn xóa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                this.tmpTimeFrames.RemoveAll(x => x.StartTime == control.txtStartTime.Text && x.EndTime == control.txtEndTime.Text);
+                this.setTimeWd.stkTime.Children.Remove(control);
+                if (tmpTimeFrames.Count != 0)
+                {
+                    setTimeWd.tpkOpenTime.Text = tmpTimeFrames[0].StartTime;
+                    setTimeWd.tpkCloseTime.Text = tmpTimeFrames[tmpTimeFrames.Count - 1].EndTime;
+                }
+                this.isChanged = true;
+            }
+        } 
+
+        //Kiểm tra giá của các khung giờ có null hay không
+        public bool IsPriceNull(SetTimeFrameWindow wdSetTime)
         {
-            //Thông báo nhập giá
             var listTemp = tmpTimeFrames.FindAll(x => x.Price == -1).OrderBy(x => x.FieldType).ToList();
             if (listTemp.Count() != 0)
             {
@@ -192,14 +212,17 @@ namespace FootballFieldManagement.ViewModels
                     if (listTemp[0].FieldType.ToString() == fieldType)
                     {
                         wdSetTime.cboFieldType.SelectedIndex = i;
-                        return;
+                        return true;
                     }
                     i++;
                 }
             }
-
+            return false;
+        }
+        public void SaveData(SetTimeFrameWindow wdSetTime)
+        {
             //Lưu
-            if (isChanged)
+            if (isChanged && !IsPriceNull(wdSetTime))
             {
                 TimeFrameDAL.Instance.ClearData();
                 bool isSuccess = true;
@@ -270,7 +293,12 @@ namespace FootballFieldManagement.ViewModels
                 control.txtPrice.Text = wdAddTime.txtPrice.Text;
                 foreach (string fieldType in FootballFieldDAL.Instance.GetFieldType())
                 {
-                    TimeFrame newTime = new TimeFrame(tmpTimeFrames[tmpTimeFrames.Count - 1].Id + 1, control.txtStartTime.Text, control.txtEndTime.Text, int.Parse(fieldType), ConvertToNumber(control.txtPrice.Text));
+                    long price = ConvertToNumber(control.txtPrice.Text);
+                    if(fieldType != setTimeWd.cboFieldType.Text.Split(' ')[1])
+                    {
+                        price = -1;
+                    }
+                    TimeFrame newTime = new TimeFrame(tmpTimeFrames[tmpTimeFrames.Count - 1].Id + 1, control.txtStartTime.Text, control.txtEndTime.Text, int.Parse(fieldType), price);
                     tmpTimeFrames.Add(newTime);
                 }
                 tmpTimeFrames = tmpTimeFrames.OrderBy(x => x.StartTime).ToList();

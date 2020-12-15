@@ -21,7 +21,6 @@
             <ColumnDefinition Width="1.5*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1.5*"></ColumnDefinition>
-            <ColumnDefinition Width="1.5*"></ColumnDefinition>
             <ColumnDefinition Width="140"></ColumnDefinition>
             <ColumnDefinition Width="10"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -106,19 +105,8 @@
             Width="2"
             Fill="{DynamicResource Gray4}" 
             VerticalAlignment="Center"/>
-        <TextBlock 
-            x:Name="txbUnitPrice"
-            Text="Đơn giá" 
-            Grid.Column="4"
-            HorizontalAlignment="Center" 
-            Margin="0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Center" 
-            FontSize="18" 
-            FontWeight="SemiBold" 
-            Foreground="{DynamicResource Gray1}"/>
         <Button 
-            Grid.Column="5"
+            Grid.Column="4"
             x:Name="btnEditField"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Sửa thông tin"
@@ -143,7 +131,7 @@
                 Height="24" />
         </Button>
         <Button 
-            Grid.Column="5"
+            Grid.Column="4"
             x:Name="btnDeleteField"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Xóa mặt hàng" 

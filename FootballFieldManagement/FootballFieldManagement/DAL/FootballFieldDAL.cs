@@ -45,8 +45,8 @@ namespace FootballFieldManagement.DAL
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
-                    dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()),
-                    long.Parse(dt.Rows[i].ItemArray[4].ToString()), dt.Rows[i].ItemArray[5].ToString());
+                    dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString())
+                    , dt.Rows[i].ItemArray[5].ToString());
                 footballFields.Add(footballField);
             }
             return footballFields;
@@ -56,13 +56,12 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "insert into FootballField(idField, name, type, status, price, note) values (@idField, @name, @type, @status, @price, @note)";
+                string query = "insert into FootballField(idField, name, type, status, note) values (@idField, @name, @type, @status, @note)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idField", footballField.IdField.ToString());
                 command.Parameters.AddWithValue("@name", footballField.Name);
                 command.Parameters.AddWithValue("@type", footballField.Type.ToString());
                 command.Parameters.AddWithValue("@status", footballField.Status.ToString());
-                command.Parameters.AddWithValue("@price", footballField.Price.ToString());
                 command.Parameters.AddWithValue("@note", footballField.Note);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
@@ -91,7 +90,7 @@ namespace FootballFieldManagement.DAL
                 string query = @"delete from FootballField where idField = " + idField;
                 SqlCommand command = new SqlCommand(query, conn);
                 int rs = command.ExecuteNonQuery();
-                if(rs == 1)
+                if (rs == 1)
                 {
                     return true;
                 }
@@ -114,13 +113,12 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"update FootballField set idField = @idField, name = @name, type = @type, status = @status, price = @price where idField = " + footballField.IdField.ToString();
+                string query = @"update FootballField set idField = @idField, name = @name, type = @type, status = @status where idField = " + footballField.IdField.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idField", footballField.IdField.ToString());
                 command.Parameters.AddWithValue("@name", footballField.Name);
                 command.Parameters.AddWithValue("@type", footballField.Type.ToString());
                 command.Parameters.AddWithValue("@status", footballField.Status.ToString());
-                command.Parameters.AddWithValue("@price", footballField.Price.ToString());
                 int rs = command.ExecuteNonQuery();
                 if (rs == 1)
                 {
@@ -166,6 +164,36 @@ namespace FootballFieldManagement.DAL
             {
                 conn.Close();
             }
+        }
+        public bool CheckFieldName(string fieldName)
+        {
+            try
+            {
+                conn.Open();
+                string query = @"select * from FootballField where name = '@fieldName'";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@fieldName", fieldName);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Rows.Count == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return true;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
         }
     }
 }

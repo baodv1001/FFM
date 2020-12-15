@@ -155,9 +155,11 @@
                 FontWeight="SemiBold" 
                 Padding="0" >
                 <materialDesign:PackIcon 
-                Kind="DeleteOutline" 
-                Height="24"
-                Width="24" IsTabStop="False"/>
+                    ToolTip="Xóa"
+                    Kind="DeleteOutline" 
+                    Height="24"
+                    Width="24" 
+                    IsTabStop="False"/>
             </Button>
         </Grid>
     </Grid>

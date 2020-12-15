@@ -44,7 +44,8 @@
         <StackPanel
             Orientation="Horizontal" 
             VerticalAlignment="Top" 
-            Margin="0,20,35,0" HorizontalAlignment="Right" >
+            Margin="0,20,35,0" 
+            HorizontalAlignment="Right" >
             <materialDesign:TimePicker
                 x:Name="tpkOpenTime"
                 Width="110"
@@ -59,7 +60,8 @@
                 FontWeight="Medium"
                 Foreground="{DynamicResource Gray1}" 
                 VerticalContentAlignment="Bottom" 
-                HorizontalContentAlignment="Center" TabIndex="1">
+                HorizontalContentAlignment="Center" 
+                TabIndex="1">
             </materialDesign:TimePicker>
             <materialDesign:TimePicker
                 x:Name="tpkCloseTime"
@@ -75,7 +77,8 @@
                 FontWeight="Medium"
                 Foreground="{DynamicResource Gray1}" 
                 VerticalContentAlignment="Bottom" 
-                HorizontalContentAlignment="Center" TabIndex="2">
+                HorizontalContentAlignment="Center"
+                TabIndex="2">
             </materialDesign:TimePicker>
         </StackPanel>
         <Rectangle 
@@ -177,7 +180,10 @@
         </Button>
         <StackPanel 
             Orientation="Horizontal"
-            Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,12">
+            Grid.Row="2" 
+            VerticalAlignment="Bottom"
+            HorizontalAlignment="Center" 
+            Margin="0,0,0,12">
             <Button
                 x:Name="btnSave"
                 IsDefault="True"
@@ -207,7 +213,10 @@
                 FontSize="14" 
                 VerticalAlignment="Bottom"
                 Padding="0" 
-                Margin="10,0,0,0" HorizontalAlignment="Right" Background="{DynamicResource Gray3}" BorderBrush="{DynamicResource Gray3}" />
+                Margin="10,0,0,0" 
+                HorizontalAlignment="Right" 
+                Background="{DynamicResource Gray3}" 
+                BorderBrush="{DynamicResource Gray3}" />
         </StackPanel>
         <ComboBox
             x:Name="cboTimePerMatch"
@@ -223,7 +232,9 @@
             Padding="3,0,0,0" 
             Margin="30,80,0,0" 
             VerticalAlignment="Top"
-            HorizontalAlignment="Left" Foreground="{DynamicResource Gray1}" TabIndex="3">
+            HorizontalAlignment="Left" 
+            Foreground="{DynamicResource Gray1}" 
+            TabIndex="3">
             <ComboBoxItem Content="1 tiếng/trận"/>
             <ComboBoxItem Content="1.5 tiếng/trận"/>
             <ComboBoxItem Content="2 tiếng/trận"/>

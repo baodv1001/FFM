@@ -11,6 +11,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FootballFieldManagement.Resources.UserControls;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
+using System.Windows.Threading;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -31,12 +33,16 @@ namespace FootballFieldManagement.ViewModels
         public ICommand EditCardFieldCommand { get; set; }
         public ICommand DeleteCardFieldCommand { get; set; }
 
-        public ICommand SelectionChangedCommand { get; set; }
+        public ICommand SelectionChangedCommand { get; set; } // thay đổi view
+        public ICommand SelectionFieldTypeCommand { get; set; } // chọn loại sân trong window add field
         public ICommand AddFieldCommand { get; set; }
         public ICommand SetTimeFrameCommand { get; set; }
+        public ICommand LostFocusCommand { get; set; } // Dùng để thêm 1 loại sân mới
 
         private HomeWindow home;
         public HomeWindow Home { get => home; set => home = value; }
+        private ObservableCollection<string> itemSourceField = new ObservableCollection<string>();
+        public ObservableCollection<string> ItemSourceField { get => itemSourceField; set { itemSourceField = value; OnPropertyChanged(); } }
 
         private FieldDetailsControl detailsField;
         public FieldDetailsControl DetailsField { get => detailsField; set => detailsField = value; }
@@ -56,15 +62,36 @@ namespace FootballFieldManagement.ViewModels
             LeaveCommand = new RelayCommand<FieldControl>((parameter) => true, (parameter) => Leave(parameter));
             LoadedCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadField(parameter));
             SelectionChangedCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SelectionChanged(parameter));
-            AddFieldCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => AddField(parameter));
+            AddFieldCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => ShowAddField(parameter));
             SetTimeFrameCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => ShowWdSetTimeFrame());
+            LostFocusCommand = new RelayCommand<AddFootballFieldWindow>((parameter) => true, (parameter) => LostFocusComboBox(parameter));
+        }
+        public void LostFocusComboBox(AddFootballFieldWindow addFieldWindow)
+        {
+            string str = addFieldWindow.cboFieldType.Text;
+            if (string.IsNullOrEmpty(str))
+            {
+                return;
+            }
+            if (str[0] >= 48 && str[0] <= 57)
+            {
+                addFieldWindow.cboFieldType.Text = "Sân " + str + " người";
+            }
+        }
+        public void setItemSourceField()
+        {
+            itemSourceField.Clear();
+            foreach (string fieldType in FootballFieldDAL.Instance.GetFieldType())
+            {
+                itemSourceField.Add("Sân " + fieldType + " người");
+            }
         }
         public void ShowWdSetTimeFrame()
         {
             SetTimeFrameWindow wdSetTime = new SetTimeFrameWindow();
             wdSetTime.ShowDialog();
         }
-        public void AddField(HomeWindow home)
+        public void ShowAddField(HomeWindow home)
         {
             AddFootballFieldWindow wdAddFootballFieldWindow = new AddFootballFieldWindow();
             List<FootballField> footballFields = FootballFieldDAL.Instance.ConvertDBToList();
@@ -76,7 +103,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 wdAddFootballFieldWindow.txtIDField.Text = "1";
             }
-
+            setItemSourceField();
             wdAddFootballFieldWindow.ShowDialog();
         }
         public void LoadField(HomeWindow home)
@@ -128,7 +155,6 @@ namespace FootballFieldManagement.ViewModels
                 {
                     temp.txbStatus.Text = "Tốt";
                 }
-                temp.txbUnitPrice.Text = string.Format("{0:N0}", footballField.Price);
                 wrap.Children.Add(temp);
             }
         }
@@ -140,16 +166,11 @@ namespace FootballFieldManagement.ViewModels
                 FieldControl child = new FieldControl();
                 child.txbFieldName.Text = field.Name;
                 child.txbIdField.Text = field.IdField.ToString();
-                string temp = "Sân 5 người";
-                if (field.Type == 7)
-                {
-                    temp = "Sân 7 người";
-                }
                 if (field.Status == 1)
                 {
                     child.icnError.Visibility = Visibility.Hidden;
                 }
-                child.txbFieldType.Text = temp;
+                child.txbFieldType.Text = "Sân " + field.Type.ToString() + " người";
                 parameter.wpCardField.Children.Add(child);
             }
         }
@@ -187,57 +208,50 @@ namespace FootballFieldManagement.ViewModels
                 parameter.cboStatus.Focus();
                 return;
             }
-            if (string.IsNullOrEmpty(parameter.txtPrice.Text))
-            {
-                MessageBox.Show("Vui lòng nhập giá sân!");
-                parameter.txtPrice.Focus();
-                return;
-            }
 
-            int type = 5;
             int status = 1;
-            if (parameter.cboFieldType.SelectedIndex == 1)
-            {
-                type = 7;
-            }
+
             if (parameter.cboStatus.SelectedIndex == 1)
             {
                 status = 0;
             }
+            List<string> fieldTypes = FootballFieldDAL.Instance.GetFieldType(); // để thêm khung giờ 
+
             FootballField newField = new FootballField(int.Parse(parameter.txtIDField.Text.ToString()),
-                parameter.txtName.Text.ToString(), type, status,
-                ConvertToNumber(parameter.txtPrice.Text.ToString()), "NULL");
+                parameter.txtName.Text.ToString(), int.Parse(parameter.cboFieldType.Text.Split(' ')[1]), status, "NULL");
             List<FootballField> fields = FootballFieldDAL.Instance.ConvertDBToList();
+            bool isSuccess1 = false;
+            bool isSuccess2 = false;
             if (fields.Count == 0 || fields[fields.Count - 1].IdField < newField.IdField)
             {
                 //Thực hiện lưu xuống database
-                foreach (var field in FootballFieldDAL.Instance.ConvertDBToList())
+                if (FootballFieldDAL.Instance.CheckFieldName(parameter.txtName.Text))
                 {
-                    if (parameter.txtName.Text == field.Name)
-                    {
-                        MessageBox.Show("Tên sân đã tồn tại!");
-                        return;
-                    }
+                    MessageBox.Show("Tên sân đã tồn tại!");
+                    return;
                 }
                 if (FootballFieldDAL.Instance.AddIntoDB(newField))
                 {
-                    MessageBox.Show("Thêm thành công!");
-                    //Cập nhật lên display
+                    isSuccess1 = true;
+                    MessageBox.Show("Thêm thành công!", "Thông báo");
+
+                    //Hiển thị 
                     if (home.cboViews.SelectedIndex == 0)
                     {
                         FieldDetailsControl control = new FieldDetailsControl();
-                        control.txbFieldName.Text = parameter.txtName.Text;
-                        control.txbFieldType.Text = parameter.cboFieldType.Text;
-                        control.txbStatus.Text = parameter.cboStatus.Text;
-                        control.txbUnitPrice.Text = parameter.txtPrice.Text;
+                        control.txbFieldName.Text = newField.Name;
+                        control.txbIdField.Text = newField.IdField.ToString();
+                        control.txbFieldType.Text = "Sân " + newField.Type.ToString() + " người";
+                        control.txbStatus.Text = newField.Status == 0 ? "Hỏng" : "Tốt";
                         control.txbOrderNum.Text = (home.wpListField.Children.Count + 1).ToString();
                         home.wpListField.Children.Add(control);
                     }
                     else if (home.cboViews.SelectedIndex == 1)
                     {
                         FieldControl control = new FieldControl();
-                        control.txbFieldName.Text = parameter.txtName.Text;
-                        control.txbFieldType.Text = parameter.cboFieldType.Text;
+                        control.txbFieldName.Text = newField.Name;
+                        control.txbIdField.Text = newField.IdField.ToString();
+                        control.txbFieldType.Text = "Sân " + newField.Type.ToString() + " người";
                         if (parameter.cboStatus.SelectedIndex == 0)
                         {
                             control.icnError.Visibility = Visibility.Hidden;
@@ -255,6 +269,7 @@ namespace FootballFieldManagement.ViewModels
                 //Thực hiện update xuống database
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
+                    isSuccess2 = true;
                     MessageBox.Show("Cập nhật thành công!");
                     //Cập nhật lên display
                     if (home.cboViews.SelectedIndex == 0)
@@ -262,7 +277,6 @@ namespace FootballFieldManagement.ViewModels
                         detailsField.txbFieldName.Text = parameter.txtName.Text;
                         detailsField.txbFieldType.Text = parameter.cboFieldType.Text;
                         detailsField.txbStatus.Text = parameter.cboStatus.Text;
-                        detailsField.txbUnitPrice.Text = parameter.txtPrice.Text;
                     }
                     else if (home.cboViews.SelectedIndex == 1)
                     {
@@ -278,6 +292,31 @@ namespace FootballFieldManagement.ViewModels
                 {
                     MessageBox.Show("Cập nhật thất bại!");
                 }
+            }
+
+            //Thêm khung giờ cho loại sân mới
+            if (fieldTypes.Find(x => x == parameter.cboFieldType.Text.Split(' ')[1]) == null && (isSuccess1 || isSuccess2))
+            {
+                int i = TimeFrameDAL.Instance.GetIdMax();
+                foreach (TimeFrame item in TimeFrameDAL.Instance.GetTimeFrame())
+                {
+                    item.Id = ++i;
+                    item.FieldType = newField.Type;
+                    item.Price = -1;
+                    TimeFrameDAL.Instance.AddTimeFrame(item);
+                }
+                SetTimeFrameWindow newWinDow = new SetTimeFrameWindow();
+                DispatcherTimer timer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(1)
+                };
+                timer.Tick += (s, e) =>
+                {
+                    newWinDow.cboFieldType.SelectedIndex = fieldTypes.Count;
+                    timer.Stop();
+                };
+                timer.Start();
+                newWinDow.ShowDialog();
             }
             parameter.Close();
         }
@@ -302,21 +341,14 @@ namespace FootballFieldManagement.ViewModels
                     updateWindow.txtName.Text = footballField.Name;
                     updateWindow.txtName.SelectionStart = updateWindow.txtName.Text.Length;
                     updateWindow.txtName.SelectionLength = 0;
-                    int typeIndex = 0;
-                    if (footballField.Type == 7)
-                    {
-                        typeIndex = 1;
-                    }
-                    updateWindow.cboFieldType.SelectedIndex = typeIndex;
+
+                    updateWindow.cboFieldType.Text = "Sân " + footballField.Type.ToString() + " người";
                     int statusIndex = 1;
                     if (footballField.Status == 1)
                     {
                         statusIndex = 0;
                     }
                     updateWindow.cboStatus.SelectedIndex = statusIndex;
-                    updateWindow.txtPrice.Text = string.Format("{0:N0}", footballField.Price);
-                    updateWindow.txtPrice.SelectionStart = updateWindow.txtPrice.Text.Length;
-                    updateWindow.txtPrice.SelectionLength = 0;
                     updateWindow.ShowDialog();
                     return;
                 }
@@ -338,6 +370,10 @@ namespace FootballFieldManagement.ViewModels
                         {
                             //Cập nhật lên wrap
                             home.wpListField.Children.Remove(control);
+                            if(FootballFieldDAL.Instance.GetFieldType().Find(x=>x == control.txbFieldType.Text.Split(' ')[1]) == null)
+                            {
+                                TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                            }
                         }
                         return;
                     }
@@ -360,6 +396,10 @@ namespace FootballFieldManagement.ViewModels
                         {
                             //Cập nhật lên wrap
                             home.wpCardField.Children.Remove(control);
+                            if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
+                            {
+                                TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                            }
                         }
                         return;
                     }

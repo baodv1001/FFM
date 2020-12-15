@@ -521,7 +521,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -1297,7 +1297,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadedCommand }" CommandParameter="{Binding ElementName=wdHome}"/>
@@ -1405,7 +1405,6 @@
                             <ColumnDefinition Width="1.5*"/>
                             <ColumnDefinition Width="1*"/>
                             <ColumnDefinition Width="1.5*"/>
-                            <ColumnDefinition Width="1.5*"/>
                             <ColumnDefinition Width="140"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
@@ -1445,16 +1444,6 @@
                             Margin="0" 
                             TextWrapping="Wrap" 
                             Text="Loại sân" 
-                            VerticalAlignment="Center" 
-                            FontSize="18"
-                            Foreground="{DynamicResource White}" 
-                            FontWeight="SemiBold"/>
-                        <TextBlock 
-                            Grid.Column="4" 
-                            HorizontalAlignment="Center"
-                            Margin="0" 
-                            TextWrapping="Wrap" 
-                            Text="Đơn giá" 
                             VerticalAlignment="Center" 
                             FontSize="18"
                             Foreground="{DynamicResource White}" 

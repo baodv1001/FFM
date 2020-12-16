@@ -14,7 +14,7 @@
              Height="40" 
              Margin="0,0,0,2">
     <Grid 
-        x:Name="grdEmployee"
+        x:Name="grdMain"
         Margin="0"
         Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>

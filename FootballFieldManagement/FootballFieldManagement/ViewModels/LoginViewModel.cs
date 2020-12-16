@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 
 namespace FootballFieldManagement.ViewModels
@@ -26,7 +27,6 @@ namespace FootballFieldManagement.ViewModels
         public ICommand LogInCommand { get; set; }
         public ICommand OpenSignUpWindowCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
-        public ICommand OpenCheckAttendanceWindowCommand { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private string userName;
@@ -39,14 +39,6 @@ namespace FootballFieldManagement.ViewModels
             LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) => Login(parameter));
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingPassword(parameter));
             OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSignUpWindow(parameter));
-            OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
-        }
-        public void OpenCheckAttendanceWindow(Window parameter)
-        {
-            CheckAttendanceWindow wdCheckAttendance = new CheckAttendanceWindow();
-            parameter.Hide();
-            wdCheckAttendance.ShowDialog();
-            parameter.Show();
         }
         public void Login(LoginWindow parameter)
         {
@@ -188,8 +180,11 @@ namespace FootballFieldManagement.ViewModels
         public void OpenSignUpWindow(Window parameter)
         {
             SignUpWindow signUp = new SignUpWindow();
-            parameter.Hide();
+            parameter.Opacity = 0.5;
+            parameter.WindowStyle = WindowStyle.None;
             signUp.ShowDialog();
+            parameter.WindowStyle = WindowStyle.SingleBorderWindow;
+            parameter.Opacity = 1;
             parameter.Show();
         }
 

@@ -132,7 +132,7 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string query = "DELETE FROM Attendance";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                if (cmd.ExecuteNonQuery() != 1)
+                if (cmd.ExecuteNonQuery() < 1)
                 {
                     return false;
                 }

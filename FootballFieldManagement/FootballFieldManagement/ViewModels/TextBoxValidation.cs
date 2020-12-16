@@ -8,6 +8,7 @@ namespace FootballFieldManagement.ViewModels
     class TextBoxValidation : ValidationRule
     {
         public string ErrorMessage { get; set; }
+        public string TypeValidation { get; set; } // 1: không nhập ký tự đặc biệt và không để khoảng trống; 2 : không để trống
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             ValidationResult result = new ValidationResult(true, null);
@@ -15,13 +16,16 @@ namespace FootballFieldManagement.ViewModels
                 return result;
             if (value.ToString().Length == 0)
             {
-                result = new ValidationResult(false, "Vui lòng nhập tên đăng nhập");
+                result = new ValidationResult(false, "Vui lòng nhập thông tin!");
             }
-            foreach (char i in value.ToString())
+            if (TypeValidation == "1")
             {
-                if (!((i >= 48 && i <= 57) || (i >= 65 && i <= 90) || (i >= 97 && i <= 122)))
+                foreach (char i in value.ToString())
                 {
-                    result = new ValidationResult(false, this.ErrorMessage);
+                    if (!((i >= 48 && i <= 57) || (i >= 65 && i <= 90) || (i >= 97 && i <= 122)))
+                    {
+                        result = new ValidationResult(false, this.ErrorMessage);
+                    }
                 }
             }
             return result;

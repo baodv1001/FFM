@@ -1,0 +1,166 @@
+﻿<UserControl x:Class="FootballFieldManagement.Resources.UserControls.PeriodControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:vm ="clr-namespace:FootballFieldManagement.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800" 
+             Width="432" 
+             Height="50"
+             x:Name="ucPeriod"
+             DataContext="{StaticResource TimeFrameVM}"
+             HorizontalAlignment="Left" 
+             Margin="0,0,0,2">
+    <UserControl.Resources>
+        <ControlTemplate x:Key="textBoxErrorTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="placeholder"/>
+                <TextBlock 
+                    DockPanel.Dock="Bottom" 
+                    Foreground="Red"
+                    Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Resources>
+    <Grid 
+        Height="50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid 
+            Grid.Column="0"
+            HorizontalAlignment="Left"
+            Margin="0" Width="200">
+            <TextBox
+                x:Name="txtStartTime"
+                IsReadOnly="True"
+                materialDesign:HintAssist.Hint="Giờ bắt đầu"
+                HorizontalAlignment="Left"  
+                Width="80" 
+                FontSize="14" 
+                BorderThickness="0,0,0,1" 
+                MaxLines="1"
+                Padding="0" 
+                Foreground="{DynamicResource Gray2}" 
+                Margin="10,0,0,0" 
+                Height="30" 
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center" 
+                BorderBrush="{DynamicResource Gray3}" IsTabStop="False" />
+            <TextBox 
+                x:Name="txtEndTime"
+                IsReadOnly="True"
+                materialDesign:HintAssist.Hint="Giờ kết thúc"
+                HorizontalAlignment="Right"  
+                Width="80" 
+                FontSize="14" 
+                BorderThickness="0,0,0,1" 
+                MaxLines="1"
+                Padding="0" 
+                Foreground="{DynamicResource Gray2}" 
+                Margin="0,0,10,0" 
+                Height="30" 
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center" 
+                VerticalAlignment="Center" 
+                BorderBrush="{DynamicResource Gray3}" IsTabStop="False" />
+            <TextBlock 
+                x:Name="txbId"
+                Visibility="Hidden"/>
+            <TextBlock
+                HorizontalAlignment="Center"
+                Margin="0,3,2,0" 
+                TextWrapping="Wrap"
+                Text="-" 
+                VerticalAlignment="Center"
+                FontSize="20" 
+                Foreground="{DynamicResource Gray2}"
+                Height="32"/>
+        </Grid>
+        <Grid 
+                Grid.Column="1">
+            <Rectangle 
+                HorizontalAlignment="Left" 
+                Height="34" 
+                Width="160" 
+                RadiusY="6" 
+                RadiusX="6"
+                Stroke="{DynamicResource Primary}" 
+                Margin="0,0,5,0" 
+                StrokeThickness="1.5"/>
+            <TextBox 
+                x:Name="txtPrice"
+                Cursor="IBeam"
+                materialDesign:HintAssist.Hint="Giá sân"
+                HorizontalAlignment="Left"
+                Height="34"  
+                Width="150" 
+                FontSize="14" 
+                BorderThickness="0" 
+                MaxLines="1"
+                MaxLength="10"
+                Padding="0,2,3,0" 
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                Foreground="{StaticResource Gray3}" 
+                Margin="5,0,0,0"
+                HorizontalContentAlignment="Right"
+                VerticalContentAlignment="Center"
+                FontWeight="SemiBold"
+                TabIndex="10">
+                <TextBox.Text>
+                    <Binding Path="Price" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vm:TextBoxValidation TypeValidation="2"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding TextChangedCommand}"
+                                               CommandParameter="{Binding ElementName=ucPeriod}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}"
+                                               CommandParameter="{Binding ElementName=txtPrice}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="PreviewTextInput">
+                        <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+            <Button 
+                Style="{StaticResource MaterialDesignRaisedButton}"
+                Command="{Binding DeleteTimeFrameCommand}"
+                CommandParameter="{Binding ElementName=ucPeriod}"
+                ToolTip="Xóa khung giờ" 
+                Height="30"
+                materialDesign:ButtonAssist.CornerRadius="6"
+                Margin="0,0,10,9" 
+                Background="{x:Null}" 
+                BorderBrush="{x:Null}" 
+                Foreground="{StaticResource Error}" 
+                FontSize="16" 
+                VerticalAlignment="Bottom" 
+                FocusVisualStyle="{x:Null}"
+                Width="30"
+                HorizontalAlignment="Right" 
+                FontWeight="SemiBold" 
+                Padding="0" >
+                <materialDesign:PackIcon 
+                    ToolTip="Xóa"
+                    Kind="DeleteOutline" 
+                    Height="24"
+                    Width="24" 
+                    IsTabStop="False"/>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

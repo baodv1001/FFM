@@ -144,7 +144,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"select distinct(type) from FootballField";
+                string query = @"select distinct(type) from FootballField order by type ASC";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

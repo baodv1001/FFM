@@ -166,34 +166,6 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public string GetPrice(int id)
-        {
-            try
-            {
-                conn.Open();
-                string query = @"select price from TimeFrame where id = " + id.ToString();
-                SqlCommand cmd = new SqlCommand(query, conn);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows[0].ItemArray[0].ToString() == "")
-                {
-                    return null;
-                }
-                else
-                {
-                    return dt.Rows[0].ItemArray[0].ToString();
-                }
-            }
-            catch
-            {
-                return null;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
         public int GetIdMax()
         {
             try
@@ -216,6 +188,34 @@ namespace FootballFieldManagement.DAL
             catch
             {
                 return 0;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool CheckPriceIsNull()
+        {
+            try
+            {
+                conn.Open();
+                string query = @"select id from TimeFrame where price = -1";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+               if(dt.Rows.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
             }
             finally
             {

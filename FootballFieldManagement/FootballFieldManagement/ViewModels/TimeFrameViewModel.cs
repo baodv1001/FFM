@@ -57,20 +57,18 @@ namespace FootballFieldManagement.ViewModels
         }
         public void CloseWindow(object sender, CancelEventArgs e)
         {
-            if (isChanged)
+            TimeFrame time = tmpTimeFrames.Find(x => x.Price == -1);
+            if (isChanged ||  time != null)
             {
                 MessageBoxResult result = MessageBox.Show("Bạn có muốn lưu hay không?", "Thông báo", MessageBoxButton.YesNoCancel);
                 if (result == MessageBoxResult.Yes)
                 {
-                    if (tmpTimeFrames.Find(x => x.Price == -1) != null)
+                    if (IsPriceNull(SetTimeWd))
                     {
-                        if (IsPriceNull(SetTimeWd))
-                        {
-                            e.Cancel = true;
-                        }
+                        e.Cancel = true;
+                        return;
                     }
                     SaveData(SetTimeWd);
-                    e.Cancel = true;
                     if (!isChanged )
                     {
                         e.Cancel = false;
@@ -78,7 +76,11 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else if(result == MessageBoxResult.No)
                 {
-                    tmpTimeFrames = TimeFrameDAL.Instance.ConvertDBToList();
+                    if (TimeFrameDAL.Instance.CheckPriceIsNull())
+                    {
+                        e.Cancel = true;
+                        MessageBox.Show("Khung giờ của loại sân mới chưa được thiết lập!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
@@ -112,11 +114,11 @@ namespace FootballFieldManagement.ViewModels
             this.tmpTimeFrames.Clear();
             wdSetTime.stkTime.Children.Clear();
             this.isChanged = true;
+            //Chia khung giờ
             int openTime = CovertToMinute(wdSetTime.tpkOpenTime.Text);
             int closeTime = CovertToMinute(wdSetTime.tpkCloseTime.Text);
             int step;
             step = 30 * (wdSetTime.cboTimePerMatch.SelectedIndex + 2);
-
             for (int i = openTime; i <= closeTime - step; i += step)
             {
                 string str1 = (i % 60).ToString();
@@ -222,7 +224,7 @@ namespace FootballFieldManagement.ViewModels
         public void SaveData(SetTimeFrameWindow wdSetTime)
         {
             //Lưu
-            if (isChanged && !IsPriceNull(wdSetTime))
+            if (!IsPriceNull(wdSetTime) && isChanged)
             {
                 TimeFrameDAL.Instance.ClearData();
                 bool isSuccess = true;
@@ -283,6 +285,7 @@ namespace FootballFieldManagement.ViewModels
                     isSuccess = false;
                 }
             }
+           
             if (isSuccess)
             {
                 PeriodControl control = new PeriodControl();

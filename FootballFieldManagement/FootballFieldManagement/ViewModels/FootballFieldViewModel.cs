@@ -286,6 +286,10 @@ namespace FootballFieldManagement.ViewModels
                         {
                             cardField.icnError.Visibility = Visibility.Hidden;
                         }
+                        else
+                        {
+                            cardField.icnError.Visibility = Visibility.Visible;
+                        }
                     }
                 }
                 else
@@ -312,7 +316,8 @@ namespace FootballFieldManagement.ViewModels
                 };
                 timer.Tick += (s, e) =>
                 {
-                    newWinDow.cboFieldType.SelectedIndex = fieldTypes.Count;
+                    fieldTypes = FootballFieldDAL.Instance.GetFieldType();
+                    newWinDow.cboFieldType.SelectedIndex = fieldTypes.IndexOf(newField.Type.ToString());
                     timer.Stop();
                 };
                 timer.Start();

@@ -16,7 +16,7 @@
              Style="{StaticResource MyUCHoverStyle}"
              Background="{DynamicResource White}"
              BorderBrush="{DynamicResource Error}"
-             Margin="5,0,5,10">
+             Margin="0,0,10,10">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="MouseMove">
             <i:InvokeCommandAction Command="{Binding HoverCommand}" 
@@ -76,7 +76,9 @@
             Text="Sân 1"
             VerticalAlignment="Bottom"
             FontWeight="SemiBold"
-            FontSize="16"/>
+            FontSize="16" 
+            TextTrimming="WordEllipsis"
+            MaxWidth="125" Height="21.6"/>
         <TextBlock 
             x:Name="txbFieldType"
             HorizontalAlignment="Right"

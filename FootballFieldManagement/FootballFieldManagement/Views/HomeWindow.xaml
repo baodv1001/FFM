@@ -1452,20 +1452,20 @@
                     <Grid 
                         HorizontalAlignment="Center" 
                         Margin="0,50,0,40"
-                        Width="1120" 
+                        Width="1160" 
                         VerticalAlignment="Top" >
                         <ScrollViewer 
                             Grid.Row="1"
                             HorizontalScrollBarVisibility="Disabled" 
                             Margin="0" 
-                            Width="1120" 
+                            Width="1160" 
                             HorizontalAlignment="Left" 
                             Style="{StaticResource FavsScrollViewer}"
                             VerticalScrollBarVisibility="Auto"
                             VerticalAlignment="Top">
                             <WrapPanel  
                                 x:Name="wpListField"
-                                Width="1120" 
+                                Width="1140" 
                                 HorizontalAlignment="Left" 
                                 ScrollViewer.VerticalScrollBarVisibility="Auto" 
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"

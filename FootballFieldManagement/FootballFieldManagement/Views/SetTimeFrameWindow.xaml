@@ -122,13 +122,14 @@
             </i:Interaction.Triggers>
         </ComboBox>
         <ScrollViewer
-            Margin="30,75,26,10" 
+            Margin="30,75,38,10" 
             Grid.Row="1" >
             <Grid
                 Grid.Row="1"
                 HorizontalAlignment="Left">
                 <StackPanel
-                    x:Name="stkTime"/>
+                    x:Name="stkTime" 
+                    Margin="0,0,0,10"/>
             </Grid>
         </ScrollViewer>
         <Border 

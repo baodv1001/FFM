@@ -9,7 +9,7 @@
         xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
         mc:Ignorable="d"
         x:Name="wdAddTimeFrame"
-        Title="AddNewTimeFrame" 
+        Title="Thêm khung giờ" 
         DataContext="{StaticResource TimeFrameVM}"
         WindowStartupLocation="CenterScreen"
         Height="260" 

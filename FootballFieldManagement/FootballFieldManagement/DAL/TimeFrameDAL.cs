@@ -111,35 +111,6 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-
-        public bool DeleteTimeFrame(string startTime, string endTime)
-        {
-            try
-            {
-                conn.Open();
-                string query = @"delete from TimeFrame where startTime = @startTime and endTime = @endTime";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@startTime", startTime);
-                cmd.Parameters.AddWithValue("@endTime", endTime);
-                int rs = cmd.ExecuteNonQuery();
-                if (rs >= 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
         public bool ClearData()
         {
             try

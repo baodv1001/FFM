@@ -111,6 +111,14 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+            if (CovertToMinute(wdSetTime.tpkOpenTime.Text) > CovertToMinute(wdSetTime.tpkCloseTime.Text))
+            {
+                wdSetTime.cboTimePerMatch.SelectedItem = null;
+                wdSetTime.tpkOpenTime.Text = null;
+                wdSetTime.tpkCloseTime.Text = null;
+                MessageBox.Show("Giờ bắt đầu nhỏ hơn giờ kết thúc!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             this.tmpTimeFrames.Clear();
             wdSetTime.stkTime.Children.Clear();
             this.isChanged = true;
@@ -285,7 +293,14 @@ namespace FootballFieldManagement.ViewModels
                     isSuccess = false;
                 }
             }
-           
+            if (CovertToMinute(wdAddTime.tpkStartTime.Text) > CovertToMinute(wdAddTime.tpkEndTime.Text))
+            {
+                MessageBox.Show("Khung giờ không hợp lệ!", "Thông báo", MessageBoxButton.OK);
+                wdAddTime.tpkEndTime.Text = null;
+                wdAddTime.tpkStartTime.Text = null;
+                wdAddTime.txtPrice.Text = null;
+                return;
+            }
             if (isSuccess)
             {
                 PeriodControl control = new PeriodControl();

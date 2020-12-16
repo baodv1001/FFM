@@ -37,7 +37,9 @@
             Width="270" 
             VerticalAlignment="Top">
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity="0.6"/>
+                <SolidColorBrush 
+                    Color="Black" 
+                    Opacity="0.6"/>
             </Grid.Background>
         </Grid>
         <Rectangle 
@@ -78,7 +80,8 @@
             FontWeight="SemiBold"
             FontSize="16" 
             TextTrimming="WordEllipsis"
-            MaxWidth="125" Height="21.6"/>
+            MaxWidth="125"
+            Height="21.6"/>
         <TextBlock 
             x:Name="txbFieldType"
             HorizontalAlignment="Right"

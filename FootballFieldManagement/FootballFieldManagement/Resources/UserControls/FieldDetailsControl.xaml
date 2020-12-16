@@ -52,7 +52,7 @@
             x:Name="txbFieldName"
             Text="Tên sân" 
             Grid.Column="1"
-            HorizontalAlignment="Center" 
+            HorizontalAlignment="Left" 
             Margin="20,0,0,0" 
             TextWrapping="Wrap" 
             VerticalAlignment="Center" 

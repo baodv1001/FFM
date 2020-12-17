@@ -496,7 +496,7 @@
                     Content="Check in"
                     Command="{Binding OpenCheckAttendanceWindowCommand}"
                     CommandParameter="{Binding ElementName=wdHome}"
-                    Style="{StaticResource MyButtonStyle}"
+                    Style="{StaticResource MyPrimaryButtonStyle}"
                     FocusVisualStyle="{x:Null}"
                     Height="40" 
                     Width="180"
@@ -521,7 +521,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -1291,7 +1291,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadedCommand }" CommandParameter="{Binding ElementName=wdHome}"/>

@@ -407,6 +407,7 @@
                     x:Name="txtTelephoneNumber"
                     materialDesign:HintAssist.Hint="Số điện thoại" 
                     HorizontalAlignment="Right" 
+                    MaxLength="11"
                     Height="40"  
                     Width="210" 
                     FontSize="14"

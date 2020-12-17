@@ -14,25 +14,27 @@ using System.Data.SqlClient;
 
 namespace FootballFieldManagement.ViewModels
 {
-    public class HomeViewModel : BaseViewModel
+    class HomeViewModel : BaseViewModel
     {
         public ICommand LogOutCommand { get; set; }
         public ICommand SwitchTabCommand { get; set; }
 
         public ICommand E_LoadCommand { get; set; }
         public ICommand E_AddCommand { get; set; }
-
-        public ICommand G_AddCommand { get; set; }
-        public ICommand G_LoadCommand { get; set; }
-        public ICommand GetUidCommand { get; set; }
         public ICommand E_SetSalaryCommand { get; set; }
         public ICommand E_CalculateSalaryCommand { get; set; }
         public ICommand E_PaySalaryCommand { get; set; }
+
+        public ICommand G_AddCommand { get; set; }
+        public ICommand G_LoadCommand { get; set; }
+
+        public ICommand GetUidCommand { get; set; }
 
         public ICommand S_SaveBtnFieldInfoCommand { get; set; }
         public ICommand S_SaveFieldInfoCommand { get; set; }
         public ICommand S_EnableBtnSavePassCommand { get; set; }
         public ICommand S_SaveNewPasswordCommand { get; set; }
+        public ICommand OpenCheckAttendanceWindowCommand { get; set; }
         public StackPanel Stack { get => stack; set => stack = value; }
 
         private StackPanel stack = new StackPanel();
@@ -41,13 +43,10 @@ namespace FootballFieldManagement.ViewModels
         {
             LogOutCommand = new RelayCommand<Window>((parameter) => true, (parameter) => parameter.Close());
             SwitchTabCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SwitchTab(parameter));
+            GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
 
             E_LoadCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
             E_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddEmployee(parameter));
-
-            GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
-            G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
-            G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
             E_PaySalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => PaySalary(parameter));
@@ -56,6 +55,11 @@ namespace FootballFieldManagement.ViewModels
             S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
             S_SaveFieldInfoCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveFieldInfo(parameter));
             S_SaveNewPasswordCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
+
+            G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
+            G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
+
+            OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
         }
         public void SaveNewPassword(HomeWindow parameter)
         {
@@ -142,6 +146,84 @@ namespace FootballFieldManagement.ViewModels
             bool isEnable = string.IsNullOrEmpty(parameter.pwbOldPassword.Password) || string.IsNullOrEmpty(parameter.pwbNewPassword.Password) || string.IsNullOrEmpty(parameter.pwbConfirmedPassword.Password);
             parameter.btnSavePassword.IsEnabled = !isEnable;
         }
+        public void SwitchTab(HomeWindow parameter)
+        {
+            int index = int.Parse(uid);
+
+            parameter.grdCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
+
+            parameter.grdBody_Goods.Visibility = Visibility.Hidden;
+            parameter.grdBody_Home.Visibility = Visibility.Hidden;
+            parameter.grdBody_Employee.Visibility = Visibility.Hidden;
+            parameter.grdBody_Report.Visibility = Visibility.Hidden;
+            parameter.grdBody_Field.Visibility = Visibility.Hidden;
+            parameter.grdBody_Setting.Visibility = Visibility.Hidden;
+
+            parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.btnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.btnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.btnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+
+            parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.icnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+            parameter.icnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
+
+            switch (index)
+            {
+                case 0:
+                    ReportViewModel reportViewModel = new ReportViewModel(parameter);
+                    parameter.grdBody_Home.Visibility = Visibility.Visible;
+                    parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                case 1:
+                    parameter.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                case 2:
+                    parameter.grdBody_Field.Visibility = Visibility.Visible;
+                    parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                case 3:
+                    parameter.grdBody_Goods.Visibility = Visibility.Visible;
+                    parameter.btnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                case 4:
+                    parameter.grdBody_Employee.Visibility = Visibility.Visible;
+                    parameter.btnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                case 5:
+                    parameter.grdBody_Report.Visibility = Visibility.Visible;
+                    parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                case 6:
+                    parameter.grdBody_Setting.Visibility = Visibility.Visible;
+                    parameter.btnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    parameter.icnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void OpenCheckAttendanceWindow(Window parameter)
+        {
+            CheckAttendanceWindow wdCheckAttendance = new CheckAttendanceWindow();
+            wdCheckAttendance.ShowDialog();
+            parameter.Show();
+        }
+        //Tab employee
         public void PaySalary(HomeWindow parameter)
         {
             bool sucess = true;
@@ -248,68 +330,6 @@ namespace FootballFieldManagement.ViewModels
             SetSalaryWindow setSalaryWindow = new SetSalaryWindow();
             setSalaryWindow.ShowDialog();
         }
-        public void SwitchTab(HomeWindow parameter)
-        {
-            int index = int.Parse(uid);
-
-            parameter.grdCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
-
-            parameter.grdBody_Goods.Visibility = Visibility.Hidden;
-            parameter.grdBody_Home.Visibility = Visibility.Hidden;
-            parameter.grdBody_Employee.Visibility = Visibility.Hidden;
-            parameter.grdBody_Report.Visibility = Visibility.Hidden;
-            parameter.grdBody_Setting.Visibility = Visibility.Hidden;
-
-            parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.btnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.btnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.btnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-
-            parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.icnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-            parameter.icnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF282828");
-
-            switch (index)
-            {
-                case 0:
-                    ReportViewModel reportViewModel = new ReportViewModel(parameter);
-                    parameter.grdBody_Home.Visibility = Visibility.Visible;
-                    parameter.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    break;
-                case 1:
-                    parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    parameter.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    break;
-                case 2:
-                    parameter.grdBody_Goods.Visibility = Visibility.Visible;
-                    parameter.btnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    parameter.icnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    break;
-                case 3:
-                    parameter.grdBody_Employee.Visibility = Visibility.Visible;
-                    parameter.btnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    break;
-                case 4:
-                    parameter.grdBody_Report.Visibility = Visibility.Visible;
-                    parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    break;
-                case 5:
-                    parameter.grdBody_Setting.Visibility = Visibility.Visible;
-                    parameter.btnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    parameter.icnSetting.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                    break;
-                default:
-                    break;
-            }
-        }
 
         public void AddEmployee(StackPanel parameter)
         {
@@ -340,7 +360,7 @@ namespace FootballFieldManagement.ViewModels
                 flag = !flag;
                 if (flag)
                 {
-                    temp.grdEmployee.Background = (Brush)new BrushConverter().ConvertFromString("#FFFFFF");
+                    temp.grdMain.Background = (Brush)new BrushConverter().ConvertFromString("#FFFFFF");
                 }
                 temp.txbSerial.Text = i.ToString();
                 i++;
@@ -368,6 +388,8 @@ namespace FootballFieldManagement.ViewModels
                 homeWindow.stkEmployee.Children.Add(temp);
             }
         }
+
+        //Tab goods 
         public void LoadGoodsToView(StackPanel stk)
         {
             stk.Children.Clear();
@@ -397,7 +419,6 @@ namespace FootballFieldManagement.ViewModels
                 i++;
             }
         }
-
         public void AddGoods(StackPanel stk)
         {
             stack = stk;

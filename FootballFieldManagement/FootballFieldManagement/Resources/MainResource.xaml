@@ -11,4 +11,6 @@
     <viewmodels:CheckAttendanceViewModel x:Key="CheckAttendanceVM"></viewmodels:CheckAttendanceViewModel>
     <viewmodels:ReportViewModel x:Key="ReportVM"></viewmodels:ReportViewModel>
     <viewmodels:PrintViewModel x:Key="PrintVM"></viewmodels:PrintViewModel>
+    <viewmodels:FootballFieldViewModel  x:Key="FieldVM"></viewmodels:FootballFieldViewModel>
+    <viewmodels:TimeFrameViewModel  x:Key="TimeFrameVM"></viewmodels:TimeFrameViewModel>
 </ResourceDictionary>

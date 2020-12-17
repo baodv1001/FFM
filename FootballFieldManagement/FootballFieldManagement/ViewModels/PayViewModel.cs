@@ -17,6 +17,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.IO;
 using System.Diagnostics;
+using FootballFieldManagement.Resources.Template;
+using System.Data.SqlClient;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -59,6 +61,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand DeleteBillInfoCommand { get; set; }
         public ICommand ChangeQuantityCommand { get; set; }
 
+        public ICommand ViewBillCommand { get; set; }
 
         public PayViewModel()
         {
@@ -75,7 +78,50 @@ namespace FootballFieldManagement.ViewModels
             DeleteBillInfoCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => DeleteBillInfo(parameter));
             ChangeQuantityCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
 
+            ViewBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => ViewBill(parameter));
+            
             Total = TotalGoods = 0;
+        }
+        public void ViewBill(PayWindow payWindow)
+        {
+            BillTemplate billTemplate = new BillTemplate();
+            billTemplate.txbDiscount.Text = payWindow.txbDiscount.Text;
+            billTemplate.txbTotal.Text = payWindow.txbSumOfPrice.Text;
+            billTemplate.txbIdBill.Text = payWindow.txbIdBill.Text;
+            billTemplate.txbTotalBefore.Text = (int.Parse(payWindow.txbFieldPrice.Text) + int.Parse(payWindow.txbtotalGoodsPrice.Text)).ToString();
+            billTemplate.txbCustomerName.Text = payWindow.txbCustomerName.Text;
+            billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhoneNumber.Text;
+            billTemplate.txbInvoiceDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            billTemplate.txbCheckInTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
+            billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
+            billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(CurrentAccount.IdAccount.ToString()).Name;
+            
+            //Thông tin sân
+            SQLConnection connection = new SQLConnection();
+            try
+            {
+                connection.conn.Open();
+                string queryString = "select * from Information";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                billTemplate.txbFieldName.Text = dataTable.Rows[0].ItemArray[0].ToString();
+                billTemplate.txbFieldNameBrand.Text = dataTable.Rows[0].ItemArray[0].ToString();
+                billTemplate.txbPhoneNumber.Text = dataTable.Rows[0].ItemArray[1].ToString();
+                billTemplate.txbAddress.Text = dataTable.Rows[0].ItemArray[2].ToString();
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                connection.conn.Close();
+            }
+
+            billTemplate.ShowDialog();
         }
         //Binding
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

@@ -126,5 +126,75 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+
+        public DataTable GetStockReceiptByDate(string day, string month, string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select * from StockReceipt " +
+                    "where year(dateTimeStockReceipt) = {0} and month(dateTimeStockReceipt) = {1} and day(dateTimeStockReceipt) = {2} order by idStockReceipt", year, month, day);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public DataTable GetStockReceiptByMonth(string month, string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select * from StockReceipt " +
+                    "where year(dateTimeStockReceipt) = {0} and month(dateTimeStockReceipt) = {1} order by idStockReceipt", year, month);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public DataTable GetStockReceiptByYear(string year)
+        {
+            DataTable dataTable = new DataTable();
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select * from StockReceipt " +
+                    "where year(dateTimeStockReceipt) = {0} order by idStockReceipt", year);
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dataTable);
+                return dataTable;
+            }
+            catch
+            {
+                return dataTable;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

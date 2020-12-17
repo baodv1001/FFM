@@ -84,10 +84,18 @@
     <Compile Include="DAL\BillInfoDAL.cs" />
     <Compile Include="DAL\FieldInfoDAL.cs" />
     <Compile Include="DAL\ReportDAL.cs" />
+    <Compile Include="DAL\SalaryRecordDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
     <Compile Include="Models\FieldInfo.cs" />
     <Compile Include="Models\Report.cs" />
+    <Compile Include="Models\SalaryRecord.cs" />
+    <Compile Include="Resources\Template\SalaryRecordTemplate.xaml.cs">
+      <DependentUpon>SalaryRecordTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Template\StockReceiptTemplate.xaml.cs">
+      <DependentUpon>StockReceiptTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\FieldBookingControl.xaml.cs">
       <DependentUpon>FieldBookingControl.xaml</DependentUpon>
     </Compile>
@@ -106,8 +114,20 @@
     <Compile Include="Resources\UserControls\ProductDetailsControl.xaml.cs">
       <DependentUpon>ProductDetailsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\UserControls\SalaryInfoControl.xaml.cs">
+      <DependentUpon>SalaryInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\SalaryRecordControl.xaml.cs">
+      <DependentUpon>SalaryRecordControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\SellGoodsControl.xaml.cs">
       <DependentUpon>SellGoodsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\StockReceiptControl.xaml.cs">
+      <DependentUpon>StockReceiptControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\StockReceiptInfoControl.xaml.cs">
+      <DependentUpon>StockReceiptInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PayViewModel.cs" />
     <Compile Include="DAL\AttendanceDAL.cs" />
@@ -167,6 +187,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Template\SalaryRecordTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Template\StockReceiptTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\UserControls\BillControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -199,11 +227,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\UserControls\SalaryInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\SalaryRecordControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\UserControls\SellGoodsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\UserControls\NumericSpinner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\StockReceiptControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\StockReceiptInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

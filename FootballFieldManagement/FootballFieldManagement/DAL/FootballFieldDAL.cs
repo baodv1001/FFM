@@ -195,5 +195,32 @@ namespace FootballFieldManagement.DAL
             }
 
         }
+        public FootballField GetFootballFieldById(string idField)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select * from FootballField where idField = " + idField;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                FootballField res = new FootballField(int.Parse(idField), dataTable.Rows[0].ItemArray[1].ToString(), 
+                    int.Parse(dataTable.Rows[0].ItemArray[2].ToString()), int.Parse(dataTable.Rows[0].ItemArray[3].ToString()), 
+                    dataTable.Rows[0].ItemArray[4].ToString());
+                return res;
+            }
+            catch
+            {
+                return new FootballField();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

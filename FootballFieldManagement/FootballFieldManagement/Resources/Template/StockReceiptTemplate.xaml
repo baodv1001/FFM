@@ -292,7 +292,6 @@
             <Border 
                 BorderBrush="{DynamicResource Primary}" 
                 BorderThickness="2"
-                CornerRadius="6"
                 Margin="50,0,50,1"/>
         </Grid>
         <Grid

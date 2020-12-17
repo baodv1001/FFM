@@ -276,14 +276,13 @@
             </Grid>
             <StackPanel 
                 x:Name="stkSalaryInfo"
-                Margin="50,26,50,3" 
+                Margin="50,26,50,2" 
                 Background="{StaticResource Gray6}">
             </StackPanel>
             <Border 
                 BorderBrush="{DynamicResource Primary}" 
                 Width="600" 
                 BorderThickness="2"
-                CornerRadius="6"
                 Margin="0,0,0,1"/>
         </Grid>
         <Grid

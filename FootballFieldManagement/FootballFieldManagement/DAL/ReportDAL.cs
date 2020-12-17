@@ -391,7 +391,7 @@ namespace FootballFieldManagement.DAL
             {
                 long totalFromGoods = ReportDAL.instance.QueryRevenueFromSellingInDay(day, month, year)[0];
                 conn.Open();
-                string queryString = string.Format("select sum(totalMoney) from bill where year(invoiceDate) = {0} " +
+                string queryString = string.Format("select sum(totalMoney) as revenue from bill where year(invoiceDate) = {0} " +
                     "and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
                 SqlCommand command = new SqlCommand(queryString, conn);
                 long total = 0;
@@ -449,7 +449,7 @@ namespace FootballFieldManagement.DAL
             {
                 long totalFromGoods = ReportDAL.instance.QueryRevenueFromSellingInMonth(month, year)[0];
                 conn.Open();
-                string queryString = string.Format("select sum(totalMoney) from bill where year(invoiceDate) = {0} " +
+                string queryString = string.Format("select sum(totalMoney) as revenue from bill where year(invoiceDate) = {0} " +
                     "and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
                 long total = 0;

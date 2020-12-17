@@ -483,7 +483,15 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("H:mm");
             billTemplate.txbCheckOutTime.Text = bill.CheckOutTime.ToString("H:mm");
             billTemplate.txbTotal.Text = bill.TotalMoney.ToString();
-            
+            billTemplate.txbEmployeeName.Text = billControl.txbEmployeeName.Text;
+
+            //Thông tin khách hàng
+            FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
+            billTemplate.txbCustomerName.Text = fieldInfo.CustumerName;
+            billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
+            billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
+            billTemplate.txbTotalBefore.Text = (bill.TotalMoney + fieldInfo.Discount).ToString();
+
             //Load các mặt hàng trong Bill
             List<BillInfo> listBillInfo = BillInfoDAL.Instance.GetBillInfos(idBill);
             int numOfGoods = listBillInfo.Count();
@@ -493,31 +501,35 @@ namespace FootballFieldManagement.ViewModels
             }
             int i = 1;
 
-            BillInfoControl billInfoControl = new BillInfoControl();
+            BillInfoControl fieldBillInfoControl = new BillInfoControl();
             //Thêm sân vào nha
-            //billInfoControl.txbOrderNum.Text = i.ToString();
-            //billInfoControl.txbName.Text = FieldInfoDAL.Instance.GetFieldInfo(idBill).;
+            fieldBillInfoControl.txbOrderNum.Text = i.ToString();
+            i++;
+            string idFiedlInfo = fieldInfo.IdField.ToString();
+            FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idFiedlInfo);
+            string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
+            fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
+            fieldBillInfoControl.txbUnit.Text = "lần";
+            fieldBillInfoControl.txbQuantity.Text = "1";
+            fieldBillInfoControl.txbUnitPrice.Text= TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
+            fieldBillInfoControl.txbTotal.Text= TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
+
+            billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
             foreach (var billInfo in listBillInfo)
             {
+                BillInfoControl billInfoControl = new BillInfoControl();
                 Goods goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                 billInfoControl.txbOrderNum.Text = i.ToString();
                 billInfoControl.txbName.Text = goods.Name;
                 billInfoControl.txbUnitPrice.Text = goods.UnitPrice.ToString();
                 billInfoControl.txbQuantity.Text = billInfo.Quantity.ToString();
+                billInfoControl.txbUnit.Text = goods.Unit;
                 billInfoControl.txbTotal.Text = (goods.UnitPrice * billInfo.Quantity).ToString();
 
                 billTemplate.stkBillInfo.Children.Add(billInfoControl);
                 i++;
             }
 
-            //Thông tin khách hàng
-            FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
-            billTemplate.txbCustomerName.Text = fieldInfo.CustumerName;
-            billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
-            billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
-            billTemplate.txbTotalBefore.Text = (bill.TotalMoney - fieldInfo.Discount).ToString();
-
-            billTemplate.txbEmployeeName.Text = billControl.txbEmployeeName.Text;
             //Thông tin sân
             SQLConnection connection = new SQLConnection();
             try

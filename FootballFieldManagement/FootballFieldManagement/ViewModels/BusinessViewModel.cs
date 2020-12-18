@@ -310,6 +310,13 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng chọn sân!");
                 return;
             }
+            if (checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
+            {
+                MessageBox.Show("Không thể đặt sân những ngày đã qua!");
+                checkInWindow.dpSetDate.SelectedDate = null;
+                checkInWindow.cboTime.SelectedItem = null;
+                return;
+            }
             if (string.IsNullOrEmpty(checkInWindow.txtUserName.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên khách hàng!");
@@ -486,8 +493,8 @@ namespace FootballFieldManagement.ViewModels
                 PayWindow payWindow = new PayWindow();
                 FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(PickedField.txbidFieldInfo.Text);
                 payWindow.txbIdFieldInfo.Text = fieldButtonControl.txbidFieldInfo.Text;
-                payWindow.txbUserName.Text = fieldInfo.CustomerName;
-                payWindow.txbPhoneNumber.Text = fieldInfo.PhoneNumber;
+                payWindow.txbCustomerName.Text = fieldInfo.CustomerName;
+                payWindow.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
                 payWindow.txbFieldPrice.Text = fieldButtonControl.txbPrice.Text;
                 payWindow.txtMoreInfo.Text = fieldInfo.Note;
                 payWindow.txbDiscount.Text = fieldInfo.Discount.ToString();

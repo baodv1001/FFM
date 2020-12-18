@@ -11,6 +11,7 @@ using System.Linq;
 using System;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Windows.Threading;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -205,6 +206,19 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 5:
+                    parameter.cboSelectPeriod_Report.SelectedIndex = -1;
+                    parameter.cboSelectTime_Report.SelectedIndex = -1;
+                    DispatcherTimer timer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(1)
+                    };
+                    timer.Tick += (s, e) =>
+                    {
+                        parameter.cboSelectPeriod_Report.SelectedIndex = 0;
+                        parameter.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
+                        timer.Stop();
+                    };
+                    timer.Start();
                     parameter.grdBody_Report.Visibility = Visibility.Visible;
                     parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");

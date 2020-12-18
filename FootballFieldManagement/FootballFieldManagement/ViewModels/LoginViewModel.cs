@@ -204,7 +204,7 @@ namespace FootballFieldManagement.ViewModels
                 //Không cấp quyền cho nhân viên
                 home.grdBody_Home.Visibility = Visibility.Hidden;
                 home.grdBody_Business.Visibility = Visibility.Visible;
-                home.txtNewFieldName.IsEnabled = false;
+                home.txtFieldName.IsEnabled = false;
                 home.btnEmployee.IsEnabled = false;
                 home.btnReport.IsEnabled = false;
                 home.btnAddGoods.IsEnabled = false;

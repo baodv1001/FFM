@@ -84,6 +84,8 @@ namespace FootballFieldManagement.ViewModels
         }
         public void ViewBill(PayWindow payWindow)
         {
+            Bill bill=BillDAL.Instance.GetBill(payWindow.txbIdBill.Text);
+            //thông tin Bill + FieldInfo
             BillTemplate billTemplate = new BillTemplate();
             billTemplate.txbDiscount.Text = payWindow.txbDiscount.Text;
             billTemplate.txbTotal.Text = payWindow.txbSumOfPrice.Text;
@@ -91,11 +93,33 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbTotalBefore.Text = (int.Parse(payWindow.txbFieldPrice.Text) + int.Parse(payWindow.txbtotalGoodsPrice.Text)).ToString();
             billTemplate.txbCustomerName.Text = payWindow.txbCustomerName.Text;
             billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhoneNumber.Text;
-            billTemplate.txbInvoiceDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            billTemplate.txbCheckInTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
+            billTemplate.txbInvoiceDate.Text = bill.InvoiceDate.ToShortDateString();
+            billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("HH:mm"); //tạm
             billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
             billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(CurrentAccount.IdAccount.ToString()).Name;
-            
+            //Thông tin bill info
+            List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(payWindow.txbIdBill.Text);
+            int numOfGoods = billInfos.Count();
+            if (numOfGoods > 7)
+            {
+                billTemplate.Height += (numOfGoods - 7) * 35;
+            }
+            int i = 1;
+            foreach (var billInfo in billInfos)
+            {
+                BillInfoControl billInfoControl = new BillInfoControl();
+                Goods goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
+                billInfoControl.txbOrderNum.Text = i.ToString();
+                billInfoControl.txbName.Text = goods.Name;
+                billInfoControl.txbUnitPrice.Text = goods.UnitPrice.ToString();
+                billInfoControl.txbQuantity.Text = billInfo.Quantity.ToString();
+                billInfoControl.txbUnit.Text = goods.Unit;
+                billInfoControl.txbTotal.Text = (goods.UnitPrice * billInfo.Quantity).ToString();
+
+                billTemplate.stkBillInfo.Children.Add(billInfoControl);
+                i++;
+            }
+
             //Thông tin sân
             SQLConnection connection = new SQLConnection();
             try

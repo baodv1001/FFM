@@ -557,7 +557,8 @@
                                 FontSize="22" 
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
-                            <TextBlock
+                            <TextBlock 
+                                x:Name="txbRevenueThisMonth"
                                 Grid.Row="1"
                                 Text="{Binding ThisMonthRevenue}"
                                 HorizontalAlignment="Left"
@@ -612,7 +613,8 @@
                                 FontSize="22" 
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
-                            <TextBlock
+                            <TextBlock 
+                                x:Name="txbIncreasing"
                                 Grid.Row="1"
                                 Text="{Binding IncreasingPercent}"
                                 HorizontalAlignment="Left"
@@ -667,7 +669,8 @@
                                 FontSize="22" 
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
-                            <TextBlock
+                            <TextBlock 
+                                x:Name="txbNumOfHiredField"
                                 Grid.Row="1"
                                 Text="{Binding NumOfHiredField}"
                                 HorizontalAlignment="Left"

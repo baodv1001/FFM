@@ -487,7 +487,7 @@ namespace FootballFieldManagement.ViewModels
 
             //Thông tin khách hàng
             FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
-            billTemplate.txbCustomerName.Text = fieldInfo.CustumerName;
+            billTemplate.txbCustomerName.Text = fieldInfo.CustomerName;
             billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
             billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
             billTemplate.txbTotalBefore.Text = (bill.TotalMoney + fieldInfo.Discount).ToString();
@@ -529,24 +529,7 @@ namespace FootballFieldManagement.ViewModels
                 billTemplate.stkBillInfo.Children.Add(billInfoControl);
                 i++;
             }
-            //Thông tin khách hàng
-            FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
-            billTemplate.txbCustomerName.Text = fieldInfo.CustomerName;
-            billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
-            billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
-            billTemplate.txbTotalBefore.Text = (bill.TotalMoney - fieldInfo.Discount).ToString();
 
-            //Thông tin nhân viên
-            if (bill.IdAccount == 0)
-            {
-                billTemplate.txbIdEmployee.Text = "";
-                billTemplate.txbEmployeeName.Text = "Nhân viên đã nghỉ";
-            }
-            else
-            {
-                billTemplate.txbIdEmployee.Text = "# " + EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).IdEmployee.ToString();
-                billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(bill.IdAccount.ToString()).Name;
-            }
             //Thông tin sân
             SQLConnection connection = new SQLConnection();
             try
@@ -748,6 +731,9 @@ namespace FootballFieldManagement.ViewModels
             {
                 IncreasingPercent = "100%";
             }
+            homeWindow.txbRevenueThisMonth.Text = thisMonthRevenue.ToString();
+            homeWindow.txbIncreasing.Text = increasingPercent.ToString();
+            homeWindow.txbNumOfHiredField.Text = numOfHiredField.ToString();
             DispatcherTimer timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(1)

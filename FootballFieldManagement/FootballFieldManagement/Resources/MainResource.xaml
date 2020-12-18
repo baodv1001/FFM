@@ -13,4 +13,5 @@
     <viewmodels:PrintViewModel x:Key="PrintVM"></viewmodels:PrintViewModel>
     <viewmodels:FootballFieldViewModel  x:Key="FieldVM"></viewmodels:FootballFieldViewModel>
     <viewmodels:TimeFrameViewModel  x:Key="TimeFrameVM"></viewmodels:TimeFrameViewModel>
+    <viewmodels:BusinessViewModel x:Key="BusinessVM"></viewmodels:BusinessViewModel>
 </ResourceDictionary>

@@ -15,6 +15,11 @@
         WindowStartupLocation="CenterScreen" 
         Background="White" 
         ResizeMode="CanMinimize">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding TurnOnNotiCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Grid>
         <Label 
             x:Name="lblSoftwareName" 

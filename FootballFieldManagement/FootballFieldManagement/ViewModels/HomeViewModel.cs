@@ -153,6 +153,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.grdCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
 
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;
+            parameter.grdBody_Business.Visibility = Visibility.Hidden;
             parameter.grdBody_Home.Visibility = Visibility.Hidden;
             parameter.grdBody_Employee.Visibility = Visibility.Hidden;
             parameter.grdBody_Report.Visibility = Visibility.Hidden;
@@ -184,6 +185,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 1:
+                    parameter.grdBody_Business.Visibility = Visibility.Visible;
                     parameter.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;

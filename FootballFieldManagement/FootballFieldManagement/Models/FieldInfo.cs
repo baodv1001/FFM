@@ -12,7 +12,7 @@ namespace FootballFieldManagement.Models
         {
 
         }
-        public FieldInfo(int idFieldInfo, int idField, DateTime startingTime, DateTime endingTime, int status, string phoneNumber, string custumerName, string note, long discount)
+        public FieldInfo(int idFieldInfo, int idField, DateTime startingTime, DateTime endingTime, int status, string phoneNumber, string customerName, string note, long discount, long price)
         {
             this.idFieldInfo = idFieldInfo;
             this.idField = idField;
@@ -20,9 +20,10 @@ namespace FootballFieldManagement.Models
             this.endingTime = endingTime;
             this.status = status;
             this.phoneNumber = phoneNumber;
-            this.custumerName = custumerName;
+            this.customerName = customerName;
             this.note = note;
             this.discount = discount;
+            this.price = price;
         }
         private int idFieldInfo;
         public int IdFieldInfo { get => idFieldInfo; set => idFieldInfo = value; }
@@ -42,13 +43,16 @@ namespace FootballFieldManagement.Models
         private string phoneNumber;
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
 
-        private string custumerName;
-        public string CustumerName { get => custumerName; set => custumerName = value; }
+        private string customerName;
+        public string CustomerName { get => customerName; set => customerName = value; }
 
         private string note;
         public string Note { get => note; set => note = value; }
 
         private long discount;
         public long Discount { get => discount; set => discount = value; }
+
+        private long price;
+        public long Price { get => price; set => price = value; }
     }
 }

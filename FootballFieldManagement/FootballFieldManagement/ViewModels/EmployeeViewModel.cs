@@ -292,6 +292,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 child.cboPositionManage.IsEnabled = false;
             }
+            child.Title = "Cập nhật thông tin nhân viên";
             child.ShowDialog();
         }
         public void UpdateQuantity(EmployeeControl parameter)
@@ -459,6 +460,6 @@ namespace FootballFieldManagement.ViewModels
             e.Handled = !regex.IsMatch(e.Text);
         }
 
-        
+
     }
 }

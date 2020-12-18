@@ -68,7 +68,7 @@ namespace FootballFieldManagement.ViewModels
             //Pay Window
             LoadGoodsCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
             LoadBillInfoCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadBillInfoToView(parameter)); // Hiển thị các mặt hàng được chọn
-            LoadTotalCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadTotalMoney(parameter)); 
+            LoadTotalCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadTotalMoney(parameter));
             ClosingWdCommnad = new RelayCommand<PayWindow>((parameter) => true, (parameter) => DeleteBillInfos(parameter));
             PayBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => PayBill(parameter));
             BackCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => CloseWindow(parameter));
@@ -144,14 +144,6 @@ namespace FootballFieldManagement.ViewModels
                     good.imgGood.Source = Converter.Instance.ConvertByteToBitmapImage(Convert.FromBase64String(goods.Rows[i].ItemArray[4].ToString()));
                     good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
                     good.txbIdBill.Text = parameter.txbIdBill.Text;
-                    //try
-                    //{
-                    //    good.txbIdBill.Text = (BillDAL.Instance.ConvertDBToList()[BillDAL.Instance.ConvertDBToList().Count - 1].IdBill + 1).ToString();
-                    //}
-                    //catch
-                    //{
-                    //    good.txbIdBill.Text = "1";
-                    //}
                     parameter.wrpGoods.Children.Add(good);
                 }
             }
@@ -177,7 +169,7 @@ namespace FootballFieldManagement.ViewModels
                     infoControl.nmsQuantity.MinValue = 1;
                     infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGoods(infoControl.txbIdGoods.Text).Quantity;
                     infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
-                    
+
                     parameter.stkPickedGoods.Children.Add(infoControl);
                 }
             }
@@ -191,7 +183,11 @@ namespace FootballFieldManagement.ViewModels
         public void DeleteBillInfos(PayWindow parameter)
         {
             if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close"))
+            {
                 BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
+                BillDAL.Instance.DeleteFromDB(parameter.txbIdBill.Text);
+                totalGoods = 0;
+            }
         }
         public void PayBill(PayWindow parameter)
         {
@@ -205,20 +201,34 @@ namespace FootballFieldManagement.ViewModels
             Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
             if (BillDAL.Instance.UpdateOnDB(bill))
             {
-                foreach (var billInfo in billInfos)
+                FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(parameter.txbIdFieldInfo.Text);
+                fieldInfo.Status = 3;
+                if (FieldInfoDAL.Instance.UpdateOnDB(fieldInfo))
                 {
-                    var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
-                    good.Quantity -= billInfo.Quantity;
-                    GoodsDAL.Instance.UpdateOnDB(good);
+                    foreach (var billInfo in billInfos)
+                    {
+                        var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
+                        good.Quantity -= billInfo.Quantity;
+                        GoodsDAL.Instance.UpdateOnDB(good);
+                    }
+
+                    MessageBox.Show("Thanh toán thành công!");
+                    parameter.txbIsPaid.Text = "1";
                 }
-                MessageBox.Show("Thanh toán thành công!");
                 parameter.Close();
+            }
+            else
+            {
+                totalGoods = 0;
+                parameter.txbIsPaid.Text = "0";
             }
 
         }
         public void CloseWindow(PayWindow parameter)
         {
             BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
+            BillDAL.Instance.DeleteFromDB(parameter.txbIdBill.Text);
+            totalGoods = 0;
             parameter.Close();
         }
         public void BuyGoods(SellGoodsControl parameter)

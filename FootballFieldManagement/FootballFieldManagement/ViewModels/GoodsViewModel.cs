@@ -91,6 +91,7 @@ namespace FootballFieldManagement.ViewModels
                     break;
                 }
             }
+            updateWindow.Title = "Cập nhật thông tin hàng hóa";
             updateWindow.ShowDialog();
         }
         public void ShowImportGoods(TextBlock parameter)

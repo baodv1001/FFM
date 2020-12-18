@@ -354,6 +354,7 @@ namespace FootballFieldManagement.ViewModels
                         statusIndex = 0;
                     }
                     updateWindow.cboStatus.SelectedIndex = statusIndex;
+                    updateWindow.Title = "Cập nhật thông tin sân";
                     updateWindow.ShowDialog();
                     return;
                 }

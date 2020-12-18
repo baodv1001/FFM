@@ -22,32 +22,27 @@ namespace FootballFieldManagement.DAL
         {
 
         }
-        public void DeleteFromDB(Bill bill)
+        public bool DeleteFromDB(string idBill)
         {
             try
             {
                 conn.Open();
-                string queryString = "delete from Bill where idBill=" + bill.IdBill.ToString();
+                string queryString = "delete from Bill where idBill=" + idBill;
                 SqlCommand command = new SqlCommand(queryString, conn);
-                if (command.ExecuteNonQuery() < 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    MessageBox.Show("Đã xóa thành công!");
-                }
+                command.ExecuteNonQuery();
+                return true;
+
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {
                 conn.Close();
             }
         }
-        public void AddIntoDB(Bill bill)
+        public bool AddIntoDB(Bill bill)
         {
             try
             {
@@ -56,21 +51,18 @@ namespace FootballFieldManagement.DAL
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idBill", bill.IdBill.ToString());
                 command.Parameters.AddWithValue("@idAccount", bill.IdAccount.ToString());
-                command.Parameters.AddWithValue("@invoiceDate", bill.InvoiceDate.ToString());
-                command.Parameters.AddWithValue("@checkInTime", bill.CheckInTime.ToString());
-                command.Parameters.AddWithValue("@checkOutTime", bill.CheckOutTime.ToString());
+                command.Parameters.AddWithValue("@invoiceDate", bill.InvoiceDate);
+                command.Parameters.AddWithValue("@checkInTime", bill.CheckInTime);
+                command.Parameters.AddWithValue("@checkOutTime", bill.CheckOutTime);
                 command.Parameters.AddWithValue("@status", bill.Status);
                 command.Parameters.AddWithValue("@totalMoney", bill.TotalMoney.ToString());
                 command.Parameters.AddWithValue("@idFieldInfo", bill.IdFieldInfo.ToString());
                 int rs = command.ExecuteNonQuery();
-                if (rs == 1)
-                {
-                    MessageBox.Show("Đã thêm!");
-                }
+                return true;
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                return false;
             }
             finally
             {

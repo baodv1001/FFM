@@ -153,7 +153,7 @@ namespace FootballFieldManagement.DAL
                 }
                 else
                 {
-                    return   int.Parse(dt.Rows[0].ItemArray[0].ToString());
+                    return int.Parse(dt.Rows[0].ItemArray[0].ToString());
                 }
             }
             catch
@@ -175,7 +175,7 @@ namespace FootballFieldManagement.DAL
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-               if(dt.Rows.Count > 0)
+                if (dt.Rows.Count > 0)
                 {
                     return true;
                 }
@@ -193,7 +193,7 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public List<TimeFrame> GetTimeFrame( )
+        public List<TimeFrame> GetTimeFrame()
         {
             try
             {
@@ -221,7 +221,66 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public string GetPriceOfTimeFrame(string startingTime, string endingTime, string fieldType)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                conn.Open();
+                string query = @"Select Distinct TimeFrame.price 
+                                From TimeFrame
+                                Join FootballField on TimeFrame.fieldType = FootballField.type
+                                Where endTime = @endingTime and startTime = @startingTime and type = @fieldType";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@startingTime", startingTime);
+                command.Parameters.AddWithValue("@endingTime", endingTime);
+                command.Parameters.AddWithValue("@fieldType", fieldType);
+                int rs = command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dt);
+                return dt.Rows[0].ItemArray[0].ToString();
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public List<TimeFrame> GetEmptyTime(string idField, string day)
+        {
+            List<TimeFrame> timeFrames = new List<TimeFrame>();
+            try
+            {
+                conn.Open();
+                string query = @"Select distinct TimeFrame.startTime,TimeFrame.endTime from TimeFrame
+                                 Except
+                                 Select convert(varchar(5), startingTime, 108) as startTime,convert(varchar(5), endingTime, 108) as endTime from FieldInfo
+                                 where convert(varchar(10), startingTime, 103)=@day and idField =@idField";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@idField", idField);
+                command.Parameters.AddWithValue("@day", day);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    TimeFrame timeFrame = new TimeFrame(0, dt.Rows[i].ItemArray[0].ToString(), dt.Rows[i].ItemArray[1].ToString(), 5, 0);
+                    timeFrames.Add(timeFrame);
+                }
+            }
+            catch
+            {
 
+            finally
+            {
+                conn.Close();
+            }
+            return timeFrames;
+        }
         public string GetPriceOfTimeFrame(string startingTime, string endingTime, string fieldType)
         {
             DataTable dt = new DataTable();

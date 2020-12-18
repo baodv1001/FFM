@@ -496,7 +496,7 @@
                     Content="Check in"
                     Command="{Binding OpenCheckAttendanceWindowCommand}"
                     CommandParameter="{Binding ElementName=wdHome}"
-                    Style="{StaticResource MyButtonStyle}"
+                    Style="{StaticResource MyPrimaryButtonStyle}"
                     FocusVisualStyle="{x:Null}"
                     Height="40" 
                     Width="180"
@@ -521,7 +521,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -557,7 +557,6 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
-                                x:Name="txbThisMonthRevenue"
                                 Grid.Row="1"
                                 Text="{Binding ThisMonthRevenue}"
                                 HorizontalAlignment="Left"
@@ -568,9 +567,8 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
-                                x:Name="txbThisMonth"
+                                Text="{Binding ThisMonth}"
                                 Grid.Row="2"
-                                Text="{Binding CurrentMonth}"
                                 HorizontalAlignment="Left"
                                 Margin="20,0,0,0" 
                                 TextWrapping="Wrap" 
@@ -614,7 +612,6 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
-                                x:Name="txbIncreasingPercent"
                                 Grid.Row="1"
                                 Text="{Binding IncreasingPercent}"
                                 HorizontalAlignment="Left"
@@ -625,9 +622,8 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
-                                x:Name="txbToday"
                                 Grid.Row="2"
-                                Text="{Binding CurrentDate}"
+                                Text="{Binding ThisMonth}"
                                 HorizontalAlignment="Left"
                                 Margin="20,0,0,0" 
                                 TextWrapping="Wrap" 
@@ -671,7 +667,6 @@
                                 Foreground="{DynamicResource White}" 
                                 FontWeight="Medium"/>
                             <TextBlock
-                                x:Name="txbNumOfHiredField"
                                 Grid.Row="1"
                                 Text="{Binding NumOfHiredField}"
                                 HorizontalAlignment="Left"
@@ -682,9 +677,8 @@
                                 FontWeight="Bold" 
                                 Foreground="{DynamicResource White}" />
                             <TextBlock
-                                x:Name="txbThisMonth1"
                                 Grid.Row="2"
-                                Text="{Binding CurrentMonth}"
+                                Text="{Binding ThisMonth}"
                                 HorizontalAlignment="Left"
                                 Margin="20,0,0,0" 
                                 TextWrapping="Wrap" 
@@ -1297,7 +1291,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadedCommand }" CommandParameter="{Binding ElementName=wdHome}"/>
@@ -1511,7 +1505,7 @@
                 Grid.Row="1"
                 Visibility="Hidden">
                 <TabControl 
-                    Margin="10,10,20,10"
+                    Margin="10,10,20,20"
                     BorderBrush="{x:Null}">
                     <TabItem
                         Style="{StaticResource MaterialDesignNavigationRailTabItem}"
@@ -1522,93 +1516,82 @@
                         Height="40" 
                         Margin="-3,0,0,0" 
                         Padding="0" >
-                        <Border 
-                            Visibility="Visible"
-                            BorderThickness="1"
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"
-                            Height="560" 
-                            Width="1120"
-                            Margin="0,20,0,0" 
-                            CornerRadius="2" 
-                            Background="{DynamicResource White}">
-                            <Border.Effect>
-                                <DropShadowEffect 
-                                    BlurRadius="8" 
-                                    ShadowDepth="1.5" 
-                                    Direction="270"
-                                    Color="{StaticResource MaterialDesignShadow}" 
-                                    Opacity=".42"/>
-                            </Border.Effect>
-                            <Grid
-                                Margin="0" 
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Height="560" 
-                                Width="1120">
-                                <StackPanel 
-                                    Orientation="Horizontal"
-                                    VerticalAlignment="Top"
+                        <Grid
+                            Margin="0">
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left" 
+                                Margin="30,15,0,0">
+                                <ComboBox
+                                    DataContext="{StaticResource ReportVM}"
+                                    x:Name="cboSelectPeriod_Report"
+                                    materialDesign:ComboBoxAssist.ClassicMode="true"
+                                    FontSize="16"
+                                    FontWeight="Medium" 
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    materialDesign:HintAssist.Hint="Chọn chu kỳ"
+                                    Width="160" 
+                                    Height="40" 
                                     HorizontalAlignment="Left" 
-                                    Margin="60,20,0,0">
-                                    <ComboBox
-                                        DataContext="{StaticResource ReportVM}"
-                                        x:Name="cboSelectPeriod_Report"
-                                        materialDesign:ComboBoxAssist.ClassicMode="true"
-                                        FontSize="16"
-                                        FontWeight="Medium" 
-                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                        materialDesign:HintAssist.Hint="Chọn chu kỳ"
-                                        Width="160" 
-                                        Height="40" 
-                                        HorizontalAlignment="Left" 
-                                        HorizontalContentAlignment="Left"
-                                        VerticalContentAlignment="Center" 
-                                        Padding="3,0,0,0" 
-                                        Margin="0">
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="SelectionChanged">
-                                                <i:InvokeCommandAction Command="{Binding Report_SelectionChangedCommand}" 
-                                                    CommandParameter="{Binding ElementName=wdHome}"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                        <ComboBoxItem Content="Theo tháng"/>
-                                        <ComboBoxItem Content="Theo quý"/>
-                                        <ComboBoxItem Content="Theo năm"/>
-                                    </ComboBox>
-                                    <ComboBox
-                                        x:Name="cboSelectTime_Report"
-                                        DataContext="{StaticResource ReportVM}"
-                                        ItemsSource="{Binding report_ItemSourceTime, Mode=TwoWay}"
-                                        materialDesign:ComboBoxAssist.ClassicMode="true"
-                                        FontSize="16"
-                                        FontWeight="Medium" 
-                                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                                        materialDesign:HintAssist.Hint="Chọn"
-                                        Width="160" 
-                                        Height="40" 
-                                        HorizontalAlignment="Left" 
-                                        HorizontalContentAlignment="Left"
-                                        VerticalContentAlignment="Center" 
-                                        Padding="3,0,0,0" 
-                                        Margin="60,0,0,0" >
-                                        <i:Interaction.Triggers>
-                                            <i:EventTrigger EventName="SelectionChanged">
-                                                <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
-                                                    CommandParameter="{Binding ElementName=wdHome}"/>
-                                            </i:EventTrigger>
-                                        </i:Interaction.Triggers>
-                                    </ComboBox>
-                                </StackPanel>
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center" 
+                                    Padding="3,0,0,0" 
+                                    Margin="0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding Report_SelectionChangedCommand}" 
+                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                    <ComboBoxItem Content="Theo tháng"/>
+                                    <ComboBoxItem Content="Theo quý"/>
+                                    <ComboBoxItem Content="Theo năm"/>
+                                </ComboBox>
+                                <ComboBox
+                                    x:Name="cboSelectTime_Report"
+                                    DataContext="{StaticResource ReportVM}"
+                                    ItemsSource="{Binding report_ItemSourceTime, Mode=TwoWay}"
+                                    materialDesign:ComboBoxAssist.ClassicMode="true"
+                                    FontSize="16"
+                                    FontWeight="Medium" 
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                    materialDesign:HintAssist.Hint="Chọn"
+                                    Width="160" 
+                                    Height="40" 
+                                    HorizontalAlignment="Left" 
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center" 
+                                    Padding="3,0,0,0" 
+                                    Margin="60,0,0,0" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
+                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                            </StackPanel>
+                            <Border 
+                                BorderThickness="1" 
+                                Margin="30,80,30,20" 
+                                CornerRadius="4" 
+                                Background="{DynamicResource White}"
+                                Padding="10">
+                                <Border.Effect>
+                                    <DropShadowEffect 
+                                        BlurRadius="8" 
+                                        ShadowDepth="1.5" 
+                                        Direction="270" 
+                                        Color="{StaticResource MaterialDesignShadow}"
+                                        Opacity=".42"/>
+                                </Border.Effect>
                                 <lvc:CartesianChart 
                                     DataContext="{StaticResource ReportVM}"
                                     Series="{Binding report_SeriesCollection}" 
                                     LegendLocation="Bottom"
-                                    Width="1000" 
-                                    Height="460" 
-                                    HorizontalAlignment="Center" 
-                                    VerticalAlignment="Bottom"
-                                    Margin="0,0,0,15" >
+                                    Margin="0" 
+                                    FontSize="14" >
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis 
                                             Title="{Binding report_AxisXTitle, Mode=TwoWay}" 
@@ -1634,12 +1617,12 @@
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </lvc:CartesianChart>
-                            </Grid>
-                        </Border>
+                            </Border>
+                        </Grid>
                     </TabItem>
                     <TabItem
                         Style="{StaticResource MaterialDesignNavigationRailTabItem}"
-                        Header="Xem hóa đơn"
+                        Header="Lịch sử kinh doanh"
                         FontSize="18"
                         FontWeight="SemiBold"
                         Width="140" 
@@ -1843,6 +1826,345 @@
                             </Grid>
                         </Grid>
                     </TabItem>
+                    <TabItem
+                        Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                        Header="Lịch sử nhập hàng"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Width="140" 
+                        Height="40" 
+                        Margin="-4,0,0,0"
+                        Padding="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <ComboBox
+                                x:Name="cboSelectViewModeStockReceipt"
+                                DataContext="{StaticResource ReportVM}"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Xem theo"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="30,0,0,0"
+                                VerticalAlignment="Center">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ViewModeCommandStockReceipt}" 
+                                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem Content="Theo ngày"/>
+                                <ComboBoxItem Content="Theo tháng"/>
+                                <ComboBoxItem Content="Theo năm"/>
+                            </ComboBox>
+                            <DatePicker 
+                                x:Name="dpSelectDateStockReceipt"
+                                DataContext="{StaticResource ReportVM}"
+                                Visibility="Hidden"
+                                Height="40" 
+                                Width="120" 
+                                HorizontalAlignment="Left"
+                                Margin="220,0,0,0" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectedDateChanged">
+                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByDateCommand}"
+                                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </DatePicker>
+                            <ComboBox
+                                x:Name="cboSelectMonthStockReceipt"
+                                ItemsSource="{Binding ItemSourceMonthStockReceipt}"
+                                DataContext="{StaticResource ReportVM}"
+                                Visibility="Hidden"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn tháng"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="220,0,0,0" 
+                                MaxDropDownHeight="260" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByMonthCommand}" 
+                                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                            <ComboBox
+                                x:Name="cboSelectYearStockReceipt"
+                                ItemsSource="{Binding ItemSourceYearStockReceipt}"
+                                Visibility="Hidden"
+                                DataContext="{StaticResource ReportVM}"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn năm"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="220,0,0,0" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByYearCommand}" 
+                                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                            <Grid 
+                                Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Margin="30,0,0,0" 
+                                Width="1120" 
+                                Background="{DynamicResource Primary}" 
+                                Height="40" 
+                                VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.6*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="0.6*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock 
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center" 
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    Text="Mã hóa đơn" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18" 
+                                    Foreground="{DynamicResource White}"
+                                    FontWeight="SemiBold"/>
+                                <TextBlock
+                                    Text="Người thực hiện" 
+                                    Grid.Column="1" 
+                                    HorizontalAlignment="Left" 
+                                    Margin="20,0,0,0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center"
+                                    FontSize="18" 
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Ngày" 
+                                    Grid.Column="2" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Giờ" 
+                                    Grid.Column="3" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Tổng chi phí" 
+                                    Grid.Column="4" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                            </Grid>
+                            <Border 
+                                Grid.Row="1"
+                                BorderBrush="{DynamicResource Primary}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Left"
+                                Height="539" 
+                                Margin="30,34,0,0" 
+                                VerticalAlignment="Top"
+                                Width="1120" 
+                                CornerRadius="6" 
+                                Panel.ZIndex="1"/>
+                            <Grid 
+                                Grid.Row="2"
+                                HorizontalAlignment="Left" 
+                                Margin="30,40,0,20"
+                                Width="1120" >
+                                <ScrollViewer 
+                                    Grid.Row="2"
+                                    HorizontalScrollBarVisibility="Disabled" 
+                                    Margin="0" 
+                                    Width="1120" 
+                                    HorizontalAlignment="Left" 
+                                    Style="{StaticResource FavsScrollViewer}"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <StackPanel 
+                                        x:Name="stkStockReceipt" 
+                                        Width="1120" 
+                                        Background="{StaticResource Gray6}"
+                                        HorizontalAlignment="Left" 
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem
+                        Style="{StaticResource MaterialDesignNavigationRailTabItem}"
+                        Header="Lịch sử trả lương"
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Width="140" 
+                        Height="40" 
+                        Margin="-4,0,0,0"
+                        Padding="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <ComboBox
+                                x:Name="cboSelectYearSalaryRecord"
+                                ItemsSource="{Binding ItemSourceYearSalaryRecord}"
+                                DataContext="{StaticResource ReportVM}"
+                                materialDesign:ComboBoxAssist.ClassicMode="true"
+                                FontSize="16"
+                                FontWeight="Medium" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                materialDesign:HintAssist.Hint="Chọn năm"
+                                Width="160" 
+                                Height="40" 
+                                HorizontalAlignment="Left" 
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center" 
+                                Padding="3,0,0,0" 
+                                Margin="30,0,0,0" >
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ViewSalaryRecordByYearCommand}" 
+                                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="Loaded">
+                                        <i:InvokeCommandAction Command="{Binding UpdateItemSource}" 
+                                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                            <Grid 
+                                Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Margin="30,0,0,0" 
+                                Width="1120" 
+                                Background="{DynamicResource Primary}" 
+                                Height="40" 
+                                VerticalAlignment="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="10"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock 
+                                    Text="Mã phiếu" 
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Center" 
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18" 
+                                    Foreground="{DynamicResource White}"
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Ngày" 
+                                    Grid.Column="1" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Giờ" 
+                                    Grid.Column="2" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Tổng giá trị" 
+                                    Grid.Column="3" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                            </Grid>
+                            <Border 
+                                Grid.Row="1"
+                                BorderBrush="{DynamicResource Primary}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Left"
+                                Height="539" 
+                                Margin="30,34,0,0" 
+                                VerticalAlignment="Top"
+                                Width="1120" 
+                                CornerRadius="6" 
+                                Panel.ZIndex="1"/>
+                            <Grid 
+                                Grid.Row="2"
+                                HorizontalAlignment="Left" 
+                                Margin="30,40,0,20"
+                                Width="1120" >
+                                <ScrollViewer 
+                                    Grid.Row="2"
+                                    HorizontalScrollBarVisibility="Disabled" 
+                                    Margin="0" 
+                                    Width="1120" 
+                                    HorizontalAlignment="Left" 
+                                    Style="{StaticResource FavsScrollViewer}"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <StackPanel 
+                                        x:Name="stkSalaryRecord" 
+                                        Width="1120" 
+                                        Background="{StaticResource Gray6}"
+                                        HorizontalAlignment="Left" 
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                                </ScrollViewer>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
                 </TabControl>
             </Grid>
             <Grid 
@@ -1857,20 +2179,22 @@
                 <materialDesign:Card
                     Background="{StaticResource White}"
                     HorizontalAlignment="Left" 
-                    Width="480"
-                    Height="230" 
-                    Margin="70,70,0,0" 
+                    Width="500"
+                    Height="340" 
+                    Margin="50,40,0,0" 
                     VerticalAlignment="Top">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <TextBlock
-                            Text="Đổi tên sân"
+                            Text="Thông tin sân"
                             HorizontalAlignment="Left"
-                            Margin="20,20,0,0" 
+                            Margin="30,20,0,0" 
                             TextWrapping="Wrap" 
                             VerticalAlignment="Top" 
                             FontSize="24" 
@@ -1878,36 +2202,86 @@
                             FontWeight="Bold" />
                         <TextBox 
                             Grid.Row="1"
-                            x:Name="txtNewFieldName"
+                            x:Name="txtFieldName"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                             VerticalAlignment="Center"
                             AcceptsReturn="True"
                             TextWrapping="Wrap"
                             VerticalScrollBarVisibility="Disabled"
-                            materialDesign:HintAssist.Hint="Tên sân mới"
-                            IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
+                            materialDesign:HintAssist.Hint="Tên sân"
                             HorizontalAlignment="Left" 
                             Foreground="{DynamicResource Gray1}" 
-                            BorderBrush="{DynamicResource DisabledForegroundBrush}" 
                             FontSize="16" 
-                            Width="400" 
+                            Width="430" 
                             Margin="30,0,0,0" 
-                            CaretBrush="#FF0078D7" 
+                            CaretBrush="{DynamicResource Primary}" 
                             Background="{StaticResource White}" 
                             FontWeight="SemiBold" 
                             MaxLines="1" 
                             MaxLength="50" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
-                                    <i:InvokeCommandAction Command="{Binding S_EnableBtnSaveFieldNameCommand}"
+                                    <i:InvokeCommandAction Command="{Binding S_SaveBtnFieldInfoCommand}"
+                                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBox 
+                            x:Name="txtPhoneNumberInfo"
+                            Grid.Row="2"
+                            materialDesign:HintAssist.Hint="Số điện thoại"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            VerticalAlignment="Center"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Disabled"
+                            HorizontalAlignment="Left" 
+                            Foreground="{DynamicResource Gray1}" 
+                            FontSize="16" 
+                            Width="430" 
+                            Margin="30,0,0,0" 
+                            CaretBrush="{DynamicResource Primary}" 
+                            Background="{StaticResource White}" 
+                            FontWeight="SemiBold" 
+                            MaxLines="1" 
+                            MaxLength="11" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding S_SaveBtnFieldInfoCommand}"
+                                                           CommandParameter="{Binding ElementName=wdHome}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBox 
+                            x:Name="txtAdressInfo"
+                            materialDesign:HintAssist.Hint="Địa chỉ sân"
+                            Grid.Row="3"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            VerticalAlignment="Center"
+                            AcceptsReturn="True"
+                            TextWrapping="Wrap"
+                            VerticalScrollBarVisibility="Disabled"
+                            HorizontalAlignment="Left" 
+                            Foreground="{DynamicResource Gray1}" 
+                            FontSize="16" 
+                            Width="430" 
+                            Margin="30,0,0,0" 
+                            CaretBrush="{DynamicResource Primary}" 
+                            Background="{StaticResource White}" 
+                            FontWeight="SemiBold" 
+                            Height="80" 
+                            VerticalContentAlignment="Bottom" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="TextChanged">
+                                    <i:InvokeCommandAction Command="{Binding S_SaveBtnFieldInfoCommand}"
                                                            CommandParameter="{Binding ElementName=wdHome}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
                         <Button
-                            Grid.Row="2"
-                            x:Name="btnSaveFieldName"
-                            Command="{Binding S_SaveNewNameOfFieldCommand}"
+                            Grid.Row="4"
+                            x:Name="btnSaveFieldInfo"
+                            Command="{Binding S_SaveFieldInfoCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
                             Style="{StaticResource MaterialDesignRaisedButton}"
                             Height="40" 
@@ -1916,49 +2290,44 @@
                             ToolTip="Lưu thông tin" 
                             Background="{StaticResource Success}" 
                             BorderBrush="{StaticResource Success}"
-                            Margin="0,0,40,10" 
+                            Margin="0,0,40,0" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
                             Content="Lưu" 
                             FontSize="18" 
-                            VerticalAlignment="Bottom"
+                            VerticalAlignment="Center"
                             Padding="0" 
                             IsEnabled="False"/>
-                        <Grid 
+                        <materialDesign:PackIcon  
+                            Kind="ClipboardEditOutline"
                             Width="50" 
-                            Height="50"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="0,20,20,0">
-                            <materialDesign:PackIcon  
-                                Kind="ClipboardEditOutline"
-                                Width="50" 
-                                Height="50" 
-                                VerticalAlignment="Center" 
-                                Cursor="Hand" 
-                                Foreground="{StaticResource Gray2}" />
+                            Height="50" 
+                            VerticalAlignment="Center" 
+                            Cursor="Hand" 
+                            Foreground="{StaticResource Gray2}"
+                            HorizontalAlignment="Right" 
+                            Margin="0,0,40,0" />
                         </Grid>
-                    </Grid>
                 </materialDesign:Card>
                 <materialDesign:Card
                     Background="{StaticResource White}"
                     HorizontalAlignment="Left" 
-                    Width="480"
-                    Height="371" 
-                    Margin="70,0,0,20" 
+                    Width="500"
+                    Height="300" 
+                    Margin="50,0,0,20" 
                     VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="2*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <TextBlock
                             Text="Đổi mật khẩu"
                             HorizontalAlignment="Left"
-                            Margin="20,20,0,0" 
+                            Margin="30,20,0,0" 
                             TextWrapping="Wrap" 
                             VerticalAlignment="Top" 
                             FontSize="24" 
@@ -1974,7 +2343,7 @@
                             Foreground="{DynamicResource Gray1}" 
                             BorderBrush="{DynamicResource DisabledForegroundBrush}" 
                             FontSize="16" 
-                            Width="400" 
+                            Width="430" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
                             Background="{StaticResource White}" 
@@ -1997,7 +2366,7 @@
                             Foreground="{DynamicResource Gray1}" 
                             BorderBrush="{DynamicResource DisabledForegroundBrush}" 
                             FontSize="16" 
-                            Width="400" 
+                            Width="430" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
                             Background="{StaticResource White}" 
@@ -2020,7 +2389,7 @@
                             Foreground="{DynamicResource Gray1}" 
                             BorderBrush="{DynamicResource Gray4}" 
                             FontSize="16" 
-                            Width="400" 
+                            Width="430" 
                             Margin="30,0,0,0" 
                             CaretBrush="#FF0078D7" 
                             Background="{StaticResource White}" 
@@ -2052,31 +2421,26 @@
                             VerticalAlignment="Bottom"
                             Padding="0" 
                             IsEnabled="False"/>
-                        <Grid 
+                        <materialDesign:PackIcon  
+                            Kind="AccountEditOutline"
                             Width="50" 
-                            Height="50"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="0,20,20,0">
-                            <materialDesign:PackIcon  
-                                Kind="AccountEditOutline"
-                                Width="50" 
-                                Height="50" 
-                                VerticalAlignment="Center" 
-                                Cursor="Hand" 
-                                Foreground="{StaticResource Gray2}" />
-                        </Grid>
+                            Height="50" 
+                            VerticalAlignment="Center" 
+                            Cursor="Hand" 
+                            Foreground="{StaticResource Gray2}" 
+                            HorizontalAlignment="Right" 
+                            Margin="0,0,40,0" />
                     </Grid>
                 </materialDesign:Card>
                 <materialDesign:Card
                     Background="{StaticResource White}"
                     HorizontalAlignment="Right" 
-                    Width="480"
+                    Width="520"
                     Height="520" 
-                    Margin="0,70,70,0" 
+                    Margin="0,40,60,0" 
                     VerticalAlignment="Top">
                     <Grid
-                        Width="480"
+                        Width="520"
                         Height="520" 
                         Background="{DynamicResource White}" 
                         HorizontalAlignment="Right" 
@@ -2106,7 +2470,7 @@
                             Margin="20,110,0,0"
                             VerticalAlignment="Top" 
                             Height="50"
-                            Width="340" 
+                            Width="470" 
                             HorizontalAlignment="Left">
                             <Label
                                 Content="Mã nhân viên" 
@@ -2119,7 +2483,7 @@
                                 VerticalAlignment="Center"
                                 Background="{x:Null}"/>
                             <Rectangle
-                                Width="200" 
+                                Width="300" 
                                 Height="40"
                                 RadiusY="6"
                                 RadiusX="6" 
@@ -2131,13 +2495,13 @@
                                 x:Name="txtIDEmployee"
                                 materialDesign:HintAssist.Hint="Mã tự động"
                                 HorizontalAlignment="Right"  
-                                Width="190" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
-                                Margin="0" 
+                                Margin="0,0,5,0" 
                                 IsReadOnly="True" 
                                 Height="40" 
                                 HorizontalContentAlignment="Left"
@@ -2152,7 +2516,7 @@
                             Grid.Row="1"
                             Margin="20,0,0,0" 
                             VerticalAlignment="Center" 
-                            Width="430" 
+                            Width="470" 
                             Height="50" 
                             HorizontalAlignment="Left">
                             <Label 
@@ -2170,7 +2534,7 @@
                                 x:Name="recName"
                                 HorizontalAlignment="Right" 
                                 Height="40" 
-                                Width="290" 
+                                Width="300" 
                                 RadiusY="6" 
                                 RadiusX="6"
                                 Stroke="{DynamicResource Gray4}" 
@@ -2182,11 +2546,11 @@
                                 HorizontalAlignment="Right"
                                 Cursor="IBeam"
                                 Height="40" 
-                                Width="280" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
                                 Margin="0,0,5,0" 
                                 HorizontalContentAlignment="Left" 
@@ -2201,7 +2565,7 @@
                             Margin="20,0,0,0" 
                             VerticalAlignment="Center" 
                             x:Name="grdPosition" 
-                            Width="430" 
+                            Width="470" 
                             Height="50" 
                             HorizontalAlignment="Left">
                             <Label 
@@ -2216,7 +2580,7 @@
                             <Rectangle 
                                 HorizontalAlignment="Right" 
                                 Height="40" 
-                                Width="290" 
+                                Width="300" 
                                 RadiusY="6" 
                                 RadiusX="6"
                                 Stroke="{DynamicResource Gray4}" 
@@ -2228,11 +2592,11 @@
                                 HorizontalAlignment="Right"
                                 Cursor="IBeam"
                                 Height="40" 
-                                Width="280" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
                                 Margin="0,0,5,0" 
                                 HorizontalContentAlignment="Left" 
@@ -2243,12 +2607,12 @@
                         </Grid>
                         <Ellipse 
                             x:Name="imgEmployee" 
-                            Height="105"
-                            Width="105" 
+                            Height="80"
+                            Width="80" 
                             HorizontalAlignment="Right" 
                             VerticalAlignment="Top" 
                             Cursor="Hand" 
-                            Margin="0,20,10,0">
+                            Margin="0,10,30,0">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="/FootballFieldManagement;component/Resources/Images/avatar.png"/>
                             </Ellipse.Fill>
@@ -2257,7 +2621,7 @@
                             Grid.Row="3"
                             Margin="20,0,0,0" 
                             VerticalAlignment="Center" 
-                            Width="430" 
+                            Width="470" 
                             Height="50" 
                             HorizontalAlignment="Left">
                             <Label 
@@ -2272,7 +2636,7 @@
                             <Rectangle 
                                 HorizontalAlignment="Right" 
                                 Height="40" 
-                                Width="290" 
+                                Width="300" 
                                 RadiusY="6" 
                                 RadiusX="6"
                                 Stroke="{DynamicResource Gray4}" 
@@ -2284,11 +2648,11 @@
                                 HorizontalAlignment="Right"
                                 Cursor="IBeam"
                                 Height="40" 
-                                Width="280" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
                                 Margin="0,0,5,0" 
                                 HorizontalContentAlignment="Left" 
@@ -2300,7 +2664,7 @@
                             Grid.Row="4"
                             Margin="20,0,0,0" 
                             VerticalAlignment="Center" 
-                            Width="430" 
+                            Width="470" 
                             Height="50"
                             HorizontalAlignment="Left">
                             <Label 
@@ -2315,7 +2679,7 @@
                             <Rectangle 
                                 HorizontalAlignment="Right" 
                                 Height="40" 
-                                Width="290" 
+                                Width="300" 
                                 RadiusY="6" 
                                 RadiusX="6"
                                 Stroke="{DynamicResource Gray4}" 
@@ -2327,11 +2691,11 @@
                                 HorizontalAlignment="Right"
                                 Cursor="IBeam"
                                 Height="40" 
-                                Width="280" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
                                 Margin="0,0,5,0" 
                                 HorizontalContentAlignment="Left" 
@@ -2344,7 +2708,7 @@
                             Grid.Row="5"
                             Margin="20,0,0,0" 
                             VerticalAlignment="Center" 
-                            Width="430" 
+                            Width="470" 
                             Height="50"
                             HorizontalAlignment="Left">
                             <Label 
@@ -2360,7 +2724,7 @@
                             <Rectangle 
                                 HorizontalAlignment="Right" 
                                 Height="40" 
-                                Width="290" 
+                                Width="300" 
                                 RadiusY="6" 
                                 RadiusX="6"
                                 Stroke="{DynamicResource Gray4}" 
@@ -2372,11 +2736,11 @@
                                 HorizontalAlignment="Right"
                                 Cursor="IBeam"
                                 Height="40" 
-                                Width="280" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
                                 Margin="0,0,5,0" 
                                 HorizontalContentAlignment="Left" 
@@ -2389,7 +2753,7 @@
                             Grid.Row="6"
                             Margin="20,0,0,0" 
                             VerticalAlignment="Center" 
-                            Width="430" 
+                            Width="470" 
                             Height="50" 
                             HorizontalAlignment="Left">
                             <Label 
@@ -2404,7 +2768,7 @@
                             <Rectangle 
                                 HorizontalAlignment="Right" 
                                 Height="40" 
-                                Width="290" 
+                                Width="300" 
                                 RadiusY="6" 
                                 RadiusX="6"
                                 Stroke="{DynamicResource Gray4}" 
@@ -2416,11 +2780,11 @@
                                 HorizontalAlignment="Right"
                                 Cursor="IBeam"
                                 Height="40" 
-                                Width="280" 
+                                Width="290" 
                                 FontSize="16" 
                                 BorderThickness="0" 
                                 MaxLines="1"
-                                Padding="5,0,0,0" 
+                                Padding="2,0,0,0" 
                                 Foreground="{DynamicResource Gray1}" 
                                 Margin="0,0,5,0" 
                                 HorizontalContentAlignment="Left" 

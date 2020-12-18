@@ -279,7 +279,6 @@
                 Width="938" 
                 CornerRadius="6"/>
             <Label 
-                x:Name="lbGoods" 
                 Content="Sản phẩm" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
@@ -322,13 +321,11 @@
                 BorderThickness="1">
             </Border>
         </Grid>
-        <Grid 
-            x:Name="grdPay" 
+        <Grid  
             Margin="0" 
             Width="400" 
             HorizontalAlignment="Right">
             <TextBlock 
-                x:Name="txbPayTitle" 
                 Margin="0,50,0,0" 
                 TextWrapping="Wrap" 
                 Text="Thanh toán" 
@@ -360,7 +357,7 @@
                     Width="68"
                     Source="/FootballFieldManagement;component/Resources/Images/avatar.png"/>
                 <TextBlock 
-                    x:Name="txbUserName" 
+                    x:Name="txbCustomerName" 
                     HorizontalAlignment="Left" 
                     Height="27" 
                     Margin="92,6,0,0" 
@@ -371,7 +368,7 @@
                     FontSize="16" 
                     FontWeight="Medium"/>
                 <TextBlock 
-                    x:Name="txbPhoneNumber" 
+                    x:Name="txbCustomerPhoneNumber" 
                     HorizontalAlignment="Left"
                     Height="27" 
                     Margin="92,33,0,0" 
@@ -490,11 +487,9 @@
                 FontSize="16" />
             <Grid            
                 x:Name="grdPayForm" 
-                HorizontalAlignment="Left" 
-                Height="112" 
-                Margin="0,620,0,0"
-                Width="400" 
-                VerticalAlignment="Top">
+                Height="180" 
+                Margin="0" 
+                VerticalAlignment="Bottom">
                 <Button 
                     x:Name="btnPay"
                     Style="{StaticResource MaterialDesignRaisedButton}"
@@ -507,15 +502,40 @@
                     Background="#FF27AE60" 
                     BorderBrush="#FF27AE60"  
                     Foreground="White" 
-                    FontSize="16" 
+                    FontSize="20" 
+                    Content="Thanh toán"
                     VerticalAlignment="Top" 
                     Width="320" 
                     FontWeight="Bold" 
+                    HorizontalAlignment="Center"/>
+                <Button 
+                    x:Name="btnPrintBill"
+                    Style="{StaticResource MaterialDesignRaisedButton}"
+                    Height="40"
+                    Command="{Binding ViewBillCommand}"
+                    CommandParameter="{Binding ElementName=wdPay}"
+                    materialDesign:ButtonAssist.CornerRadius="8"
+                    BorderThickness="2"
+                    Margin="0,0,0,20" 
+                    Background="{DynamicResource White}" 
+                    BorderBrush="{DynamicResource Primary}"  
+                    Foreground="{DynamicResource Primary}" 
+                    VerticalAlignment="Bottom" 
+                    Width="320" 
                     HorizontalAlignment="Center">
-                    <TextBlock 
-                        x:Name="txbPay"
-                        Text="Thanh toán" 
-                        FontSize="20" />
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Text="In hóa đơn" 
+                            FontSize="20" 
+                            FontWeight="Bold"/>
+                        <materialDesign:PackIcon 
+                            Kind="Printer" 
+                            VerticalAlignment="Bottom" 
+                            Margin="15,0,0,0"
+                            Width="24" 
+                            Height="24" />
+                    </StackPanel>
                 </Button>
                 <Grid 
                     HorizontalAlignment="Center" 
@@ -531,12 +551,11 @@
                         VerticalAlignment="Center"
                         FontSize="18" 
                         Margin="0" 
-                        TextAlignment="Right"
-                        Width="84" 
+                        TextAlignment="Right" 
                         FontWeight="SemiBold" 
-                        Height="30"/>
-                    <TextBlock 
-                        x:Name="txbSum" 
+                        Height="30"
+                        Foreground="{DynamicResource Gray1}"/>
+                    <TextBlock  
                         HorizontalAlignment="Left" 
                         TextWrapping="Wrap" 
                         Text="Tổng tiền" 
@@ -545,7 +564,8 @@
                         Margin="0"
                         FontWeight="Medium" 
                         Height="30" 
-                        Width="80"/>
+                        Width="80" 
+                        Foreground="{DynamicResource Gray1}"/>
                 </Grid>
                 <Rectangle 
                     HorizontalAlignment="Center" 

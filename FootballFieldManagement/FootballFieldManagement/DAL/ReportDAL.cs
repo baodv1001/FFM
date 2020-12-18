@@ -30,10 +30,10 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select day(invoiceDate) as day from Bill where month(invoiceDate) = " + month
-                    + " and year(invoiceDate) = " + year + " group by day(invoiceDate) union " +
-                    "select day(dateTimeStockReceipt) as day from StockReceipt where month(dateTimeStockReceipt) = " + month
-                    + " and year(dateTimeStockReceipt) = " + year + " group by day(dateTimeStockReceipt)";
+                string queryString = string.Format("select day(invoiceDate) as day from Bill " +
+                    "where month(invoiceDate) = {0} and year(invoiceDate) = {1} group by day(invoiceDate) " +
+                    "union select day(dateTimeStockReceipt) as day from StockReceipt where month(dateTimeStockReceipt) =  {0} " +
+                    "and year(dateTimeStockReceipt) = {1} group by day(dateTimeStockReceipt)", month, year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -58,10 +58,9 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select month(invoiceDate) as month from Bill where year(invoiceDate) = "
-                    + year + " group by month(invoiceDate) union " +
-                    "select month(dateTimeStockReceipt) as month from StockReceipt where year(dateTimeStockReceipt) = "
-                    + year + " group by month(dateTimeStockReceipt)";
+                string queryString = string.Format("select month(invoiceDate) as month from Bill where year(invoiceDate) = {0} " +
+                    "group by month(invoiceDate) union select month(dateTimeStockReceipt) as month from StockReceipt " +
+                    "where year(dateTimeStockReceipt) = {0} group by month(dateTimeStockReceipt)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -86,9 +85,9 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select datepart(quarter, invoiceDate) as quarter from Bill where year(invoiceDate) = "
-                    + year + " group by datepart(quarter, invoiceDate) union select datepart(quarter, dateTimeStockReceipt) as quarter " +
-                    "from StockReceipt where year(dateTimeStockReceipt) = " + year + " group by datepart(quarter, dateTimeStockReceipt)";
+                string queryString = string.Format("select datepart(quarter, invoiceDate) as quarter from Bill where year(invoiceDate) = {0} " +
+                    "group by datepart(quarter, invoiceDate) union select datepart(quarter, dateTimeStockReceipt) as quarter " +
+                    "from StockReceipt where year(dateTimeStockReceipt) = {0} group by datepart(quarter, dateTimeStockReceipt)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -116,8 +115,8 @@ namespace FootballFieldManagement.DAL
                 string[] daysOfMonth = ReportDAL.Instance.QueryDayInMonth(month, year);
 
                 conn.Open();
-                string queryString = "select day(invoiceDate), sum(totalMoney) from Bill where month(invoiceDate) = "
-                    + month + " and year(invoiceDate) = " + year + " group by day(invoiceDate)";
+                string queryString = string.Format("select day(invoiceDate), sum(totalMoney) from Bill where month(invoiceDate) = {0} " +
+                    "and year(invoiceDate) = {1} group by day(invoiceDate)", month, year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -155,8 +154,8 @@ namespace FootballFieldManagement.DAL
                 string[] monthsOfYear = ReportDAL.Instance.QueryMonthInYear(year);
 
                 conn.Open();
-                string queryString = "select month(invoiceDate), sum(totalMoney) from Bill where year(invoiceDate) = "
-                    + year + " group by month(invoiceDate)";
+                string queryString = string.Format("select month(invoiceDate), sum(totalMoney) from Bill where year(invoiceDate) = {0} " +
+                    "group by month(invoiceDate)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -195,8 +194,8 @@ namespace FootballFieldManagement.DAL
                 string[] quartersOfYear = ReportDAL.Instance.QueryQuarterInYear(year);
 
                 conn.Open();
-                string queryString = "select datepart(quarter, invoiceDate), sum(totalMoney) from Bill where year(invoiceDate) = "
-                    + year + " group by datepart(quarter, invoiceDate)";
+                string queryString = string.Format("select datepart(quarter, invoiceDate), sum(totalMoney) from Bill " +
+                    "where year(invoiceDate) = {0} group by datepart(quarter, invoiceDate)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -236,8 +235,11 @@ namespace FootballFieldManagement.DAL
                 string[] daysOfMonth = ReportDAL.Instance.QueryDayInMonth(month, year);
 
                 conn.Open();
-                string queryString = "select day(dateTimeStockReceipt), sum(total) from StockReceipt where month(dateTimeStockReceipt) = " + month
-                    + "and year(dateTimeStockReceipt) = " + year + " group by day(dateTimeStockReceipt)";
+                string queryString = string.Format("select date, sum(total) from(select day(dateTimeStockReceipt) as date, " +
+                    "sum(total) as total from StockReceipt where month(dateTimeStockReceipt) = {0} and year(dateTimeStockReceipt) = {1} " +
+                    "group by day(dateTimeStockReceipt) union select day(salaryRecordDate) as date, sum(total) as total " +
+                    "from SalaryRecord where month(salaryRecordDate) = {0} and year(salaryRecordDate) = {1} " +
+                    "group by day(salaryRecordDate)) Expediture group by date", month, year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -276,8 +278,10 @@ namespace FootballFieldManagement.DAL
                 string[] monthsOfYear = ReportDAL.Instance.QueryMonthInYear(year);
 
                 conn.Open();
-                string queryString = "select month(dateTimeStockReceipt), sum(total) from StockReceipt where year(dateTimeStockReceipt) = "
-                    + year + " group by month(dateTimeStockReceipt)";
+                string queryString = string.Format("select month, sum(total) from(select month(dateTimeStockReceipt) as month, " +
+                    "sum(total) as total from StockReceipt where year(dateTimeStockReceipt) = {0} group by month(dateTimeStockReceipt) " +
+                    "union select month(salaryRecordDate) as month, sum(total) as total from SalaryRecord where year(salaryRecordDate) = {0} " +
+                    "group by month(salaryRecordDate)) Expenditure group by month", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -316,8 +320,10 @@ namespace FootballFieldManagement.DAL
                 string[] quartersOfYear = ReportDAL.Instance.QueryQuarterInYear(year);
 
                 conn.Open();
-                string queryString = "select datepart(quarter, dateTimeStockReceipt), sum(total) from StockReceipt where year(dateTimeStockReceipt) = "
-                    + year + " group by datepart(quarter, dateTimeStockReceipt)";
+                string queryString = string.Format("select quarter, sum(total) from (select datepart(quarter, dateTimeStockReceipt) as quarter, " +
+                    "sum(total) as total from StockReceipt where year(dateTimeStockReceipt) = {0} group by datepart(quarter, dateTimeStockReceipt) " +
+                    "union select datepart(quarter, salaryRecordDate) as quarter, sum(total) as total from SalaryRecord where year(salaryRecordDate) = {0} " +
+                    "group by datepart(quarter, salaryRecordDate)) Expenditure group by quarter", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -356,9 +362,9 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
-                    "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month + " and day(invoiceDate) = " + day;
+                string queryString = string.Format("select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
+                    "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill " +
+                    "where year(invoiceDate) = {0} and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -370,6 +376,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
+                res.Add(0);
                 return res;
             }
             finally
@@ -382,21 +389,23 @@ namespace FootballFieldManagement.DAL
             ChartValues<long> res = new ChartValues<long>();
             try
             {
+                long totalFromGoods = ReportDAL.instance.QueryRevenueFromSellingInDay(day, month, year)[0];
                 conn.Open();
-                string queryString = "select sum(price - discount) as revenue from FootballField join FieldInfo on FootballField.idField = FieldInfo.idField " +
-                    "join Bill on Bill.idFieldInfo = FieldInfo.idFieldInfo where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month + " and day(invoiceDate) = " + day;
+                string queryString = string.Format("select sum(totalMoney) as revenue from bill where year(invoiceDate) = {0} " +
+                    "and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
                 SqlCommand command = new SqlCommand(queryString, conn);
-
+                long total = 0;
                 SqlDataReader rdr = command.ExecuteReader();
                 while (rdr.Read())
                 {
-                    res.Add(long.Parse(rdr["revenue"].ToString()));
+                    total = long.Parse(rdr["revenue"].ToString());
                 }
+                res.Add(total - totalFromGoods);
                 return res;
             }
             catch
             {
+                res.Add(0);
                 return res;
             }
             finally
@@ -411,9 +420,9 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
-                    "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month;
+                string queryString = string.Format("select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
+                    "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill " +
+                    "where year(invoiceDate) = {0} and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -425,6 +434,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
+                res.Add(0);
                 return res;
             }
             finally
@@ -437,21 +447,23 @@ namespace FootballFieldManagement.DAL
             ChartValues<long> res = new ChartValues<long>();
             try
             {
+                long totalFromGoods = ReportDAL.instance.QueryRevenueFromSellingInMonth(month, year)[0];
                 conn.Open();
-                string queryString = "select sum(price - discount) as revenue from FootballField join FieldInfo on FootballField.idField = FieldInfo.idField " +
-                    "join Bill on Bill.idFieldInfo = FieldInfo.idFieldInfo where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month;
+                string queryString = string.Format("select sum(totalMoney) as revenue from bill where year(invoiceDate) = {0} " +
+                    "and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
-
+                long total = 0;
                 SqlDataReader rdr = command.ExecuteReader();
                 while (rdr.Read())
                 {
-                    res.Add(long.Parse(rdr["revenue"].ToString()));
+                    total = long.Parse(rdr["revenue"].ToString());
                 }
+                res.Add(total - totalFromGoods);
                 return res;
             }
             catch
             {
+                res.Add(0);
                 return res;
             }
             finally
@@ -467,8 +479,8 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select sum(totalMoney) as revenue from Bill where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month + " and day(invoiceDate) = " + day;
+                string queryString = string.Format("select sum(totalMoney) as revenue from Bill where year(invoiceDate) = {0} " +
+                    "and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -484,7 +496,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                return res;
+                return res + " đồng";
             }
             finally
             {
@@ -497,8 +509,8 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select sum(totalMoney) as revenue from Bill where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month;
+                string queryString = string.Format("select sum(totalMoney) as revenue from Bill " +
+                    "where year(invoiceDate) = {0} and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -523,8 +535,8 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select count(idFieldInfo) as numOfHiredField from Bill where year(invoiceDate) = "
-                    + year + " and month(invoiceDate) = " + month;
+                string queryString = string.Format("select count(idFieldInfo) as numOfHiredField from Bill " +
+                    "where year(invoiceDate) = {0} and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();

@@ -30,8 +30,8 @@ namespace FootballFieldManagement.ViewModels
 
         public ICommand GetUidCommand { get; set; }
 
-        public ICommand S_EnableBtnSaveFieldNameCommand { get; set; }
-        public ICommand S_SaveNewNameOfFieldCommand { get; set; }
+        public ICommand S_SaveBtnFieldInfoCommand { get; set; }
+        public ICommand S_SaveFieldInfoCommand { get; set; }
         public ICommand S_EnableBtnSavePassCommand { get; set; }
         public ICommand S_SaveNewPasswordCommand { get; set; }
         public ICommand OpenCheckAttendanceWindowCommand { get; set; }
@@ -51,9 +51,9 @@ namespace FootballFieldManagement.ViewModels
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
             E_PaySalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => PaySalary(parameter));
 
-            S_EnableBtnSaveFieldNameCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSaveFieldName(parameter));
+            S_SaveBtnFieldInfoCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableSaveButtonFieldInfo(parameter));
             S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
-            S_SaveNewNameOfFieldCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewName(parameter));
+            S_SaveFieldInfoCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveFieldInfo(parameter));
             S_SaveNewPasswordCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
 
             G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
@@ -98,36 +98,53 @@ namespace FootballFieldManagement.ViewModels
             }
 
         }
-        public void SaveNewName(HomeWindow parameter)
+        public void SaveFieldInfo(HomeWindow homeWindow)
         {
             MessageBoxResult result = MessageBox.Show("Xác nhận sửa tên sân?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
-                parameter.lbTitle.Content = parameter.txtNewFieldName.Text;
+                homeWindow.lbTitle.Content = homeWindow.txtFieldName.Text;
                 SQLConnection connection = new SQLConnection();
-                connection.conn.Open();
-                string queryString = "update Information set fieldName=N'" + parameter.txtNewFieldName.Text + "'";
-                SqlCommand command = new SqlCommand(queryString, connection.conn);
                 try
                 {
+                    connection.conn.Open();
+
+                    string queryString = "update Information set fieldName = @fieldName, address = @address, phoneNumber = @phoneNumber";
+                    SqlCommand command = new SqlCommand(queryString, connection.conn);
+                    command.Parameters.AddWithValue("@fieldName", homeWindow.txtFieldName.Text);
+                    command.Parameters.AddWithValue("@address", homeWindow.txtAdressInfo.Text);
+                    command.Parameters.AddWithValue("@phoneNumber", homeWindow.txtPhoneNumberInfo.Text);
+
                     int rs = command.ExecuteNonQuery();
-                    parameter.lbTitle.Content = parameter.txtNewFieldName.Text;
+                    if (rs == 1)
+                    {
+                        MessageBox.Show("Sửa thông tin sân thành công!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Thực hiện thất bại");
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Đổi tên thất bại!");
+                    MessageBox.Show("Thực hiện thất bại");
                 }
-                connection.conn.Close();
+                finally
+                {
+                    connection.conn.Close();
+                }
             }
         }
-        public void EnableButtonSaveFieldName(HomeWindow parameter)
+        public void EnableSaveButtonFieldInfo(HomeWindow parameter)
         {
-            parameter.btnSaveFieldName.IsEnabled = !string.IsNullOrEmpty(parameter.txtNewFieldName.Text);
+            bool isEnable = string.IsNullOrEmpty(parameter.txtFieldName.Text) || string.IsNullOrEmpty(parameter.txtPhoneNumberInfo.Text) || string.IsNullOrEmpty(parameter.txtAdressInfo.Text);
+            parameter.btnSaveFieldInfo.IsEnabled = !isEnable;
         }
         public void EnableButtonSavePass(HomeWindow parameter)
         {
-            parameter.btnSavePassword.IsEnabled = !string.IsNullOrEmpty(parameter.pwbOldPassword.Password) && !string.IsNullOrEmpty(parameter.pwbNewPassword.Password) && !string.IsNullOrEmpty(parameter.pwbConfirmedPassword.Password);
+            bool isEnable = string.IsNullOrEmpty(parameter.pwbOldPassword.Password) || string.IsNullOrEmpty(parameter.pwbNewPassword.Password) || string.IsNullOrEmpty(parameter.pwbConfirmedPassword.Password);
+            parameter.btnSavePassword.IsEnabled = !isEnable;
         }
         public void SwitchTab(HomeWindow parameter)
         {

@@ -222,5 +222,33 @@ namespace FootballFieldManagement.DAL
             }
         }
 
+        public string GetPriceOfTimeFrame(string startingTime, string endingTime, string fieldType)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                conn.Open();
+                string query = @"Select Distinct TimeFrame.price 
+                                From TimeFrame
+                                Join FootballField on TimeFrame.fieldType = FootballField.type
+                                Where endTime = @endingTime and startTime = @startingTime and type = @fieldType";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@startingTime", startingTime);
+                command.Parameters.AddWithValue("@endingTime", endingTime);
+                command.Parameters.AddWithValue("@fieldType", fieldType);
+                int rs = command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dt);
+                return dt.Rows[0].ItemArray[0].ToString();
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

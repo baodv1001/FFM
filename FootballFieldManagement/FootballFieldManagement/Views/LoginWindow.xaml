@@ -168,7 +168,7 @@
                 IsDefault="True"
                 Command="{Binding LogInCommand}"
                 CommandParameter="{Binding ElementName=wdLogin}"
-                Style="{StaticResource MyButtonStyle}"
+                Style="{StaticResource MyPrimaryButtonStyle}"
                 FocusVisualStyle="{x:Null}"
                 Content="Đăng nhập"
                 Height="40" 

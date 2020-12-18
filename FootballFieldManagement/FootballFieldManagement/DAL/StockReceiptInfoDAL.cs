@@ -1,6 +1,7 @@
 ﻿using FootballFieldManagement.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -92,6 +93,38 @@ namespace FootballFieldManagement.DAL
             catch
             {
                 return res;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public List<StockReceiptInfo> GetStockReceiptInfoById(string idStockReceipt)
+        {
+            List<StockReceiptInfo> listStockReceiptInfo = new List<StockReceiptInfo>();
+            try
+            {
+                conn.Open();
+                string queryString = "select * from StockReceiptInfo where idStockReceipt = " + idStockReceipt;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()),
+                        int.Parse(dataTable.Rows[i].ItemArray[1].ToString()), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()),
+                        int.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
+                    listStockReceiptInfo.Add(stockReceiptInfo);
+                }
+                return listStockReceiptInfo;
+            }
+            catch
+            {
+                return new List<StockReceiptInfo>();
             }
             finally
             {

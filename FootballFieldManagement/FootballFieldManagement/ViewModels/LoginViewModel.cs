@@ -78,12 +78,15 @@ namespace FootballFieldManagement.ViewModels
             for (int i = 0; i < timeFrames.Count; i++)
             {
                 if ((i == timeFrames.Count - 1 && (string.Compare(timeFrames[i].EndTime, DateTime.Now.ToString("HH:mm")) == -1)) ||
-                    (string.Compare(timeFrames[i].EndTime, DateTime.Now.ToString("HH:mm")) == -1 && string.Compare(timeFrames[i + 1].EndTime, DateTime.Now.ToString("HH:mm")) == 1) )
+                    (string.Compare(timeFrames[i].EndTime, DateTime.Now.ToString("HH:mm")) == -1 && string.Compare(timeFrames[i + 1].EndTime, DateTime.Now.ToString("HH:mm")) == 1))
                 {
                     notifier.ShowError("Khung giờ " + timeFrames[i].StartTime + " - " + timeFrames[i].EndTime + " đã kết thúc !");
                     try
                     {
-                        notifier.ShowSuccess("Khung giờ " + timeFrames[i + 1].StartTime + " - " + timeFrames[i + 1].EndTime + " đang diễn ra !");
+                        if (string.Compare(timeFrames[i + 1].StartTime, DateTime.Now.ToString("HH:mm")) == -1)
+                        {
+                            notifier.ShowSuccess("Khung giờ " + timeFrames[i + 1].StartTime + " - " + timeFrames[i + 1].EndTime + " đang diễn ra !");
+                        }
                     }
                     catch
                     {

@@ -79,12 +79,12 @@ namespace FootballFieldManagement.ViewModels
             ChangeQuantityCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
 
             ViewBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => ViewBill(parameter));
-            
+
             Total = TotalGoods = 0;
         }
         public void ViewBill(PayWindow payWindow)
         {
-            Bill bill=BillDAL.Instance.GetBill(payWindow.txbIdBill.Text);
+            Bill bill = BillDAL.Instance.GetBill(payWindow.txbIdBill.Text);
             //thông tin Bill + FieldInfo
             BillTemplate billTemplate = new BillTemplate();
             billTemplate.txbDiscount.Text = payWindow.txbDiscount.Text;
@@ -94,10 +94,10 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbCustomerName.Text = payWindow.txbCustomerName.Text;
             billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhoneNumber.Text;
             billTemplate.txbInvoiceDate.Text = bill.InvoiceDate.ToShortDateString();
-            billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("HH:mm"); //tạm
-            billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
+            billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("HH:mm");
+            billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm");
             billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(CurrentAccount.IdAccount.ToString()).Name;
-            //Thông tin bill info
+
             List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(payWindow.txbIdBill.Text);
             int numOfGoods = billInfos.Count();
             if (numOfGoods > 7)
@@ -105,6 +105,20 @@ namespace FootballFieldManagement.ViewModels
                 billTemplate.Height += (numOfGoods - 7) * 35;
             }
             int i = 1;
+            BillInfoControl fieldBillInfoControl = new BillInfoControl();
+            //Thêm sân vào nha
+            fieldBillInfoControl.txbOrderNum.Text = i.ToString();
+            i++;
+            string idFiedlInfo = payWindow.txbIdFieldInfo.Text;
+            FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(idFiedlInfo);
+            string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
+            fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", payWindow.txbFieldName.Text, note);
+            fieldBillInfoControl.txbUnit.Text = "";
+            fieldBillInfoControl.txbQuantity.Text = "";
+            fieldBillInfoControl.txbUnitPrice.Text = payWindow.txbFieldPrice.Text;
+            fieldBillInfoControl.txbTotal.Text = payWindow.txbFieldPrice.Text;
+            billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
+            //Thông tin bill info
             foreach (var billInfo in billInfos)
             {
                 BillInfoControl billInfoControl = new BillInfoControl();

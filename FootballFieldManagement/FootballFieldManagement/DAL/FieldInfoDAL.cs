@@ -131,7 +131,7 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dt);
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    FieldInfo fieldInfo = new FieldInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), int.Parse(dt.Rows[i].ItemArray[4].ToString()), " ", " ", " ", 0,0);
+                    FieldInfo fieldInfo = new FieldInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), int.Parse(dt.Rows[i].ItemArray[4].ToString()), " ", " ", " ", 0, 0);
                     res.Add(fieldInfo);
                 }
                 return res;

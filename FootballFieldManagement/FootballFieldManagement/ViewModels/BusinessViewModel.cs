@@ -201,7 +201,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 idFieldInfo = 1;
             }
-            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.EndTime), 1, bookingWindow.txtPhoneNumber.Text, bookingWindow.txtUserName.Text, bookingWindow.txtMoreInfo.Text, long.Parse(bookingWindow.txbDisCount.Text),long.Parse(bookingWindow.txbPrice.Text));
+            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.EndTime), 1, bookingWindow.txtPhoneNumber.Text, bookingWindow.txtUserName.Text, bookingWindow.txtMoreInfo.Text, long.Parse(bookingWindow.txbDisCount.Text), long.Parse(bookingWindow.txbPrice.Text));
             if (FieldInfoDAL.Instance.AddIntoDB(fieldInfo))
             {
                 MessageBox.Show("Đặt sân thành công!");
@@ -335,7 +335,7 @@ namespace FootballFieldManagement.ViewModels
 
             }
 
-            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.EndTime), status, checkInWindow.txtPhoneNumber.Text, checkInWindow.txtUserName.Text, checkInWindow.txtMoreInfo.Text, long.Parse(checkInWindow.txbDiscount.Text),long.Parse(checkInWindow.txbPrice.Text));
+            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.EndTime), status, checkInWindow.txtPhoneNumber.Text, checkInWindow.txtUserName.Text, checkInWindow.txtMoreInfo.Text, long.Parse(checkInWindow.txbDiscount.Text), long.Parse(checkInWindow.txbPrice.Text));
             if (status == 2)
             {
                 if (FieldInfoDAL.Instance.UpdateOnDB(fieldInfo))
@@ -449,42 +449,50 @@ namespace FootballFieldManagement.ViewModels
             if (fieldButtonControl.icn3.IsVisible)
             {
                 //Sân đã đặt 
+
                 home = (HomeWindow)((Grid)((Grid)((Grid)((Grid)((Grid)((ScrollViewer)((StackPanel)((FieldBookingControl)((Grid)((StackPanel)fieldButtonControl.Parent).Parent).Parent).Parent).Parent).Parent).Parent).Parent).Parent).Parent).Parent;
                 CheckInWindow checkInWindow = new CheckInWindow();
                 FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(PickedField.txbidFieldInfo.Text);
-                checkInWindow.txbIdFieldInfo.Text = fieldButtonControl.txbidFieldInfo.Text;
-                checkInWindow.dpSetDate.Text = fieldInfo.StartingTime.ToShortDateString();
-                checkInWindow.cboTypeField.SelectedItem = "Sân " + fieldButtonControl.txbFieldType.Text + " người";
+                if (string.Compare(fieldInfo.StartingTime.ToShortDateString(), DateTime.Today.ToShortDateString()) == 1 || (string.Compare(fieldInfo.StartingTime.ToShortDateString(), DateTime.Today.ToShortDateString()) == 0 && string.Compare(fieldInfo.StartingTime.ToString("HH:mm"), DateTime.Now.ToString("HH:mm")) == 1))
+                {
+                    MessageBox.Show("Chưa đến giờ check in !");
+                }
+                else
+                {
+                    checkInWindow.txbIdFieldInfo.Text = fieldButtonControl.txbidFieldInfo.Text;
+                    checkInWindow.dpSetDate.Text = fieldInfo.StartingTime.ToShortDateString();
+                    checkInWindow.cboTypeField.SelectedItem = "Sân " + fieldButtonControl.txbFieldType.Text + " người";
 
-                LoadTimeFrame(checkInWindow.dpSetDate.Text);
-                for (int i = 0; i < itemSourceTimeFrame.ToList().Count; i++)
-                {
-                    if (fieldButtonControl.txbendTime.Text == itemSourceTimeFrame[i].EndTime && fieldButtonControl.txbstartTime.Text == itemSourceTimeFrame[i].StartTime)
+                    LoadTimeFrame(checkInWindow.dpSetDate.Text);
+                    for (int i = 0; i < itemSourceTimeFrame.ToList().Count; i++)
                     {
-                        checkInWindow.cboTime.SelectedItem = itemSourceTimeFrame[i];
-                        break;
+                        if (fieldButtonControl.txbendTime.Text == itemSourceTimeFrame[i].EndTime && fieldButtonControl.txbstartTime.Text == itemSourceTimeFrame[i].StartTime)
+                        {
+                            checkInWindow.cboTime.SelectedItem = itemSourceTimeFrame[i];
+                            break;
+                        }
                     }
-                }
-                LoadFieldName(fieldButtonControl.txbFieldType.Text);
-                SelectedField = new FootballField(int.Parse(fieldButtonControl.txbidField.Text), fieldButtonControl.txbFieldName.Text, int.Parse(fieldButtonControl.txbFieldType.Text), 0, " ");
-                itemSourceField.Add(SelectedField);
-                itemSourceField = new ObservableCollection<FootballField>(itemSourceField.OrderBy(i => i.IdField));
-                for (int i = 0; i < itemSourceField.ToList().Count; i++)
-                {
-                    if (fieldButtonControl.txbidField.Text == itemSourceField[i].IdField.ToString() && fieldButtonControl.txbFieldType.Text == itemSourceField[i].Type.ToString())
+                    LoadFieldName(fieldButtonControl.txbFieldType.Text);
+                    SelectedField = new FootballField(int.Parse(fieldButtonControl.txbidField.Text), fieldButtonControl.txbFieldName.Text, int.Parse(fieldButtonControl.txbFieldType.Text), 0, " ");
+                    itemSourceField.Add(SelectedField);
+                    itemSourceField = new ObservableCollection<FootballField>(itemSourceField.OrderBy(i => i.IdField));
+                    for (int i = 0; i < itemSourceField.ToList().Count; i++)
                     {
-                        checkInWindow.cboPickField.SelectedItem = itemSourceField[i];
-                        break;
+                        if (fieldButtonControl.txbidField.Text == itemSourceField[i].IdField.ToString() && fieldButtonControl.txbFieldType.Text == itemSourceField[i].Type.ToString())
+                        {
+                            checkInWindow.cboPickField.SelectedItem = itemSourceField[i];
+                            break;
+                        }
                     }
+                    checkInWindow.cboTime.ItemsSource = itemSourceTimeFrame;
+                    checkInWindow.cboPickField.ItemsSource = itemSourceField;
+                    checkInWindow.txtUserName.Text = fieldInfo.CustomerName;
+                    checkInWindow.txtPhoneNumber.Text = fieldInfo.PhoneNumber;
+                    checkInWindow.txtMoreInfo.Text = fieldInfo.Note;
+                    checkInWindow.txbDiscount.Text = fieldInfo.Discount.ToString();
+                    checkInWindow.txbPrice.Text = fieldInfo.Price.ToString();
+                    checkInWindow.ShowDialog();
                 }
-                checkInWindow.cboTime.ItemsSource = itemSourceTimeFrame;
-                checkInWindow.cboPickField.ItemsSource = itemSourceField;
-                checkInWindow.txtUserName.Text = fieldInfo.CustomerName;
-                checkInWindow.txtPhoneNumber.Text = fieldInfo.PhoneNumber;
-                checkInWindow.txtMoreInfo.Text = fieldInfo.Note;
-                checkInWindow.txbDiscount.Text = fieldInfo.Discount.ToString();
-                checkInWindow.txbPrice.Text = fieldInfo.Price.ToString();
-                checkInWindow.ShowDialog();
                 return;
             }
             if (fieldButtonControl.icn2.IsVisible)
@@ -492,6 +500,8 @@ namespace FootballFieldManagement.ViewModels
                 //Sân đang đá -> Thanh toán
                 PayWindow payWindow = new PayWindow();
                 FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(PickedField.txbidFieldInfo.Text);
+                payWindow.txbtotalGoodsPrice.Text = "0";
+                payWindow.txbFieldName.Text = fieldButtonControl.txbFieldName.Text;
                 payWindow.txbIdFieldInfo.Text = fieldButtonControl.txbidFieldInfo.Text;
                 payWindow.txbCustomerName.Text = fieldInfo.CustomerName;
                 payWindow.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
@@ -534,7 +544,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 homeWindow.dpPickedDate.Text = DateTime.Now.ToShortDateString();
             }
-            LoadFieldsToView(homeWindow, currentPage*7);
+            LoadFieldsToView(homeWindow, currentPage * 7);
             DispatcherTimer timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMinutes(10)

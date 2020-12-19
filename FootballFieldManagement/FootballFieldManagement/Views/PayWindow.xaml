@@ -50,6 +50,11 @@
             Visibility="Hidden">
 
         </TextBlock>
+        <TextBlock 
+            x:Name="txbFieldName"
+            Visibility="Hidden">
+
+        </TextBlock>
         <TextBox 
             x:Name="txbIdFieldInfo" 
             Text="1" 

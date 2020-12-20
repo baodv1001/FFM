@@ -505,8 +505,8 @@ namespace FootballFieldManagement.ViewModels
             //Thêm sân vào nha
             fieldBillInfoControl.txbOrderNum.Text = i.ToString();
             i++;
-            string idFiedl = fieldInfo.IdField.ToString();
-            FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idFiedl);
+            string idField = fieldInfo.IdField.ToString();
+            FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idField);
             string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
             fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
             fieldBillInfoControl.txbUnit.Text = "";

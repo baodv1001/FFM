@@ -80,9 +80,12 @@ namespace FootballFieldManagement.ViewModels
                     updateWindow.txtUnitPrice.Text = goods.UnitPrice.ToString();
                     updateWindow.txtUnitPrice.SelectionStart = updateWindow.txtUnitPrice.Text.Length;
                     updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
-                    ImageBrush imageBrush = new ImageBrush();
-                    imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(goods.ImageFile);
-                    updateWindow.grdSelectImg.Background = imageBrush;
+                    if (goods.ImageFile.Length != 0)
+                    {
+                        ImageBrush imageBrush = new ImageBrush();
+                        imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(goods.ImageFile);
+                        updateWindow.grdSelectImg.Background = imageBrush;
+                    }
                     if (updateWindow.grdSelectImg.Children.Count > 1)
                     {
                         updateWindow.grdSelectImg.Children.Remove(updateWindow.grdSelectImg.Children[0]);

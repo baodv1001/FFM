@@ -191,6 +191,11 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng nhập số điện thoại khách hàng!");
                 return;
             }
+            if(int.Parse(bookingWindow.txbDisCount.Text)>int.Parse(bookingWindow.txbPrice.Text))
+            {
+                MessageBox.Show("Không nhập giảm giá lớn hơn giá sân!");
+                return;
+            }    
             int idFieldInfo;
             try
             {
@@ -324,11 +329,6 @@ namespace FootballFieldManagement.ViewModels
                 checkInWindow.cboTime.SelectedItem = null;
                 return;
             }
-            if (checkInWindow.dpSetDate.SelectedDate > DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare((DateTime.Parse(selectedFrame.StartTime).Subtract(new TimeSpan(0, 30, 0))).ToString("HH:mm"), DateTime.Now.ToString("HH:mm")) == 1)) // hiện tại < giờ bắt đầu-30 phút thì không được checkin 
-            {
-                MessageBox.Show("Chưa đến giờ check in !");
-                return;
-            }
             if (string.IsNullOrEmpty(checkInWindow.txtUserName.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên khách hàng!");
@@ -339,6 +339,17 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng nhập số điện thoại khách hàng!");
                 return;
             }
+            if(int.Parse(checkInWindow.txbDiscount.Text)>int.Parse(checkInWindow.txbPrice.Text))
+            {
+                MessageBox.Show("Không nhập giảm giá lớn hơn giá sân!");
+                return;
+            }    
+            if (checkInWindow.dpSetDate.SelectedDate > DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare((DateTime.Parse(selectedFrame.StartTime).Subtract(new TimeSpan(0, 30, 0))).ToString("HH:mm"), DateTime.Now.ToString("HH:mm")) == 1)) // hiện tại < giờ bắt đầu-30 phút thì không được checkin 
+            {
+                MessageBox.Show("Chưa đến giờ check in !");
+                return;
+            }
+            
             int status = 2;
             int idFieldInfo = int.Parse(checkInWindow.txbIdFieldInfo.Text);
             if (checkInWindow.cboTime.IsEnabled) // Đã chuyển sang đặt sân

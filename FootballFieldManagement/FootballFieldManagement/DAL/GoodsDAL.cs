@@ -179,9 +179,9 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                Goods res = new Goods(int.Parse(idGoods), dataTable.Rows[0].ItemArray[1].ToString(), 
+                Goods res = new Goods(int.Parse(idGoods), dataTable.Rows[0].ItemArray[1].ToString(),
                     dataTable.Rows[0].ItemArray[2].ToString(), double.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
-                    Convert.FromBase64String(dataTable.Rows[0].ItemArray[4].ToString()));
+                    Convert.FromBase64String(dataTable.Rows[0].ItemArray[4].ToString()), int.Parse(dataTable.Rows[0].ItemArray[5].ToString()));
 
                 return res;
             }

@@ -11,6 +11,9 @@ using System.Linq;
 using System;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Windows.Threading;
+using Microsoft.Win32;
+using System.Data.OleDb;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -27,6 +30,7 @@ namespace FootballFieldManagement.ViewModels
 
         public ICommand G_AddCommand { get; set; }
         public ICommand G_LoadCommand { get; set; }
+        public ICommand G_ImportGoodsCommand { get; set; }
 
         public ICommand GetUidCommand { get; set; }
 
@@ -58,6 +62,7 @@ namespace FootballFieldManagement.ViewModels
 
             G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
             G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
+            G_ImportGoodsCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => ImportGoods(parameter));
 
             OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
         }
@@ -153,6 +158,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.grdCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
 
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;
+            parameter.grdBody_Business.Visibility = Visibility.Hidden;
             parameter.grdBody_Home.Visibility = Visibility.Hidden;
             parameter.grdBody_Employee.Visibility = Visibility.Hidden;
             parameter.grdBody_Report.Visibility = Visibility.Hidden;
@@ -184,6 +190,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 1:
+                    parameter.grdBody_Business.Visibility = Visibility.Visible;
                     parameter.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
@@ -203,6 +210,19 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 5:
+                    parameter.cboSelectPeriod_Report.SelectedIndex = -1;
+                    parameter.cboSelectTime_Report.SelectedIndex = -1;
+                    DispatcherTimer timer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(1)
+                    };
+                    timer.Tick += (s, e) =>
+                    {
+                        parameter.cboSelectPeriod_Report.SelectedIndex = 0;
+                        parameter.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
+                        timer.Stop();
+                    };
+                    timer.Start();
                     parameter.grdBody_Report.Visibility = Visibility.Visible;
                     parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
@@ -216,7 +236,6 @@ namespace FootballFieldManagement.ViewModels
                     break;
             }
         }
-
         public void OpenCheckAttendanceWindow(Window parameter)
         {
             CheckAttendanceWindow wdCheckAttendance = new CheckAttendanceWindow();
@@ -337,7 +356,7 @@ namespace FootballFieldManagement.ViewModels
             AddEmployeeWindow addEmployee = new AddEmployeeWindow();
             try
             {
-                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.ConvertDBToList()[EmployeeDAL.Instance.ConvertDBToList().Count - 1].IdEmployee + 1).ToString();
+                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.GetMaxIdEmployee() + 1).ToString();
             }
             catch
             {
@@ -434,6 +453,65 @@ namespace FootballFieldManagement.ViewModels
             }
 
             wdAddGoods.ShowDialog();
+        }
+        public void ImportGoods(StackPanel stackPanel)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.DefaultExt = ".xlsx";
+            op.Filter = "Excel Documents (*.xlsx)|*.xlsx";
+            var sel = op.ShowDialog();
+            if (sel == true)
+            {
+                ImportDataFromExcel(op.FileName);
+            }
+            LoadGoodsToView(stackPanel);
+        }
+        public void ImportDataFromExcel(string excelfilepath)
+        {
+            //declare variables - edit these based on your particular situation
+            string ssqltable = "Goods";
+            // make sure your sheet name is correct, here sheet name is sheet1, so you can change your sheet name if have
+            //different
+            string myexceldataquery = "select * from [Goods$]";
+            //try
+            //{
+            string sexcelconnectionstring = @"Provider=Microsoft.Jet.OLEDB.4.0;" +
+                                               @"Data Source=" + excelfilepath + ";" +
+                                                @"Extended Properties=" + Convert.ToChar(34).ToString() +
+                                               @"Excel 8.0" + Convert.ToChar(34).ToString() + ";";
+            if ((System.IO.Path.GetExtension(excelfilepath)).CompareTo(".xls") == 0)
+                sexcelconnectionstring = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + excelfilepath + ";Extended Properties='Excel 8.0;HRD=no;IMEX=1';"; //for below excel 2007  
+            else
+                sexcelconnectionstring = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + excelfilepath + ";Extended Properties='Excel 12.0;HDR=no;IMEX=1';"; //for above excel 2007  
+
+            string ssqlconnectionstring = @"Data Source=(local);Initial Catalog=FootballFieldManagement;Integrated Security=True";
+            //execute a query to erase any previous data from our destination table
+            string sclearsql = "delete from " + ssqltable;
+            SqlConnection sqlconn = new SqlConnection(ssqlconnectionstring);
+            SqlCommand sqlcmd = new SqlCommand(sclearsql, sqlconn);
+            sqlconn.Open();
+            sqlcmd.ExecuteNonQuery();
+            sqlconn.Close();
+            //series of commands to bulk copy data from the excel file into our sql table
+            OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
+            OleDbCommand oledbcmd = new OleDbCommand(myexceldataquery, oledbconn);
+            oledbconn.Open();
+            OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(oledbcmd);
+            OleDbDataReader dr = oledbcmd.ExecuteReader();
+            SqlBulkCopy bulkcopy = new SqlBulkCopy(ssqlconnectionstring);
+            bulkcopy.DestinationTableName = ssqltable;
+            while (dr.Read())
+            {
+                bulkcopy.WriteToServer(dr);
+            }
+
+            oledbconn.Close();
+            MessageBox.Show("Nhập thông tin hàng hóa thành công!");
+            //}
+            //catch (Exception ex)
+            //{
+            //    //handle exception
+            //}
         }
     }
 }

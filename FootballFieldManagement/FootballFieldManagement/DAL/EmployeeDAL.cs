@@ -28,6 +28,32 @@ namespace FootballFieldManagement.DAL
         {
 
         }
+        public int GetMaxIdEmployee()
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = "select max(idEmployee) from Employee ";
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                res = int.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
         public List<Employee> ConvertDBToList()
         {
             DataTable dt;
@@ -45,16 +71,16 @@ namespace FootballFieldManagement.DAL
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 int idAccount = -1;
-                if (dt.Rows[i].ItemArray[9].ToString() != "")
+                if (dt.Rows[i].ItemArray[8].ToString() != "")
                 {
-                    idAccount = int.Parse(dt.Rows[i].ItemArray[9].ToString());
+                    idAccount = int.Parse(dt.Rows[i].ItemArray[8].ToString());
                 }
                 Employee employee = new Employee(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
                     dt.Rows[i].ItemArray[1].ToString(), dt.Rows[i].ItemArray[2].ToString(),
                     dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(),
-                    DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()), double.Parse(dt.Rows[i].ItemArray[6].ToString()),
-                    dt.Rows[i].ItemArray[7].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[8].ToString()),
-                    idAccount, Convert.FromBase64String(dt.Rows[i].ItemArray[10].ToString()));
+                    DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()),
+                    dt.Rows[i].ItemArray[6].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[7].ToString()),
+                    idAccount, Convert.FromBase64String(dt.Rows[i].ItemArray[9].ToString()));
                 employees.Add(employee);
             }
             //conn.Close();
@@ -98,7 +124,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,salary,position,startingdate,imageFile) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@salary,@position,@startingdate,@imageFile)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,position,startingdate,imageFile) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@position,@startingdate,@imageFile)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
@@ -106,7 +132,6 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
                 command.Parameters.AddWithValue("@address", employee.Address);
                 command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth);
-                command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
@@ -134,14 +159,13 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,salary=@salary,position=@position,startingdate=@startingdate,imageFile=@imageFile where idEmployee=" + employee.IdEmployee;
+                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,position=@position,startingdate=@startingdate,imageFile=@imageFile where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
                 command.Parameters.AddWithValue("@phonenumber", employee.Phonenumber);
                 command.Parameters.AddWithValue("@address", employee.Address);
                 command.Parameters.AddWithValue("@dateofBirth", employee.DateOfBirth);
-                command.Parameters.AddWithValue("@salary", employee.Salary.ToString());
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
@@ -190,7 +214,7 @@ namespace FootballFieldManagement.DAL
         }
         public void AddEmployee(Employee employee)
         {
-            if (ConvertDBToList().Count == 0 || employee.IdEmployee > ConvertDBToList()[ConvertDBToList().Count - 1].IdEmployee)
+            if (ConvertDBToList().Count == 0 || employee.IdEmployee > GetMaxIdEmployee())
             {
                 if (AddIntoDB(employee))
                     MessageBox.Show("Thêm thành công!");
@@ -206,19 +230,45 @@ namespace FootballFieldManagement.DAL
             }
             //conn.Close();
         }
-        public Employee GetEmployee(string idEmployee) // Lấy thông tin khi biết id nhân viên
+        public Employee GetEmployeeByIdEmployee(string idEmployee) // Lấy thông tin khi biết id nhân viên
         {
-            foreach (var employee in ConvertDBToList())
+            Employee res = new Employee();
+            try
             {
-                if (employee.IdEmployee.ToString() == idEmployee)
+                conn.Open();
+                string queryString = "select * from Employee where idEmployee = " + idEmployee;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                int idAccount = -1;
+                if (dataTable.Rows[0].ItemArray[8].ToString() != "")
                 {
-                    return employee;
+                    idAccount = int.Parse(dataTable.Rows[0].ItemArray[8].ToString());
                 }
+                res = new Employee(int.Parse(dataTable.Rows[0].ItemArray[0].ToString()),
+                     dataTable.Rows[0].ItemArray[1].ToString(), dataTable.Rows[0].ItemArray[2].ToString(),
+                     dataTable.Rows[0].ItemArray[3].ToString(), dataTable.Rows[0].ItemArray[4].ToString(),
+                     DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
+                     dataTable.Rows[0].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[7].ToString()),
+                     idAccount, Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()));
             }
-            return null;
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
         }
         public Employee GetEmployeeByIdAccount(string idAccount)
         {
+            Employee res = new Employee();
             try
             {
                 conn.Open();
@@ -230,22 +280,63 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                Employee res = new Employee(int.Parse(dataTable.Rows[0].ItemArray[0].ToString()),
+                res = new Employee(int.Parse(dataTable.Rows[0].ItemArray[0].ToString()),
                      dataTable.Rows[0].ItemArray[1].ToString(), dataTable.Rows[0].ItemArray[2].ToString(),
                      dataTable.Rows[0].ItemArray[3].ToString(), dataTable.Rows[0].ItemArray[4].ToString(),
-                     DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()), double.Parse(dataTable.Rows[0].ItemArray[6].ToString()),
-                     dataTable.Rows[0].ItemArray[7].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[8].ToString()),
-                     int.Parse(idAccount), Convert.FromBase64String(dataTable.Rows[0].ItemArray[10].ToString()));
-                return res;
+                     DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
+                     dataTable.Rows[0].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[7].ToString()),
+                     int.Parse(idAccount), Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()));
             }
             catch
             {
-                return new Employee();
+                res.Name = "Chủ sân";
             }
             finally
             {
                 conn.Close();
             }
+            return res;
+        }
+        public List<Employee> GetEmployeesByType(string typeEmployee)
+        {
+            DataTable dt;
+            List<Employee> employees = new List<Employee>();
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Employee where position = " + typeEmployee;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    int idAccount = -1;
+                    if (dataTable.Rows[i].ItemArray[8].ToString() != "")
+                    {
+                        idAccount = int.Parse(dataTable.Rows[i].ItemArray[8].ToString());
+                    }
+                    Employee employee = new Employee(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()),
+                        dataTable.Rows[i].ItemArray[1].ToString(), dataTable.Rows[i].ItemArray[2].ToString(),
+                        dataTable.Rows[i].ItemArray[3].ToString(), dataTable.Rows[i].ItemArray[4].ToString(),
+                        DateTime.Parse(dataTable.Rows[i].ItemArray[5].ToString()),
+                        dataTable.Rows[i].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[i].ItemArray[7].ToString()),
+                        idAccount, Convert.FromBase64String(dataTable.Rows[i].ItemArray[9].ToString()));
+                    employees.Add(employee);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return employees;
         }
     }
 }

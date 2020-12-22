@@ -80,9 +80,12 @@ namespace FootballFieldManagement.ViewModels
                     updateWindow.txtUnitPrice.Text = goods.UnitPrice.ToString();
                     updateWindow.txtUnitPrice.SelectionStart = updateWindow.txtUnitPrice.Text.Length;
                     updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
-                    ImageBrush imageBrush = new ImageBrush();
-                    imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(goods.ImageFile);
-                    updateWindow.grdSelectImg.Background = imageBrush;
+                    if (goods.ImageFile.Length != 0)
+                    {
+                        ImageBrush imageBrush = new ImageBrush();
+                        imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(goods.ImageFile);
+                        updateWindow.grdSelectImg.Background = imageBrush;
+                    }
                     if (updateWindow.grdSelectImg.Children.Count > 1)
                     {
                         updateWindow.grdSelectImg.Children.Remove(updateWindow.grdSelectImg.Children[0]);
@@ -91,6 +94,7 @@ namespace FootballFieldManagement.ViewModels
                     break;
                 }
             }
+            updateWindow.Title = "Cập nhật thông tin hàng hóa";
             updateWindow.ShowDialog();
         }
         public void ShowImportGoods(TextBlock parameter)
@@ -223,7 +227,7 @@ namespace FootballFieldManagement.ViewModels
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter. cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
+                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {

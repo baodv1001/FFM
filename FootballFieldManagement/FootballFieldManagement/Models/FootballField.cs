@@ -34,8 +34,8 @@ namespace FootballFieldManagement.Models
         {
 
         }
-        
-        public FootballField(int idField, string name, int type,int status, string note)
+
+        public FootballField(int idField, string name, int type, int status, string note)
         {
             this.idField = idField;
             this.name = name;

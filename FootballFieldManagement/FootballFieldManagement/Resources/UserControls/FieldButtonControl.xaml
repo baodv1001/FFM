@@ -1,19 +1,55 @@
-﻿<UserControl x:Class="FootballFieldManagement.Resources.UserControls.FieldButtonControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" 
-             d:DesignWidth="800" 
-             Width="36"
-             Height="36" 
-             VerticalAlignment="Center">
+﻿<UserControl 
+    x:Name="ucButtonField" 
+    x:Class="FootballFieldManagement.Resources.UserControls.FieldButtonControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    mc:Ignorable="d" 
+    DataContext="{StaticResource BusinessVM}"
+    d:DesignHeight="450" 
+    d:DesignWidth="800" 
+    Width="36"
+    Height="36" 
+    VerticalAlignment="Top" 
+    Margin="53,0">
     <Grid 
         Width="36" 
         Height="36">
+        <TextBlock 
+            x:Name="txbPrice"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbidFieldInfo"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbidField"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbFieldName"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbstartTime"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbendTime"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbDay"  
+            Visibility="Hidden">
+        </TextBlock>
+        <TextBlock 
+            x:Name="txbFieldType"  
+            Visibility="Hidden">
+        </TextBlock>
         <Border 
             BorderBrush="{DynamicResource Gray2}"
             BorderThickness="2"
@@ -24,18 +60,29 @@
             Width="36" 
             Padding="0" 
             CornerRadius="6" 
-            Background="{DynamicResource White}"/>
+            Background="{DynamicResource White}">
+        </Border>
         <Button
-            Style="{x:Null}"
+            Style="{StaticResource MaterialDesignRaisedButton}"
+            Command="{Binding PickFieldCommand}"
+            CommandParameter="{Binding ElementName=ucButtonField}"
             Background="{x:Null}" 
             BorderBrush="{x:Null}"
             Foreground="{x:Null}" 
-            Padding="0">
-            <Grid 
-                Width="35" 
-                Height="35"
-                Margin="0">
+            Cursor="Hand"
+            Padding="0" 
+            Width="36" 
+            Height="36"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+            <Grid
+                Margin="0" 
+                Width="36"
+                Height="36" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center">
                 <materialDesign:PackIcon 
+                    x:Name="icn1" 
                     Kind="Plus"
                     Visibility="Hidden"
                     HorizontalAlignment="Center" 
@@ -44,6 +91,7 @@
                     Width="26"
                     Height="26" />
                 <materialDesign:PackIcon 
+                    x:Name="icn2" 
                     Kind="Soccer"
                     Visibility="Hidden"
                     HorizontalAlignment="Center" 
@@ -52,6 +100,7 @@
                     Width="26"
                     Height="26" />
                 <materialDesign:PackIcon 
+                    x:Name="icn3" 
                     Kind="CalendarCheckOutline"
                     Visibility="Hidden"
                     HorizontalAlignment="Center" 
@@ -60,11 +109,21 @@
                     Width="26"
                     Height="26" />
                 <materialDesign:PackIcon 
+                    x:Name="icn4" 
                     Kind="Check"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     Foreground="{DynamicResource Gray2}" 
+                    Width="26"
+                    Height="26" />
+                <materialDesign:PackIcon 
+                    x:Name="icn5" 
+                    Kind="Close"
+                    Visibility="Hidden"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Foreground="{DynamicResource Error}" 
                     Width="26"
                     Height="26" />
             </Grid>

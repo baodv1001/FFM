@@ -19,6 +19,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -27,6 +32,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand LogInCommand { get; set; }
         public ICommand OpenSignUpWindowCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
+        public ICommand TurnOnNotiCommand { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private string userName;
@@ -39,6 +45,56 @@ namespace FootballFieldManagement.ViewModels
             LogInCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) => Login(parameter));
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingPassword(parameter));
             OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSignUpWindow(parameter));
+            TurnOnNotiCommand = new RelayCommand<object>((parameter) => true, (parameter) => TurnOnNotification());
+        }
+        public void TurnOnNotification()
+        {
+            Notifier notifier = new Notifier(cfg =>
+            {
+                cfg.PositionProvider = new WindowPositionProvider(
+                    parentWindow: Application.Current.MainWindow,
+                    corner: Corner.TopRight,
+                    offsetX: 10,
+                    offsetY: 10);
+                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
+                    notificationLifetime: TimeSpan.FromSeconds(10),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
+                cfg.Dispatcher = Application.Current.Dispatcher;
+            });
+            List<TimeFrame> timeFrames = TimeFrameDAL.Instance.GetTimeFrame();
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMinutes(5)
+            };
+            CheckNotification(notifier, timeFrames);
+            timer.Tick += (s, e) =>
+            {
+                CheckNotification(notifier, timeFrames);
+            };
+            timer.Start();
+        }
+        public void CheckNotification(Notifier notifier, List<TimeFrame> timeFrames)
+        {
+            for (int i = 0; i < timeFrames.Count; i++)
+            {
+                if ((i == timeFrames.Count - 1 && (string.Compare(timeFrames[i].EndTime, DateTime.Now.ToString("HH:mm")) == -1)) ||
+                    (string.Compare(timeFrames[i].EndTime, DateTime.Now.ToString("HH:mm")) == -1 && string.Compare(timeFrames[i + 1].EndTime, DateTime.Now.ToString("HH:mm")) == 1))
+                {
+                    notifier.ShowError("Khung giờ " + timeFrames[i].StartTime + " - " + timeFrames[i].EndTime + " đã kết thúc !");
+                    try
+                    {
+                        if (string.Compare(timeFrames[i + 1].StartTime, DateTime.Now.ToString("HH:mm")) == -1)
+                        {
+                            notifier.ShowSuccess("Khung giờ " + timeFrames[i + 1].StartTime + " - " + timeFrames[i + 1].EndTime + " đang diễn ra !");
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    break;
+                }
+            }
         }
         public void Login(LoginWindow parameter)
         {
@@ -76,7 +132,7 @@ namespace FootballFieldManagement.ViewModels
                             {
                                 //Lấy thông tin người đăng nhập
                                 CurrentAccount.DisplayName = employee.Name;
-                                CurrentAccount.Image = employee.ImageFile;                                
+                                CurrentAccount.Image = employee.ImageFile;
                                 this.employee = employee;
                                 break;
                             }
@@ -106,7 +162,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DisplayEmployee(Employee employee, HomeWindow home)
         {
-            if (CurrentAccount.Type!=0)
+            if (CurrentAccount.Type != 0)
             {
                 home.txtIDEmployee.Text = employee.IdEmployee.ToString();
                 home.txtName.Text = employee.Name;
@@ -122,8 +178,8 @@ namespace FootballFieldManagement.ViewModels
                 {
                     home.imgEmployee.Fill = imageBrush; // Hiển thị hình ảnh 
                 }
-                home.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                home.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.grdCursor.Margin = new Thickness(0, (175 + 70 * 1), 40, 0);
             }
             else
@@ -146,11 +202,11 @@ namespace FootballFieldManagement.ViewModels
         }
         public void SetJurisdiction(HomeWindow home)
         {
-            if (CurrentAccount.Type!=0)
+            if (CurrentAccount.Type != 0)
             {
                 //Không cấp quyền cho nhân viên
                 home.grdBody_Home.Visibility = Visibility.Hidden;
-                home.grdBody_Field.Visibility = Visibility.Visible;
+                home.grdBody_Business.Visibility = Visibility.Visible;
                 home.txtFieldName.IsEnabled = false;
                 home.btnEmployee.IsEnabled = false;
                 home.btnReport.IsEnabled = false;
@@ -158,12 +214,14 @@ namespace FootballFieldManagement.ViewModels
                 home.btnPaySalary.IsEnabled = false;
                 home.btnSetSalary.IsEnabled = false;
                 home.btnHome.IsEnabled = false;
+                home.btnSettingTime.IsEnabled = false;
+                home.btnAddField.IsEnabled = false;
             }
-            if(CurrentAccount.Type==1)
+            if (CurrentAccount.Type == 1)
             {
                 home.btnAddGoods.IsEnabled = true;
                 home.btnEmployee.IsEnabled = true;
-            }    
+            }
         }
         public void DisplayAccount(HomeWindow home)
         {

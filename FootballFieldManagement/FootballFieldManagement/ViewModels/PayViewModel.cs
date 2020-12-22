@@ -189,27 +189,22 @@ namespace FootballFieldManagement.ViewModels
         public void LoadBillInfoToView(PayWindow parameter)
         {
             TotalGoods = 0;
-            int j = 0;
             parameter.stkPickedGoods.Children.Clear();
-            DataTable billInfos = BillInfoDAL.Instance.LoadData("BillInfo");
-            for (int i = 0; i < billInfos.Rows.Count; i++)
+            List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(parameter.txbIdBill.Text);
+            for (int i = 0; i < billInfos.Count; i++)
             {
-                if (billInfos.Rows[i].ItemArray[0].ToString() == parameter.txbIdBill.Text)
-                {
-                    j++;
-                    ProductDetailsControl infoControl = new ProductDetailsControl();
-                    infoControl.txbNo.Text = j.ToString();
-                    infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
-                    infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
-                    infoControl.txbName.Text = GoodsDAL.Instance.GetGoods(billInfos.Rows[i].ItemArray[1].ToString()).Name;
-                    infoControl.txbPrice.Text = GoodsDAL.Instance.GetGoods(billInfos.Rows[i].ItemArray[1].ToString()).UnitPrice.ToString();
-                    infoControl.nmsQuantity.Text = decimal.Parse(billInfos.Rows[i].ItemArray[2].ToString());
-                    infoControl.nmsQuantity.MinValue = 1;
-                    infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGoods(infoControl.txbIdGoods.Text).Quantity;
-                    infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
-
-                    parameter.stkPickedGoods.Children.Add(infoControl);
-                }
+                ProductDetailsControl infoControl = new ProductDetailsControl();
+                infoControl.txbNo.Text = (i + 1).ToString();
+                infoControl.txbIdGoods.Text = billInfos[i].IdGoods.ToString();
+                infoControl.txbIdBill.Text = billInfos[i].IdBill.ToString();
+                Goods goods = GoodsDAL.Instance.GetGoods(billInfos[i].IdGoods.ToString());
+                infoControl.txbName.Text = goods.Name;
+                infoControl.txbPrice.Text = goods.UnitPrice.ToString();
+                infoControl.nmsQuantity.Text = decimal.Parse(billInfos[i].Quantity.ToString());
+                infoControl.nmsQuantity.MinValue = 1;
+                infoControl.nmsQuantity.MaxValue = goods.Quantity;
+                infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
+                parameter.stkPickedGoods.Children.Add(infoControl);
             }
             TotalGoods = BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text);
             Total = TotalGoods + int.Parse(parameter.txbFieldPrice.Text) - int.Parse(parameter.txbDiscount.Text);
@@ -277,10 +272,10 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Đã hết hàng!");
                 return;
             }
-            List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
+            List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(parameter.txbIdBill.Text);
             foreach (var billInfo in billInfos)
             {
-                if (billInfo.IdBill == int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods == int.Parse(parameter.txbId.Text))
+                if (billInfo.IdGoods == int.Parse(parameter.txbId.Text))
                 {
                     isExist = true;
                     billInfo.Quantity += 1;

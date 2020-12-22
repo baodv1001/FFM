@@ -222,5 +222,31 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public int GetMaxIdFieldInfo()
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = "select max(idFieldInfo) from FieldInfo";
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                res = int.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
     }
 }

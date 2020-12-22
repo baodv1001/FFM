@@ -1007,7 +1007,7 @@
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
                         materialDesign:ButtonAssist.CornerRadius="6"
-                        ToolTip="Xem thông tin ngày hôm nay" 
+                        ToolTip="Đặt sân" 
                         Margin="700,5,0,5" 
                         Background="{DynamicResource Success}" 
                         BorderBrush="{x:Null}" 
@@ -1126,6 +1126,7 @@
                         <Button 
                             x:Name="btnFirstPage" 
                             Margin="10,5,10,5" 
+                            ToolTip="Trang đầu"
                             Command="{Binding FirstPageCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
                             Background="{DynamicResource Primary}" 
@@ -1136,6 +1137,7 @@
                         <Button 
                             x:Name="btnPreviousPage" 
                             Margin="10,5,10,5"
+                            ToolTip="Trang trước"
                             Command="{Binding PreviousPageCommand}" 
                             CommandParameter="{Binding ElementName=wdHome}"
                             Background="{DynamicResource Primary}" 
@@ -1155,6 +1157,7 @@
                         <Button 
                             x:Name="btnNextPage" 
                             Margin="10,5,10,5" 
+                            ToolTip="Trang tiếp theo"
                             Command="{Binding NextPageCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
                             Background="{DynamicResource Primary}"
@@ -1165,6 +1168,7 @@
                         <Button 
                             x:Name="btnLastPage" 
                             Margin="10,5,10,5" 
+                            ToolTip="Trang cuối"
                             Command="{Binding LastPageCommand}" 
                             CommandParameter="{Binding ElementName=wdHome}"
                             Background="{DynamicResource Primary}" 

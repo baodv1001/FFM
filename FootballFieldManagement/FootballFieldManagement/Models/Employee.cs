@@ -19,31 +19,31 @@ namespace FootballFieldManagement.Models
 
         private string name;
 
-        public string Name { get => name; set { name = value; }  }
+        public string Name { get => name; set { name = value; } }
 
         private string gender;
 
-        public string Gender { get => gender; set { gender = value;  } }
-        
+        public string Gender { get => gender; set { gender = value; } }
+
         private string phonenumber;
 
-        public string Phonenumber { get => phonenumber; set { phonenumber = value;  } }
+        public string Phonenumber { get => phonenumber; set { phonenumber = value; } }
 
         private string address;
 
-        public string Address { get => address; set { address = value;  } }
+        public string Address { get => address; set { address = value; } }
 
         private DateTime dateOfBirth;
 
-        public DateTime DateOfBirth { get => dateOfBirth; set { dateOfBirth = value;  } }
+        public DateTime DateOfBirth { get => dateOfBirth; set { dateOfBirth = value; } }
 
         private string position;
 
-        public string Position { get => position; set { position = value;  } }
+        public string Position { get => position; set { position = value; } }
 
         private DateTime startingdate;
 
-        public DateTime Startingdate { get => startingdate; set { startingdate = value;  } }
+        public DateTime Startingdate { get => startingdate; set { startingdate = value; } }
 
         private byte[] imageFile;
 
@@ -55,7 +55,7 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Employee( int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, string position, DateTime startingdate, int idAccount,byte[] image)
+        public Employee(int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, string position, DateTime startingdate, int idAccount, byte[] image)
         {
             this.idAccount = idAccount;
             this.IdEmployee = idEmployee;

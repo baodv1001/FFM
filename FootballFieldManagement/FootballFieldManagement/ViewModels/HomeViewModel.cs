@@ -356,7 +356,7 @@ namespace FootballFieldManagement.ViewModels
             AddEmployeeWindow addEmployee = new AddEmployeeWindow();
             try
             {
-                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.ConvertDBToList()[EmployeeDAL.Instance.ConvertDBToList().Count - 1].IdEmployee + 1).ToString();
+                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.GetMaxIdEmployee() + 1).ToString();
             }
             catch
             {
@@ -462,11 +462,11 @@ namespace FootballFieldManagement.ViewModels
             var sel = op.ShowDialog();
             if (sel == true)
             {
-                importdatafromexcel(op.FileName);
+                ImportDataFromExcel(op.FileName);
             }
             LoadGoodsToView(stackPanel);
         }
-        public void importdatafromexcel(string excelfilepath)
+        public void ImportDataFromExcel(string excelfilepath)
         {
             //declare variables - edit these based on your particular situation
             string ssqltable = "Goods";

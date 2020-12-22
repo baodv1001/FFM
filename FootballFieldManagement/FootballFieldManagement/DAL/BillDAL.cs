@@ -256,5 +256,30 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public int GetMaxIdBill()
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = @"Select max(idBill) From Bill";
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                res = int.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
     }
 }

@@ -191,21 +191,12 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng nhập số điện thoại khách hàng!");
                 return;
             }
-            if(int.Parse(bookingWindow.txbDisCount.Text)>int.Parse(bookingWindow.txbPrice.Text))
+            if (int.Parse(bookingWindow.txbDisCount.Text) > int.Parse(bookingWindow.txbPrice.Text))
             {
                 MessageBox.Show("Không nhập giảm giá lớn hơn giá sân!");
                 return;
-            }    
-            int idFieldInfo;
-            try
-            {
-
-                idFieldInfo = FieldInfoDAL.Instance.ConvertDBToList()[FieldInfoDAL.Instance.ConvertDBToList().Count - 1].IdFieldInfo + 1;
             }
-            catch
-            {
-                idFieldInfo = 1;
-            }
+            int idFieldInfo = FieldInfoDAL.Instance.GetMaxIdFieldInfo() + 1;
             FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.EndTime), 1, bookingWindow.txtPhoneNumber.Text, bookingWindow.txtUserName.Text, bookingWindow.txtMoreInfo.Text, long.Parse(bookingWindow.txbDisCount.Text), long.Parse(bookingWindow.txbPrice.Text));
             if (FieldInfoDAL.Instance.AddIntoDB(fieldInfo))
             {
@@ -217,6 +208,7 @@ namespace FootballFieldManagement.ViewModels
                     PickedField.txbidFieldInfo.Text = idFieldInfo.ToString();
                     PickedField.icn1.Visibility = Visibility.Hidden;
                     PickedField.icn3.Visibility = Visibility.Visible;
+                    PickedField.ToolTip = "Check in";
                 }
             }
             else
@@ -303,10 +295,12 @@ namespace FootballFieldManagement.ViewModels
                 if ((checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
                 {
                     PickedField.icn5.Visibility = Visibility.Visible;
+                    PickedField.ToolTip = "Không thể đặt sân";
                 }
                 else
                 {
                     PickedField.icn1.Visibility = Visibility.Visible;
+                    PickedField.ToolTip = "Đặt sân";
                 }
             }
         }
@@ -339,17 +333,17 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Vui lòng nhập số điện thoại khách hàng!");
                 return;
             }
-            if(int.Parse(checkInWindow.txbDiscount.Text)>int.Parse(checkInWindow.txbPrice.Text))
+            if (int.Parse(checkInWindow.txbDiscount.Text) > int.Parse(checkInWindow.txbPrice.Text))
             {
                 MessageBox.Show("Không nhập giảm giá lớn hơn giá sân!");
                 return;
-            }    
-            if (checkInWindow.dpSetDate.SelectedDate > DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare((DateTime.Parse(selectedFrame.StartTime).Subtract(new TimeSpan(0, 30, 0))).ToString("HH:mm"), DateTime.Now.ToString("HH:mm")) == 1)) // hiện tại < giờ bắt đầu-30 phút thì không được checkin 
+            }
+            if (!checkInWindow.dpSetDate.IsEnabled && (checkInWindow.dpSetDate.SelectedDate > DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare((DateTime.Parse(selectedFrame.StartTime).Subtract(new TimeSpan(0, 30, 0))).ToString("HH:mm"), DateTime.Now.ToString("HH:mm")) == 1))) // hiện tại < giờ bắt đầu-30 phút thì không được checkin 
             {
                 MessageBox.Show("Chưa đến giờ check in !");
                 return;
             }
-            
+
             int status = 2;
             int idFieldInfo = int.Parse(checkInWindow.txbIdFieldInfo.Text);
             if (checkInWindow.cboTime.IsEnabled) // Đã chuyển sang đặt sân
@@ -367,6 +361,7 @@ namespace FootballFieldManagement.ViewModels
                     MessageBox.Show("Check in thành công!");
                     PickedField.icn3.Visibility = Visibility.Hidden;
                     PickedField.icn2.Visibility = Visibility.Visible;
+                    PickedField.ToolTip = "Thanh toán";
                 }
                 else
                 {
@@ -377,16 +372,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (FieldInfoDAL.Instance.DeleteFromDB(idFieldInfo.ToString()))
                 {
-                    try
-                    {
-
-                        idFieldInfo = FieldInfoDAL.Instance.ConvertDBToList()[FieldInfoDAL.Instance.ConvertDBToList().Count - 1].IdFieldInfo + 1;
-                    }
-                    catch
-                    {
-                        idFieldInfo = 1;
-                    }
-                    fieldInfo.IdFieldInfo = idFieldInfo;
+                    fieldInfo.IdFieldInfo = FieldInfoDAL.Instance.GetMaxIdFieldInfo() + 1;
                     if (FieldInfoDAL.Instance.AddIntoDB(fieldInfo))
                     {
                         MessageBox.Show("Đổi sân thành công!");
@@ -509,7 +495,7 @@ namespace FootballFieldManagement.ViewModels
                 checkInWindow.txbDiscount.Text = fieldInfo.Discount.ToString();
                 checkInWindow.txbPrice.Text = fieldInfo.Price.ToString();
                 checkInWindow.ShowDialog();
-     
+
                 return;
             }
             if (fieldButtonControl.icn2.IsVisible)
@@ -528,7 +514,7 @@ namespace FootballFieldManagement.ViewModels
                 int idBill;
                 try
                 {
-                    idBill = (BillDAL.Instance.ConvertDBToList()[BillDAL.Instance.ConvertDBToList().Count - 1].IdBill + 1);
+                    idBill = (BillDAL.Instance.GetMaxIdBill() + 1);
                 }
                 catch
                 {
@@ -540,10 +526,11 @@ namespace FootballFieldManagement.ViewModels
                 {
                     payWindow.txbIdBill.Text = idBill.ToString();
                     payWindow.ShowDialog();
-                    if (payWindow.txbIsPaid.Text == "1")
+                    if (payWindow.txbIsPaid.Text == "1") // Thanh toán thành công!
                     {
                         fieldButtonControl.icn2.Visibility = Visibility.Hidden;
                         fieldButtonControl.icn4.Visibility = Visibility.Visible;
+                        fieldButtonControl.ToolTip = "Đã thanh toán";
                     }
                 }
                 else
@@ -663,12 +650,15 @@ namespace FootballFieldManagement.ViewModels
                         {
                             case 1:
                                 fieldButtonControl.icn3.Visibility = Visibility.Visible; // Sân đã đặt
+                                fieldButtonControl.ToolTip = "Check In";
                                 break;
                             case 2:
                                 fieldButtonControl.icn2.Visibility = Visibility.Visible; // Sân đang đá
+                                fieldButtonControl.ToolTip = "Thanh toán";
                                 break;
                             case 3:
                                 fieldButtonControl.icn4.Visibility = Visibility.Visible; // Sân đã thanh toán
+                                fieldButtonControl.ToolTip = "Đã thanh toán";
                                 break;
                             default:
 
@@ -683,11 +673,13 @@ namespace FootballFieldManagement.ViewModels
                     {
                         flag = true;
                         fieldButtonControl.icn5.Visibility = Visibility.Visible;
+                        fieldButtonControl.ToolTip = "Không thể đặt sân";
                     }
                     //Nếu không có thì hiện icon còn trống
                     if (!flag)
                     {
                         fieldButtonControl.icn1.Visibility = Visibility.Visible;
+                        fieldButtonControl.ToolTip = "Đặt sân";
                     }
 
                     //Lấy thông tin đặt sân đưa vào từng Button

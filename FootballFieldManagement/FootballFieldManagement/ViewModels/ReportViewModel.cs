@@ -183,7 +183,7 @@ namespace FootballFieldManagement.ViewModels
             foreach (var salaryInfo in listSalaryInfo)
             {
                 SalaryInfoControl salaryInfoControl = new SalaryInfoControl();
-                Employee employee = EmployeeDAL.Instance.GetEmployee(salaryInfo.IdEmployee.ToString());
+                Employee employee = EmployeeDAL.Instance.GetEmployeeByIdEmployee(salaryInfo.IdEmployee.ToString());
 
                 salaryInfoControl.txbOrderNum.Text = i.ToString();
                 salaryInfoControl.txbName.Text = employee.Name;

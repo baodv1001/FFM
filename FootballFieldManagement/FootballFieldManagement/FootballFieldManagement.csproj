@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="Resources\UserControls\ImportGoodsDetailsControl.xaml.cs">
       <DependentUpon>ImportGoodsDetailsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\FieldTitleControl.xaml.cs">
       <DependentUpon>FieldTitleControl.xaml</DependentUpon>
     </Compile>

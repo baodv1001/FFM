@@ -154,7 +154,7 @@ namespace FootballFieldManagement.ViewModels
             }
             imageName = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender,
-                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text), 0,
+                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text),
                 parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), -1, imgByteArr);
             Employee current = EmployeeDAL.Instance.GetEmployee(parameter.txtIDEmployee.Text);
             if (current != null && current.IdAccount != -1)

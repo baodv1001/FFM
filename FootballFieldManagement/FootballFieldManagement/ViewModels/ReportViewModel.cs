@@ -183,7 +183,7 @@ namespace FootballFieldManagement.ViewModels
             foreach (var salaryInfo in listSalaryInfo)
             {
                 SalaryInfoControl salaryInfoControl = new SalaryInfoControl();
-                Employee employee = EmployeeDAL.Instance.GetEmployee(salaryInfo.IdEmployee.ToString());
+                Employee employee = EmployeeDAL.Instance.GetEmployeeByIdEmployee(salaryInfo.IdEmployee.ToString());
 
                 salaryInfoControl.txbOrderNum.Text = i.ToString();
                 salaryInfoControl.txbName.Text = employee.Name;
@@ -487,7 +487,7 @@ namespace FootballFieldManagement.ViewModels
 
             //Thông tin khách hàng
             FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
-            billTemplate.txbCustomerName.Text = fieldInfo.CustumerName;
+            billTemplate.txbCustomerName.Text = fieldInfo.CustomerName;
             billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
             billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
             billTemplate.txbTotalBefore.Text = (bill.TotalMoney + fieldInfo.Discount).ToString();
@@ -505,14 +505,14 @@ namespace FootballFieldManagement.ViewModels
             //Thêm sân vào nha
             fieldBillInfoControl.txbOrderNum.Text = i.ToString();
             i++;
-            string idFiedlInfo = fieldInfo.IdField.ToString();
-            FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idFiedlInfo);
+            string idField = fieldInfo.IdField.ToString();
+            FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idField);
             string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
             fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
             fieldBillInfoControl.txbUnit.Text = "";
             fieldBillInfoControl.txbQuantity.Text = "";
-            fieldBillInfoControl.txbUnitPrice.Text= TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
-            fieldBillInfoControl.txbTotal.Text= TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
+            fieldBillInfoControl.txbUnitPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString()); // nhớ sửa price query từ FieldInfo nha
+            fieldBillInfoControl.txbTotal.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
 
             billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
             foreach (var billInfo in listBillInfo)
@@ -731,6 +731,9 @@ namespace FootballFieldManagement.ViewModels
             {
                 IncreasingPercent = "100%";
             }
+            homeWindow.txbRevenueThisMonth.Text = thisMonthRevenue.ToString();
+            homeWindow.txbIncreasing.Text = increasingPercent.ToString();
+            homeWindow.txbNumOfHiredField.Text = numOfHiredField.ToString();
             DispatcherTimer timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(1)

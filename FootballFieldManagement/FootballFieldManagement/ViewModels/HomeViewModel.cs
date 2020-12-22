@@ -11,6 +11,9 @@ using System.Linq;
 using System;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Windows.Threading;
+using Microsoft.Win32;
+using System.Data.OleDb;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -147,6 +150,7 @@ namespace FootballFieldManagement.ViewModels
             parameter.grdCursor.Margin = new Thickness(0, (172 + 65 * index), 40, 0);
 
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;
+            parameter.grdBody_Business.Visibility = Visibility.Hidden;
             parameter.grdBody_Home.Visibility = Visibility.Hidden;
             parameter.grdBody_Employee.Visibility = Visibility.Hidden;
             parameter.grdBody_Report.Visibility = Visibility.Hidden;
@@ -178,6 +182,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 1:
+                    parameter.grdBody_Business.Visibility = Visibility.Visible;
                     parameter.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
@@ -197,6 +202,19 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnEmployee.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 5:
+                    parameter.cboSelectPeriod_Report.SelectedIndex = -1;
+                    parameter.cboSelectTime_Report.SelectedIndex = -1;
+                    DispatcherTimer timer = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(1)
+                    };
+                    timer.Tick += (s, e) =>
+                    {
+                        parameter.cboSelectPeriod_Report.SelectedIndex = 0;
+                        parameter.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
+                        timer.Stop();
+                    };
+                    timer.Start();
                     parameter.grdBody_Report.Visibility = Visibility.Visible;
                     parameter.btnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnReport.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
@@ -210,7 +228,6 @@ namespace FootballFieldManagement.ViewModels
                     break;
             }
         }
-
         public void OpenCheckAttendanceWindow(Window parameter)
         {
             CheckAttendanceWindow wdCheckAttendance = new CheckAttendanceWindow();
@@ -331,7 +348,7 @@ namespace FootballFieldManagement.ViewModels
             AddEmployeeWindow addEmployee = new AddEmployeeWindow();
             try
             {
-                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.ConvertDBToList()[EmployeeDAL.Instance.ConvertDBToList().Count - 1].IdEmployee + 1).ToString();
+                addEmployee.txtIDEmployee.Text = (EmployeeDAL.Instance.GetMaxIdEmployee() + 1).ToString();
             }
             catch
             {

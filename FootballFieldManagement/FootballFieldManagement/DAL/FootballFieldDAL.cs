@@ -46,7 +46,7 @@ namespace FootballFieldManagement.DAL
             {
                 FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
                     dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString())
-                    , dt.Rows[i].ItemArray[5].ToString());
+                    , dt.Rows[i].ItemArray[4].ToString());
                 footballFields.Add(footballField);
             }
             return footballFields;
@@ -208,8 +208,8 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                FootballField res = new FootballField(int.Parse(idField), dataTable.Rows[0].ItemArray[1].ToString(), 
-                    int.Parse(dataTable.Rows[0].ItemArray[2].ToString()), int.Parse(dataTable.Rows[0].ItemArray[3].ToString()), 
+                FootballField res = new FootballField(int.Parse(idField), dataTable.Rows[0].ItemArray[1].ToString(),
+                    int.Parse(dataTable.Rows[0].ItemArray[2].ToString()), int.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
                     dataTable.Rows[0].ItemArray[4].ToString());
                 return res;
             }
@@ -221,6 +221,75 @@ namespace FootballFieldManagement.DAL
             {
                 conn.Close();
             }
+        }
+        public List<FootballField> GetNamesPerType(string type)
+        {
+            List<FootballField> res = new List<FootballField>();
+            try
+            {
+                conn.Open();
+                string queryString = @"Select *
+                                       From FootballField
+                                       Where type =@type
+                                       Order by type ASC ";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.Parameters.AddWithValue("@type", type);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()), dt.Rows[i].ItemArray[4].ToString());
+                    res.Add(footballField);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        public List<FootballField> GetEmptyField(string type, string day, string startTime, string endTime)
+        {
+            List<FootballField> footballFields = new List<FootballField>();
+            try
+            {
+                conn.Open();
+                string query = @"Select idField,name from FootballField
+                                 Where FootballField.type=@type
+                                 Except
+                                 Select FieldInfo.idField,FootballField.name from FieldInfo
+                                 Join FootballField on FieldInfo.idField=FootballField.idField
+                                 Where convert(varchar(10), startingTime, 103)=@day and convert(varchar(5), startingTime, 108)=@startTime and convert(varchar(5), endingTime, 108) =@endTime and FootballField.type=@type";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@day", day);
+                command.Parameters.AddWithValue("@startTime", startTime);
+                command.Parameters.AddWithValue("@endTime", endTime);
+                command.Parameters.AddWithValue("@type", type);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(), int.Parse(type), 0, " ");
+                    footballFields.Add(footballField);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return footballFields;
         }
     }
 }

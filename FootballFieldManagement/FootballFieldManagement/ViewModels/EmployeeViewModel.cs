@@ -150,13 +150,13 @@ namespace FootballFieldManagement.ViewModels
             }
             catch
             {
-                imgByteArr = EmployeeDAL.Instance.GetEmployee(parameter.txtIDEmployee.Text).ImageFile;
+                imgByteArr = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.txtIDEmployee.Text).ImageFile;
             }
             imageName = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender,
-                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text), 0,
+                parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text),
                 parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), -1, imgByteArr);
-            Employee current = EmployeeDAL.Instance.GetEmployee(parameter.txtIDEmployee.Text);
+            Employee current = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.txtIDEmployee.Text);
             if (current != null && current.IdAccount != -1)
             {
                 if (employee.Position == "Nhân viên thu ngân")
@@ -221,70 +221,58 @@ namespace FootballFieldManagement.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
-                foreach (var employee in employees)
+                Employee employee = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.txbId.Text);
+                bool isSuccess1 = SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
+                bool isSuccess2 = AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
+                bool isSuccess3 = EmployeeDAL.Instance.DeleteEmployee(employee);
+                bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
+                if ((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) || (isSuccess3))
                 {
-                    if (employee.IdEmployee.ToString() == parameter.txbId.Text)
-                    {
-                        bool isSuccess1 = SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
-                        bool isSuccess2 = AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
-                        bool isSuccess3 = EmployeeDAL.Instance.DeleteEmployee(employee);
-                        bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
-                        bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
-                        bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
-                        if ((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) || (isSuccess3))
-                        {
-                            MessageBox.Show("Đã xóa thành công!");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Xoá thất bại");
-                        }
-                        break;
-                    }
+                    MessageBox.Show("Đã xóa thành công!");
+                }
+                else
+                {
+                    MessageBox.Show("Xoá thất bại");
                 }
             }
         }
         public void OpenUpdateWindow(TextBlock parameter)
         {
-            List<Employee> employees = EmployeeDAL.Instance.ConvertDBToList();
-
+            Employee employee = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.Text);
             AddEmployeeWindow child = new AddEmployeeWindow();
-            foreach (var employee in employees)
+            if (employee.IdEmployee.ToString() == parameter.Text)
             {
-                if (employee.IdEmployee.ToString() == parameter.Text)
+                child.txtIDEmployee.Text = employee.IdEmployee.ToString();
+
+                child.txtName.Text = employee.Name;
+                child.txtName.SelectionStart = child.txtName.Text.Length;
+                child.txtName.SelectionLength = 0;
+
+                child.txtTelephoneNumber.Text = employee.Phonenumber;
+                child.txtTelephoneNumber.SelectionStart = child.txtTelephoneNumber.Text.Length;
+                child.txtTelephoneNumber.SelectionLength = 0;
+
+                child.txtAddress.Text = employee.Address;
+                child.txtAddress.SelectionStart = child.txtAddress.Text.Length;
+                child.txtAddress.SelectionLength = 0;
+
+                child.cboPosition.Text = employee.Position;
+
+                if (employee.Gender == "Nam")
+                    child.rdoMale.IsChecked = true;
+                else
+                    child.rdoFemale.IsChecked = true;
+                child.dpBirthDate.Text = employee.DateOfBirth.ToString();
+                child.dpWorkDate.Text = employee.Startingdate.ToString();
+                ImageBrush imageBrush = new ImageBrush();
+                imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(employee.ImageFile);
+                child.grdSelectImage.Background = imageBrush;
+                if (child.grdSelectImage.Children.Count > 1)
                 {
-                    child.txtIDEmployee.Text = employee.IdEmployee.ToString();
-
-                    child.txtName.Text = employee.Name;
-                    child.txtName.SelectionStart = child.txtName.Text.Length;
-                    child.txtName.SelectionLength = 0;
-
-                    child.txtTelephoneNumber.Text = employee.Phonenumber;
-                    child.txtTelephoneNumber.SelectionStart = child.txtTelephoneNumber.Text.Length;
-                    child.txtTelephoneNumber.SelectionLength = 0;
-
-                    child.txtAddress.Text = employee.Address;
-                    child.txtAddress.SelectionStart = child.txtAddress.Text.Length;
-                    child.txtAddress.SelectionLength = 0;
-
-                    child.cboPosition.Text = employee.Position;
-
-                    if (employee.Gender == "Nam  ")
-                        child.rdoMale.IsChecked = true;
-                    else
-                        child.rdoFemale.IsChecked = true;
-                    child.dpBirthDate.Text = employee.DateOfBirth.ToString();
-                    child.dpWorkDate.Text = employee.Startingdate.ToString();
-                    ImageBrush imageBrush = new ImageBrush();
-                    imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(employee.ImageFile);
-                    child.grdSelectImage.Background = imageBrush;
-                    if (child.grdSelectImage.Children.Count > 1)
-                    {
-                        child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[0]);
-                        child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[1]);
-                    }
-                    break;
+                    child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[0]);
+                    child.grdSelectImage.Children.Remove(child.grdSelectImage.Children[1]);
                 }
             }
             child.btnSave.ToolTip = "Cập nhật thông tin nhân viên";
@@ -292,6 +280,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 child.cboPositionManage.IsEnabled = false;
             }
+            child.Title = "Cập nhật thông tin nhân viên";
             child.ShowDialog();
         }
         public void UpdateQuantity(EmployeeControl parameter)
@@ -302,7 +291,7 @@ namespace FootballFieldManagement.ViewModels
             salary.IdEmployee = int.Parse(parameter.txbId.Text);
             SalaryDAL.Instance.UpdateQuantity(salary);
         }//Lưu số lượng tăng ca và lỗi
-        //Set Salary Window    
+         //Set Salary Window    
         public void SelectionChanged(SetSalaryWindow parameter)
         {
 
@@ -459,6 +448,6 @@ namespace FootballFieldManagement.ViewModels
             e.Handled = !regex.IsMatch(e.Text);
         }
 
-        
+
     }
 }

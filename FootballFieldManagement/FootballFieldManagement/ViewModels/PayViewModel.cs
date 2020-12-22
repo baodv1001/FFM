@@ -68,7 +68,7 @@ namespace FootballFieldManagement.ViewModels
             //Pay Window
             LoadGoodsCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
             LoadBillInfoCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadBillInfoToView(parameter)); // Hiển thị các mặt hàng được chọn
-            LoadTotalCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadTotalMoney(parameter)); 
+            LoadTotalCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => LoadTotalMoney(parameter));
             ClosingWdCommnad = new RelayCommand<PayWindow>((parameter) => true, (parameter) => DeleteBillInfos(parameter));
             PayBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => PayBill(parameter));
             BackCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => CloseWindow(parameter));
@@ -79,11 +79,13 @@ namespace FootballFieldManagement.ViewModels
             ChangeQuantityCommand = new RelayCommand<ProductDetailsControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
 
             ViewBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => ViewBill(parameter));
-            
+
             Total = TotalGoods = 0;
         }
         public void ViewBill(PayWindow payWindow)
         {
+            Bill bill = BillDAL.Instance.GetBill(payWindow.txbIdBill.Text);
+            //thông tin Bill + FieldInfo
             BillTemplate billTemplate = new BillTemplate();
             billTemplate.txbDiscount.Text = payWindow.txbDiscount.Text;
             billTemplate.txbTotal.Text = payWindow.txbSumOfPrice.Text;
@@ -91,11 +93,47 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbTotalBefore.Text = (int.Parse(payWindow.txbFieldPrice.Text) + int.Parse(payWindow.txbtotalGoodsPrice.Text)).ToString();
             billTemplate.txbCustomerName.Text = payWindow.txbCustomerName.Text;
             billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhoneNumber.Text;
-            billTemplate.txbInvoiceDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-            billTemplate.txbCheckInTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
-            billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm"); //tạm
+            billTemplate.txbInvoiceDate.Text = bill.InvoiceDate.ToShortDateString();
+            billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("HH:mm");
+            billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm");
             billTemplate.txbEmployeeName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(CurrentAccount.IdAccount.ToString()).Name;
-            
+
+            List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(payWindow.txbIdBill.Text);
+            int numOfGoods = billInfos.Count();
+            if (numOfGoods > 7)
+            {
+                billTemplate.Height += (numOfGoods - 7) * 35;
+            }
+            int i = 1;
+            BillInfoControl fieldBillInfoControl = new BillInfoControl();
+            //Thêm sân vào nha
+            fieldBillInfoControl.txbOrderNum.Text = i.ToString();
+            i++;
+            string idFieldInfo = payWindow.txbIdFieldInfo.Text;
+            FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(idFieldInfo);
+            string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
+            fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", payWindow.txbFieldName.Text, note);
+            fieldBillInfoControl.txbUnit.Text = "";
+            fieldBillInfoControl.txbQuantity.Text = "";
+            fieldBillInfoControl.txbUnitPrice.Text = payWindow.txbFieldPrice.Text;
+            fieldBillInfoControl.txbTotal.Text = payWindow.txbFieldPrice.Text;
+            billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
+            //Thông tin bill info
+            foreach (var billInfo in billInfos)
+            {
+                BillInfoControl billInfoControl = new BillInfoControl();
+                Goods goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
+                billInfoControl.txbOrderNum.Text = i.ToString();
+                billInfoControl.txbName.Text = goods.Name;
+                billInfoControl.txbUnitPrice.Text = goods.UnitPrice.ToString();
+                billInfoControl.txbQuantity.Text = billInfo.Quantity.ToString();
+                billInfoControl.txbUnit.Text = goods.Unit;
+                billInfoControl.txbTotal.Text = (goods.UnitPrice * billInfo.Quantity).ToString();
+
+                billTemplate.stkBillInfo.Children.Add(billInfoControl);
+                i++;
+            }
+
             //Thông tin sân
             SQLConnection connection = new SQLConnection();
             try
@@ -144,14 +182,6 @@ namespace FootballFieldManagement.ViewModels
                     good.imgGood.Source = Converter.Instance.ConvertByteToBitmapImage(Convert.FromBase64String(goods.Rows[i].ItemArray[4].ToString()));
                     good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
                     good.txbIdBill.Text = parameter.txbIdBill.Text;
-                    //try
-                    //{
-                    //    good.txbIdBill.Text = (BillDAL.Instance.ConvertDBToList()[BillDAL.Instance.ConvertDBToList().Count - 1].IdBill + 1).ToString();
-                    //}
-                    //catch
-                    //{
-                    //    good.txbIdBill.Text = "1";
-                    //}
                     parameter.wrpGoods.Children.Add(good);
                 }
             }
@@ -159,27 +189,22 @@ namespace FootballFieldManagement.ViewModels
         public void LoadBillInfoToView(PayWindow parameter)
         {
             TotalGoods = 0;
-            int j = 0;
             parameter.stkPickedGoods.Children.Clear();
-            DataTable billInfos = BillInfoDAL.Instance.LoadData("BillInfo");
-            for (int i = 0; i < billInfos.Rows.Count; i++)
+            List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(parameter.txbIdBill.Text);
+            for (int i = 0; i < billInfos.Count; i++)
             {
-                if (billInfos.Rows[i].ItemArray[0].ToString() == parameter.txbIdBill.Text)
-                {
-                    j++;
-                    ProductDetailsControl infoControl = new ProductDetailsControl();
-                    infoControl.txbNo.Text = j.ToString();
-                    infoControl.txbIdGoods.Text = billInfos.Rows[i].ItemArray[1].ToString();
-                    infoControl.txbIdBill.Text = billInfos.Rows[i].ItemArray[0].ToString();
-                    infoControl.txbName.Text = GoodsDAL.Instance.GetGoods(billInfos.Rows[i].ItemArray[1].ToString()).Name;
-                    infoControl.txbPrice.Text = GoodsDAL.Instance.GetGoods(billInfos.Rows[i].ItemArray[1].ToString()).UnitPrice.ToString();
-                    infoControl.nmsQuantity.Text = decimal.Parse(billInfos.Rows[i].ItemArray[2].ToString());
-                    infoControl.nmsQuantity.MinValue = 1;
-                    infoControl.nmsQuantity.MaxValue = GoodsDAL.Instance.GetGoods(infoControl.txbIdGoods.Text).Quantity;
-                    infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
-                    
-                    parameter.stkPickedGoods.Children.Add(infoControl);
-                }
+                ProductDetailsControl infoControl = new ProductDetailsControl();
+                infoControl.txbNo.Text = (i + 1).ToString();
+                infoControl.txbIdGoods.Text = billInfos[i].IdGoods.ToString();
+                infoControl.txbIdBill.Text = billInfos[i].IdBill.ToString();
+                Goods goods = GoodsDAL.Instance.GetGoods(billInfos[i].IdGoods.ToString());
+                infoControl.txbName.Text = goods.Name;
+                infoControl.txbPrice.Text = goods.UnitPrice.ToString();
+                infoControl.nmsQuantity.Text = decimal.Parse(billInfos[i].Quantity.ToString());
+                infoControl.nmsQuantity.MinValue = 1;
+                infoControl.nmsQuantity.MaxValue = goods.Quantity;
+                infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
+                parameter.stkPickedGoods.Children.Add(infoControl);
             }
             TotalGoods = BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text);
             Total = TotalGoods + int.Parse(parameter.txbFieldPrice.Text) - int.Parse(parameter.txbDiscount.Text);
@@ -191,7 +216,11 @@ namespace FootballFieldManagement.ViewModels
         public void DeleteBillInfos(PayWindow parameter)
         {
             if (!new StackTrace().GetFrames().Any(x => x.GetMethod().Name == "Close"))
+            {
                 BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
+                BillDAL.Instance.DeleteFromDB(parameter.txbIdBill.Text);
+                totalGoods = 0;
+            }
         }
         public void PayBill(PayWindow parameter)
         {
@@ -205,20 +234,34 @@ namespace FootballFieldManagement.ViewModels
             Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
             if (BillDAL.Instance.UpdateOnDB(bill))
             {
-                foreach (var billInfo in billInfos)
+                FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(parameter.txbIdFieldInfo.Text);
+                fieldInfo.Status = 3;
+                if (FieldInfoDAL.Instance.UpdateOnDB(fieldInfo))
                 {
-                    var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
-                    good.Quantity -= billInfo.Quantity;
-                    GoodsDAL.Instance.UpdateOnDB(good);
+                    foreach (var billInfo in billInfos)
+                    {
+                        var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
+                        good.Quantity -= billInfo.Quantity;
+                        GoodsDAL.Instance.UpdateOnDB(good);
+                    }
+
+                    MessageBox.Show("Thanh toán thành công!");
+                    parameter.txbIsPaid.Text = "1";
                 }
-                MessageBox.Show("Thanh toán thành công!");
                 parameter.Close();
+            }
+            else
+            {
+                totalGoods = 0;
+                parameter.txbIsPaid.Text = "0";
             }
 
         }
         public void CloseWindow(PayWindow parameter)
         {
             BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
+            BillDAL.Instance.DeleteFromDB(parameter.txbIdBill.Text);
+            totalGoods = 0;
             parameter.Close();
         }
         public void BuyGoods(SellGoodsControl parameter)
@@ -229,10 +272,10 @@ namespace FootballFieldManagement.ViewModels
                 MessageBox.Show("Đã hết hàng!");
                 return;
             }
-            List<BillInfo> billInfos = BillInfoDAL.Instance.ConvertDBToList();
+            List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(parameter.txbIdBill.Text);
             foreach (var billInfo in billInfos)
             {
-                if (billInfo.IdBill == int.Parse(parameter.txbIdBill.Text) && billInfo.IdGoods == int.Parse(parameter.txbId.Text))
+                if (billInfo.IdGoods == int.Parse(parameter.txbId.Text))
                 {
                     isExist = true;
                     billInfo.Quantity += 1;

@@ -361,6 +361,7 @@ namespace FootballFieldManagement.ViewModels
                 updateWindow.grdSelectImg.Children.Remove(updateWindow.grdSelectImg.Children[0]);
                 updateWindow.grdSelectImg.Children.Remove(updateWindow.grdSelectImg.Children[1]);
             }
+            updateWindow.Title = "Cập nhật thông tin hàng hóa";
             updateWindow.ShowDialog();
         }
         public void ShowImportGoods(TextBlock parameter)

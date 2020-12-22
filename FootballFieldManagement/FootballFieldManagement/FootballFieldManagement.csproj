@@ -69,6 +69,12 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.2.5.1\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.Messages.2.5.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -125,6 +131,8 @@
     </Compile>
     <Compile Include="Resources\UserControls\ImportGoodsDetailsControl.xaml.cs">
       <DependentUpon>ImportGoodsDetailsControl.xaml</DependentUpon>
+    <Compile Include="Resources\UserControls\FieldTitleControl.xaml.cs">
+      <DependentUpon>FieldTitleControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Resources\UserControls\PeriodControl.xaml.cs">
       <DependentUpon>PeriodControl.xaml</DependentUpon>
@@ -147,6 +155,7 @@
     <Compile Include="Resources\UserControls\StockReceiptInfoControl.xaml.cs">
       <DependentUpon>StockReceiptInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\BusinessViewModel.cs" />
     <Compile Include="ViewModels\FootballFieldViewModel.cs" />
     <Compile Include="ViewModels\PayViewModel.cs" />
     <Compile Include="DAL\AttendanceDAL.cs" />
@@ -256,6 +265,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\UserControls\FieldDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\FieldTitleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

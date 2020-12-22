@@ -4,6 +4,8 @@
         <Setter Property="Background" Value="{DynamicResource Primary}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
         <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource Primary}"></Setter>
@@ -23,6 +25,8 @@
         <Setter Property="Background" Value="{DynamicResource Success}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Success}"/>
         <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource Success}"></Setter>
@@ -43,6 +47,8 @@
         <Setter Property="Background" Value="{DynamicResource Error}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource Error}"/>
         <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource Error}"></Setter>

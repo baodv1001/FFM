@@ -1,5 +1,4 @@
-﻿<UserControl x:Name="ucDetail" 
-             x:Class="FootballFieldManagement.Resources.UserControls.ProductDetailsControl"
+﻿<UserControl x:Class="FootballFieldManagement.Resources.UserControls.ImportGoodsDetailsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,7 +7,8 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
-             DataContext="{StaticResource PayVM}"
+             x:Name="ucImportGoodsDetails"
+             DataContext="{StaticResource GoodsVM}"
              d:DesignHeight="960"
              d:DesignWidth="40" 
              Width="938" 
@@ -17,12 +17,12 @@
     <Grid 
         Background="{DynamicResource White}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition Width="1.3*"></ColumnDefinition>
-            <ColumnDefinition Width="1.5*"></ColumnDefinition>
-            <ColumnDefinition Width="1.5*"></ColumnDefinition>
-            <ColumnDefinition Width="90"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="90"/>
         </Grid.ColumnDefinitions>
         <TextBlock 
             x:Name="txbNo" 
@@ -36,21 +36,18 @@
             FontWeight="SemiBold"/>
         <TextBlock 
             x:Name="txbIdGoods" 
-            Grid.Column="0" 
-            Text="1" 
             Visibility="Hidden" />
         <TextBlock 
-            x:Name="txbIdBill" 
-            Grid.Column="0" 
-            Text="1" 
+            x:Name="txbIdStockReceipt"
             Visibility="Hidden" />
         <TextBlock 
             x:Name="txbName" 
             Text="Đây là tên mặt hàng" 
             TextTrimming="WordEllipsis"
+            MaxWidth="260"
             Grid.Column="1" 
             HorizontalAlignment="Left" 
-            Margin="20,0,0,0" 
+            Margin="19.6,9,0,9" 
             TextWrapping="Wrap" 
             VerticalAlignment="Center" 
             FontSize="16"
@@ -64,31 +61,47 @@
             Grid.Column="2" >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ValueChanged">
-                    <i:InvokeCommandAction Command="{Binding ChangeQuantityCommand}" 
-                                           CommandParameter="{Binding ElementName=ucDetail}"/>
+                    <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
+                                           CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="KeyUp">
-                    <i:InvokeCommandAction Command="{Binding ChangeQuantityCommand}" 
-                                           CommandParameter="{Binding ElementName=ucDetail}"/>
+                    <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
+                                           CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </local:NumericSpinner>
-        <TextBlock 
-            x:Name="txbPrice" 
-            Text="125.000" 
-            Grid.Column="3" 
-            HorizontalAlignment="Right" 
-            Margin="0,0,40,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Center" 
-            FontSize="16"
-            FontWeight="SemiBold"/>
+        <TextBox
+            x:Name="txtImportPrice"
+            Grid.Column="3"
+            materialDesign:HintAssist.Hint="Giá nhập" 
+            HorizontalAlignment="Center" 
+            Width="120"
+            Height="30"
+            FontSize="14" 
+            FontWeight="SemiBold"
+            BorderThickness="0,0,0,2" 
+            MaxLines="1" 
+            Foreground="{StaticResource Gray1}"
+            Padding="0"  
+            Margin="0" 
+            Cursor="IBeam"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Left" 
+            VerticalContentAlignment="Center" 
+            BorderBrush="{DynamicResource Primary}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TextChanged">
+                    <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
+                                           CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
         <TextBlock
             x:Name="txbtotal" 
             Text="125.000" 
             Grid.Column="4" 
-            HorizontalAlignment="Right" 
-            Margin="0,0,35,0" 
+            HorizontalAlignment="Center" 
+            Margin="0" 
             TextWrapping="Wrap" 
             VerticalAlignment="Center" 
             FontSize="16"
@@ -98,8 +111,8 @@
             Height="26" 
             Margin="0" 
             Width="24" 
-            Command="{Binding DeleteBillInfoCommand}"
-            CommandParameter="{Binding ElementName=ucDetail}"
+            Command="{Binding DeleteImportGoodsDetailsCommand}"
+            CommandParameter="{Binding ElementName=ucImportGoodsDetails}"
             Background="{x:Null}" 
             BorderBrush="{x:Null}" 
             Padding="0">
@@ -108,8 +121,9 @@
                 Height="24"
                 Width="24"
                 Foreground="{DynamicResource Error}" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" />
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Margin="0"/>
         </Button>
     </Grid>
 </UserControl>

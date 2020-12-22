@@ -120,6 +120,12 @@
     <Compile Include="Resources\UserControls\FieldDetailsControl.xaml.cs">
       <DependentUpon>FieldDetailsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\UserControls\ImportGoodsControl.xaml.cs">
+      <DependentUpon>ImportGoodsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\UserControls\ImportGoodsDetailsControl.xaml.cs">
+      <DependentUpon>ImportGoodsDetailsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\PeriodControl.xaml.cs">
       <DependentUpon>PeriodControl.xaml</DependentUpon>
     </Compile>
@@ -169,6 +175,9 @@
     </Compile>
     <Compile Include="Views\ImportGoodsWindow.xaml.cs">
       <DependentUpon>ImportGoodsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImportStockWindow.xaml.cs">
+      <DependentUpon>ImportStockWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PayWindow.xaml.cs">
       <DependentUpon>PayWindow.xaml</DependentUpon>
@@ -254,6 +263,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\UserControls\ImportGoodsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\ImportGoodsDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\UserControls\PeriodControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -319,6 +336,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ImportGoodsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImportStockWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -430,6 +451,10 @@
     <Resource Include="Resources\Images\IncreaseIcon.png" />
     <Resource Include="Resources\Images\ErrorIcon.png" />
     <Resource Include="Resources\Images\Field.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\FFM_Logo_Dark.png" />
+    <Resource Include="Resources\Images\FFM_Logo_Light.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />

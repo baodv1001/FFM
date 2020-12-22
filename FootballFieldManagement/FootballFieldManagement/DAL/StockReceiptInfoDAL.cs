@@ -74,6 +74,69 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public bool DeleteByIdStock(string idGoods, string idStockReceipt)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("delete from StockReceiptInfo where idGoods = {0} and idStockReceipt = {1}", idGoods, idStockReceipt);
+                SqlCommand command = new SqlCommand(queryString, conn);
+                int rs = command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool DeleteByIdStockReceipt(string idStockReceipt)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "delete from StockReceiptInfo where idStockReceipt = " + idStockReceipt;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                int rs = command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool UpdateOnDB(StockReceiptInfo stockReceiptInfo)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "update StockReceiptInfo set quantity=@quantity, importPrice=@importPrice " +
+                    "where idGoods=@idGoods and idStockReceipt=@idStockReceipt";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.Parameters.AddWithValue("@idGoods", stockReceiptInfo.IdGoods.ToString());
+                command.Parameters.AddWithValue("@idStockReceipt", stockReceiptInfo.IdStockReceipt.ToString());
+                command.Parameters.AddWithValue("@quantity", stockReceiptInfo.Quantity.ToString());
+                command.Parameters.AddWithValue("@importPrice", stockReceiptInfo.ImportPrice.ToString());
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                MessageBox.Show("Thực hiện thất bại");
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         public List<string> QueryIdStockReceipt(string idGoods)
         {
             List<string> res = new List<string>();
@@ -99,7 +162,34 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public int CalculateTotalMoney(string idStockReceipt)
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = string.Format("select sum(importPrice * quantity) as total from StockReceiptInfo " +
+                    "where idStockReceipt = {0} group by idStockReceipt", idStockReceipt);
+                SqlCommand command = new SqlCommand(queryString, conn);
 
+                SqlDataReader rdr = command.ExecuteReader();
+                rdr.Read();
+                res = int.Parse(rdr["total"].ToString());
+                if (res == -1)
+                { 
+                    return 0; 
+                }
+                return res;
+            }
+            catch
+            {
+                return res;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         public List<StockReceiptInfo> GetStockReceiptInfoById(string idStockReceipt)
         {
             List<StockReceiptInfo> listStockReceiptInfo = new List<StockReceiptInfo>();

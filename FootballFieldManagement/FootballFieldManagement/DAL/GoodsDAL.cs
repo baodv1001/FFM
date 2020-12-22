@@ -120,16 +120,8 @@ namespace FootballFieldManagement.DAL
                 string queryString = "update Goods set quantity = quantity + @quantity where idGoods=" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
-
-                int rs = command.ExecuteNonQuery();
-                if (rs != 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    return true;
-                }
+                command.ExecuteNonQuery();
+                return true;
             }
             catch
             {
@@ -179,7 +171,7 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
 
-                Goods res = new Goods(int.Parse(idGoods), dataTable.Rows[0].ItemArray[1].ToString(), 
+                Goods res = new Goods(int.Parse(idGoods), dataTable.Rows[0].ItemArray[1].ToString(),
                     dataTable.Rows[0].ItemArray[2].ToString(), double.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
                     Convert.FromBase64String(dataTable.Rows[0].ItemArray[4].ToString()));
 
@@ -188,6 +180,29 @@ namespace FootballFieldManagement.DAL
             catch
             {
                 return new Goods();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public int GetMaxId()
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = "select max(idGoods) as id from Goods";
+                SqlCommand command = new SqlCommand(queryString, conn);
+
+                SqlDataReader rdr = command.ExecuteReader();
+                rdr.Read();
+                res = int.Parse(rdr["id"].ToString());
+                return res;
+            }
+            catch
+            {
+                return res;
             }
             finally
             {

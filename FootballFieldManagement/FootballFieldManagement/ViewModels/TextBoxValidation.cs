@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 
 namespace FootballFieldManagement.ViewModels
@@ -20,13 +21,9 @@ namespace FootballFieldManagement.ViewModels
             }
             if (TypeValidation == "1")
             {
-                foreach (char i in value.ToString())
-                {
-                    if (!((i >= 48 && i <= 57) || (i >= 65 && i <= 90) || (i >= 97 && i <= 122)))
-                    {
-                        result = new ValidationResult(false, this.ErrorMessage);
-                    }
-                }
+                Regex regex = new Regex(@"^[0-9]+$");
+                bool isMatch = regex.IsMatch(value.ToString());
+                result = new ValidationResult(isMatch, this.ErrorMessage);
             }
             return result;
         }

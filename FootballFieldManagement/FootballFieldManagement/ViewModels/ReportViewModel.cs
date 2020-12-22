@@ -263,7 +263,7 @@ namespace FootballFieldManagement.ViewModels
 
         public void ViewStockReceiptTemplate(StockReceiptControl stockReceiptControl)
         {
-            //Thông tin bill
+            //Thông tin stock receipt
             string idStockReceipt = stockReceiptControl.txbId.Text;
             StockReceiptTemplate stockReceiptTemplate = new StockReceiptTemplate();
 
@@ -272,12 +272,12 @@ namespace FootballFieldManagement.ViewModels
             stockReceiptTemplate.txbTotal.Text = stockReceiptControl.txbTotal.Text;
             stockReceiptTemplate.txbEmployeeName.Text = stockReceiptControl.txbEmployeeName.Text;
 
-            //Load các mặt hàng trong Bill
+            //Load các mặt hàng trong stock receipt
             List<StockReceiptInfo> listStockReceiptInfo = StockReceiptInfoDAL.Instance.GetStockReceiptInfoById(idStockReceipt);
             int numOfGoods = listStockReceiptInfo.Count();
-            if (numOfGoods > 5)
+            if (numOfGoods > 7)
             {
-                stockReceiptTemplate.Height += (numOfGoods - 5) * 31;
+                stockReceiptTemplate.Height += (numOfGoods - 7) * 31;
             }
             int i = 1;
             foreach (var stockReceiptInfo in listStockReceiptInfo)
@@ -509,8 +509,8 @@ namespace FootballFieldManagement.ViewModels
             FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idFiedlInfo);
             string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
             fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
-            fieldBillInfoControl.txbUnit.Text = "lần";
-            fieldBillInfoControl.txbQuantity.Text = "1";
+            fieldBillInfoControl.txbUnit.Text = "";
+            fieldBillInfoControl.txbQuantity.Text = "";
             fieldBillInfoControl.txbUnitPrice.Text= TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
             fieldBillInfoControl.txbTotal.Text= TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
 

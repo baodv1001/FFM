@@ -1,69 +1,40 @@
-﻿<Window
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:FootballFieldManagement.Views"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"       
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-    xmlns:UserControls="clr-namespace:FootballFieldManagement.Resources.UserControls" 
-    x:Name="wdPay" 
-    x:Class="FootballFieldManagement.Views.PayWindow"
-    mc:Ignorable="d" 
-    Title="Thanh toán" 
-    Height="810"
-    DataContext="{StaticResource PayVM}"
-    Width="1440" 
-    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
-    WindowStartupLocation="CenterScreen" 
-    ResizeMode="CanMinimize" 
-    HorizontalAlignment="Right">
+﻿<Window x:Class="FootballFieldManagement.Views.ImportStockWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootballFieldManagement.Views"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"       
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:UserControls="clr-namespace:FootballFieldManagement.Resources.UserControls" 
+        x:Name="wdImportStock" 
+        mc:Ignorable="d" 
+        DataContext="{StaticResource GoodsVM}"
+        Title="Nhập hàng" 
+        Height="810"
+        Width="1440" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        WindowStartupLocation="CenterScreen" 
+        ResizeMode="CanMinimize" >
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Activated">
-            <i:InvokeCommandAction Command="{Binding LoadBillInfoCommand}" 
-                                   CommandParameter="{Binding ElementName=wdPay}"/>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding GetWindowCommand}" 
+                                   CommandParameter="{Binding ElementName=wdImportStock}"/>
         </i:EventTrigger>
         <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction Command="{Binding ClosingWdCommnad}" 
-                                   CommandParameter="{Binding ElementName=wdPay}"/>
-        </i:EventTrigger>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadTotalCommand}" 
-                                   CommandParameter="{Binding ElementName=wdPay}"/>
-            <i:InvokeCommandAction Command="{Binding GetWindowCommand}" 
-                                   CommandParameter="{Binding ElementName=wdPay}"/>
+            <i:InvokeCommandAction Command="{Binding ExitImportStockCommand}" 
+                                   CommandParameter="{Binding ElementName=wdImportStock}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
-        <TextBox 
-            x:Name="txbIdBill" 
-            Text="19" 
-            HorizontalAlignment="Left" 
-            Height="23" 
-            Margin="239,10,0,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Top" 
-            Width="120" 
-            Visibility="Hidden"/>
-        <TextBox 
-            x:Name="txbIdFieldInfo" 
-            Text="1" 
-            HorizontalAlignment="Left" 
-            Height="23" 
-            Margin="239,10,0,0" 
-            TextWrapping="Wrap" 
-            VerticalAlignment="Top" 
-            Width="120" 
-            Visibility="Hidden"/>
         <Grid 
-            x:Name="grdPickGoods" 
             Width="1030" 
             HorizontalAlignment="Left">
             <Button 
                 x:Name="btnBack"
                 Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                 ToolTip="Tìm kiếm tên khách hàng" 
-                Margin="20,50,0,0" 
+                Margin="15,50,0,0" 
                 Background="{x:Null}"  
                 BorderBrush="{x:Null}" 
                 Width="40" 
@@ -71,7 +42,7 @@
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left" 
                 Command="{Binding BackCommand}"
-                CommandParameter="{Binding ElementName=wdPay}"
+                CommandParameter="{Binding ElementName=wdImportStock}"
                 IsTabStop="False" >
                 <materialDesign:PackIcon 
                     x:Name="icnBack" 
@@ -84,7 +55,7 @@
             </Button>
             <Grid 
                 x:Name="grdFindGoods" 
-                Margin="0,420,22,0" 
+                Margin="0,420,32,0" 
                 Height="46" 
                 Width="400"
                 HorizontalAlignment="Right" 
@@ -96,10 +67,11 @@
                     RadiusY="6" 
                     RadiusX="6" 
                     Stroke="{DynamicResource Primary}" 
-                    Height="40" StrokeThickness="2"/>
+                    Height="40" 
+                    StrokeThickness="2"/>
                 <TextBox 
                     x:Name="txtSearch"
-                    materialDesign:HintAssist.Hint="Tìm sản phẩm"
+                    materialDesign:HintAssist.Hint="Tìm mặt hàng"
                     HorizontalAlignment="Left" 
                     FontSize="16" 
                     BorderThickness="0" 
@@ -112,42 +84,23 @@
                     VerticalContentAlignment="Center"
                     Foreground="{DynamicResource Gray1}" 
                     SelectionBrush="{DynamicResource Primary}"
-                    Padding="2,0,0,0" Width="380" >
+                    Padding="2,0,0,0" 
+                    Width="380" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="TextChanged">
-                            <i:InvokeCommandAction 
-                                    Command="{Binding LoadGoodsCommand}" 
-                                    CommandParameter="{Binding ElementName=wdPay}"/>
+                            <i:InvokeCommandAction Command="{Binding LoadGoodsCommand}" 
+                                                   CommandParameter="{Binding ElementName=wdImportStock}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
-                <!--<Button 
-                    x:Name="btnSearch"
-                    Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
-                    ToolTip="Tìm kiếm tên khách hàng" 
-                    Margin="0,0,10,0" 
-                    Background="{x:Null}" 
-                    BorderBrush="{x:Null}" 
-                    Width="38" 
-                    Height="38" 
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Right" 
-                    IsTabStop="False" >
-                    <materialDesign:PackIcon 
-                        x:Name="icnSearch" 
-                        Kind="Magnify" 
-                        Margin="0,0,0,0" 
-                        Width="20" 
-                        Height="20" />
-                </Button>-->
             </Grid>
             <Border 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top"
                 CornerRadius="6"
                 Width="938"
-                Height="50" 
-                Margin="70,50,0,0"
+                Height="40" 
+                Margin="60,50,0,0"
                 Background="{DynamicResource Primary}" >
                 <Grid 
                     Width="938"
@@ -155,12 +108,12 @@
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                        <ColumnDefinition Width="3*"></ColumnDefinition>
-                        <ColumnDefinition Width="1.3*"></ColumnDefinition>
-                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                        <ColumnDefinition Width="80"></ColumnDefinition>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="90"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
                         Grid.Column="0" 
@@ -185,15 +138,15 @@
                     <TextBlock 
                         Text="Số lượng" 
                         Grid.Column="2" 
-                        HorizontalAlignment="Left" 
-                        Margin="20,0,0,0" 
+                        HorizontalAlignment="Center" 
+                        Margin="0" 
                         TextWrapping="Wrap" 
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
                         Foreground="{DynamicResource White}"/>
                     <TextBlock 
-                        Text="Đơn giá" 
+                        Text="Giá nhập" 
                         Grid.Column="3" 
                         HorizontalAlignment="Center" 
                         Margin="0" 
@@ -255,9 +208,9 @@
                 HorizontalAlignment="Left"
                 Height="316" 
                 Width="938"
-                Margin="70,90,0,0" 
+                Margin="60,90,0,0" 
                 VerticalAlignment="Top" 
-                Background="#FFF3F3F3">
+                Background="{StaticResource Gray6}">
                 <ScrollViewer 
                     VerticalScrollBarVisibility="Auto" 
                     HorizontalScrollBarVisibility="Disabled" >
@@ -275,25 +228,24 @@
                 BorderThickness="2"
                 HorizontalAlignment="Left"
                 Height="356" 
-                Margin="70,50,0,0" 
+                Margin="60,50,0,0" 
                 VerticalAlignment="Top"
                 Width="938" 
                 CornerRadius="6"/>
             <Label 
-                Content="Sản phẩm" 
+                Content="Danh sách mặt hàng" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Margin="70,420,0,0" 
+                Margin="60,420,0,0" 
                 FontSize="26" 
                 FontWeight="Bold" 
                 Foreground="{DynamicResource Primary}"/>
-            <Grid 
-                x:Name="grdGoods" 
+            <Grid  
                 HorizontalAlignment="Left"
                 Height="280" 
                 Width="938"
-                Margin="70,480,10,0" 
-                Background="#FFF3F3F3"
+                Margin="60,480,10,0" 
+                Background="{StaticResource Gray6}"
                 VerticalAlignment="Top" >
                 <ScrollViewer 
                     VerticalScrollBarVisibility="Auto" 
@@ -303,9 +255,8 @@
                         Margin="0,0,0,6">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Loaded">
-                                <i:InvokeCommandAction 
-                                    Command="{Binding LoadGoodsCommand}" 
-                                    CommandParameter="{Binding ElementName=wdPay}"/>
+                                <i:InvokeCommandAction Command="{Binding LoadGoodsCommand}" 
+                                                       CommandParameter="{Binding ElementName=wdImportStock}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </WrapPanel>
@@ -316,7 +267,7 @@
                 HorizontalAlignment="Left"
                 Height="280" 
                 Width="938"
-                Margin="70,480,10,0" 
+                Margin="60,480,10,0" 
                 VerticalAlignment="Top" 
                 BorderBrush="{DynamicResource Primary}"
                 BorderThickness="2">
@@ -327,181 +278,133 @@
             Width="400" 
             HorizontalAlignment="Right">
             <TextBlock 
+                Text="Nhập hàng" 
                 Margin="0,50,0,0" 
                 TextWrapping="Wrap" 
-                Text="Thanh toán" 
                 VerticalAlignment="Top" 
-                FontSize="32"
+                FontSize="36"
                 HorizontalAlignment="Center" 
-                Foreground="{DynamicResource Primary}" 
-                Width="174" 
+                Foreground="{StaticResource Primary}" 
                 FontWeight="Bold" />
             <Rectangle 
-                Fill="#FF007AFF" 
+                Fill="{DynamicResource Primary}" 
                 Width="260" 
                 Height="3" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top" 
-                Margin="0,200,0,0"/>
-            <Grid 
-                x:Name="grdInfo" 
-                Height="65" 
-                Margin="30,110,20,0" 
+                Margin="0,230,0,0"/>
+            <StackPanel 
+                Margin="0,140,0,0" 
                 VerticalAlignment="Top" 
                 Width="350" 
                 HorizontalAlignment="Center">
-                <Image 
-                    x:Name="imgPerson" 
-                    HorizontalAlignment="Left"
-                    Height="64" 
-                    VerticalAlignment="Top" 
-                    Width="68"
-                    Source="/FootballFieldManagement;component/Resources/Images/avatar.png"/>
-                <TextBlock 
-                    x:Name="txbCustomerName" 
-                    HorizontalAlignment="Left" 
-                    Height="27" 
-                    Margin="92,6,0,0" 
-                    TextWrapping="Wrap"
-                    Text="Tên khách hàng" 
-                    VerticalAlignment="Top" 
-                    Width="143" 
-                    FontSize="16" 
-                    FontWeight="Medium"/>
-                <TextBlock 
-                    x:Name="txbCustomerPhoneNumber" 
-                    HorizontalAlignment="Left"
-                    Height="27" 
-                    Margin="92,33,0,0" 
-                    TextWrapping="Wrap"
-                    Text="Số điện thoại"
-                    VerticalAlignment="Top" 
-                    Width="143"
-                    FontSize="16" 
-                    FontWeight="Medium"/>
-            </Grid>
-            <Grid 
-                x:Name="grdInfoPrice" 
-                Height="89"
-                Margin="30,240,30,0" 
-                VerticalAlignment="Top"
-                Width="340" 
-                HorizontalAlignment="Center">
-                <Grid
-                    x:Name="grdMoreInfo" 
-                    VerticalAlignment="Top" 
-                    Width="340" 
-                    Height="30">
+                <Grid>
                     <TextBlock 
                         HorizontalAlignment="Left" 
-                        Height="30" 
-                        TextWrapping="Wrap"
-                        Text="Tiền hàng" 
-                        VerticalAlignment="Center"
-                        Width="130" 
-                        FontSize="16" 
-                        Padding="0"/>
-                    <TextBlock 
-                        x:Name="txbtotalGoodsPrice" 
-                        HorizontalAlignment="Right"
-                        Height="30" 
-                        TextWrapping="Wrap" 
-                        Text="{Binding Path=TotalGoods, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                        VerticalAlignment="Center"
-                        Width="130" 
-                        FontSize="16"
                         Margin="0" 
-                        TextAlignment="Right"/>
+                        TextWrapping="Wrap"
+                        Text="Mã nhân viên" 
+                        VerticalAlignment="Center" 
+                        FontSize="18" 
+                        FontWeight="Medium" 
+                        Foreground="{DynamicResource Gray1}"/>
+                    <TextBlock 
+                        x:Name="txbId"
+                        HorizontalAlignment="Right" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
+                        Text="#1" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="Medium" 
+                        Foreground="{DynamicResource Gray1}"/>
                 </Grid>
-                <Grid 
-                    x:Name="grdPriceTime" 
-                    VerticalAlignment="Top" 
-                    Margin="0,30,0,0" 
-                    Height="30" 
-                    HorizontalAlignment="Left" 
-                    Width="340">
+                <Grid Margin="0,10,0,0">
                     <TextBlock 
                         HorizontalAlignment="Left" 
-                        Height="30" 
-                        TextWrapping="Wrap" 
-                        Text="Tiền sân" 
-                        VerticalAlignment="Center"
-                        Width="130"
-                        FontSize="16"
-                        Margin="0"/>
-                    <TextBlock 
-                        x:Name="txbFieldPrice" 
-                        HorizontalAlignment="Right"
-                        Height="27" 
-                        TextWrapping="Wrap"
-                        Text="150000"
-                        VerticalAlignment="Center"
-                        Width="132" 
-                        FontSize="16" 
                         Margin="0" 
-                        TextAlignment="Right"/>
-                </Grid>
-                <Grid 
-                    x:Name="grdTax" 
-                    VerticalAlignment="Top" 
-                    Margin="0,59,0,0" 
-                    Height="30" 
-                    HorizontalAlignment="Left" 
-                    Width="340">
-                    <TextBlock 
-                        HorizontalAlignment="Left" 
-                        Height="30" 
-                        TextWrapping="Wrap" 
-                        Text="Giảm giá sân" 
-                        VerticalAlignment="Center"
-                        Width="130"
-                        FontSize="16"
-                        Margin="0"/>
-                    <TextBlock 
-                        x:Name="txbDiscount" 
-                        HorizontalAlignment="Right"
-                        Height="27" 
                         TextWrapping="Wrap"
-                        Text="10000"
-                        VerticalAlignment="Center"
-                        Width="132" 
-                        FontSize="16" 
+                        Text="Tên nhân viên" 
+                        VerticalAlignment="Center" 
+                        FontSize="18" 
+                        FontWeight="Medium" 
+                        Foreground="{DynamicResource Gray1}"/>
+                    <TextBlock 
+                        x:Name="txbName"
+                        HorizontalAlignment="Right" 
                         Margin="0" 
-                        TextAlignment="Right"/>
+                        TextWrapping="Wrap"
+                        Text="Phan Ngọc Quang" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="Medium" 
+                        Foreground="{DynamicResource Gray1}"/>
                 </Grid>
-            </Grid>
-            <TextBox 
-                x:Name="txtMoreInfo"
-                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                VerticalAlignment="Top"
-                Height="115"
-                AcceptsReturn="True"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto"
-                materialDesign:HintAssist.Hint="Thông tin thêm"
+            </StackPanel>
+            <StackPanel
                 HorizontalAlignment="Center" 
-                Margin="30,360,28,0" 
-                Width="342" 
-                Foreground="Gray" 
-                BorderBrush="#FFE0E0E0" 
-                FontSize="16" />
-            <Grid            
-                x:Name="grdPayForm" 
-                Height="180" 
+                Width="350"
+                Margin="0,260,0,0" 
+                VerticalAlignment="Top">
+                <Grid>
+                    <TextBlock 
+                        HorizontalAlignment="Left" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
+                        Text="Ngày" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Gray1}"/>
+                    <TextBlock 
+                        x:Name="txbToday"
+                        HorizontalAlignment="Right" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
+                        Text="20/12/2020" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Gray1}"/>
+                </Grid>
+                <Grid Margin="0,15,0,0">
+                    <TextBlock 
+                        HorizontalAlignment="Left" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
+                        Text="Mã hóa đơn" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Gray1}"/>
+                    <TextBlock 
+                        x:Name="txbIdStockReceipt"
+                        HorizontalAlignment="Right" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
+                        Text="1" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Gray1}"/>
+                </Grid>
+            </StackPanel>
+            <Grid
+                Height="240" 
                 Margin="0" 
                 VerticalAlignment="Bottom">
                 <Button 
                     x:Name="btnPay"
                     Style="{StaticResource MyGreenButtonStyle}"
                     Height="40"
-                    Command="{Binding PayBillCommand}"
-                    CommandParameter="{Binding ElementName=wdPay}"
-                    materialDesign:ButtonAssist.CornerRadius="8"
+                    Command="{Binding ImportStockCommand}"
+                    CommandParameter="{Binding ElementName=wdImportStock}"
+                    materialDesign:ButtonAssist.CornerRadius="6"
                     BorderThickness="2"
-                    Margin="0,60,0,0" 
+                    Margin="0,0,0,100"  
                     FontSize="20" 
                     Content="Thanh toán"
-                    VerticalAlignment="Top" 
+                    VerticalAlignment="Bottom" 
                     Width="320" 
                     FontWeight="Bold" 
                     HorizontalAlignment="Center"/>
@@ -509,11 +412,11 @@
                     x:Name="btnPrintBill"
                     Style="{StaticResource MaterialDesignRaisedButton}"
                     Height="40"
-                    Command="{Binding ViewBillCommand}"
-                    CommandParameter="{Binding ElementName=wdPay}"
-                    materialDesign:ButtonAssist.CornerRadius="8"
+                    Command="{Binding ViewStockReceiptTemplateCommand}"
+                    CommandParameter="{Binding ElementName=wdImportStock}"
+                    materialDesign:ButtonAssist.CornerRadius="6"
                     BorderThickness="2"
-                    Margin="0,0,0,20" 
+                    Margin="0,0,0,30" 
                     Background="{DynamicResource White}" 
                     BorderBrush="{DynamicResource Primary}"  
                     Foreground="{DynamicResource Primary}" 
@@ -537,14 +440,14 @@
                 <Grid 
                     HorizontalAlignment="Center" 
                     Height="30" 
-                    Margin="0,15,0,0" 
+                    Margin="0,40,0,0" 
                     VerticalAlignment="Top"
                     Width="340">
                     <TextBlock 
-                        x:Name="txbSumOfPrice" 
+                        x:Name="txbTotal" 
+                        Text="0"
                         HorizontalAlignment="Right"
                         TextWrapping="Wrap" 
-                        Text="{Binding Path=Total, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         VerticalAlignment="Center"
                         FontSize="18" 
                         Margin="0" 
@@ -570,7 +473,7 @@
                     Margin="0" 
                     VerticalAlignment="Top"
                     Width="260"
-                    Fill="#FF007AFF"/>
+                    Fill="{DynamicResource Primary}"/>
             </Grid>
         </Grid>
     </Grid>

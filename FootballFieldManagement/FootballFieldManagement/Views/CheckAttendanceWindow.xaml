@@ -13,6 +13,7 @@
         Width="800" 
         WindowStartupLocation="CenterScreen" 
         DataContext="{StaticResource CheckAttendanceVM}"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         Background="White"
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>

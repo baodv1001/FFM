@@ -15,6 +15,7 @@
         Background="#FFFF" 
         DataContext="{StaticResource EmployeeVM}"
         WindowStartupLocation="CenterScreen" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         ResizeMode="CanMinimize">
     <Grid Margin="0">
         <Grid  

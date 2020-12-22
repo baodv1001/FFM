@@ -76,7 +76,8 @@ namespace FootballFieldManagement.ViewModels
                             {
                                 //Lấy thông tin người đăng nhập
                                 CurrentAccount.DisplayName = employee.Name;
-                                CurrentAccount.Image = employee.ImageFile;                                
+                                CurrentAccount.Image = employee.ImageFile;
+                                CurrentAccount.IdEmployee = employee.IdEmployee;
                                 this.employee = employee;
                                 break;
                             }
@@ -90,7 +91,7 @@ namespace FootballFieldManagement.ViewModels
             if (isLogin)
             {
                 HomeWindow home = new HomeWindow();
-                home.lbTitle.Content = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
+                home.txbFieldName.Text = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
                 SetJurisdiction(home);
                 DisplayAccount(home);
                 DisplayEmployee(employee, home);

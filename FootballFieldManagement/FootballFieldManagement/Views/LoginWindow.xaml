@@ -13,7 +13,8 @@
         Height="810" 
         Width="1440" 
         WindowStartupLocation="CenterScreen" 
-        Background="White" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Background="{StaticResource White}" 
         ResizeMode="CanMinimize">
     <Grid>
         <Label 
@@ -169,18 +170,15 @@
                 Command="{Binding LogInCommand}"
                 CommandParameter="{Binding ElementName=wdLogin}"
                 Style="{StaticResource MyPrimaryButtonStyle}"
-                FocusVisualStyle="{x:Null}"
                 Content="Đăng nhập"
                 Height="40" 
                 Width="220"
-                materialDesign:ButtonAssist.CornerRadius="18"
+                materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Đăng nhập" 
                 VerticalAlignment="Top" 
                 Margin="0,330,0,0" 
                 HorizontalAlignment="Center"
                 TabIndex="3" 
-                BorderThickness="0" 
-                BorderBrush="{x:Null}" 
                 FontSize="20" 
                 FontWeight="Bold"
                 Padding="0" >

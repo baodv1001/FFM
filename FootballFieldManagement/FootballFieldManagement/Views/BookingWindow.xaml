@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
-       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"   
         Height="640"
         Width="420" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize">
     <Grid 

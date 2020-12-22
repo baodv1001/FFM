@@ -7,14 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800" 
-             Width="594" 
+             Width="773.6" 
              Height="30"
              Background="{DynamicResource White}"
              Margin="3,0,3,1">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.4*"/>
-            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
             <ColumnDefinition Width="0.7*"/>
             <ColumnDefinition Width="0.7*"/>
@@ -91,7 +91,7 @@
         </Grid>
         <TextBlock 
             x:Name="txbTotalSalary"
-            Text="Tổng lương"
+            Text="Thực lãnh"
             Grid.Column="5"
             HorizontalAlignment="Center" 
             Margin="0" 

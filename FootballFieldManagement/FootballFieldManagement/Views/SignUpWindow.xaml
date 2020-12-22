@@ -13,6 +13,7 @@
         Title="Đăng ký tài khoản" 
         Height="610"
         Width="390" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>

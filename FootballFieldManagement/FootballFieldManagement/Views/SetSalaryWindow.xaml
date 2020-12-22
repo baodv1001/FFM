@@ -13,6 +13,7 @@
         Title="ThietLapLuong" 
         Height="500" 
         Width="500"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>

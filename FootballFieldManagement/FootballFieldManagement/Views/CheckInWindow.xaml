@@ -9,6 +9,7 @@
         Height="700"
         Width="440" 
         WindowStartupLocation="CenterScreen" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         ResizeMode="CanMinimize" 
         Background="{DynamicResource White}">
     <!--Form đã đặt sân-->

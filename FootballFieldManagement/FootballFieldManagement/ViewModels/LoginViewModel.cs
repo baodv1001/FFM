@@ -33,6 +33,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand OpenSignUpWindowCommand { get; set; }
         public ICommand PasswordChangedCommand { get; set; }
         public ICommand TurnOnNotiCommand { get; set; }
+        public ICommand ChangePasswordCommand { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private string userName;
@@ -46,6 +47,12 @@ namespace FootballFieldManagement.ViewModels
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingPassword(parameter));
             OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSignUpWindow(parameter));
             TurnOnNotiCommand = new RelayCommand<object>((parameter) => true, (parameter) => TurnOnNotification());
+            ChangePasswordCommand = new RelayCommand<object>((parameter) => true, (parameter) => OpenForgotPasswordWindow());
+        }
+        public void OpenForgotPasswordWindow()
+        {
+            ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            forgotPasswordWindow.ShowDialog();
         }
         public void TurnOnNotification()
         {

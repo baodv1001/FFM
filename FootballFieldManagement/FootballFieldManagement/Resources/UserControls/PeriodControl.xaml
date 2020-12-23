@@ -146,6 +146,7 @@
                 </i:Interaction.Triggers>
             </TextBox>
             <Button 
+                x:Name="btnDelete" 
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Command="{Binding DeleteTimeFrameCommand}"
                 CommandParameter="{Binding ElementName=ucPeriod}"

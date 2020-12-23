@@ -106,7 +106,8 @@
             VerticalAlignment="Center" 
             FontSize="16"
             FontWeight="SemiBold"/>
-        <Button
+        <Button 
+            x:Name="btnDelete"
             Grid.Column="5"
             Height="26" 
             Margin="0" 

@@ -144,6 +144,7 @@
             CornerRadius="6" 
             HorizontalAlignment="Left"/>
         <Button 
+            x:Name="btnAddTimeFrame" 
             Grid.Row="2"
             Style="{StaticResource MaterialDesignRaisedButton}"
             Command="{Binding ShowWindowAddTimeFrame}"

@@ -183,6 +183,9 @@
     <Compile Include="Views\CheckAttendanceWindow.xaml.cs">
       <DependentUpon>CheckAttendanceWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ForgotPasswordWindow.xaml.cs">
+      <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ImportGoodsWindow.xaml.cs">
       <DependentUpon>ImportGoodsWindow.xaml</DependentUpon>
     </Compile>
@@ -342,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CheckInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ForgotPasswordWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

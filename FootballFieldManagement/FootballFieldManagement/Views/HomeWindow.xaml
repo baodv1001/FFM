@@ -523,7 +523,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -563,7 +563,7 @@
                                 Grid.Row="1"
                                 Text="{Binding ThisMonthRevenue}"
                                 HorizontalAlignment="Left"
-                                Margin="20,0,0,0" 
+                                Margin="20,0.8,0,4.8" 
                                 TextWrapping="Wrap" 
                                 VerticalAlignment="Center" 
                                 FontSize="24" 
@@ -755,7 +755,8 @@
                             <ComboBoxItem Content="Hôm nay"/>
                             <ComboBoxItem Content="Tháng nay"/>
                         </ComboBox>
-                        <lvc:PieChart
+                        <lvc:PieChart 
+                            x:Name="lvcPieChart"
                             DataContext="{StaticResource ReportVM}"
                             Series="{Binding PieSeriesCollection}"
                             LegendLocation="None"  
@@ -881,7 +882,7 @@
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
                                            CommandParameter="{Binding ElementName=wdHome}"/>
-                                    </i:EventTrigger>
+                                    </i:EventTrigger>   
                                 </i:Interaction.Triggers>
                                 <ComboBoxItem Content="Theo tháng"/>
                                 <ComboBoxItem Content="Theo quý"/>
@@ -912,6 +913,7 @@
                             </ComboBox>
                         </StackPanel>
                         <lvc:CartesianChart 
+                            x:Name="lvcColumnChart" 
                             DataContext="{StaticResource ReportVM}"
                             Series="{Binding SeriesCollection}" 
                             LegendLocation="Bottom"
@@ -1188,7 +1190,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1" 
-                Visibility="Hidden">
+                Visibility="Visible">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="50"/>
@@ -1417,7 +1419,7 @@
                     Margin="0,0,40,0"
                     VerticalAlignment="Center">
                     <Button 
-                        x:Name="btnImportGoods"
+                        x:Name="btnImportStock"
                         Command="{Binding OpenImportStockWindowCommand}"
                         CommandParameter="{Binding ElementName=wdHome}"
                         Content="Nhập hàng"
@@ -1549,7 +1551,8 @@
                 Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding LoadedCommand }" CommandParameter="{Binding ElementName=wdHome}"/>
+                        <i:InvokeCommandAction Command="{Binding LoadedCommand }" 
+                                               CommandParameter="{Binding ElementName=wdHome}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Grid.RowDefinitions>
@@ -1562,7 +1565,7 @@
                     Margin="40,0"
                     VerticalAlignment="Center">
                     <ComboBox
-                       x:Name="cboViews"
+                        x:Name="cboViews"
                         materialDesign:ComboBoxAssist.ClassicMode="true"
                         FontSize="16"
                         FontWeight="Medium" 

@@ -10,7 +10,7 @@
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         mc:Ignorable="d"
         DataContext="{StaticResource EmployeeVM}"
-        Title="ThietLapLuong" 
+        Title="Thiết lập lương" 
         Height="500" 
         Width="500"
         Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
@@ -78,7 +78,7 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=wdSetSalary}"/>
-                        </i:EventTrigger>
+                        </i:EventTrigger>   
                     </i:Interaction.Triggers>
                     <ComboBoxItem Content="Bảo vệ"/>
                     <ComboBoxItem Content="Nhân viên quản lý"/>
@@ -132,7 +132,8 @@
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="TextChanged">
-                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtSalaryBasic}"/>
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" 
+                                                   CommandParameter="{Binding ElementName=txtSalaryBasic}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>

@@ -413,10 +413,8 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 string idGoods = goodsControl.txbId.Text;
-                bool isSuccessed1 = StockReceiptInfoDAL.Instance.DeleteFromDB(idGoods);
-                bool isSuccessed2 = BillInfoDAL.Instance.DeleteIdGoods(idGoods);
-                bool isSuccessed3 = GoodsDAL.Instance.DeleteFromDB(idGoods);
-                if (isSuccessed1 && isSuccessed2 && isSuccessed3 || isSuccessed3)
+                bool isSuccessed = GoodsDAL.Instance.DeleteFromDB(idGoods);
+                if (isSuccessed)
                 {
                     homeWindow.stkGoods.Children.Remove(goodsControl);
                     MessageBox.Show("Xoá thành công!");

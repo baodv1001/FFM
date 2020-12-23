@@ -246,6 +246,7 @@
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
+                    MaxLength="11"
                     Padding="0" 
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 

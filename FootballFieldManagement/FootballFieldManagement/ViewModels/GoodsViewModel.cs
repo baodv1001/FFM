@@ -32,8 +32,8 @@ namespace FootballFieldManagement.ViewModels
         public string Quantity { get => quantity; set => quantity = value; }
         private string importPrice;
         public string ImportPrice { get => importPrice; set => importPrice = value; }
-        public int total;
-        public int Total
+        public long total;
+        public long Total
         {
             get => total;
             set
@@ -48,7 +48,7 @@ namespace FootballFieldManagement.ViewModels
 
         private HomeWindow homeWindow;
         public HomeWindow HomeWindow { get => homeWindow; set => homeWindow = value; }
-        
+
         public ICommand LoadStkGoodsCommand { get; set; } //show AddGoodsWindow -> edit
 
         //GoodsControl
@@ -82,7 +82,7 @@ namespace FootballFieldManagement.ViewModels
         public GoodsViewModel()
         {
             LoadStkGoodsCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadStkGoods(parameter));
-            
+
             //GoodsControl
             EditGoodsCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => ShowEditGoods(parameter));
             ImportGoodsCommand = new RelayCommand<TextBlock>((parameter) => true, (parameter) => ShowImportGoods(parameter));
@@ -178,7 +178,7 @@ namespace FootballFieldManagement.ViewModels
         {
             int idStockReceipt = int.Parse(importStockWindow.txbIdStockReceipt.Text);
 
-            StockReceipt stockReceipt = new StockReceipt(idStockReceipt, CurrentAccount.IdAccount, DateTime.Now, int.Parse(importStockWindow.txbTotal.Text));
+            StockReceipt stockReceipt = new StockReceipt(idStockReceipt, CurrentAccount.IdAccount, DateTime.Now, long.Parse(importStockWindow.txbTotal.Text));
             if (StockReceiptDAL.Instance.UpdateOnDB(stockReceipt))
             {
                 List<StockReceiptInfo> listStockReceiptInfo = StockReceiptInfoDAL.Instance.GetStockReceiptInfoById(idStockReceipt.ToString());
@@ -239,6 +239,7 @@ namespace FootballFieldManagement.ViewModels
                 importGoodsDetailsControl.txbName.Text = goods.Name;
                 importGoodsDetailsControl.nmsQuantity.Text = stockReceiptInfo.Quantity;
                 importGoodsDetailsControl.nmsQuantity.MinValue = 1;
+                importGoodsDetailsControl.nmsQuantity.MaxValue = 99999;
                 int importPrice = 0;
                 if (stockReceiptInfo.ImportPrice != 0)
                 {
@@ -280,7 +281,7 @@ namespace FootballFieldManagement.ViewModels
         public void LoadGoodsToView(ImportStockWindow parameter)
         {
             parameter.wrpGoods.Children.Clear();
-            DataTable goodsList = GoodsDAL.Instance.LoadData("Goods");
+            DataTable goodsList = GoodsDAL.Instance.LoadDatatable();
             for (int i = 0; i < goodsList.Rows.Count; i++)
             {
                 string name = goodsList.Rows[i].ItemArray[1].ToString();
@@ -501,7 +502,7 @@ namespace FootballFieldManagement.ViewModels
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, double.Parse(parameter.txtUnitPrice.Text), imgByteArr);
+                parameter.cboUnit.Text, long.Parse(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
@@ -557,7 +558,7 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), CurrentAccount.IdAccount,
-                DateTime.Parse(parameter.dpImportDate.Text), int.Parse(parameter.txtTotal.Text));
+                DateTime.Parse(parameter.dpImportDate.Text), long.Parse(parameter.txtTotal.Text));
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(parameter.txtIdStockReceipt.Text),

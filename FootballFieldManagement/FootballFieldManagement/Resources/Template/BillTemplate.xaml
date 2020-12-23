@@ -47,28 +47,12 @@
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Rectangle 
-                    Grid.Column="0"
-                    Fill="#FFF4F4F5" 
-                    HorizontalAlignment="Left" 
-                    Height="30" 
-                    Margin="5,0,0,10"
-                    Stroke="{DynamicResource Gray1}"
+                <Image 
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Width="30"
-                    RenderTransformOrigin="0.5,0.5" 
-                    RadiusX="4"
-                    RadiusY="4"
-                    StrokeThickness="3">
-                    <Rectangle.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="45"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Rectangle.RenderTransform>
-                </Rectangle>
+                    Width="60" 
+                    Height="60"
+                    Source="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Transperant.png"/>
                 <StackPanel
                     Grid.Column="1">
                     <TextBlock 
@@ -409,7 +393,7 @@
         <Grid
             Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="300"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
@@ -417,12 +401,12 @@
                 x:Name="txbTotal"
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Margin="0,69,2,0" 
+                Margin="0,69,0,0" 
                 TextWrapping="Wrap" 
                 Text="1.100.000" 
                 VerticalAlignment="Top"
                 FontSize="16" 
-                FontWeight="Bold" 
+                FontWeight="SemiBold" 
                 Foreground="{DynamicResource White}"
                 Panel.ZIndex="1" 
                 TextAlignment="Right"/>
@@ -432,7 +416,7 @@
                 Height="30"  
                 StrokeThickness="0"
                 VerticalAlignment="Top" 
-                Width="220" 
+                Width="242" 
                 Fill="{DynamicResource Primary}"
                 Margin="0,65,0,0"/>
             <Rectangle 
@@ -457,7 +441,7 @@
             <TextBlock 
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Margin="0,70,105,0" 
+                Margin="0,70,130,0" 
                 TextWrapping="Wrap" 
                 Text="Thực thanh toán:" 
                 VerticalAlignment="Top"
@@ -543,7 +527,7 @@
                 HorizontalAlignment="Right"
                 Margin="0,15,0,0" 
                 VerticalAlignment="Top"
-                Width="212">
+                Width="235">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="70"/>
                     <ColumnDefinition/>

@@ -162,9 +162,9 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public int CalculateTotalMoney(string idStockReceipt)
+        public long CalculateTotalMoney(string idStockReceipt)
         {
-            int res = 0;
+            long res = 0;
             try
             {
                 conn.Open();
@@ -174,11 +174,7 @@ namespace FootballFieldManagement.DAL
 
                 SqlDataReader rdr = command.ExecuteReader();
                 rdr.Read();
-                res = int.Parse(rdr["total"].ToString());
-                if (res == -1)
-                { 
-                    return 0; 
-                }
+                res = long.Parse(rdr["total"].ToString());
                 return res;
             }
             catch

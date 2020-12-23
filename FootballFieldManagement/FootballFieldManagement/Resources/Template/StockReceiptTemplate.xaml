@@ -34,28 +34,12 @@
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Rectangle 
-                    Grid.Column="0"
-                    Fill="#FFF4F4F5" 
-                    HorizontalAlignment="Left" 
-                    Height="40" 
-                    Margin="5,0,0,10"
-                    Stroke="{DynamicResource Gray1}"
-                    VerticalAlignment="Bottom"
-                    Width="40"
-                    RenderTransformOrigin="0.5,0.5" 
-                    RadiusX="4"
-                    RadiusY="4"
-                    StrokeThickness="3">
-                    <Rectangle.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="45"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Rectangle.RenderTransform>
-                </Rectangle>
+                <Image 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="70" 
+                    Height="70"
+                    Source="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Transperant.png"/>
                 <StackPanel
                     Grid.Column="1">
                     <TextBlock 
@@ -214,11 +198,11 @@
                 Margin="30,0" 
                 Background="{DynamicResource Primary}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*"/>
-                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="240"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="1.2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock 
@@ -316,7 +300,7 @@
                     x:Name="txbTotal"
                     TextWrapping="Wrap" 
                     Text="2.000.000" 
-                    FontWeight="Bold"
+                    FontWeight="SemiBold"
                     Margin="0,0,10,0" 
                     Foreground="{DynamicResource White}"
                     FontSize="18" 
@@ -326,7 +310,7 @@
                 <Rectangle
                     Fill="{DynamicResource Primary}" 
                     Height="30" 
-                    Width="140" 
+                    Width="170" 
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Margin="0" 

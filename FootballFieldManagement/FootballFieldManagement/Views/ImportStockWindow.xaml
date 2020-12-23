@@ -108,9 +108,9 @@
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="60"/>
                         <ColumnDefinition Width="280"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="120"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="90"/>

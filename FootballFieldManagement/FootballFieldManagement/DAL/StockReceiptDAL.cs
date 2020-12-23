@@ -44,7 +44,7 @@ namespace FootballFieldManagement.DAL
                     idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
                 }
                 StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount,
-                    DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()));
+                    DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString()));
                 stockReceiptList.Add(acc);
             }
             return stockReceiptList;

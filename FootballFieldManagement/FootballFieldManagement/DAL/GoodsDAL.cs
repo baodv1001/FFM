@@ -27,33 +27,66 @@ namespace FootballFieldManagement.DAL
         }
         public List<Goods> ConvertDBToList()
         {
-            DataTable dt;
             List<Goods> goodsList = new List<Goods>();
             try
             {
-                dt = LoadData("Goods");
+                conn.Open();
+                string queryString = "select * from Goods where isDeleted = 0";
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
+                        dt.Rows[i].ItemArray[2].ToString(), long.Parse(dt.Rows[i].ItemArray[3].ToString()),
+                        Convert.FromBase64String(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()),
+                        int.Parse(dt.Rows[i].ItemArray[6].ToString()));
+                    goodsList.Add(acc);
+                }
+                return goodsList;
             }
             catch
             {
-                conn.Close();
-                dt = LoadData("Goods");
+                return goodsList;
             }
-            for (int i = 0; i < dt.Rows.Count; i++)
+            finally
             {
-                Goods acc = new Goods(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
-                    dt.Rows[i].ItemArray[2].ToString(), double.Parse(dt.Rows[i].ItemArray[3].ToString()),
-                    Convert.FromBase64String(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()));
-                goodsList.Add(acc);
+                conn.Close();
             }
-            return goodsList;
+        }
+        public DataTable LoadDatatable()
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Goods where isDeleted = 0";
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+            catch
+            {
+                return new DataTable();
+            }
+            finally
+            {
+                conn.Close();
+            }
         }
         public bool AddIntoDB(Goods goods)
         {
             try
             {
                 conn.Open();
-                string queryString = "insert into Goods(idGoods, name, unit, unitPrice, imageFile, quantity) " +
-                    "values(@idGoods, @name, @unit, @unitPrice, @imageFile, @quantity)";
+                string queryString = "insert into Goods(idGoods, name, unit, unitPrice, imageFile, quantity, isDeleted) " +
+                    "values(@idGoods, @name, @unit, @unitPrice, @imageFile, @quantity, @isDeleted)";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", goods.IdGoods.ToString());
                 command.Parameters.AddWithValue("@name", goods.Name);
@@ -61,16 +94,10 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
                 command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
+                command.Parameters.AddWithValue("@isDeleted", goods.IsDeleted.ToString());
 
                 int rs = command.ExecuteNonQuery();
-                if (rs != 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch
             {
@@ -93,15 +120,9 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
+                
                 int rs = command.ExecuteNonQuery();
-                if (rs != 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch
             {
@@ -137,17 +158,10 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "delete from Goods where idGoods=" + idGoods;
+                string queryString = "update Goods set isDeleted = 1 where idGoods = " + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
-                if (rs < 1)
-                {
-                    throw new Exception();
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch
             {
@@ -172,8 +186,9 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dataTable);
 
                 Goods res = new Goods(int.Parse(idGoods), dataTable.Rows[0].ItemArray[1].ToString(),
-                    dataTable.Rows[0].ItemArray[2].ToString(), double.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
-                    Convert.FromBase64String(dataTable.Rows[0].ItemArray[4].ToString()), int.Parse(dataTable.Rows[0].ItemArray[5].ToString()));
+                    dataTable.Rows[0].ItemArray[2].ToString(), long.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
+                    Convert.FromBase64String(dataTable.Rows[0].ItemArray[4].ToString()), int.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
+                    int.Parse(dataTable.Rows[0].ItemArray[6].ToString()));
 
                 return res;
             }

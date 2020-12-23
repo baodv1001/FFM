@@ -13,11 +13,11 @@
              Margin="0,0,0,1">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="80"/>
             <ColumnDefinition Width="1.2*"/>
         </Grid.ColumnDefinitions>
         <Grid
@@ -42,6 +42,8 @@
             HorizontalAlignment="Left" 
             Margin="10,0,0,0" 
             TextWrapping="Wrap" 
+            TextTrimming="CharacterEllipsis"
+            MaxWidth="220"
             VerticalAlignment="Center" 
             FontWeight="SemiBold" 
             Foreground="{DynamicResource Gray1}" 

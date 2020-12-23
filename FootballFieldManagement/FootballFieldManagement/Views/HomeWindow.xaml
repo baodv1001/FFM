@@ -1457,11 +1457,11 @@
                     Background="{DynamicResource Primary}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.5*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="170"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
@@ -2194,12 +2194,12 @@
                                 Height="40" 
                                 VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.6*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="0.8*"/>
-                                    <ColumnDefinition Width="0.6*"/>
-                                    <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="300"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="10"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock 
@@ -3038,7 +3038,6 @@
                     </Grid>
                 </materialDesign:Card>
             </Grid>
-            <!--</Border>-->
         </Grid>
     </Grid>
 </Window>

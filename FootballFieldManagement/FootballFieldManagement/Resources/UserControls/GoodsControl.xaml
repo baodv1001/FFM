@@ -18,13 +18,13 @@
         x:Name="grdMain"
         Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <TextBlock 
             x:Name="txbId"

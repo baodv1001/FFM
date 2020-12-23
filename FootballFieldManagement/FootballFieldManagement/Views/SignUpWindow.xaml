@@ -173,7 +173,8 @@
                     Padding="2,0,0,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
-                            <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" CommandParameter="{Binding ElementName=txtPassword}"/>
+                            <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" 
+                                                   CommandParameter="{Binding ElementName=pwbPassword}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </PasswordBox>
@@ -209,7 +210,8 @@
                     Padding="2,0,0,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
-                            <i:InvokeCommandAction Command="{Binding PasswordConfirmChangedCommand}" CommandParameter="{Binding ElementName=txtPasswordConfirm}"/>
+                            <i:InvokeCommandAction Command="{Binding PasswordConfirmChangedCommand}" 
+                                                   CommandParameter="{Binding ElementName=pwbPasswordConfirm}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </PasswordBox>
@@ -242,7 +244,8 @@
                     Padding="2,0,0,0">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
-                            <i:InvokeCommandAction Command="{Binding KeyCommand}" CommandParameter="{Binding ElementName=txtKey}"/>
+                            <i:InvokeCommandAction Command="{Binding KeyCommand}" 
+                                                   CommandParameter="{Binding ElementName=pwbKey}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </PasswordBox>

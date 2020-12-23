@@ -523,7 +523,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -1190,7 +1190,7 @@
                 Width="1201"
                 Margin="0"
                 Grid.Row="1" 
-                Visibility="Visible">
+                Visibility="Hidden">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="50"/>

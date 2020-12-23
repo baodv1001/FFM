@@ -117,11 +117,11 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             account = accounts.Find(x => x.Username == parameter.txtUsername.Text); // Sửa thành hàm find Account
-            if (account==null)
+            if (account == null)
             {
                 MessageBox.Show("Không tồn tại tên đăng nhập!");
                 return;
-            }    
+            }
             //Check password
             if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
             {

@@ -13,7 +13,8 @@
         Height="810" 
         Width="1440" 
         WindowStartupLocation="CenterScreen" 
-        Background="White" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Background="{StaticResource White}" 
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -151,8 +152,9 @@
                     </i:Interaction.Triggers>
                 </PasswordBox>
             </Grid>
-            <Label 
-                x:Name="lblForgetPassword" 
+            <Button 
+                x:Name="btnForgetPassword" 
+                Command="{Binding ChangePasswordCommand}"
                 Content="Quên mật khẩu?" 
                 HorizontalAlignment="Right" 
                 Height="24" Width="120" 
@@ -163,29 +165,26 @@
                 FontSize="16" 
                 Margin="0,270,35,0" 
                 FontWeight="Medium" 
-                Cursor="Hand">
-                <Label.Foreground>
-                    <SolidColorBrush Color="#FFFF7222" Opacity="0.9"/>
-                </Label.Foreground>
-            </Label>
+                Cursor="Hand" 
+                Background="{x:Null}" 
+                Foreground="{DynamicResource Secondary}" 
+                BorderBrush="{x:Null}">
+            </Button>
             <Button 
                 x:Name="btnLogin"
                 IsDefault="True"
                 Command="{Binding LogInCommand}"
                 CommandParameter="{Binding ElementName=wdLogin}"
                 Style="{StaticResource MyPrimaryButtonStyle}"
-                FocusVisualStyle="{x:Null}"
                 Content="Đăng nhập"
                 Height="40" 
                 Width="220"
-                materialDesign:ButtonAssist.CornerRadius="18"
+                materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Đăng nhập" 
                 VerticalAlignment="Top" 
                 Margin="0,330,0,0" 
                 HorizontalAlignment="Center"
                 TabIndex="3" 
-                BorderThickness="0" 
-                BorderBrush="{x:Null}" 
                 FontSize="20" 
                 FontWeight="Bold"
                 Padding="0" >

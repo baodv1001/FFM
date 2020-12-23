@@ -1,28 +1,27 @@
-﻿<Window 
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:FootballFieldManagement.Views"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
-        xmlns:UserControls="clr-namespace:FootballFieldManagement.Resources.UserControls" 
-        x:Class="FootballFieldManagement.Views.HomeWindow"
-        x:Name="wdHome"
-        mc:Ignorable="d"
-        DataContext="{StaticResource HomeVM}"
-        Title="Phần mềm Quản lý sân bóng" 
-        Height="810" 
-        Width="1447" 
-        WindowStartupLocation="CenterScreen" 
-        Background="#FFF4EEFF"
-        ResizeMode="CanMinimize">
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:FootballFieldManagement.Views"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:UserControls="clr-namespace:FootballFieldManagement.Resources.UserControls" 
+    x:Class="FootballFieldManagement.Views.HomeWindow"
+    x:Name="wdHome"
+    mc:Ignorable="d"
+    DataContext="{StaticResource HomeVM}"
+    Title="Phần mềm Quản lý sân bóng" 
+    Height="810" 
+    Width="1447" 
+    WindowStartupLocation="CenterScreen" 
+    Background="#FFF4EEFF"
+    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+    ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Activated">
-            <i:InvokeCommandAction Command="{Binding G_LoadCommand}" 
-                                   CommandParameter="{Binding ElementName=stkGoods}"/>
             <i:InvokeCommandAction Command="{Binding E_LoadCommand}" 
                                    CommandParameter="{Binding ElementName=wdHome}"/>
         </i:EventTrigger>
@@ -45,40 +44,38 @@
             <Grid 
                 x:Name="grdTitle" 
                 HorizontalAlignment="Center"
-                Height="100" 
+                Height="120" 
                 Margin="0,20,0,0"
                 VerticalAlignment="Top"
                 Width="180">
-                <materialDesign:PackIcon 
-                    x:Name="icnCube" 
-                    Kind="Cube" 
-                    Width="50" 
-                    Height="50" 
-                    Foreground="{StaticResource Primary}" 
-                    HorizontalAlignment="Center" />
-                <Label 
-                    x:Name="lbTitle"  
+                <Image 
                     HorizontalAlignment="Center"
-                    Height="50" 
-                    Margin="0" 
-                    VerticalAlignment="Bottom" 
-                    VerticalContentAlignment="Center"
-                    Padding="6,5,5,5" 
+                    VerticalAlignment="Top"
+                    Width="60" 
+                    Height="60"
+                    Source="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Transperant.png"/>
+                <TextBlock 
+                    x:Name="txbFieldName"  
+                    TextWrapping="Wrap"
+                    HorizontalAlignment="Center" 
+                    Margin="0,60,0,0" 
+                    VerticalAlignment="Top" 
+                    Padding="0" 
                     FontSize="22" 
                     FontWeight="Bold" 
-                    Foreground="{DynamicResource Black1}"/>
+                    Foreground="{DynamicResource Primary}"
+                    TextAlignment="Center"/>
             </Grid>
             <StackPanel
                 x:Name="stkMenu" 
                 HorizontalAlignment="Center" 
-                Height="490" 
                 Margin="0,160,0,0" 
                 VerticalAlignment="Top"
                 Width="170" >
                 <Grid 
                     x:Name="grdHome" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon
@@ -106,6 +103,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand" 
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{DynamicResource Gray2}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -122,7 +120,7 @@
                 <Grid 
                     x:Name="grdBusiness" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon 
@@ -151,6 +149,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand"
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{DynamicResource Gray2}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -167,7 +166,7 @@
                 <Grid 
                     x:Name="grdField" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon 
@@ -196,6 +195,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand"
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{DynamicResource Gray2}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -212,7 +212,7 @@
                 <Grid 
                     x:Name="grdGoods" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon 
@@ -242,6 +242,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand" 
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{StaticResource Black3}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -258,7 +259,7 @@
                 <Grid
                     x:Name="grdEmployee" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon
@@ -288,6 +289,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand"
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{StaticResource Black3}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -304,7 +306,7 @@
                 <Grid
                     x:Name="grdReport" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon
@@ -332,6 +334,7 @@
                         FontWeight="SemiBold"
                         Padding="50,0,0,0"
                         Cursor="Hand" 
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{StaticResource Black3}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -348,7 +351,7 @@
                 <Grid 
                     x:Name="grdSetting" 
                     HorizontalAlignment="Left"
-                    Height="70" 
+                    Height="65" 
                     Margin="0" 
                     Width="170">
                     <materialDesign:PackIcon
@@ -376,6 +379,7 @@
                         FontWeight="SemiBold" 
                         Padding="50,0,0,0" 
                         Cursor="Hand" 
+                        FocusVisualStyle="{x:Null}"
                         Foreground="{StaticResource Black3}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
@@ -396,7 +400,7 @@
                 Height="40" 
                 Background="{DynamicResource Primary}" 
                 HorizontalAlignment="Right"
-                Margin="0,175,40,0" 
+                Margin="0,172,35,0" 
                 VerticalAlignment="Top"/>
             <Grid 
                 x:Name="grdLogOut" 
@@ -424,7 +428,8 @@
                     VerticalAlignment="Top" 
                     Width="130" 
                     Background="{x:Null}" 
-                    BorderBrush="{x:Null}" 
+                    BorderBrush="{x:Null}"
+                    FocusVisualStyle="{x:Null}"
                     Foreground="{StaticResource Black3}" 
                     FontSize="18" 
                     FontWeight="SemiBold" 
@@ -498,16 +503,12 @@
                     Command="{Binding OpenCheckAttendanceWindowCommand}"
                     CommandParameter="{Binding ElementName=wdHome}"
                     Style="{StaticResource MyPrimaryButtonStyle}"
-                    FocusVisualStyle="{x:Null}"
                     Height="40" 
                     Width="180"
-                    materialDesign:ButtonAssist.CornerRadius="18"
+                    materialDesign:ButtonAssist.CornerRadius="6"
                     ToolTip="Đăng nhập" 
                     VerticalAlignment="Center" 
                     Margin="0,0,250,0"
-                    TabIndex="3" 
-                    BorderThickness="0" 
-                    BorderBrush="{x:Null}" 
                     FontSize="20" 
                     FontWeight="Bold"
                     Padding="0"
@@ -562,7 +563,7 @@
                                 Grid.Row="1"
                                 Text="{Binding ThisMonthRevenue}"
                                 HorizontalAlignment="Left"
-                                Margin="20,0,0,0" 
+                                Margin="20,0.8,0,4.8" 
                                 TextWrapping="Wrap" 
                                 VerticalAlignment="Center" 
                                 FontSize="24" 
@@ -754,7 +755,8 @@
                             <ComboBoxItem Content="Hôm nay"/>
                             <ComboBoxItem Content="Tháng nay"/>
                         </ComboBox>
-                        <lvc:PieChart
+                        <lvc:PieChart 
+                            x:Name="lvcPieChart"
                             DataContext="{StaticResource ReportVM}"
                             Series="{Binding PieSeriesCollection}"
                             LegendLocation="None"  
@@ -880,7 +882,7 @@
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
                                            CommandParameter="{Binding ElementName=wdHome}"/>
-                                    </i:EventTrigger>
+                                    </i:EventTrigger>   
                                 </i:Interaction.Triggers>
                                 <ComboBoxItem Content="Theo tháng"/>
                                 <ComboBoxItem Content="Theo quý"/>
@@ -911,6 +913,7 @@
                             </ComboBox>
                         </StackPanel>
                         <lvc:CartesianChart 
+                            x:Name="lvcColumnChart" 
                             DataContext="{StaticResource ReportVM}"
                             Series="{Binding SeriesCollection}" 
                             LegendLocation="Bottom"
@@ -1390,6 +1393,7 @@
             </Grid>
             <Grid
                 x:Name="grdBody_Goods"
+                DataContext="{StaticResource GoodsVM}"
                 HorizontalAlignment="Left" 
                 Height="720" 
                 VerticalAlignment="Top" 
@@ -1402,34 +1406,51 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <Grid
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <i:InvokeCommandAction Command="{Binding LoadStkGoodsCommand}" 
+                                               CommandParameter="{Binding ElementName=wdHome}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <StackPanel
                     Grid.Row="0"
-                    HorizontalAlignment="Right" 
-                    Height="50"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
                     Margin="0,0,40,0"
-                    VerticalAlignment="Center" 
-                    Width="380">
+                    VerticalAlignment="Center">
+                    <Button 
+                        x:Name="btnImportStock"
+                        Command="{Binding OpenImportStockWindowCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Content="Nhập hàng"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        ToolTip="Thêm hàng hóa" 
+                        Margin="0,0,20,0" 
+                        FontSize="18" 
+                        VerticalAlignment="Center" 
+                        FocusVisualStyle="{x:Null}"
+                        Width="160" 
+                        Padding="0,0,0,2" 
+                        FontWeight="SemiBold"/>
                     <Button 
                         x:Name="btnAddGoods"
-                        Command="{Binding G_AddCommand}"
-                        CommandParameter="{Binding ElementName=stkGoods}"
+                        Command="{Binding AddGoodsCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
                         Content="Thêm mặt hàng"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
                         materialDesign:ButtonAssist.CornerRadius="6"
                         ToolTip="Thêm hàng hóa" 
                         Margin="0" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
-                        Width="180"
-                        HorizontalAlignment="Right" 
+                        Width="180" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" />
-                </Grid>
+                </StackPanel>
                 <Grid 
                     Grid.Row="1"
                     HorizontalAlignment="Left"
@@ -1438,11 +1459,11 @@
                     Background="{DynamicResource Primary}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.5*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="300"/>
                         <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="170"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
@@ -1530,7 +1551,8 @@
                 Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
-                        <i:InvokeCommandAction Command="{Binding LoadedCommand }" CommandParameter="{Binding ElementName=wdHome}"/>
+                        <i:InvokeCommandAction Command="{Binding LoadedCommand }" 
+                                               CommandParameter="{Binding ElementName=wdHome}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Grid.RowDefinitions>
@@ -1543,7 +1565,7 @@
                     Margin="40,0"
                     VerticalAlignment="Center">
                     <ComboBox
-                       x:Name="cboViews"
+                        x:Name="cboViews"
                         materialDesign:ComboBoxAssist.ClassicMode="true"
                         FontSize="16"
                         FontWeight="Medium" 
@@ -2031,7 +2053,7 @@
                             <Border 
                                 Grid.Row="1"
                                 BorderBrush="{DynamicResource Primary}"
-                                BorderThickness="1"
+                                BorderThickness="2"
                                 HorizontalAlignment="Left"
                                 Height="539" 
                                 Margin="30,34,0,0" 
@@ -2175,12 +2197,12 @@
                                 Height="40" 
                                 VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.6*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="0.8*"/>
-                                    <ColumnDefinition Width="0.6*"/>
-                                    <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="300"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="10"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock 
@@ -2451,11 +2473,10 @@
                             FontSize="16" 
                             Width="430" 
                             Margin="30,0,0,0" 
-                            CaretBrush="{DynamicResource Primary}" 
-                            Background="{StaticResource White}" 
+                            Background="{x:Null}" 
                             FontWeight="SemiBold" 
                             MaxLines="1" 
-                            MaxLength="50" >
+                            MaxLength="50" BorderBrush="{DynamicResource Primary}" BorderThickness="0,0,0,2" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding S_SaveBtnFieldInfoCommand}"
@@ -2477,11 +2498,10 @@
                             FontSize="16" 
                             Width="430" 
                             Margin="30,0,0,0" 
-                            CaretBrush="{DynamicResource Primary}" 
-                            Background="{StaticResource White}" 
+                            Background="{x:Null}" 
                             FontWeight="SemiBold" 
                             MaxLines="1" 
-                            MaxLength="11" >
+                            MaxLength="11" BorderBrush="{DynamicResource Primary}" BorderThickness="0,0,0,2" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding S_SaveBtnFieldInfoCommand}"
@@ -2503,11 +2523,10 @@
                             FontSize="16" 
                             Width="430" 
                             Margin="30,0,0,0" 
-                            CaretBrush="{DynamicResource Primary}" 
-                            Background="{StaticResource White}" 
+                            Background="{x:Null}" 
                             FontWeight="SemiBold" 
                             Height="80" 
-                            VerticalContentAlignment="Bottom" >
+                            VerticalContentAlignment="Bottom" BorderBrush="{DynamicResource Primary}" BorderThickness="0,0,0,2" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="TextChanged">
                                     <i:InvokeCommandAction Command="{Binding S_SaveBtnFieldInfoCommand}"
@@ -2520,13 +2539,11 @@
                             x:Name="btnSaveFieldInfo"
                             Command="{Binding S_SaveFieldInfoCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource MyGreenButtonStyle}"
                             Height="40" 
                             Width="100"
-                            materialDesign:ButtonAssist.CornerRadius="6"
+                            materialDesign:ButtonAssist.CornerRadius="4"
                             ToolTip="Lưu thông tin" 
-                            Background="{StaticResource Success}" 
-                            BorderBrush="{StaticResource Success}"
                             Margin="0,0,40,0" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
@@ -2540,11 +2557,10 @@
                             Width="50" 
                             Height="50" 
                             VerticalAlignment="Center" 
-                            Cursor="Hand" 
                             Foreground="{StaticResource Gray2}"
                             HorizontalAlignment="Right" 
                             Margin="0,0,40,0" />
-                        </Grid>
+                    </Grid>
                 </materialDesign:Card>
                 <materialDesign:Card
                     Background="{StaticResource White}"
@@ -2578,13 +2594,12 @@
                             materialDesign:HintAssist.Hint="Mật khẩu hiện tại"
                             HorizontalAlignment="Left" 
                             Foreground="{DynamicResource Gray1}" 
-                            BorderBrush="{DynamicResource DisabledForegroundBrush}" 
+                            BorderBrush="{DynamicResource Primary}" 
                             FontSize="16" 
                             Width="430" 
-                            Margin="30,0,0,0" 
-                            CaretBrush="#FF0078D7" 
-                            Background="{StaticResource White}" 
-                            FontWeight="SemiBold" >
+                            Margin="30,0,0,0"  
+                            Background="{x:Null}" 
+                            FontWeight="SemiBold" BorderThickness="0,0,0,2" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
@@ -2598,16 +2613,14 @@
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                             VerticalAlignment="Center"
                             materialDesign:HintAssist.Hint="Mật khẩu mới"
-                            IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
                             HorizontalAlignment="Left" 
                             Foreground="{DynamicResource Gray1}" 
-                            BorderBrush="{DynamicResource DisabledForegroundBrush}" 
+                            BorderBrush="{DynamicResource Primary}" 
                             FontSize="16" 
                             Width="430" 
                             Margin="30,0,0,0" 
-                            CaretBrush="#FF0078D7" 
-                            Background="{StaticResource White}" 
-                            FontWeight="SemiBold" >
+                            Background="{x:Null}" 
+                            FontWeight="SemiBold" BorderThickness="0,0,0,2" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
@@ -2621,16 +2634,13 @@
                             Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                             VerticalAlignment="Center"
                             materialDesign:HintAssist.Hint="Nhập lại mật khẩu mới"
-                            IsEnabled="{Binding IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
                             HorizontalAlignment="Left" 
                             Foreground="{DynamicResource Gray1}" 
-                            BorderBrush="{DynamicResource Gray4}" 
+                            BorderBrush="{DynamicResource Primary}" 
                             FontSize="16" 
                             Width="430" 
                             Margin="30,0,0,0" 
-                            CaretBrush="#FF0078D7" 
-                            Background="{StaticResource White}" 
-                            FontWeight="SemiBold" >
+                            FontWeight="SemiBold" Background="{x:Null}" BorderThickness="0,0,0,2" >
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PasswordChanged">
                                     <i:InvokeCommandAction Command="{Binding S_EnableBtnSavePassCommand}"
@@ -2643,13 +2653,11 @@
                             x:Name="btnSavePassword"
                             Command="{Binding S_SaveNewPasswordCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource MyGreenButtonStyle}"
                             Height="40" 
                             Width="100"
                             materialDesign:ButtonAssist.CornerRadius="6"
                             ToolTip="Lưu thông tin" 
-                            Background="{StaticResource Success}" 
-                            BorderBrush="{StaticResource Success}"
                             Margin="0,0,40,10" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
@@ -3033,7 +3041,6 @@
                     </Grid>
                 </materialDesign:Card>
             </Grid>
-            <!--</Border>-->
         </Grid>
     </Grid>
 </Window>

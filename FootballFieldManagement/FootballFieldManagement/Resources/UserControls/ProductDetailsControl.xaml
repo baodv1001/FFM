@@ -102,15 +102,15 @@
             Command="{Binding DeleteBillInfoCommand}"
             CommandParameter="{Binding ElementName=ucDetail}"
             Background="{x:Null}" 
-            BorderBrush="{x:Null}">
+            BorderBrush="{x:Null}" 
+            Padding="0">
             <materialDesign:PackIcon 
                 Kind="DeleteOutline" 
                 Height="24"
                 Width="24"
                 Foreground="{DynamicResource Error}" 
                 HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Margin="-17,0,-3,0"/>
+                VerticalAlignment="Center" />
         </Button>
     </Grid>
 </UserControl>

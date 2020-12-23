@@ -14,6 +14,7 @@
         Width="700" 
         DataContext="{StaticResource GoodsVM}"
         Background="{StaticResource White}" 
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <Grid Margin="0">
@@ -54,7 +55,8 @@
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
                 FocusVisualStyle="{x:Null}"
-                Foreground="{DynamicResource White}" Padding="0">
+                Foreground="{DynamicResource White}" 
+                Padding="0">
             </Button>
             <materialDesign:PackIcon 
                 x:Name="iconImage" 
@@ -305,16 +307,13 @@
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
+                    MaxLength="11"
                     Padding="0" 
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" >
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewTextInput" >
-                            <ei:CallMethodAction TargetObject="{Binding }" 
-                                                 MethodName="NumberValidationTextBox" />
-                        </i:EventTrigger>
                         <i:EventTrigger EventName="KeyUp" >
                             <i:InvokeCommandAction Command="{Binding CalculateTotalCommand}"
                                                    CommandParameter="{Binding ElementName=wdImportGoods}"/>
@@ -355,16 +354,13 @@
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
+                    MaxLength="6"
                     Padding="0" 
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" >
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewTextInput" >
-                            <ei:CallMethodAction TargetObject="{Binding }" 
-                                                 MethodName="NumberValidationTextBox" />
-                        </i:EventTrigger>
                         <i:EventTrigger EventName="KeyUp" >
                             <i:InvokeCommandAction Command="{Binding CalculateTotalCommand}"
                                                    CommandParameter="{Binding ElementName=wdImportGoods}"/>
@@ -402,7 +398,9 @@
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" 
                     FlowDirection="RightToLeft" 
-                    IsTabStop="False" FontWeight="Bold" IsReadOnly="True" />
+                    IsTabStop="False" 
+                    FontWeight="Bold" 
+                    IsReadOnly="True" />
             </Grid>
         </StackPanel>
         <Grid 

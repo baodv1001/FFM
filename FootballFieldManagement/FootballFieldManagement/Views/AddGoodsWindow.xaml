@@ -15,6 +15,7 @@
         DataContext="{StaticResource GoodsVM}"
         Background="{StaticResource White}" 
         WindowStartupLocation="CenterScreen"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         ResizeMode="CanMinimize">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
@@ -72,7 +73,8 @@
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
                 FocusVisualStyle="{x:Null}"
-                Foreground="{DynamicResource White}" Padding="0">
+                Foreground="{DynamicResource White}" 
+                Padding="0">
             </Button>
             <materialDesign:PackIcon 
                 x:Name="iconImage" 
@@ -212,7 +214,6 @@
                     <ComboBoxItem Content="Cuộn"/>
                 </ComboBox>
             </Grid>
-
             <Grid 
                 Margin="0,180,0,0" 
                 VerticalAlignment="Top" 
@@ -245,17 +246,12 @@
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
+                    MaxLength="11"
                     Padding="0" 
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewTextInput" >
-                            <ei:CallMethodAction TargetObject="{Binding }" 
-                                                 MethodName="NumberValidationTextBox" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </TextBox>
             </Grid>
         </Grid>
@@ -270,13 +266,11 @@
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=wdAddGoods}"
                 IsDefault="True"
-                Style="{StaticResource MaterialDesignRaisedButton}"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Height="40" 
                 Width="100"
                 materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Lưu thông tin" 
-                Background="{StaticResource Success}" 
-                BorderBrush="{StaticResource Success}"
                 Margin="0" 
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}"

@@ -8,24 +8,23 @@
         x:Name="wdBillTemplate"
         Title="Hóa đơn bán hàng"
         DataContext="{StaticResource PrintVM}"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
-        Height="680" 
-        Width="640">
+        Height="840" 
+        Width="592">
     <Grid
         x:Name="grdPrint">
         <Grid.RowDefinitions>
+            <RowDefinition Height="140"/>
             <RowDefinition Height="120"/>
-            <RowDefinition Height="90"/>
             <RowDefinition/>
-            <RowDefinition Height="160"/>
+            <RowDefinition Height="180"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid
-            Grid.Row="0"
-            Height="120" 
-            Margin="0" 
-            VerticalAlignment="Top"
+            Grid.Row="0" 
+            Margin="0"
             Background="#FFEAEAEA">
             <TextBlock 
                 Text="HÓA ĐƠN" 
@@ -34,13 +33,13 @@
                 Margin="0,25,40,0"
                 TextWrapping="Wrap" 
                 VerticalAlignment="Top" 
-                FontSize="30" 
+                FontSize="32" 
                 FontStretch="UltraExpanded" 
                 FontFamily="Segoe UI Black"
                 Foreground="{DynamicResource Black3}"/>
             <Grid
                 HorizontalAlignment="Left"
-                Height="60"
+                Height="70"
                 Margin="40,15,0,0"
                 VerticalAlignment="Top"
                 Width="280">
@@ -48,28 +47,12 @@
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Rectangle 
-                    Grid.Column="0"
-                    Fill="#FFF4F4F5" 
-                    HorizontalAlignment="Left" 
-                    Height="30" 
-                    Margin="5,0,0,10"
-                    Stroke="{DynamicResource Gray1}"
-                    VerticalAlignment="Bottom"
-                    Width="30"
-                    RenderTransformOrigin="0.5,0.5" 
-                    RadiusX="4"
-                    RadiusY="4"
-                    StrokeThickness="3">
-                    <Rectangle.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="45"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Rectangle.RenderTransform>
-                </Rectangle>
+                <Image 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="60" 
+                    Height="60"
+                    Source="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Transperant.png"/>
                 <StackPanel
                     Grid.Column="1">
                     <TextBlock 
@@ -80,7 +63,7 @@
                         TextWrapping="Wrap"
                         Text="Brand Name" 
                         VerticalAlignment="Bottom" 
-                        FontSize="20" 
+                        FontSize="22" 
                         FontWeight="Bold" 
                         FontFamily="Microsoft PhagsPa"
                         Foreground="{DynamicResource Primary}"/>
@@ -90,8 +73,7 @@
                         Margin="10,0,0,0"
                         TextWrapping="Wrap"
                         Text="Tagline space here" 
-                        VerticalAlignment="Bottom"
-                        FontSize="14" 
+                        VerticalAlignment="Bottom" 
                         FontWeight="Medium" 
                         Foreground="{DynamicResource Gray2}"/>
                 </StackPanel>
@@ -143,8 +125,8 @@
             <Grid 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Bottom"
-                Width="148" 
-                Margin="0,0,40,3">
+                Width="160" 
+                Margin="0,0,40,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition/>
@@ -156,21 +138,24 @@
                         Text="Ngày" 
                         VerticalAlignment="Bottom" 
                         Foreground="{DynamicResource Gray2}"
-                        FontWeight="SemiBold"/>
+                        FontWeight="SemiBold" 
+                        FontSize="13"/>
                     <TextBlock
                         Margin="0" 
                         TextWrapping="Wrap" 
                         Text="Check - in" 
                         VerticalAlignment="Bottom" 
                         Foreground="{DynamicResource Gray2}"
-                        FontWeight="SemiBold"/>
+                        FontWeight="SemiBold" 
+                        FontSize="13"/>
                     <TextBlock
                         Margin="0" 
                         TextWrapping="Wrap" 
                         Text="Check - out" 
                         VerticalAlignment="Bottom" 
                         Foreground="{DynamicResource Gray2}" 
-                        FontWeight="SemiBold"/>
+                        FontWeight="SemiBold" 
+                        FontSize="13"/>
                 </StackPanel>
                 <StackPanel 
                     Grid.Column="1">
@@ -182,7 +167,8 @@
                         VerticalAlignment="Bottom" 
                         FontWeight="SemiBold" 
                         Foreground="{DynamicResource Primary}"
-                        TextAlignment="Right"/>
+                        TextAlignment="Right" 
+                        FontSize="13"/>
                     <TextBlock
                         x:Name="txbCheckInTime"
                         Margin="0" 
@@ -191,7 +177,8 @@
                         VerticalAlignment="Bottom" 
                         FontWeight="SemiBold" 
                         Foreground="{DynamicResource Gray1}" 
-                        TextAlignment="Right"/>
+                        TextAlignment="Right"
+                        FontSize="13"/>
                     <TextBlock
                         x:Name="txbCheckOutTime"
                         Margin="0" 
@@ -200,30 +187,28 @@
                         VerticalAlignment="Bottom" 
                         FontWeight="SemiBold" 
                         Foreground="{DynamicResource Gray1}"
-                        TextAlignment="Right"/>
+                        TextAlignment="Right"
+                        FontSize="13"/>
                 </StackPanel>
             </Grid>
         </Grid>
-        <TextBlock 
-            HorizontalAlignment="Left"
-            Margin="30,0,0,0"
-            Grid.Row="1"
-            TextWrapping="Wrap"
-            Text="Thông tin khách:" 
-            VerticalAlignment="Center" 
-            FontSize="14" 
-            FontWeight="Bold"
-            Foreground="{DynamicResource Gray1}"/>
         <StackPanel 
             Grid.Row="1" 
             HorizontalAlignment="Left" 
-            Margin="155,0,0,0" 
+            Margin="33,0,0,0" 
             VerticalAlignment="Center"
-            Width="220">
+            Width="280">
+            <TextBlock 
+                HorizontalAlignment="Left"
+                Margin="0"
+                TextWrapping="Wrap"
+                Text="Thông tin khách:" 
+                FontWeight="Bold"
+                Foreground="{DynamicResource Gray1}"/>
             <TextBlock 
                 x:Name="txbCustomerName"
                 TextWrapping="Wrap"
-                Text="Phan Ngọc Quang" 
+                Text="Phan Ngọc Quang"  
                 FontWeight="Bold" 
                 FontSize="16" 
                 Foreground="{DynamicResource Gray1}"/>
@@ -235,6 +220,28 @@
                 Margin="0,2,0,0"
                 FontSize="13" 
                 Foreground="{DynamicResource Gray2}"/>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Center"
+            Margin="0,0,33,0" Width="160">
+            <TextBlock 
+                HorizontalAlignment="Left"
+                Margin="0"
+                TextWrapping="Wrap"
+                Text="Ghi chú:" 
+                FontWeight="Bold"
+                Foreground="{DynamicResource Gray1}" 
+                FontSize="14"/>
+            <TextBlock
+                Margin="0"
+                MaxHeight="64"
+                TextWrapping="Wrap"
+                TextTrimming="CharacterEllipsis"
+                Text="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." 
+                FontWeight="SemiBold"
+                Foreground="{DynamicResource Gray1}"/>
         </StackPanel>
         <Grid
             Grid.Row="4" 
@@ -369,7 +376,7 @@
                     Foreground="{DynamicResource Gray1}"/>
                 <TextBlock 
                     Grid.Column="5"
-                    Text="Tổng"
+                    Text="Thành tiền"
                     HorizontalAlignment="Center" 
                     Margin="0" 
                     TextWrapping="Wrap" 
@@ -386,7 +393,7 @@
         <Grid
             Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="300"/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="30" />
             </Grid.ColumnDefinitions>
@@ -394,11 +401,11 @@
                 x:Name="txbTotal"
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Margin="0,68,2,0" 
+                Margin="0,69,0,0" 
                 TextWrapping="Wrap" 
                 Text="1.100.000" 
                 VerticalAlignment="Top"
-                FontSize="14" 
+                FontSize="16" 
                 FontWeight="SemiBold" 
                 Foreground="{DynamicResource White}"
                 Panel.ZIndex="1" 
@@ -406,20 +413,20 @@
             <Rectangle 
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Height="25"  
+                Height="30"  
                 StrokeThickness="0"
                 VerticalAlignment="Top" 
-                Width="190" 
+                Width="242" 
                 Fill="{DynamicResource Primary}"
                 Margin="0,65,0,0"/>
             <Rectangle 
                 Fill="{DynamicResource Primary}"
                 HorizontalAlignment="Left" 
-                Height="18" 
+                Height="21.5" 
                 StrokeThickness="0" 
                 VerticalAlignment="Top" 
-                Width="18" 
-                Margin="-9,68.2,0,0"
+                Width="21.5" 
+                Margin="-11,69.2,0,0"
                 RenderTransformOrigin="0.5,0.5" 
                 Grid.Column="2">
                 <Rectangle.RenderTransform>
@@ -434,9 +441,9 @@
             <TextBlock 
                 Grid.Column="1"
                 HorizontalAlignment="Right"
-                Margin="0,68,110,0" 
+                Margin="0,70,130,0" 
                 TextWrapping="Wrap" 
-                Text="Tổng cộng:" 
+                Text="Thực thanh toán:" 
                 VerticalAlignment="Top"
                 FontSize="14" 
                 FontWeight="SemiBold" 
@@ -520,9 +527,9 @@
                 HorizontalAlignment="Right"
                 Margin="0,15,0,0" 
                 VerticalAlignment="Top"
-                Width="190">
+                Width="235">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <StackPanel 
@@ -533,7 +540,7 @@
                         HorizontalAlignment="Left"
                         Margin="0" 
                         TextWrapping="Wrap" 
-                        Text="Tổng" 
+                        Text="Tổng cộng" 
                         VerticalAlignment="Top"
                         FontSize="14" 
                         FontWeight="SemiBold" 

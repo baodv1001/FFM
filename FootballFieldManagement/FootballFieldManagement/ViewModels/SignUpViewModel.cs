@@ -22,6 +22,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand PasswordConfirmChangedCommand { get; set; }
         public ICommand KeyCommand { get; set; }
         public ICommand OpenLoginWinDowCommand { get; set; }
+        public ICommand ChangePasswordCommand { get; set; }
         private ObservableCollection<Employee> itemSourceEmployee = new ObservableCollection<Employee>();
         public ObservableCollection<Employee> ItemSourceEmployee { get => itemSourceEmployee; set { itemSourceEmployee = value; OnPropertyChanged(); } }
         private bool isSignUp;
@@ -46,6 +47,7 @@ namespace FootballFieldManagement.ViewModels
             PasswordConfirmChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingConfirmPassword(parameter));
             OpenLoginWinDowCommand = new RelayCommand<Window>(parameter => true, parameter => parameter.Close());
             LoadCommand = new RelayCommand<Window>(parameter => true, parameter => SetItemSourcEmloyee());
+            ChangePasswordCommand = new RelayCommand<ForgotPasswordWindow>((parameter) => true, (parameter) => ChangePassword(parameter));
         }
         public void EncodingPassword(PasswordBox parameter)
         {
@@ -83,6 +85,70 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
         }
+        public void ChangePassword(ForgotPasswordWindow parameter)
+        {
+            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
+            Account account = null;
+            if (string.IsNullOrEmpty(parameter.pwbKey.Password))
+            {
+                MessageBox.Show("Vui lòng nhập mã xác thực!");
+                parameter.pwbKey.Focus();
+                return;
+            }
+            if (parameter.pwbKey.Password != "admin")
+            {
+                MessageBox.Show("Mã xác thực không đúng!");
+                parameter.pwbKey.Focus();
+                return;
+            }
+            // Check username
+            if (string.IsNullOrEmpty(parameter.txtUsername.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                parameter.txtUsername.Focus();
+                return;
+            }
+            foreach (char c in parameter.txtUsername.Text)
+            {
+                if (!((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
+                {
+                    MessageBox.Show("Không nhập các ký tự đặc biệt");
+                    return;
+                }
+            }
+            account = accounts.Find(x => x.Username == parameter.txtUsername.Text); // Sửa thành hàm find Account
+            if (account == null)
+            {
+                MessageBox.Show("Không tồn tại tên đăng nhập!");
+                return;
+            }
+            //Check password
+            if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
+            {
+                MessageBox.Show("Vui lòng nhập mật khẩu mới!");
+                parameter.pwbPassword.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(parameter.pwbPasswordConfirm.Password))
+            {
+                MessageBox.Show("Vui lòng xác thực mật khẩu!");
+                parameter.pwbPasswordConfirm.Focus();
+                return;
+            }
+            if (password != passwordConfirm)
+            {
+                MessageBox.Show("Mật khẩu không trùng khớp!");
+                return;
+            }
+            account.Password = password;
+            if (AccountDAL.Instance.UpdatePassword(account))
+            {
+                MessageBox.Show("Đổi mật khẩu thành công!");
+                parameter.txtUsername.Text = null;
+                parameter.pwbPassword.Password = "";
+                parameter.pwbPasswordConfirm.Password = "";
+            }
+        }
         public void SignUp(SignUpWindow parameter)
         {
             isSignUp = false;
@@ -92,16 +158,16 @@ namespace FootballFieldManagement.ViewModels
             }
             List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
             //Check IdConfirm
-            if (string.IsNullOrEmpty(parameter.txtKey.Password))
+            if (string.IsNullOrEmpty(parameter.pwbKey.Password))
             {
                 MessageBox.Show("Vui lòng nhập mã xác thực!");
-                parameter.txtKey.Focus();
+                parameter.pwbKey.Focus();
                 return;
             }
-            if (parameter.txtKey.Password != "admin")
+            if (parameter.pwbKey.Password != "admin")
             {
                 MessageBox.Show("Mã xác thực không đúng!");
-                parameter.txtKey.Focus();
+                parameter.pwbKey.Focus();
                 return;
             }
             //Check select employee
@@ -144,16 +210,16 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             //Check password
-            if (string.IsNullOrEmpty(parameter.txtPassword.Password))
+            if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
             {
                 MessageBox.Show("Vui lòng nhập mật khẩu!");
-                parameter.txtPassword.Focus();
+                parameter.pwbPassword.Focus();
                 return;
             }
-            if (string.IsNullOrEmpty(parameter.txtPasswordConfirm.Password))
+            if (string.IsNullOrEmpty(parameter.pwbPasswordConfirm.Password))
             {
                 MessageBox.Show("Vui lòng xác thực mật khẩu!");
-                parameter.txtPasswordConfirm.Focus();
+                parameter.pwbPasswordConfirm.Focus();
                 return;
             }
             if (password != passwordConfirm)
@@ -175,8 +241,8 @@ namespace FootballFieldManagement.ViewModels
                 isSignUp = true;
                 parameter.cboSelectEmployee.Text = "";
                 parameter.txtUsername.Text = null;
-                parameter.txtPassword.Password = "";
-                parameter.txtPasswordConfirm.Password = "";
+                parameter.pwbPassword.Password = "";
+                parameter.pwbPasswordConfirm.Password = "";
             }
         }
     }

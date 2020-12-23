@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="FootballFieldManagement.Resources.UserControls.ImportGoodsDetailsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" 
+             x:Name="ucImportGoodsDetails"
+             DataContext="{StaticResource GoodsVM}"
+             d:DesignHeight="960"
+             d:DesignWidth="40" 
+             Width="938" 
+             Height="40" 
+             Margin="0,2,0,0">
+    <Grid 
+        Background="{DynamicResource White}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="90"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock 
+            x:Name="txbNo" 
+            Grid.Column="0" 
+            Text="1" 
+            HorizontalAlignment="Center"
+            Margin="0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Center" 
+            FontSize="16"
+            FontWeight="SemiBold"/>
+        <TextBlock 
+            x:Name="txbIdGoods" 
+            Visibility="Hidden" />
+        <TextBlock 
+            x:Name="txbIdStockReceipt"
+            Visibility="Hidden" />
+        <TextBlock 
+            x:Name="txbName" 
+            Text="Đây là tên mặt hàng" 
+            TextTrimming="WordEllipsis"
+            MaxWidth="260"
+            Grid.Column="1" 
+            HorizontalAlignment="Left" 
+            Margin="19.6,9,0,9" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Center" 
+            FontSize="16"
+            FontWeight="SemiBold"/>
+        <local:NumericSpinner 
+            x:Name="nmsQuantity"
+            Width="100" 
+            Height="32"
+            Margin="0" 
+            VerticalAlignment="Center"
+            Grid.Column="2" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ValueChanged">
+                    <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
+                                           CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="KeyUp">
+                    <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
+                                           CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </local:NumericSpinner>
+        <TextBox
+            x:Name="txtImportPrice"
+            Grid.Column="3"
+            materialDesign:HintAssist.Hint="Giá nhập" 
+            HorizontalAlignment="Center" 
+            Width="120"
+            Height="30"
+            FontSize="14" 
+            FontWeight="SemiBold"
+            BorderThickness="0,0,0,2" 
+            MaxLines="1" 
+            Foreground="{StaticResource Gray1}"
+            Padding="0"  
+            Margin="0" 
+            Cursor="IBeam"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="Left" 
+            VerticalContentAlignment="Center" 
+            BorderBrush="{DynamicResource Primary}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="TextChanged">
+                    <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
+                                           CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TextBox>
+        <TextBlock
+            x:Name="txbtotal" 
+            Text="125.000" 
+            Grid.Column="4" 
+            HorizontalAlignment="Center" 
+            Margin="0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Center" 
+            FontSize="16"
+            FontWeight="SemiBold"/>
+        <Button 
+            x:Name="btnDelete"
+            Grid.Column="5"
+            Height="26" 
+            Margin="0" 
+            Width="24" 
+            Command="{Binding DeleteImportGoodsDetailsCommand}"
+            CommandParameter="{Binding ElementName=ucImportGoodsDetails}"
+            Background="{x:Null}" 
+            BorderBrush="{x:Null}" 
+            Padding="0">
+            <materialDesign:PackIcon 
+                Kind="DeleteOutline" 
+                Height="24"
+                Width="24"
+                Foreground="{DynamicResource Error}" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                Margin="0"/>
+        </Button>
+    </Grid>
+</UserControl>

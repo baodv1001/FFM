@@ -9,13 +9,13 @@
         x:Name="wdSalaryRecordTemplate"
         Title="Phiếu trả lương"
         DataContext="{StaticResource PrintVM}"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
-        Height="526" 
-        Width="706">
+        Height="592" 
+        Width="840">
     <Grid 
-        x:Name="grdPrint"
-        Width="700">
+        x:Name="grdPrint">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="130"/>
@@ -27,35 +27,19 @@
             <Grid
                 HorizontalAlignment="Left"
                 Height="60"
-                Margin="40,15,0,0"
+                Margin="33,15,0,0"
                 VerticalAlignment="Top"
-                Width="280">
+                Width="350">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="60"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Rectangle 
-                    Grid.Column="0"
-                    Fill="#FFF4F4F5" 
-                    HorizontalAlignment="Left" 
-                    Height="30" 
-                    Margin="5,0,0,10"
-                    Stroke="{DynamicResource Gray1}"
-                    VerticalAlignment="Bottom"
-                    Width="30"
-                    RenderTransformOrigin="0.5,0.5" 
-                    RadiusX="4"
-                    RadiusY="4"
-                    StrokeThickness="3">
-                    <Rectangle.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform/>
-                            <RotateTransform Angle="45"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Rectangle.RenderTransform>
-                </Rectangle>
+                <Image 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="70" 
+                    Height="70"
+                    Source="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Transperant.png"/>
                 <StackPanel
                     Grid.Column="1">
                     <TextBlock 
@@ -66,7 +50,7 @@
                         TextWrapping="Wrap"
                         Text="Brand Name" 
                         VerticalAlignment="Bottom" 
-                        FontSize="20" 
+                        FontSize="22" 
                         FontWeight="Bold" 
                         FontFamily="Microsoft PhagsPa"
                         Foreground="{DynamicResource Primary}"/>
@@ -86,10 +70,10 @@
                 Text="PHIẾU TRẢ LƯƠNG" 
                 Grid.Column="1" 
                 HorizontalAlignment="Right" 
-                Margin="0,0,53,0" 
+                Margin="0,0,33,0" 
                 TextWrapping="Wrap" 
                 VerticalAlignment="Center"
-                FontSize="24" 
+                FontSize="28" 
                 Foreground="{DynamicResource Primary}" 
                 FontWeight="ExtraBold"/>
             <Rectangle
@@ -102,7 +86,7 @@
             Grid.Row="1">
             <StackPanel
                 HorizontalAlignment="Left" 
-                Margin="52,0,0,0" 
+                Margin="33,0,0,0" 
                 VerticalAlignment="Center" 
                 Width="260">
                 <TextBlock 
@@ -139,7 +123,7 @@
             <StackPanel
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
-                Margin="0,0,53,0" 
+                Margin="0,0,33,0" 
                 Width="160">
                 <Grid
                     Margin="0,0,0,5">
@@ -195,18 +179,16 @@
         <Grid 
             Grid.Row="2">
             <Grid 
-                HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Width="600" 
                 Height="25"
-                Margin="50,0,0,0" 
+                Margin="30,0" 
                 Background="{DynamicResource Primary}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.4*"/>
-                    <ColumnDefinition Width="160"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="260"/>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="0.7*"/>
-                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock 
@@ -263,7 +245,7 @@
                     TextAlignment="Center"
                     FontSize="13"/>
                 <TextBlock 
-                    Text="Tổng lương"
+                    Text="Thực lãnh"
                     Grid.Column="5"
                     HorizontalAlignment="Center" 
                     Margin="0" 
@@ -276,14 +258,13 @@
             </Grid>
             <StackPanel 
                 x:Name="stkSalaryInfo"
-                Margin="50,26,50,2" 
+                Margin="30,26,30,2" 
                 Background="{StaticResource Gray6}">
             </StackPanel>
             <Border 
                 BorderBrush="{DynamicResource Primary}" 
-                Width="600" 
                 BorderThickness="2"
-                Margin="0,0,0,1"/>
+                Margin="30,0,30,1"/>
         </Grid>
         <Grid
             Grid.Row="3">
@@ -291,7 +272,7 @@
                 TextWrapping="Wrap" 
                 Text="Tổng giá trị" 
                 FontWeight="SemiBold"
-                Margin="0,0,200,0" 
+                Margin="0,0,230,0" 
                 Foreground="{DynamicResource Gray2}"
                 FontSize="18" 
                 HorizontalAlignment="Right" 
@@ -301,7 +282,7 @@
                 TextWrapping="Wrap" 
                 Text="2.000.000" 
                 FontWeight="SemiBold"
-                Margin="0,0,60,0" 
+                Margin="0,0,40,0" 
                 Foreground="{DynamicResource White}"
                 FontSize="18" 
                 HorizontalAlignment="Right" 
@@ -310,10 +291,10 @@
             <Rectangle
                 Fill="{DynamicResource Primary}" 
                 Height="30" 
-                Width="140" 
+                Width="170" 
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Margin="0,0,50,0" 
+                Margin="0,0,30,0" 
                 RadiusX="4"
                 RadiusY="4"/>
             <Button 
@@ -324,7 +305,7 @@
                 IsDefault="True"
                 Content="In hóa đơn"
                 HorizontalAlignment="Left" 
-                Margin="50,0,0,0" 
+                Margin="30,0,0,0" 
                 Height="25" 
                 Width="100"
                 VerticalAlignment="Center" 

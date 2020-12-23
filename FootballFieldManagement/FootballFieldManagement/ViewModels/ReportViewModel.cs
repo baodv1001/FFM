@@ -263,7 +263,7 @@ namespace FootballFieldManagement.ViewModels
 
         public void ViewStockReceiptTemplate(StockReceiptControl stockReceiptControl)
         {
-            //Thông tin bill
+            //Thông tin stock receipt
             string idStockReceipt = stockReceiptControl.txbId.Text;
             StockReceiptTemplate stockReceiptTemplate = new StockReceiptTemplate();
 
@@ -272,12 +272,12 @@ namespace FootballFieldManagement.ViewModels
             stockReceiptTemplate.txbTotal.Text = stockReceiptControl.txbTotal.Text;
             stockReceiptTemplate.txbEmployeeName.Text = stockReceiptControl.txbEmployeeName.Text;
 
-            //Load các mặt hàng trong Bill
+            //Load các mặt hàng trong stock receipt
             List<StockReceiptInfo> listStockReceiptInfo = StockReceiptInfoDAL.Instance.GetStockReceiptInfoById(idStockReceipt);
             int numOfGoods = listStockReceiptInfo.Count();
-            if (numOfGoods > 5)
+            if (numOfGoods > 7)
             {
-                stockReceiptTemplate.Height += (numOfGoods - 5) * 31;
+                stockReceiptTemplate.Height += (numOfGoods - 7) * 31;
             }
             int i = 1;
             foreach (var stockReceiptInfo in listStockReceiptInfo)

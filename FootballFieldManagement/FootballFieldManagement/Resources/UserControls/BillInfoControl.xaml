@@ -7,14 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800" 
-             Width="573.6" 
+             Width="525.6" 
              Height="30"
              Background="{DynamicResource White}"
              Margin="0,0,0,1">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="178"/>
+            <ColumnDefinition Width="180"/>
             <ColumnDefinition Width="1.2*"/>
             <ColumnDefinition/>
             <ColumnDefinition/>

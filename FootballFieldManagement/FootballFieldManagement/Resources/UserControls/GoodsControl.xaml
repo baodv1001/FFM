@@ -18,13 +18,13 @@
         x:Name="grdMain"
         Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="170"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <TextBlock 
             x:Name="txbId"
@@ -126,7 +126,6 @@
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Sửa thông tin"
             Height="30"
-            materialDesign:ButtonAssist.CornerRadius="6"
             Margin="0,0,110,0" 
             Background="{x:Null}" 
             BorderBrush="{x:Null}" 
@@ -151,7 +150,6 @@
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Nhập kho"
             Height="30"
-            materialDesign:ButtonAssist.CornerRadius="6"
             Margin="0,0,60,0" 
             Background="{x:Null}" 
             BorderBrush="{x:Null}" 
@@ -172,11 +170,10 @@
             Grid.Column="5"
             x:Name="btnDeleteGoods"
             Command="{Binding DeleteGoodsCommand}"
-            CommandParameter="{Binding ElementName=txbId}"
+            CommandParameter="{Binding ElementName=ucDisplayGoods}"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Xóa mặt hàng" 
             Height="30"
-            materialDesign:ButtonAssist.CornerRadius="6"
             Margin="0,0,10,0" 
             Background="{x:Null}" 
             BorderBrush="{x:Null}" 

@@ -299,7 +299,6 @@ namespace FootballFieldManagement.DAL
         }
         public List<Employee> GetEmployeesByType(string typeEmployee)
         {
-            DataTable dt;
             List<Employee> employees = new List<Employee>();
             try
             {

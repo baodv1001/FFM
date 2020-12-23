@@ -170,7 +170,7 @@ namespace FootballFieldManagement.ViewModels
         public void LoadGoodsToView(PayWindow parameter)
         {
             parameter.wrpGoods.Children.Clear();
-            DataTable goods = GoodsDAL.Instance.LoadData("Goods");
+            DataTable goods = GoodsDAL.Instance.LoadDatatable();
             for (int i = 0; i < goods.Rows.Count; i++)
             {
                 string name = goods.Rows[i].ItemArray[1].ToString();

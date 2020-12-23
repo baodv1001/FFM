@@ -25,7 +25,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand ExitCommand { get; set; }
         public ICommand SeparateThousandsCommand { get; set; }
-
+        public ICommand SelectionFieldTypeCommand { get; set; } // chọn loại sân trong window add field
+        public ICommand LostFocusCommand { get; set; } // Dùng để thêm 1 loại sân mới
         //Field Control
         public ICommand HoverCommand { get; set; }
         public ICommand LeaveCommand { get; set; }
@@ -33,11 +34,10 @@ namespace FootballFieldManagement.ViewModels
         public ICommand EditCardFieldCommand { get; set; }
         public ICommand DeleteCardFieldCommand { get; set; }
 
+        //Home Window
         public ICommand SelectionChangedCommand { get; set; } // thay đổi view
-        public ICommand SelectionFieldTypeCommand { get; set; } // chọn loại sân trong window add field
         public ICommand AddFieldCommand { get; set; }
         public ICommand SetTimeFrameCommand { get; set; }
-        public ICommand LostFocusCommand { get; set; } // Dùng để thêm 1 loại sân mới
 
         private HomeWindow home;
         public HomeWindow Home { get => home; set => home = value; }

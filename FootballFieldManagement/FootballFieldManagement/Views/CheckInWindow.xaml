@@ -14,6 +14,7 @@
     Height="700"
     Width="440" 
     Title="Check In"
+    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
     WindowStartupLocation="CenterScreen" 
     ResizeMode="CanMinimize" 
     Background="{DynamicResource White}">
@@ -23,6 +24,7 @@
                                    CommandParameter="{Binding ElementName=wdCheckIn}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+
     <!--Form đã đặt sân-->
     <Grid 
         x:Name="frmBooking" 

@@ -28,10 +28,6 @@ namespace FootballFieldManagement.ViewModels
         public ICommand E_CalculateSalaryCommand { get; set; }
         public ICommand E_PaySalaryCommand { get; set; }
 
-        public ICommand G_AddCommand { get; set; }
-        public ICommand G_LoadCommand { get; set; }
-        public ICommand G_ImportGoodsCommand { get; set; }
-
         public ICommand GetUidCommand { get; set; }
 
         public ICommand S_SaveBtnFieldInfoCommand { get; set; }
@@ -59,10 +55,6 @@ namespace FootballFieldManagement.ViewModels
             S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
             S_SaveFieldInfoCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveFieldInfo(parameter));
             S_SaveNewPasswordCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SaveNewPassword(parameter));
-
-            G_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddGoods(parameter));
-            G_LoadCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => LoadGoodsToView(parameter));
-            G_ImportGoodsCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => ImportGoods(parameter));
 
             OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
         }
@@ -109,7 +101,7 @@ namespace FootballFieldManagement.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
-                homeWindow.lbTitle.Content = homeWindow.txtFieldName.Text;
+                homeWindow.txbFieldName.Text = homeWindow.txtFieldName.Text;
                 SQLConnection connection = new SQLConnection();
                 try
                 {
@@ -155,7 +147,7 @@ namespace FootballFieldManagement.ViewModels
         {
             int index = int.Parse(uid);
 
-            parameter.grdCursor.Margin = new Thickness(0, (175 + 70 * index), 40, 0);
+            parameter.grdCursor.Margin = new Thickness(0, (172 + 65 * index), 40, 0);
 
             parameter.grdBody_Goods.Visibility = Visibility.Hidden;
             parameter.grdBody_Business.Visibility = Visibility.Hidden;
@@ -406,112 +398,6 @@ namespace FootballFieldManagement.ViewModels
                 }
                 homeWindow.stkEmployee.Children.Add(temp);
             }
-        }
-
-        //Tab goods 
-        public void LoadGoodsToView(StackPanel stk)
-        {
-            stk.Children.Clear();
-            List<Goods> goodsList = GoodsDAL.Instance.ConvertDBToList();
-            bool flag = false;
-            int i = 1;
-            foreach (var goods in goodsList)
-            {
-                GoodsControl temp = new GoodsControl();
-                flag = !flag;
-                if (flag)
-                {
-                    temp.grdMain.Background = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
-                }
-                temp.txbId.Text = goods.IdGoods.ToString();
-                temp.txbOrderNum.Text = i.ToString();
-                temp.txbName.Text = goods.Name.ToString();
-                temp.txbQuantity.Text = goods.Quantity.ToString();
-                temp.txbUnit.Text = goods.Unit.ToString();
-                temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
-                if (CurrentAccount.Type == 2)
-                {
-                    temp.btnDeleteGoods.IsEnabled = false;
-                    temp.btnEditGoods.IsEnabled = false;
-                }
-                stk.Children.Add(temp);
-                i++;
-            }
-        }
-        public void AddGoods(StackPanel stk)
-        {
-            stack = stk;
-            AddGoodsWindow wdAddGoods = new AddGoodsWindow();
-            List<Goods> goodsList = GoodsDAL.Instance.ConvertDBToList();
-            try
-            {
-                wdAddGoods.txtIdGoods.Text = (goodsList[goodsList.Count() - 1].IdGoods + 1).ToString();
-            }
-            catch
-            {
-                wdAddGoods.txtIdGoods.Text = "1";
-            }
-
-            wdAddGoods.ShowDialog();
-        }
-        public void ImportGoods(StackPanel stackPanel)
-        {
-            OpenFileDialog op = new OpenFileDialog();
-            op.DefaultExt = ".xlsx";
-            op.Filter = "Excel Documents (*.xlsx)|*.xlsx";
-            var sel = op.ShowDialog();
-            if (sel == true)
-            {
-                ImportDataFromExcel(op.FileName);
-            }
-            LoadGoodsToView(stackPanel);
-        }
-        public void ImportDataFromExcel(string excelfilepath)
-        {
-            //declare variables - edit these based on your particular situation
-            string ssqltable = "Goods";
-            // make sure your sheet name is correct, here sheet name is sheet1, so you can change your sheet name if have
-            //different
-            string myexceldataquery = "select * from [Goods$]";
-            //try
-            //{
-            string sexcelconnectionstring = @"Provider=Microsoft.Jet.OLEDB.4.0;" +
-                                               @"Data Source=" + excelfilepath + ";" +
-                                                @"Extended Properties=" + Convert.ToChar(34).ToString() +
-                                               @"Excel 8.0" + Convert.ToChar(34).ToString() + ";";
-            if ((System.IO.Path.GetExtension(excelfilepath)).CompareTo(".xls") == 0)
-                sexcelconnectionstring = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + excelfilepath + ";Extended Properties='Excel 8.0;HRD=no;IMEX=1';"; //for below excel 2007  
-            else
-                sexcelconnectionstring = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + excelfilepath + ";Extended Properties='Excel 12.0;HDR=no;IMEX=1';"; //for above excel 2007  
-
-            string ssqlconnectionstring = @"Data Source=(local);Initial Catalog=FootballFieldManagement;Integrated Security=True";
-            //execute a query to erase any previous data from our destination table
-            string sclearsql = "delete from " + ssqltable;
-            SqlConnection sqlconn = new SqlConnection(ssqlconnectionstring);
-            SqlCommand sqlcmd = new SqlCommand(sclearsql, sqlconn);
-            sqlconn.Open();
-            sqlcmd.ExecuteNonQuery();
-            sqlconn.Close();
-            //series of commands to bulk copy data from the excel file into our sql table
-            OleDbConnection oledbconn = new OleDbConnection(sexcelconnectionstring);
-            OleDbCommand oledbcmd = new OleDbCommand(myexceldataquery, oledbconn);
-            oledbconn.Open();
-            OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(oledbcmd);
-            OleDbDataReader dr = oledbcmd.ExecuteReader();
-            SqlBulkCopy bulkcopy = new SqlBulkCopy(ssqlconnectionstring);
-            bulkcopy.DestinationTableName = ssqltable;
-            while (dr.Read())
-            {
-                bulkcopy.WriteToServer(dr);
-            }
-
-            oledbconn.Close();
-            MessageBox.Show("Nhập thông tin hàng hóa thành công!");
-            //}
-            //catch (Exception ex)
-            //{
-            //    //handle exception
-            //}
         }
     }
 }

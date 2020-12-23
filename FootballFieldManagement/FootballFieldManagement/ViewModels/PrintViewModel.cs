@@ -1,4 +1,5 @@
 ﻿using FootballFieldManagement.Resources.Template;
+using FootballFieldManagement.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,6 @@ namespace FootballFieldManagement.ViewModels
             PrintStockReceiptCommand = new RelayCommand<StockReceiptTemplate>((parameter) => true, (parameter) => PrintStockReceipt(parameter));
             PrintSalaryRecordCommand = new RelayCommand<SalaryRecordTemplate>((parameter) => true, (parameter) => PrintSalaryRecord(parameter));
         }
-
         public void PrintStockReceipt(StockReceiptTemplate parameter)
         {
             try

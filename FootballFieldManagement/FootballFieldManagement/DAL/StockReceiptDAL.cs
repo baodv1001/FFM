@@ -44,7 +44,7 @@ namespace FootballFieldManagement.DAL
                     idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
                 }
                 StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount,
-                    DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()));
+                    DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString()));
                 stockReceiptList.Add(acc);
             }
             return stockReceiptList;
@@ -71,6 +71,28 @@ namespace FootballFieldManagement.DAL
                 {
                     return true;
                 }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool UpdateOnDB(StockReceipt stockReceipt)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "update StockReceipt set dateTimeStockReceipt=@dateTimeStockReceipt, total=@total " +
+                    "where idStockReceipt =" + stockReceipt.IdStockReceipt.ToString();
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.Parameters.AddWithValue("@dateTimeStockReceipt", stockReceipt.DateTimeStockReceipt);
+                command.Parameters.AddWithValue("@total", stockReceipt.Total.ToString());
+                command.ExecuteNonQuery();
+                return true;
             }
             catch
             {
@@ -120,6 +142,29 @@ namespace FootballFieldManagement.DAL
             catch
             {
                 return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public int GetMaxId()
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = "select max(idStockReceipt) as id from StockReceipt";
+                SqlCommand command = new SqlCommand(queryString, conn);
+
+                SqlDataReader rdr = command.ExecuteReader();
+                rdr.Read();
+                res = int.Parse(rdr["id"].ToString());
+                return res;
+            }
+            catch
+            {
+                return res;
             }
             finally
             {

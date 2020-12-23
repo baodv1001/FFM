@@ -12,6 +12,8 @@
         Title="Thêm khung giờ" 
         DataContext="{StaticResource TimeFrameVM}"
         WindowStartupLocation="CenterScreen"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        ResizeMode="CanMinimize"
         Height="260" 
         Width="300">
     <Grid>

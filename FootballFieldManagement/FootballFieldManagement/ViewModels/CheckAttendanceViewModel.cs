@@ -26,13 +26,24 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ExitCommand { get; set; } // Click button "Thoát"
         public ICommand CheckAttendanceCommand { get; set; } // Click button "Điểm danh"
         public ICommand SelectionChangedCommand { get; set; } // Thay dổi lựa chọn của combobox
-
+        public ICommand OffSetCommand { get; set; } // Điểm danh bù 
         public CheckAttendanceViewModel()
         {
             LoadCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => HandelLoadEvent(parameter));
             ExitCommand = new RelayCommand<Window>(parameter => true, parameter => parameter.Close());
             CheckAttendanceCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => CheckIn(parameter));
             SelectionChangedCommand = new RelayCommand<CheckAttendanceWindow>(parameter => true, parameter => ShowTableCheckAttendance(parameter));
+            OffSetCommand = new RelayCommand<DateControl>(parameter => true, parameter => OffSet(parameter));
+        }
+        public void OffSet(DateControl dateControl)
+        {
+            Attendance attendance = new Attendance(int.Parse(dateControl.txbDate.Text), DateTime.Now.Month, selectedEmployee.IdEmployee);
+            if (AttendanceDAL.Instance.AddDay(attendance))
+            {
+                dateControl.btnOffset.Visibility = Visibility.Hidden;
+                dateControl.icCheck.Visibility = Visibility.Visible;
+                dateControl.icClose.Visibility = Visibility.Hidden;
+            }
         }
         public void ShowTableCheckAttendance(CheckAttendanceWindow parameter)
         {
@@ -62,6 +73,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else if (!days.Contains(i) && i < DateTime.Now.Day)
                 {
+                    dateControl.btnOffset.Visibility = Visibility.Visible; //show button offset
                     dateControl.icClose.Visibility = Visibility.Visible; // show icon close
                 }
             }

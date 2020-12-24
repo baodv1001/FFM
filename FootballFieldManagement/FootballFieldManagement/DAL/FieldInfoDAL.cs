@@ -248,5 +248,35 @@ namespace FootballFieldManagement.DAL
             }
             return res;
         }
+        public List<FieldInfo> GetFieldInfoByIdField(string idField)
+        {
+            List<FieldInfo> fieldInfos = new List<FieldInfo>();
+            try
+            {
+                conn.Open();
+                string queryString = "select * from FieldInfo where (status=1 or status=2) and idField=" + idField;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    FieldInfo fieldInfo = new FieldInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()), DateTime.Parse(dataTable.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dataTable.Rows[i].ItemArray[3].ToString()), int.Parse(dataTable.Rows[i].ItemArray[4].ToString()), " ", " ", " ", 0, 0);
+                    fieldInfos.Add(fieldInfo);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return fieldInfos;
+        }
     }
 }

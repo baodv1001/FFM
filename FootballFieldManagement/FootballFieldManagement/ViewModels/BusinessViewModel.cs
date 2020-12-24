@@ -69,6 +69,10 @@ namespace FootballFieldManagement.ViewModels
         public ICommand LoadTimeFrameCICommand { get; set; }
         public ICommand LoadFieldNameCICommand { get; set; }
         public ICommand LoadPriceCICommand { get; set; }
+        public BusinessViewModel(HomeWindow homeWindow)
+        {
+            LoadFieldsToView(homeWindow, currentPage * 7);
+        }
         public BusinessViewModel()
         {
             currentPage = 0;
@@ -476,7 +480,7 @@ namespace FootballFieldManagement.ViewModels
                     }
                 }
                 LoadFieldName(fieldButtonControl.txbFieldType.Text);
-                SelectedField = new FootballField(int.Parse(fieldButtonControl.txbidField.Text), fieldButtonControl.txbFieldName.Text, int.Parse(fieldButtonControl.txbFieldType.Text), 0, " ");
+                SelectedField = new FootballField(int.Parse(fieldButtonControl.txbidField.Text), fieldButtonControl.txbFieldName.Text, int.Parse(fieldButtonControl.txbFieldType.Text), 0, " ", 0);
                 itemSourceField.Add(SelectedField);
                 itemSourceField = new ObservableCollection<FootballField>(itemSourceField.OrderBy(i => i.IdField));
                 for (int i = 0; i < itemSourceField.ToList().Count; i++)
@@ -507,7 +511,7 @@ namespace FootballFieldManagement.ViewModels
                 payWindow.txbFieldName.Text = fieldButtonControl.txbFieldName.Text;
                 payWindow.txbIdFieldInfo.Text = fieldButtonControl.txbidFieldInfo.Text;
                 payWindow.txbCustomerName.Text = fieldInfo.CustomerName;
-                payWindow.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
+                payWindow.txbCustomerPhone.Text = fieldInfo.PhoneNumber;
                 payWindow.txbFieldPrice.Text = fieldButtonControl.txbPrice.Text;
                 payWindow.txtMoreInfo.Text = fieldInfo.Note;
                 payWindow.txbDiscount.Text = fieldInfo.Discount.ToString();

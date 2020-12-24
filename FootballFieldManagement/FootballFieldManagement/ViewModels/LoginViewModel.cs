@@ -127,7 +127,7 @@ namespace FootballFieldManagement.ViewModels
             }
             foreach (var account in accounts)
             {
-                if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password)
+                if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password && account.Type != 3)
                 {
                     CurrentAccount.Type = account.Type; // Kiểm tra quyền
                     if (CurrentAccount.Type != 0)

@@ -48,6 +48,10 @@ namespace FootballFieldManagement.Models
         private byte[] imageFile;
 
         public byte[] ImageFile { get => imageFile; set => imageFile = value; }
+
+        private int isDeleted;
+
+        public int IsDeleted { get => isDeleted; set => isDeleted = value; }
         // Constructor
 
         public Employee()
@@ -55,7 +59,7 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public Employee(int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, string position, DateTime startingdate, int idAccount, byte[] image)
+        public Employee(int idEmployee, string name, string gender, string phonenumber, string address, DateTime dateOfBirth, string position, DateTime startingdate, int idAccount, byte[] image, int isDeleted)
         {
             this.idAccount = idAccount;
             this.IdEmployee = idEmployee;
@@ -67,6 +71,7 @@ namespace FootballFieldManagement.Models
             this.position = position;
             this.startingdate = startingdate;
             this.imageFile = image;
+            this.isDeleted = isDeleted;
         }
 
     }

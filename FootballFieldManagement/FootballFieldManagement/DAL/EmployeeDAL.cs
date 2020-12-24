@@ -56,17 +56,27 @@ namespace FootballFieldManagement.DAL
         }
         public List<Employee> ConvertDBToList()
         {
-            DataTable dt;
+            DataTable dt = new DataTable();
             List<Employee> employees = new List<Employee>();
             try
             {
+                conn.Open();
+                string queryString = @"Select * from Employee
+                                       Where isDeleted=0";
 
-                dt = LoadData("Employee");
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                adapter.Fill(dt);
             }
             catch
             {
+
+            }
+            finally
+            {
                 conn.Close();
-                dt = LoadData("Employee");
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -80,10 +90,9 @@ namespace FootballFieldManagement.DAL
                     dt.Rows[i].ItemArray[3].ToString(), dt.Rows[i].ItemArray[4].ToString(),
                     DateTime.Parse(dt.Rows[i].ItemArray[5].ToString()),
                     dt.Rows[i].ItemArray[6].ToString(), DateTime.Parse(dt.Rows[i].ItemArray[7].ToString()),
-                    idAccount, Convert.FromBase64String(dt.Rows[i].ItemArray[9].ToString()));
+                    idAccount, Convert.FromBase64String(dt.Rows[i].ItemArray[9].ToString()), int.Parse(dt.Rows[i].ItemArray[10].ToString()));
                 employees.Add(employee);
             }
-            //conn.Close();
             return employees;
         }
         public bool UpdateIdAccount(Employee employee)
@@ -124,7 +133,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,position,startingdate,imageFile) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@position,@startingdate,@imageFile)";
+                string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,position,startingdate,imageFile,isDeleted) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@position,@startingdate,@imageFile,@isDeleted)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
                 command.Parameters.AddWithValue("@name", employee.Name);
@@ -135,6 +144,7 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
+                command.Parameters.AddWithValue("@isDeleted", employee.IsDeleted);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -159,7 +169,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,position=@position,startingdate=@startingdate,imageFile=@imageFile where idEmployee=" + employee.IdEmployee;
+                string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,position=@position,startingdate=@startingdate,imageFile=@imageFile,isDeleted=@isDeleted where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
                 command.Parameters.AddWithValue("@gender", employee.Gender);
@@ -169,6 +179,7 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@position", employee.Position);
                 command.Parameters.AddWithValue("@startingdate", employee.Startingdate);
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
+                command.Parameters.AddWithValue("@isDeleted", employee.IsDeleted);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -193,7 +204,9 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "delete from Employee where idEmployee = " + employee.IdEmployee.ToString();
+                string query = @"Update Employee" +
+                                "Set isDeleted=1" +
+                                " where idEmployee = " + employee.IdEmployee.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
                 if (command.ExecuteNonQuery() > 0)
                     return true;
@@ -236,7 +249,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select * from Employee where idEmployee = " + idEmployee;
+                string queryString = "select * from Employee where isDeleted=0 and idEmployee = " + idEmployee;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.ExecuteNonQuery();
@@ -254,7 +267,7 @@ namespace FootballFieldManagement.DAL
                      dataTable.Rows[0].ItemArray[3].ToString(), dataTable.Rows[0].ItemArray[4].ToString(),
                      DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
                      dataTable.Rows[0].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[7].ToString()),
-                     idAccount, Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()));
+                     idAccount, Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()), int.Parse(dataTable.Rows[0].ItemArray[10].ToString()));
             }
             catch
             {
@@ -285,7 +298,7 @@ namespace FootballFieldManagement.DAL
                      dataTable.Rows[0].ItemArray[3].ToString(), dataTable.Rows[0].ItemArray[4].ToString(),
                      DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
                      dataTable.Rows[0].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[7].ToString()),
-                     int.Parse(idAccount), Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()));
+                     int.Parse(idAccount), Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()), int.Parse(dataTable.Rows[0].ItemArray[10].ToString()));
             }
             catch
             {
@@ -303,7 +316,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "select * from Employee where position = " + typeEmployee;
+                string queryString = "select * from Employee where isDeleted=0 and position = " + typeEmployee;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.ExecuteNonQuery();
@@ -323,7 +336,7 @@ namespace FootballFieldManagement.DAL
                         dataTable.Rows[i].ItemArray[3].ToString(), dataTable.Rows[i].ItemArray[4].ToString(),
                         DateTime.Parse(dataTable.Rows[i].ItemArray[5].ToString()),
                         dataTable.Rows[i].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[i].ItemArray[7].ToString()),
-                        idAccount, Convert.FromBase64String(dataTable.Rows[i].ItemArray[9].ToString()));
+                        idAccount, Convert.FromBase64String(dataTable.Rows[i].ItemArray[9].ToString()), int.Parse(dataTable.Rows[i].ItemArray[10].ToString()));
                     employees.Add(employee);
                 }
             }

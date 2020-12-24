@@ -155,7 +155,7 @@ namespace FootballFieldManagement.ViewModels
             imageName = null;
             Employee employee = new Employee(int.Parse(parameter.txtIDEmployee.Text), parameter.txtName.Text, gender,
                 parameter.txtTelephoneNumber.Text, parameter.txtAddress.Text, DateTime.Parse(parameter.dpBirthDate.Text),
-                parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), -1, imgByteArr);
+                parameter.cboPosition.Text, DateTime.Parse(parameter.dpWorkDate.Text), -1, imgByteArr, 0);
             Employee current = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.txtIDEmployee.Text);
             if (current != null && current.IdAccount != -1)
             {
@@ -222,13 +222,16 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 Employee employee = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.txbId.Text);
-                bool isSuccess1 = SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
-                bool isSuccess2 = AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
-                bool isSuccess3 = EmployeeDAL.Instance.DeleteEmployee(employee);
-                bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
-                bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
-                bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
-                if ((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) || (isSuccess3))
+                Account account = new Account(employee.IdAccount, "", "", 3);
+                employee.IsDeleted = 1;
+
+                //bool isSuccess1 = SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
+                //bool isSuccess2 = AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
+                //bool isSuccess3 = EmployeeDAL.Instance.DeleteEmployee(employee);
+                //bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                //bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
+                //bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
+                if (EmployeeDAL.Instance.UpdateOnDB(employee) && AccountDAL.Instance.UpdateType(account))
                 {
                     MessageBox.Show("Đã xóa thành công!");
                 }

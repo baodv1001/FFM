@@ -181,6 +181,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 1:
+                    BusinessViewModel businessViewModel = new BusinessViewModel(parameter);
                     parameter.grdBody_Business.Visibility = Visibility.Visible;
                     parameter.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
@@ -203,9 +204,12 @@ namespace FootballFieldManagement.ViewModels
                 case 5:
                     parameter.cboSelectPeriod_Report.SelectedIndex = -1;
                     parameter.cboSelectTime_Report.SelectedIndex = -1;
+                    parameter.cboSelectViewMode.SelectedIndex = -1;
+                    parameter.cboSelectViewModeStockReceipt.SelectedIndex = -1;
+                    parameter.cboSelectYearSalaryRecord.SelectedIndex = -1;
                     DispatcherTimer timer = new DispatcherTimer
                     {
-                        Interval = TimeSpan.FromMilliseconds(1)
+                        Interval = TimeSpan.FromMilliseconds(5)
                     };
                     timer.Tick += (s, e) =>
                     {

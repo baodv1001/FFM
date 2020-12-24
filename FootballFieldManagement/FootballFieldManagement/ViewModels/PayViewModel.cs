@@ -94,7 +94,7 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbIdBill.Text = payWindow.txbIdBill.Text;
             billTemplate.txbTotalBefore.Text = (int.Parse(payWindow.txbFieldPrice.Text) + int.Parse(payWindow.txbtotalGoodsPrice.Text)).ToString();
             billTemplate.txbCustomerName.Text = payWindow.txbCustomerName.Text;
-            billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhoneNumber.Text;
+            billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhone.Text;
             billTemplate.txbInvoiceDate.Text = bill.InvoiceDate.ToShortDateString();
             billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("HH:mm");
             billTemplate.txbCheckOutTime.Text = DateTime.Now.ToString("HH:mm");

@@ -1,4 +1,5 @@
 ﻿<UserControl 
+    x:Name="ucDate" 
     x:Class="FootballFieldManagement.Resources.UserControls.DateControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,8 +24,8 @@
             Visibility="Hidden"
             Kind="Check" 
             HorizontalAlignment="Center" 
-            VerticalAlignment="Bottom" 
-            Margin="0,0,0,20" 
+            VerticalAlignment="Top" 
+            Margin="0,45,0,1" 
             Foreground="{DynamicResource Success}" 
             Width="26" 
             Height="26" />
@@ -62,5 +63,28 @@
                     Margin="0,0,0,2"/>
             </Grid>
         </Viewbox>
+        <Button 
+            DataContext="{StaticResource CheckAttendanceVM}"
+            x:Name="btnOffset"
+            Visibility="Hidden"
+            Content="Bù"
+            Style="{StaticResource MyGreenButtonStyle}"
+            Command="{Binding OffSetCommand}"
+            CommandParameter="{Binding ElementName=ucDate}"
+            FocusVisualStyle="{x:Null}"
+            Height="30" 
+            Width="30"
+            materialDesign:ButtonAssist.CornerRadius="6"
+            ToolTip="Điểm danh" 
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Right"
+            TabIndex="3" 
+            BorderThickness="0" 
+            BorderBrush="{x:Null}" 
+            FontSize="14" 
+            FontWeight="SemiBold"
+            Padding="0" 
+            Foreground="{DynamicResource Primary}" 
+            Background="{x:Null}"/>
     </Grid>
 </UserControl>

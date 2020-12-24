@@ -24,7 +24,7 @@ using System.Diagnostics;
 
 namespace FootballFieldManagement.ViewModels
 {
-    class GoodsViewModel : INotifyPropertyChanged
+    class GoodsViewModel : BaseViewModel, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private string imageFileName;
@@ -51,6 +51,7 @@ namespace FootballFieldManagement.ViewModels
 
         public ICommand LoadStkGoodsCommand { get; set; } //show AddGoodsWindow -> edit
 
+        public string Price { get; set; }
         //GoodsControl
         public ICommand EditGoodsCommand { get; set; } //show AddGoodsWindow -> edit
         public ICommand ImportGoodsCommand { get; set; } //show ImportGoodsWindow
@@ -61,6 +62,7 @@ namespace FootballFieldManagement.ViewModels
         public ICommand SelectImageCommand { get; set; } //chọn ảnh
         public ICommand SaveCommand { get; set; } //lưu thông tin mặt hàng
         public ICommand ExitCommand { get; set; } //thoát khỏi AddGoodsWindow
+        public ICommand SeparateThousandsCommand { get; set; }
 
         //ImportGoodsWindow
         public ICommand ImportCommand { get; set; } //nhập hàng
@@ -93,6 +95,7 @@ namespace FootballFieldManagement.ViewModels
             SelectImageCommand = new RelayCommand<Grid>((parameter) => true, (parameter) => ChooseImage(parameter));
             SaveCommand = new RelayCommand<AddGoodsWindow>((parameter) => true, (parameter) => AddGoods(parameter));
             ExitCommand = new RelayCommand<AddGoodsWindow>((parameter) => true, (parameter) => parameter.Close());
+            SeparateThousandsCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => SeparateThousands(parameter));
 
             //ImportGoodsWindow
             ImportCommand = new RelayCommand<ImportGoodsWindow>((parameter) => true, (parameter) => ImportGoods(parameter));
@@ -200,18 +203,21 @@ namespace FootballFieldManagement.ViewModels
         }
         public void UpdateStockReceiptInfo(ImportGoodsDetailsControl importGoodsDetailsControl)
         {
+            //Set separateThousand
+            SeparateThousands(importGoodsDetailsControl.txtImportPrice);
+
             string idStockReceipt = importGoodsDetailsControl.txbIdStockReceipt.Text;
-            if (string.IsNullOrEmpty(importGoodsDetailsControl.txtImportPrice.Text))
-            {
-                importGoodsDetailsControl.txtImportPrice.Text = "0";
-            }
             int quantity = int.Parse(importGoodsDetailsControl.nmsQuantity.Text.ToString());
-            int importPrice = int.Parse(importGoodsDetailsControl.txtImportPrice.Text);
+            long importPrice = 0;
+            if (!string.IsNullOrWhiteSpace(importGoodsDetailsControl.txtImportPrice.Text))
+            {
+               importPrice =  ConvertToNumber(importGoodsDetailsControl.txtImportPrice.Text);
+            }
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(idStockReceipt),
                 int.Parse(importGoodsDetailsControl.txbIdGoods.Text), quantity, importPrice);
             StockReceiptInfoDAL.Instance.UpdateOnDB(stockReceiptInfo);
-            importGoodsDetailsControl.txbtotal.Text = (quantity * importPrice).ToString();
-            ImportStockWindow.txbTotal.Text = StockReceiptInfoDAL.Instance.CalculateTotalMoney(idStockReceipt).ToString();
+            importGoodsDetailsControl.txbtotal.Text = string.Format("{0:N0}", quantity * importPrice);
+            ImportStockWindow.txbTotal.Text = string.Format("{0:N0}", StockReceiptInfoDAL.Instance.CalculateTotalMoney(idStockReceipt));
         }
         public void DeleteImportGoodsDetails(ImportGoodsDetailsControl importGoodsDetailsControl)
         {
@@ -219,7 +225,7 @@ namespace FootballFieldManagement.ViewModels
             StockReceiptInfoDAL.Instance.DeleteByIdStock(importGoodsDetailsControl.txbIdGoods.Text, idStockReceipt);
             ImportStockWindow.stkPickedGoods.Children.Remove(importGoodsDetailsControl);
 
-            ImportStockWindow.txbTotal.Text = StockReceiptInfoDAL.Instance.CalculateTotalMoney(idStockReceipt).ToString();
+            ImportStockWindow.txbTotal.Text = string.Format("{0:N0}", StockReceiptInfoDAL.Instance.CalculateTotalMoney(idStockReceipt));
         }
         public void LoadImportGoodsDetails(ImportStockWindow importStockWindow)
         {
@@ -240,18 +246,18 @@ namespace FootballFieldManagement.ViewModels
                 importGoodsDetailsControl.nmsQuantity.Text = stockReceiptInfo.Quantity;
                 importGoodsDetailsControl.nmsQuantity.MinValue = 1;
                 importGoodsDetailsControl.nmsQuantity.MaxValue = 99999;
-                int importPrice = 0;
+                long importPrice = 0;
                 if (stockReceiptInfo.ImportPrice != 0)
                 {
-                    importGoodsDetailsControl.txtImportPrice.Text = stockReceiptInfo.ImportPrice.ToString();
+                    importGoodsDetailsControl.txtImportPrice.Text = string.Format("{0:N0}", stockReceiptInfo.ImportPrice);
                     importPrice = stockReceiptInfo.ImportPrice;
                 }
-                importGoodsDetailsControl.txbtotal.Text = (importPrice * stockReceiptInfo.Quantity).ToString();
+                importGoodsDetailsControl.txbtotal.Text = string.Format("{0:N0}", importPrice * stockReceiptInfo.Quantity);
 
                 importStockWindow.stkPickedGoods.Children.Add(importGoodsDetailsControl);
                 i++;
             }
-            ImportStockWindow.txbTotal.Text = StockReceiptInfoDAL.Instance.CalculateTotalMoney(idStockReceipt).ToString();
+            ImportStockWindow.txbTotal.Text = string.Format("{0:N0}", StockReceiptInfoDAL.Instance.CalculateTotalMoney(idStockReceipt));
         }
         public void PickGoods(ImportGoodsControl importGoodsControl)
         {
@@ -351,7 +357,7 @@ namespace FootballFieldManagement.ViewModels
 
             updateWindow.cboUnit.Text = goods.Unit;
 
-            updateWindow.txtUnitPrice.Text = goods.UnitPrice.ToString();
+            updateWindow.txtUnitPrice.Text = string.Format("{0:N0}", goods.UnitPrice);
             updateWindow.txtUnitPrice.SelectionStart = updateWindow.txtUnitPrice.Text.Length;
             updateWindow.txtUnitPrice.Select(0, updateWindow.txtUnitPrice.Text.Length);
             ImageBrush imageBrush = new ImageBrush();
@@ -438,6 +444,8 @@ namespace FootballFieldManagement.ViewModels
             {
                 wdAddGoods.txtIdGoods.Text = "1";
             }
+            wdAddGoods.txtName.Text = null;
+            wdAddGoods.txtUnitPrice.Text = null;
             wdAddGoods.ShowDialog();
         }
         public void ChooseImage(Grid parameter)
@@ -468,20 +476,19 @@ namespace FootballFieldManagement.ViewModels
             List<Goods> goodsList = GoodsDAL.Instance.ConvertDBToList();
             if (string.IsNullOrWhiteSpace(parameter.txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên mặt hàng!");
                 parameter.txtName.Focus();
+                parameter.txtName.Text = "";
                 return;
             }
             if (string.IsNullOrEmpty(parameter.cboUnit.Text))
             {
-                MessageBox.Show("Vui lòng chọn đơn vị tính!");
                 parameter.cboUnit.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtUnitPrice.Text))
             {
-                MessageBox.Show("Vui lòng nhập đơn giá!");
                 parameter.txtUnitPrice.Focus();
+                parameter.txtUnitPrice.Text = "";
                 return;
             }
             if (parameter.grdSelectImg.Background == null)
@@ -500,18 +507,16 @@ namespace FootballFieldManagement.ViewModels
             }
             imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
-                parameter.cboUnit.Text, long.Parse(parameter.txtUnitPrice.Text), imgByteArr);
+                parameter.cboUnit.Text, ConvertToNumber(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
-                foreach (var goods in goodsList)
+                if (GoodsDAL.Instance.isExistGoodsName(parameter.txtName.Text))
                 {
-                    if (goods.Name == parameter.txtName.Text)
-                    {
-                        MessageBox.Show("Mặt hàng đã tồn tại!");
-                        parameter.txtName.Clear();
-                        return;
-                    }
+                    MessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    parameter.txtName.Focus();
+                    parameter.txtName.Text = "";
+                    return;
                 }
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
                 if (isSuccessed1)
@@ -521,6 +526,16 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
+                if (GoodsDAL.Instance.GetGoods(parameter.txtIdGoods.Text).Name != parameter.txtName.Text)
+                {
+                    if (GoodsDAL.Instance.isExistGoodsName(parameter.txtName.Text))
+                    {
+                        MessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                        parameter.txtName.Focus();
+                        parameter.txtName.Text = "";
+                        return;
+                    }
+                }
                 isSuccessed2 = GoodsDAL.Instance.UpdateOnDB(newGoods);
                 if (isSuccessed2)
                 {
@@ -540,14 +555,14 @@ namespace FootballFieldManagement.ViewModels
         {
             if (string.IsNullOrWhiteSpace(parameter.txtImportPrice.Text))
             {
-                MessageBox.Show("Vui lòng nhập giá nhập hàng!");
                 parameter.txtImportPrice.Focus();
+                parameter.txtImportPrice.Text = "";
                 return;
             }
-            if (string.IsNullOrWhiteSpace(parameter.txtQuantity.Text))
+            if (string.IsNullOrWhiteSpace(parameter.txtQuantity.Text) || !Regex.IsMatch(parameter.txtQuantity.Text, @"^[0-9]+$"))
             {
-                MessageBox.Show("Vui lòng nhập số lượng hàng nhập!");
                 parameter.txtQuantity.Focus();
+                parameter.txtQuantity.Text = "";
                 return;
             }
 
@@ -577,10 +592,14 @@ namespace FootballFieldManagement.ViewModels
         }
         public void CalculateTotal(ImportGoodsWindow parameter)
         {
-            int importPriceTmp = 0, quantityTmp = 0;
-            int.TryParse(parameter.txtImportPrice.Text, out importPriceTmp);
+            long importPriceTmp = 0;
+            int quantityTmp = 0;
+            if (!string.IsNullOrEmpty(parameter.txtImportPrice.Text))
+            {
+                importPriceTmp = ConvertToNumber(parameter.txtImportPrice.Text);
+            }
             int.TryParse(parameter.txtQuantity.Text, out quantityTmp);
-            parameter.txtTotal.Text = (importPriceTmp * quantityTmp).ToString();
+            parameter.txtTotal.Text = string.Format("{0:N0}", importPriceTmp * quantityTmp);
         }
 
         public void LoadStkGoods(HomeWindow homeWindow)
@@ -603,7 +622,7 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbName.Text = goods.Name.ToString();
                 temp.txbQuantity.Text = goods.Quantity.ToString();
                 temp.txbUnit.Text = goods.Unit.ToString();
-                temp.txbUnitPrice.Text = goods.UnitPrice.ToString();
+                temp.txbUnitPrice.Text = string.Format("{0:N0}", goods.UnitPrice);
                 if (CurrentAccount.Type == 2)
                 {
                     temp.btnDeleteGoods.IsEnabled = false;

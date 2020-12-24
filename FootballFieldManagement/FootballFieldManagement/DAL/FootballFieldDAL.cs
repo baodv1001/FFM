@@ -165,14 +165,13 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public bool CheckFieldName(string fieldName)
+        public bool isExistFieldName(string fieldName)
         {
             try
             {
                 conn.Open();
-                string query = @"select * from FootballField where name = '@fieldName'";
+                string query = @"select * from FootballField where name = '" + fieldName +"'";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@fieldName", fieldName);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);

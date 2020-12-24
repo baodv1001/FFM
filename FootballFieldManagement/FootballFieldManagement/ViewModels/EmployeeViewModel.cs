@@ -19,11 +19,18 @@ using FootballFieldManagement.Resources.UserControls;
 using FootballFieldManagement.DAL;
 using System.Drawing.Printing;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Windows.Threading;
 
 namespace FootballFieldManagement.ViewModels
 {
     class EmployeeViewModel : BaseViewModel
     {
+        public string SalaryBase { get; set; }
+        public string MoneyPerShift { get; set; }
+        public string MoneyPerFault { get; set; }
+        public string StandardWorkDays { get; set; }
+
+
         //UC Employee
         public ICommand UpdateCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
@@ -36,14 +43,14 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ValueChangedCommand { get; set; } // Tăng giảm các numericspinner
         public ICommand SelectionChangedCommand { get; set; } // Chọn 1 nhân viên trong window SetSalary
         public ICommand SeparateThousandsCommand { get; set; } // định dạng tiền thành 0,000,000
+        public ICommand LoadedCommand { get; set; }
 
         private string id;
         public string Id { get => id; set => id = value; }
 
+
         public string gender;
         public string imageName;
-        private ObservableCollection<int> itemSourceDay = new ObservableCollection<int>();
-        public ObservableCollection<int> ItemSourceDay { get => itemSourceDay; set => itemSourceDay = value; }
 
         public EmployeeViewModel()
         {
@@ -59,34 +66,36 @@ namespace FootballFieldManagement.ViewModels
             SaveSetSalaryCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SaveSetSalary(parameter));
             ValueChangedCommand = new RelayCommand<EmployeeControl>((parameter) => true, (parameter) => UpdateQuantity(parameter));
             SelectionChangedCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => SelectionChanged(parameter));
+            LoadedCommand = new RelayCommand<SetSalaryWindow>((parameter) => true, (parameter) => Loaded(parameter));
+        }
+        public void Loaded(SetSalaryWindow setSalary)
+        {
+            DispatcherTimer timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(1)
+            };
+            timer.Tick += (s, e) =>
+            {
+                setSalary.cboTypeEmployee.SelectedIndex = 0;
+                timer.Stop();
+            };
+            timer.Start();
         }
         //Add Employee Window
         public void AddEmployee(AddEmployeeWindow parameter)
         {
-            if (string.IsNullOrEmpty(parameter.txtName.Text))
+            if (string.IsNullOrEmpty(parameter.txtName.Text) || FootballFieldDAL.Instance.isExistFieldName(parameter.txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập họ tên!");
+                parameter.txtName.Text = "";
                 parameter.txtName.Focus();
                 return;
             }
-            if (parameter.cboPosition.Text == "")
+            if (string.IsNullOrEmpty(parameter.cboPosition.Text))
             {
-                MessageBox.Show("Vui lòng nhập chức vụ!");
                 parameter.cboPosition.Focus();
-                return;
-            }
-            else
-            {
-                if (parameter.cboPosition.Text != "Bảo vệ" && parameter.cboPosition.Text != "Nhân viên quản lý" && parameter.cboPosition.Text != "Nhân viên thu ngân")
-                {
-                    MessageBox.Show("Vui lòng nhập đúng chức vụ!");
-                    parameter.cboPosition.Focus();
-                    return;
-                }
             }
             if (parameter.dpBirthDate.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập ngày sinh!");
                 parameter.dpBirthDate.Focus();
                 return;
             }
@@ -102,16 +111,17 @@ namespace FootballFieldManagement.ViewModels
             }
             if (parameter.txtAddress.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập địa chỉ!");
                 parameter.txtAddress.Focus();
+                parameter.txtAddress.Text = "";
                 return;
             }
-            if (parameter.txtTelephoneNumber.Text == "")
+            if (parameter.txtTelephoneNumber.Text == "" || !Regex.IsMatch(parameter.txtTelephoneNumber.Text, @"^[0-9]+$"))
             {
-                MessageBox.Show("Vui lòng nhập số điện thoại!");
                 parameter.txtTelephoneNumber.Focus();
+                parameter.txtTelephoneNumber.Text = "";
                 return;
             }
+
             if (parameter.dpWorkDate.Text == "")
             {
                 MessageBox.Show("Vui lòng nhập ngày vào làm!");
@@ -129,7 +139,6 @@ namespace FootballFieldManagement.ViewModels
                 }
                 if (dateTime < DateTime.Parse(parameter.dpBirthDate.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập lại ngày vào làm lớn hơn ngày sinh!");
                     parameter.dpWorkDate.Focus();
                     return;
                 }
@@ -176,7 +185,7 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
             EmployeeDAL.Instance.AddEmployee(employee);
-            SetBaseSalary(parameter);
+            SetSalaryEmployee(parameter);
             parameter.Close();
         }
         public void SelectImage(Grid parameter)
@@ -264,8 +273,8 @@ namespace FootballFieldManagement.ViewModels
                     child.rdoMale.IsChecked = true;
                 else
                     child.rdoFemale.IsChecked = true;
-                child.dpBirthDate.Text = employee.DateOfBirth.ToString();
-                child.dpWorkDate.Text = employee.Startingdate.ToString();
+                child.dpBirthDate.SelectedDate = DateTime.Parse(employee.DateOfBirth.ToString());
+                child.dpWorkDate.SelectedDate = DateTime.Parse(employee.Startingdate.ToString());
                 ImageBrush imageBrush = new ImageBrush();
                 imageBrush.ImageSource = Converter.Instance.ConvertByteToBitmapImage(employee.ImageFile);
                 child.grdSelectImage.Background = imageBrush;
@@ -283,42 +292,32 @@ namespace FootballFieldManagement.ViewModels
             child.Title = "Cập nhật thông tin nhân viên";
             child.ShowDialog();
         }
-        public void UpdateQuantity(EmployeeControl parameter)
+        public void UpdateQuantity(EmployeeControl parameter)//Lưu số lượng tăng ca và lỗi
         {
             Salary salary = new Salary();
             salary.NumOfFault = int.Parse(parameter.nsNumOfFault.Value.ToString());
             salary.NumOfShift = int.Parse(parameter.nsNumOfShift.Value.ToString());
             salary.IdEmployee = int.Parse(parameter.txbId.Text);
+            salary.SalaryMonth = DateTime.Now;
             SalaryDAL.Instance.UpdateQuantity(salary);
         }//Lưu số lượng tăng ca và lỗi
-         //Set Salary Window    
-        public void SelectionChanged(SetSalaryWindow parameter)
+         //Set Salary Window      
+        public void SelectionChanged(SetSalaryWindow parameter)//select item của combobox loại nhân viên trong SetSalaryWindow
         {
 
-            foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+            ComboBoxItem tmp = (ComboBoxItem)parameter.cboTypeEmployee.SelectedItem;
+            foreach (var salarySetting in SalarySettingDAL.Instance.GetSalarySettings(tmp.Content.ToString()))
             {
-                ComboBoxItem tmp = (ComboBoxItem)parameter.cboTypeEmployee.SelectedItem;
-                if (SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) == tmp.Content.ToString())
-                {
-                    parameter.txtSalaryBasic.Text = salary.SalaryBasic.ToString();
-                    parameter.cboStandardWorkDays.Text = salary.StandardWorkDays.ToString();
-                    parameter.txtOvertime.Text = salary.MoneyPerShift.ToString();
-                    parameter.txtSalaryDeduction.Text = salary.MoneyPerFault.ToString();
-                    return;
-                }
+                parameter.txtSalaryBasic.Text = salarySetting.SalaryBase.ToString();
+                parameter.txtStandardWorkDays.Text = salarySetting.StandardWorkDays.ToString();
+                parameter.txtOvertime.Text = salarySetting.MoneyPerShift.ToString();
+                parameter.txtSalaryDeduction.Text = salarySetting.MoneyPerFault.ToString();
+                return;
             }
             parameter.txtSalaryBasic.Text = "";
-            parameter.cboStandardWorkDays.Text = "";
+            parameter.txtStandardWorkDays.Text = "";
             parameter.txtOvertime.Text = "";
             parameter.txtSalaryDeduction.Text = "";
-        }//select item của combobox loại nhân viên trong SetSalaryWindow
-        public void SetItemSourceDay()
-        {
-            itemSourceDay.Clear();
-            for (int i = 1; i <= 31; i++)
-            {
-                itemSourceDay.Add(i);
-            }
         }
         public void SaveSetSalary(SetSalaryWindow parameter)
         {
@@ -328,126 +327,80 @@ namespace FootballFieldManagement.ViewModels
             }
             if (string.IsNullOrEmpty(parameter.cboTypeEmployee.Text))
             {
-                MessageBox.Show("Vui lòng chọn loại nhân viên!");
                 parameter.cboTypeEmployee.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtSalaryBasic.Text))
             {
-                MessageBox.Show("Vui lòng nhập mức lương cơ bản!");
                 parameter.txtSalaryBasic.Focus();
+                parameter.txtSalaryBasic.Text = "";
+                return;
+            }
+            if (!Regex.IsMatch(parameter.txtStandardWorkDays.Text, @"^[0-9]+$") || int.Parse(parameter.txtStandardWorkDays.Text) < 1 || int.Parse(parameter.txtStandardWorkDays.Text) > 30)
+            {
+                parameter.txtStandardWorkDays.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtOvertime.Text))
             {
-                MessageBox.Show("Vui lòng nhập số tiền mỗi ca!");
                 parameter.txtOvertime.Focus();
+                parameter.txtOvertime.Text = "";
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtSalaryDeduction.Text))
             {
-                MessageBox.Show("Vui lòng nhập số tiền mỗi lỗi!");
                 parameter.txtSalaryDeduction.Focus();
+                parameter.txtSalaryDeduction.Text = "";
                 return;
             }
-            if (string.IsNullOrEmpty(parameter.cboStandardWorkDays.Text))
-            {
-                MessageBox.Show("Vui lòng nhập số ngày công chuẩn!");
-                parameter.txtSalaryDeduction.Focus();
-                return;
-            }
-            Salary salary = new Salary(ConvertToNumber(parameter.txtSalaryBasic.Text), 0,
-                ConvertToNumber(parameter.txtOvertime.Text), 0, ConvertToNumber(parameter.txtSalaryDeduction.Text), 0, 0,
-                int.Parse(parameter.cboStandardWorkDays.Text));
-            //update salary
+            SalarySetting salarySetting = new SalarySetting(ConvertToNumber(parameter.txtSalaryBasic.Text),
+                ConvertToNumber(parameter.txtOvertime.Text), ConvertToNumber(parameter.txtSalaryDeduction.Text),
+                parameter.cboTypeEmployee.Text, int.Parse(parameter.txtStandardWorkDays.Text));
+            //update salary setting
             bool isExist = false;
-            foreach (var tmp in SalaryDAL.Instance.ConvertDBToList())
+            foreach (var tmp in SalarySettingDAL.Instance.GetSalarySettings(parameter.cboTypeEmployee.Text))
             {
-                if (SalaryDAL.Instance.GetPosition(tmp.IdEmployee.ToString()) == parameter.cboTypeEmployee.Text)
+                isExist = true;
+                if (SalarySettingDAL.Instance.UpdateDB(salarySetting))
                 {
-                    isExist = true;
-                    salary.IdEmployee = tmp.IdEmployee;
-                    if (!SalaryDAL.Instance.ResetSalary(salary))
-                    {
-                        MessageBox.Show("Thiết lập lương thất bại!");
-                        parameter.Close();
-                        return;
-                    }
+                    MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                else
+                {
+                    MessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                return;
             }
-            //set salary
+            //set salary 
             if (!isExist)
             {
-                foreach (Employee employee in EmployeeDAL.Instance.ConvertDBToList())
+                if (SalarySettingDAL.Instance.AddIntoDB(salarySetting))
                 {
-                    if (employee.Position == parameter.cboTypeEmployee.Text)
-                    {
-                        salary.IdEmployee = employee.IdEmployee;
-                        if (!SalaryDAL.Instance.AddIntoDB(salary))
-                        {
-                            MessageBox.Show("Thiết lập lương thất bại!");
-                            parameter.Close();
-                            return;
-                        }
-                    }
+                    MessageBox.Show("Thiết lập thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Thiết lập thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
-            MessageBox.Show("Thiết lập lương thành công!");
             parameter.Close();
         }
-        public void SetBaseSalary(AddEmployeeWindow parameter)
+        public void SetSalaryEmployee(AddEmployeeWindow parameter)
         {
-            List<Salary> salaries = SalaryDAL.Instance.ConvertDBToList();
-            if (salaries.Count == 0)
-            {
-                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0, 0);
-                SalaryDAL.Instance.AddIntoDB(salary1);
-                return;
-            }
-            //cập nhật lại lương cho nhân viên khi cập nhật chức vụ
-            if (int.Parse(parameter.txtIDEmployee.Text) <= salaries[salaries.Count - 1].IdEmployee)
-            {
-                foreach (var salary in salaries)
-                {
-                    if (SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) == parameter.cboPosition.Text && salary.IdEmployee != int.Parse(parameter.txtIDEmployee.Text))
-                    {
-                        salary.TotalSalary = 0;
-                        salary.IdEmployee = int.Parse(parameter.txtIDEmployee.Text);
-                        SalaryDAL.Instance.UpdateTotalSalary(salary);
-                        SalaryDAL.Instance.ResetSalary(salary);
-                        return;
-                    }
-                }
-                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0, 0);
-                SalaryDAL.Instance.ResetSalary(salary1);
-                SalaryDAL.Instance.UpdateTotalSalary(salary1);
-            }
             //thêm lương cơ bản cho nhân viên khi thêm một nhân viên
-            else
+            if (!SalaryDAL.Instance.isExit(parameter.txtIDEmployee.Text, DateTime.Now))
             {
-                foreach (var salary in salaries)
+                Salary salary = new Salary();
+                salary.IdEmployee = int.Parse(parameter.txtIDEmployee.Text);
+                salary.NumOfFault = 0;
+                salary.NumOfShift = 0;
+                salary.TotalSalary = -1;
+                salary.SalaryMonth = DateTime.Now;
+                if (!SalaryDAL.Instance.AddIntoDB(salary))
                 {
-                    if (SalaryDAL.Instance.GetPosition(salary.IdEmployee.ToString()) == parameter.cboPosition.Text)
-                    {
-                        salary.IdEmployee = int.Parse(parameter.txtIDEmployee.Text);
-                        salary.TotalSalary = 0;
-                        salary.NumOfFault = 0;
-                        salary.NumOfShift = 0;
-                        SalaryDAL.Instance.AddIntoDB(salary);
-                        return;
-                    }
+                    MessageBox.Show("Lỗi khi thiết lập lương!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                Salary salary1 = new Salary(0, 0, 0, 0, 0, int.Parse(parameter.txtIDEmployee.Text), 0, 0);
-                SalaryDAL.Instance.AddIntoDB(salary1);
             }
         }
-        public void SetMaxValue(object sender, TextCompositionEventArgs e)
-        {
-            Regex regex = new Regex("\\b([1-9]|[12][0-9]|3[01])\\b");
-
-            e.Handled = !regex.IsMatch(e.Text);
-        }
-
-
     }
 }

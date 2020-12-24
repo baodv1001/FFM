@@ -8,6 +8,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         xmlns:UserControls="clr-namespace:FootballFieldManagement.Resources.UserControls"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         mc:Ignorable="d"
         Title="Thiết lập khung giờ và giá sân" 
         Height="740"
@@ -52,6 +53,7 @@
                 Width="110"
                 Is24Hours="True"
                 Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 materialDesign:HintAssist.Hint="Giờ mở cửa" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Bottom" 
@@ -63,12 +65,20 @@
                 VerticalContentAlignment="Bottom" 
                 HorizontalContentAlignment="Center" 
                 TabIndex="1">
+                <materialDesign:TimePicker.SelectedTime>
+                    <Binding Path="OpenTime" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vd:PickersValidation ErrorMessageNull="Vui lòng nhập giờ"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </materialDesign:TimePicker.SelectedTime>
             </materialDesign:TimePicker>
             <materialDesign:TimePicker
                 x:Name="tpkCloseTime"
                 Width="110"
                 Is24Hours= "True"
                 Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 materialDesign:HintAssist.Hint="Giờ đóng cửa" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Bottom" 
@@ -80,6 +90,13 @@
                 VerticalContentAlignment="Bottom" 
                 HorizontalContentAlignment="Center"
                 TabIndex="2">
+                <materialDesign:TimePicker.SelectedTime>
+                    <Binding Path="CloseTime" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vd:PickersValidation ErrorMessageNull="Vui lòng nhập giờ"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </materialDesign:TimePicker.SelectedTime>
             </materialDesign:TimePicker>
         </StackPanel>
         <Rectangle 
@@ -226,6 +243,7 @@
             materialDesign:ComboBoxAssist.ClassicMode="true"
             FontSize="14"
             FontWeight="Medium" 
+            Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
             Style="{StaticResource MaterialDesignFloatingHintComboBox}"
             materialDesign:HintAssist.Hint="Chọn giờ/trận"
             Width="140" 
@@ -237,10 +255,18 @@
             VerticalAlignment="Top"
             HorizontalAlignment="Left" 
             Foreground="{DynamicResource Gray1}" 
+            
             TabIndex="3">
             <ComboBoxItem Content="1 tiếng/trận"/>
             <ComboBoxItem Content="1.5 tiếng/trận"/>
             <ComboBoxItem Content="2 tiếng/trận"/>
+            <ComboBox.Text>
+                <Binding Path="TimePerMatch" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <vd:NotNullValidation ErrorMessage = "Vui lòng chọn giờ trên trận!"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </ComboBox.Text>
         </ComboBox>
         <Button
             x:Name="btnSet"

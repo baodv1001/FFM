@@ -3,6 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
@@ -155,10 +156,19 @@
                     BorderThickness="0" 
                     MaxLines="1"
                     Padding="0" 
-                    Foreground="{StaticResource Gray3}" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                    Foreground="{StaticResource Gray3}"
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="Name" Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập họ tên!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -187,8 +197,8 @@
                     Margin="0" />
                 <ComboBox
                     x:Name="cboPosition"
+                    materialDesign:ComboBoxAssist.ClassicMode="true"
                     materialDesign:HintAssist.Hint="Chức vụ" 
-                    IsEditable="True" 
                     Height="40" 
                     FontSize="14" 
                     Width="210"
@@ -201,11 +211,11 @@
                     HorizontalContentAlignment="Left">
                     <ComboBoxItem x:Name="cboPositionManage" Content="Nhân viên quản lý"/>
                     <ComboBoxItem x:Name="cboPositionCashier" Content="Nhân viên thu ngân"/>
-                    <ComboBoxItem x:Name="cboPositionGuard" Content="Bảo vệ"/>
+                    <ComboBoxItem IsSelected="True" x:Name="cboPositionGuard" Content="Bảo vệ"/>
                 </ComboBox>
             </Grid>
             <Grid 
-                Margin="0,180,0,0"
+                Margin="0,185,0,0"
                 VerticalAlignment="Top"
                 x:Name="grdSex" 
                 Width="420" 
@@ -284,12 +294,20 @@
                     FontSize="14"
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     VerticalContentAlignment="Center">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CalendarClosed" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <DatePicker.SelectedDate>
+                        <Binding Path="DateOfBirth" Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                            <Binding.ValidationRules>
+                                <vd:PickersValidation ErrorMessageNull="Vui lòng nhập vào ngày sinh!"></vd:PickersValidation>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
                 </DatePicker>
             </Grid>
             <Grid 
@@ -328,6 +346,7 @@
                     BorderThickness="0" 
                     FontSize="14" 
                     Foreground="{StaticResource Gray3}" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center">
                     <i:Interaction.Triggers>
@@ -335,6 +354,13 @@
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <DatePicker.SelectedDate>
+                        <Binding Path="Startingdate" Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                            <Binding.ValidationRules>
+                                <vd:PickersValidation ErrorMessageNull="Vui lòng nhập vào ngày vào làm!"></vd:PickersValidation>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </DatePicker.SelectedDate>
                 </DatePicker>
             </Grid>
             <Grid 
@@ -372,12 +398,21 @@
                     BorderThickness="0" 
                     MaxLines="1" 
                     Foreground="{StaticResource Gray3}"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Padding="0"  
                     Margin="0,0,10,0" 
                     Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="Address"  Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation  ErrorMessage="Vui lòng nhập địa chỉ"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             <Grid 
                 Margin="0,420,0,0" 
@@ -415,17 +450,21 @@
                     BorderThickness="0"
                     MaxLines="1" 
                     Foreground="{StaticResource Gray3}"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Padding="0" 
                     Margin="0,0,10,0" 
                     Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewTextInput" >
-                            <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="Phonenumber" Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged" >
+                            <Binding.ValidationRules>
+                                <vd:NumberValidation ErrorMessage="Chỉ nhập các ký tự số (0 - 9)!" 
+                                                     ErrorMessageNull="Vui lòng nhập số điện thoại!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
             </Grid>
         </Grid>
@@ -449,13 +488,10 @@
                 Background="{StaticResource Success}" 
                 BorderBrush="{StaticResource Success}"
                 Margin="0" 
+                Content="Lưu"
+                FontSize="18"
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}">
-                <TextBlock x:Name="txbConfirm"
-                    Text="Lưu" 
-                    FontSize="18" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" />
             </Button>
             <Button
                 x:Name="btnCancel"
@@ -469,13 +505,10 @@
                 Background="{StaticResource Gray4}" 
                 BorderBrush="{StaticResource Gray4}"
                 Margin="0" 
+                Content="Bỏ qua"
+                FontSize="18"
                 HorizontalAlignment="Right"
                 FocusVisualStyle="{x:Null}">
-                <TextBlock
-                    Text="Bỏ qua" 
-                    FontSize="18"
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" />
             </Button>
         </Grid>
     </Grid>

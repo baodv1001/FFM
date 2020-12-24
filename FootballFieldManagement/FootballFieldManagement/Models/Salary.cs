@@ -8,37 +8,35 @@ namespace FootballFieldManagement.Models
 {
     class Salary
     {
-        private long salaryBasic;
-        public long SalaryBasic { get => salaryBasic; set => salaryBasic = value; }
         private int numOfShift;
         public int NumOfShift { get => numOfShift; set => numOfShift = value; }
-        private long moneyPerShift;
-        public long MoneyPerShift { get => moneyPerShift; set => moneyPerShift = value; }
         private int numOfFault;
         public int NumOfFault { get => numOfFault; set => numOfFault = value; }
-        private long moneyPerFault;
-        public long MoneyPerFault { get => moneyPerFault; set => moneyPerFault = value; }
         private long totalSalary;
         public long TotalSalary { get => totalSalary; set => totalSalary = value; }
         private int idEmployee;
         public int IdEmployee { get => idEmployee; set => idEmployee = value; }
-        private int standardWorkDays;
-        public int StandardWorkDays { get => standardWorkDays; set => standardWorkDays = value; }
+
+        private int idAccount;
+        public int IdAccount { get => idAccount; set => idAccount = value; }
+        private DateTime salaryMonth;
+        public DateTime SalaryMonth { get => salaryMonth; set => salaryMonth = value; }
+        private DateTime datePay;
+        public DateTime DatePay { get => datePay; set => datePay = value; }
 
         public Salary()
         {
 
         }
-        public Salary(long salaryBasic, int numOfShift, long moneyPerShift, int numOfFault, long moneyPerFault, int idEmployee, long totalSalary, int standardWorkDays)
+        public Salary(int idEmployee, int numOfShift, int numOfFault, long total, int idAccount, DateTime datePay, DateTime month )
         {
-            this.salaryBasic = salaryBasic;
-            this.numOfShift = numOfShift;
-            this.moneyPerShift = moneyPerShift;
-            this.numOfFault = numOfFault;
-            this.moneyPerFault = moneyPerFault;
-            this.totalSalary = totalSalary;
             this.idEmployee = idEmployee;
-            this.standardWorkDays = standardWorkDays;
+            this.numOfFault = numOfFault;
+            this.numOfShift = numOfShift;
+            this.totalSalary = total;
+            this.idAccount = idAccount;
+            this.datePay = datePay;
+            this.salaryMonth = month;
         }
     }
 }

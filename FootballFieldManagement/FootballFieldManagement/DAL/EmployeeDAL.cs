@@ -337,5 +337,27 @@ namespace FootballFieldManagement.DAL
             }
             return employees;
         }
+
+        public string GetPosition(string id) // Lấy chức vụ khi biết id
+        {
+            try
+            {
+                conn.Open();
+                string query = "select position from Employee where idEmployee = " + id;
+                SqlCommand command = new SqlCommand(query, conn);
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dt);
+                return dt.Rows[0].ItemArray[0].ToString();
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

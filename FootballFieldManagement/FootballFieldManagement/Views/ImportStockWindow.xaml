@@ -407,7 +407,8 @@
                     VerticalAlignment="Bottom" 
                     Width="320" 
                     FontWeight="Bold" 
-                    HorizontalAlignment="Center"/>
+                    HorizontalAlignment="Center"
+                    IsTabStop="False"/>
                 <Button 
                     x:Name="btnPrintBill"
                     Style="{StaticResource MaterialDesignRaisedButton}"
@@ -422,7 +423,7 @@
                     Foreground="{DynamicResource Primary}" 
                     VerticalAlignment="Bottom" 
                     Width="320" 
-                    HorizontalAlignment="Center">
+                    HorizontalAlignment="Center" IsTabStop="False">
                     <StackPanel
                         Orientation="Horizontal">
                         <TextBlock

@@ -18,6 +18,8 @@ namespace FootballFieldManagement.ViewModels
 {
     class FootballFieldViewModel : BaseViewModel
     {
+        public string FieldName { get; set; }
+        public string FieldType { get; set; }
         //FieldDetailsControl
         public ICommand DeleteListFieldCommand { get; set; }
         public ICommand EditListFieldCommand { get; set; }
@@ -49,6 +51,7 @@ namespace FootballFieldManagement.ViewModels
 
         private FieldControl cardField;
         public FieldControl CardField { get => cardField; set => cardField = value; }
+
         public FootballFieldViewModel()
         {
             EditListFieldCommand = new RelayCommand<FieldDetailsControl>(parameter => true, parameter => ClickEditListField(parameter));
@@ -103,7 +106,8 @@ namespace FootballFieldManagement.ViewModels
             {
                 wdAddFootballFieldWindow.txtIDField.Text = "1";
             }
-            setItemSourceField();
+            wdAddFootballFieldWindow.txtName.Text = null;
+            wdAddFootballFieldWindow.cboFieldType.Text = null;
             wdAddFootballFieldWindow.ShowDialog();
         }
         public void LoadField(HomeWindow home)
@@ -112,6 +116,7 @@ namespace FootballFieldManagement.ViewModels
             home.grdListField.Visibility = Visibility.Hidden;
             home.grdCardField.Visibility = Visibility.Visible;
             home.cboViews.Text = "Card";
+            setItemSourceField();
             LoadCardFieldToView(home);
         }
         public void SelectionChanged(HomeWindow parameter)
@@ -191,20 +196,19 @@ namespace FootballFieldManagement.ViewModels
             //Check các ô có bị null hay không?
             if (string.IsNullOrEmpty(parameter.txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên sân!");
+                parameter.txtName.Text = "";
                 parameter.txtName.Focus();
                 return;
             }
 
             if (string.IsNullOrEmpty(parameter.cboFieldType.Text))
             {
-                MessageBox.Show("Vui lòng chọn loại sân!");
                 parameter.cboFieldType.Focus();
+                parameter.cboFieldType.Text = "";
                 return;
             }
             if (string.IsNullOrEmpty(parameter.cboStatus.Text))
             {
-                MessageBox.Show("Vui lòng chọn trạng thái sân!");
                 parameter.cboStatus.Focus();
                 return;
             }
@@ -224,12 +228,15 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccess2 = false;
             if (fields.Count == 0 || fields[fields.Count - 1].IdField < newField.IdField)
             {
-                //Thực hiện lưu xuống database
-                if (FootballFieldDAL.Instance.CheckFieldName(parameter.txtName.Text))
+                //Kiểm tra tên sân có tồn tại hay chưa
+                if (FootballFieldDAL.Instance.isExistFieldName(parameter.txtName.Text))
                 {
-                    MessageBox.Show("Tên sân đã tồn tại!");
+                    MessageBox.Show("Tên sân đã tồn tại! Vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    parameter.txtName.Text = "";
+                    parameter.txtName.Focus();
                     return;
                 }
+                //Lưu vào DB
                 if (FootballFieldDAL.Instance.AddIntoDB(newField))
                 {
                     isSuccess1 = true;
@@ -266,6 +273,17 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
+                //Kiểm tra tên sân có tồn tại hay không
+                if (FootballFieldDAL.Instance.GetFootballFieldById(parameter.txtIDField.Text).Name != parameter.txtName.Text)
+                {
+                    if (FootballFieldDAL.Instance.isExistFieldName(parameter.txtName.Text))
+                    {
+                        MessageBox.Show("Tên sân đã tồn tại! Vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                        parameter.txtName.Text = "";
+                        parameter.txtName.Focus();
+                        return;
+                    }
+                }
                 //Thực hiện update xuống database
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
@@ -337,28 +355,24 @@ namespace FootballFieldManagement.ViewModels
         }
         public void ShowEditField(string idField)
         {
+            setItemSourceField();
             AddFootballFieldWindow updateWindow = new AddFootballFieldWindow();
-            foreach (var footballField in FootballFieldDAL.Instance.ConvertDBToList())
-            {
-                if (footballField.IdField.ToString() == idField)
-                {
-                    updateWindow.txtIDField.Text = idField;
-                    updateWindow.txtName.Text = footballField.Name;
-                    updateWindow.txtName.SelectionStart = updateWindow.txtName.Text.Length;
-                    updateWindow.txtName.SelectionLength = 0;
+            updateWindow.Title = "Cập nhật sân bóng";
+            FootballField footballField = FootballFieldDAL.Instance.GetFootballFieldById(idField);
+            updateWindow.txtIDField.Text = idField;
+            updateWindow.txtName.Text = footballField.Name;
+            updateWindow.txtName.SelectionStart = updateWindow.txtName.Text.Length;
+            updateWindow.txtName.SelectionLength = 0;
 
-                    updateWindow.cboFieldType.Text = "Sân " + footballField.Type.ToString() + " người";
-                    int statusIndex = 1;
-                    if (footballField.Status == 1)
-                    {
-                        statusIndex = 0;
-                    }
-                    updateWindow.cboStatus.SelectedIndex = statusIndex;
-                    updateWindow.Title = "Cập nhật thông tin sân";
-                    updateWindow.ShowDialog();
-                    return;
-                }
+            updateWindow.cboFieldType.Text = "Sân " + footballField.Type.ToString() + " người";
+            int statusIndex = 1;
+            if (footballField.Status == 1)
+            {
+                statusIndex = 0;
             }
+            updateWindow.cboStatus.SelectedIndex = statusIndex;
+            updateWindow.ShowDialog();
+            return;
         }
         public void DeleteListField(FieldDetailsControl control)
         {
@@ -366,24 +380,34 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 //Lưu xuống DB
-                foreach (var footballField in FootballFieldDAL.Instance.ConvertDBToList())
+                bool isSuccess1 = FieldInfoDAL.Instance.UpdateIdField(control.txbIdField.Text);
+                bool isSuccess2 = FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text);
+                if (isSuccess1 && isSuccess2 || isSuccess2)
                 {
-                    if (footballField.IdField.ToString() == control.txbIdField.Text)
+                    //Cập nhật lên wrap
+                    home.wpListField.Children.Remove(control);
+                    if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
                     {
-                        bool isSuccess1 = FieldInfoDAL.Instance.UpdateIdField(control.txbIdField.Text);
-                        bool isSuccess2 = FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text);
-                        if (isSuccess1 && isSuccess2 || isSuccess2)
+                        TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                    }
+                    //Cật nhật lại màu
+                    bool flag = false;
+                    for (int i = 0; i < home.wpListField.Children.Count; i++)
+                    {
+                        FieldDetailsControl temp = (FieldDetailsControl)home.wpListField.Children[i];
+                        flag = !flag;
+                        if (flag)
                         {
-                            //Cập nhật lên wrap
-                            home.wpListField.Children.Remove(control);
-                            if(FootballFieldDAL.Instance.GetFieldType().Find(x=>x == control.txbFieldType.Text.Split(' ')[1]) == null)
-                            {
-                                TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
-                            }
+                            temp.grdMain.Background = (Brush)new BrushConverter().ConvertFromString("#FFFFFF");
                         }
-                        return;
+                        else
+                        {
+                            temp.grdMain.Background = (Brush)new BrushConverter().ConvertFromString("#F4EEFF");
+                        }
+                        temp.txbOrderNum.Text = (i + 1).ToString();
                     }
                 }
+                return;
             }
         }
         public void DeleteCardField(FieldControl control)
@@ -392,24 +416,18 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 //Lưu xuống DB
-                foreach (var footballField in FootballFieldDAL.Instance.ConvertDBToList())
+                bool isSuccess1 = FieldInfoDAL.Instance.UpdateIdField(control.txbIdField.Text);
+                bool isSuccess2 = FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text);
+                if (isSuccess1 && isSuccess2 || isSuccess2)
                 {
-                    if (footballField.IdField.ToString() == control.txbIdField.Text)
+                    //Cập nhật lên wrap
+                    home.wpCardField.Children.Remove(control);
+                    if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
                     {
-                        bool isSuccess1 = FieldInfoDAL.Instance.UpdateIdField(control.txbIdField.Text);
-                        bool isSuccess2 = FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text);
-                        if (isSuccess1 && isSuccess2 || isSuccess2)
-                        {
-                            //Cập nhật lên wrap
-                            home.wpCardField.Children.Remove(control);
-                            if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
-                            {
-                                TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
-                            }
-                        }
-                        return;
+                        TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
                     }
                 }
+                return;
             }
         }
     }

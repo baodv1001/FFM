@@ -92,12 +92,14 @@
     <Compile Include="DAL\FootballFieldDAL.cs" />
     <Compile Include="DAL\ReportDAL.cs" />
     <Compile Include="DAL\SalaryRecordDAL.cs" />
+    <Compile Include="DAL\SalarySettingDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
     <Compile Include="DAL\TimeFrameDAL.cs" />
     <Compile Include="Models\FieldInfo.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\SalaryRecord.cs" />
+    <Compile Include="Models\SalarySetting.cs" />
     <Compile Include="Resources\Template\SalaryRecordTemplate.xaml.cs">
       <DependentUpon>SalaryRecordTemplate.xaml</DependentUpon>
     </Compile>
@@ -156,7 +158,15 @@
     <Compile Include="Resources\UserControls\StockReceiptInfoControl.xaml.cs">
       <DependentUpon>StockReceiptInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validations\DateBookingValidation.cs" />
+    <Compile Include="Validations\NotExistValidation.cs" />
     <Compile Include="ViewModels\BusinessViewModel.cs" />
+    <Compile Include="Validations\NotNullValidation.cs" />
+    <Compile Include="Validations\PickersValidation.cs" />
+    <Compile Include="Validations\ExistValidation.cs" />
+    <Compile Include="Validations\NumberValidation.cs" />
+    <Compile Include="Validations\RangeOfNumberValidation.cs" />
+    <Compile Include="Validations\TextBoxValidation.cs" />
     <Compile Include="ViewModels\FootballFieldViewModel.cs" />
     <Compile Include="ViewModels\PayViewModel.cs" />
     <Compile Include="DAL\AttendanceDAL.cs" />
@@ -172,7 +182,6 @@
     <Compile Include="ViewModels\CheckAttendanceViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
-    <Compile Include="ViewModels\TextBoxValidation.cs" />
     <Compile Include="ViewModels\TimeFrameViewModel.cs" />
     <Compile Include="Views\AddFootballFieldWindow.xaml.cs">
       <DependentUpon>AddFootballFieldWindow.xaml</DependentUpon>

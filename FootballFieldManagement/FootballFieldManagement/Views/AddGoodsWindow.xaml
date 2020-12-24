@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
@@ -17,25 +18,6 @@
         WindowStartupLocation="CenterScreen"
         Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         ResizeMode="CanMinimize">
-    <Window.Resources>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="Green"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
     <Grid Margin="0">
         <Grid
             x:Name="grdSelectImg"
@@ -166,10 +148,19 @@
                     BorderThickness="0" 
                     MaxLines="1"
                     Padding="0" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="Name" Source="{StaticResource Goods}" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập tên mặt hàng!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -195,8 +186,7 @@
                     Margin="0" />
                 <ComboBox
                     x:Name="cboUnit"
-                    materialDesign:HintAssist.Hint="Đơn vị tính" 
-                    IsEditable="True" 
+                    materialDesign:HintAssist.Hint="Đơn vị tính"
                     Height="40" 
                     FontSize="14" 
                     Width="210"
@@ -207,7 +197,7 @@
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left">
-                    <ComboBoxItem Content="Chai"/>
+                    <ComboBoxItem IsSelected="True" Content="Chai"/>
                     <ComboBoxItem Content="Đôi"/>
                     <ComboBoxItem Content="Cái"/>
                     <ComboBoxItem Content="Lon"/>
@@ -249,14 +239,31 @@
                     MaxLength="11"
                     Padding="0" 
                     Foreground="{StaticResource Gray3}" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding }"
+                                                 MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtUnitPrice}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="Price" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập giá của mặc hàng!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
             </Grid>
         </Grid>
         <Grid 
-            Margin="0,280,34,0" 
+            Margin="0,290,34,0" 
             VerticalAlignment="Top"  
             Height="40" 
             Width="220" 

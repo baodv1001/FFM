@@ -44,32 +44,40 @@ namespace FootballFieldManagement.DAL
             dt = dv.ToTable();
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Salary salary = new Salary(long.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()), long.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()));
+                int idAccount = -1;
+                if (dt.Rows[i].ItemArray[4].ToString() != "")
+                {
+                    idAccount = int.Parse(dt.Rows[i].ItemArray[4].ToString());
+                }
+                DateTime datePay = new DateTime();
+                if (dt.Rows[i].ItemArray[5].ToString() != "")
+                {
+                    datePay = DateTime.Parse(dt.Rows[i].ItemArray[5].ToString());
+                }
+                Salary salary = new Salary(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
+                    int.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString()), idAccount,
+                    datePay, DateTime.Parse(dt.Rows[i].ItemArray[6].ToString()));
                 salaries.Add(salary);
             }
             //conn.Close();
             return salaries;
         }
-        public bool ResetSalary(Salary salary)
+        public bool AddIntoDB(Salary salary)
         {
             try
             {
                 conn.Open();
-                string query = "update Salary  set salaryBasic=@salaryBasic,moneyPerShift=@moneyPerShift,moneyPerFault=@moneyPerFault,standardWorkDays = @standardWorkDays where idEmployee=" + salary.IdEmployee;
+                string query = @"insert into Salary (idEmployee, numOfShift, numOfFault,totalSalary, salaryMonth) values(@idEmployee, @numOfShift, @numOfFault,@totalSalary, @salaryMonth)";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@salaryBasic", salary.SalaryBasic.ToString());
-                cmd.Parameters.AddWithValue("@moneyPerShift", salary.MoneyPerShift.ToString());
-                cmd.Parameters.AddWithValue("@moneyPerFault", salary.MoneyPerFault.ToString());
-                cmd.Parameters.AddWithValue("@standardWorkDays", salary.StandardWorkDays.ToString());
-                int rs = cmd.ExecuteNonQuery();
-                if (rs != 1)
-                {
+                cmd.Parameters.AddWithValue("@idEmployee", salary.IdEmployee.ToString());
+                cmd.Parameters.AddWithValue("@numOfShift", salary.NumOfShift.ToString());
+                cmd.Parameters.AddWithValue("@numOfFault", salary.NumOfFault.ToString());
+                cmd.Parameters.AddWithValue("@totalSalary", salary.TotalSalary.ToString());
+                cmd.Parameters.AddWithValue("@salaryMonth", salary.SalaryMonth);
+                if (cmd.ExecuteNonQuery() < 1)
                     return false;
-                }
                 else
-                {
                     return true;
-                }
             }
             catch
             {
@@ -85,10 +93,13 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "update Salary  set numOfShift=@numOfShift,numOfFault=@numOfFault where idEmployee=" + salary.IdEmployee;
+                string query = "update Salary  set numOfShift=@numOfShift,numOfFault=@numOfFault where idEmployee= @idEmployee and month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@numOfShift", salary.NumOfShift.ToString());
                 cmd.Parameters.AddWithValue("@numOfFault", salary.NumOfFault.ToString());
+                cmd.Parameters.AddWithValue("@idEmployee", salary.IdEmployee.ToString());
+                cmd.Parameters.AddWithValue("@month", salary.SalaryMonth.Month.ToString());
+                cmd.Parameters.AddWithValue("@year", salary.SalaryMonth.Year.ToString());
                 int rs = cmd.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -113,43 +124,12 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "update Salary  set totalSalary=@totalSalary where idEmployee=" + salary.IdEmployee;
+                string query = "update Salary  set totalSalary=@totalSalary where idEmployee=@idEmployee and month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@totalSalary", salary.TotalSalary.ToString());
-                int rs = cmd.ExecuteNonQuery();
-                if (rs != 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-        public bool AddIntoDB(Salary salary)
-        {
-            try
-            {
-                conn.Open();
-                string query = "INSERT INTO Salary(salaryBasic, numOfShift, moneyPerShift, numOfFault, moneyPerFault, idEmployee, totalSalary,standardWorkDays) VALUES(@salaryBasic, @numOfShift, @moneyPerShift, @numOfFault, @moneyPerFault, @idEmployee, @totalSalary,@standardWorkDays)";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@salaryBasic", salary.SalaryBasic.ToString());
-                cmd.Parameters.AddWithValue("@numOfShift", salary.NumOfShift.ToString());
-                cmd.Parameters.AddWithValue("@moneyPerShift", salary.MoneyPerShift.ToString());
-                cmd.Parameters.AddWithValue("@numOfFault", salary.NumOfFault.ToString());
-                cmd.Parameters.AddWithValue("@moneyPerFault", salary.MoneyPerFault.ToString());
                 cmd.Parameters.AddWithValue("@idEmployee", salary.IdEmployee.ToString());
-                cmd.Parameters.AddWithValue("@totalSalary", salary.TotalSalary.ToString());
-                cmd.Parameters.AddWithValue("@standardWorkDays", salary.StandardWorkDays.ToString());
+                cmd.Parameters.AddWithValue("@month", salary.SalaryMonth.Month.ToString());
+                cmd.Parameters.AddWithValue("@year", salary.SalaryMonth.Year.ToString());
                 int rs = cmd.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -169,6 +149,7 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+
         public bool DeleteSalary(string id)
         {
             try
@@ -188,21 +169,32 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public string GetPosition(string id)
+        public bool isExit(string idEmployee, DateTime date)
         {
             try
             {
                 conn.Open();
-                string query = "select position from Employee where idEmployee = " + id;
-                SqlCommand command = new SqlCommand(query, conn);
+                string query = @"select * from Salary where idEmployee = @idEmployee and  month(salaryMonth) = @month and year(salaryMonth) = @year";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idEmployee", idEmployee.ToString());
+                cmd.Parameters.AddWithValue("@month", date.Month.ToString());
+                cmd.Parameters.AddWithValue("@year", date.Year.ToString());
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
                 adapter.Fill(dt);
-                return dt.Rows[0].ItemArray[0].ToString();
+                if (dt.Rows.Count < 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
             catch
             {
-                return null;
+                MessageBox.Show("Lỗi!");
+                return true;
             }
             finally
             {
@@ -210,7 +202,7 @@ namespace FootballFieldManagement.DAL
             }
         }
 
-        public List<Salary> GetSalaryInfoById(string idSalaryRecord)
+        /*public List<Salary> GetSalaryInfoById(string idSalaryRecord)
         {
             List<Salary> listSalaryInfo = new List<Salary>();
             try
@@ -241,6 +233,6 @@ namespace FootballFieldManagement.DAL
             {
                 conn.Close();
             }
-        }
+        }*/
     }
 }

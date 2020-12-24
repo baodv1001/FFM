@@ -365,14 +365,22 @@ namespace FootballFieldManagement.ViewModels
             MessageBoxResult result = MessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                //Lưu xuống DB
-                if (FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text)) // cập  nhật isDeleted=1
+                List<FieldInfo> fieldInfos = FieldInfoDAL.Instance.GetFieldInfoByIdField(control.txbIdField.Text);
+                if (fieldInfos.Count == 0)
                 {
-                    //Cập nhật lên wrap
-                    home.wpListField.Children.Remove(control);
-                    if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
+                    //Lưu xuống DB
+                    if (FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text)) // cập  nhật isDeleted=1
                     {
-                        TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                        //Cập nhật lên wrap
+                        home.wpListField.Children.Remove(control);
+                        if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
+                        {
+                            TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sân đang được sử dụng, không được phép xóa!");
                     }
                 }
             }
@@ -383,14 +391,22 @@ namespace FootballFieldManagement.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 //Lưu xuống DB
-                if (FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text)) // cập nhật isDeleted=1
+                List<FieldInfo> fieldInfos = FieldInfoDAL.Instance.GetFieldInfoByIdField(control.txbIdField.Text);
+                if (fieldInfos.Count == 0)
                 {
-                    //Cập nhật lên wrap
-                    home.wpCardField.Children.Remove(control);
-                    if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
+                    if (FootballFieldDAL.Instance.DeleteField(control.txbIdField.Text)) // cập nhật isDeleted=1
                     {
-                        TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                        //Cập nhật lên wrap
+                        home.wpCardField.Children.Remove(control);
+                        if (FootballFieldDAL.Instance.GetFieldType().Find(x => x == control.txbFieldType.Text.Split(' ')[1]) == null)
+                        {
+                            TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
+                        }
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Sân đang được sử dụng, không được phép xóa!");
                 }
             }
         }

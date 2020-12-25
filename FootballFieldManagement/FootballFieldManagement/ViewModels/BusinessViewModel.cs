@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace FootballFieldManagement.ViewModels
@@ -244,6 +245,7 @@ namespace FootballFieldManagement.ViewModels
                 if (!bookingWindow.dpSetDate.IsEnabled)
                 {
                     //Chuyển sang sân đã đặt
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     PickedField.txbidFieldInfo.Text = idFieldInfo.ToString();
                     PickedField.icn1.Visibility = Visibility.Hidden;
                     PickedField.icn3.Visibility = Visibility.Visible;
@@ -351,7 +353,7 @@ namespace FootballFieldManagement.ViewModels
                     PickedField.ToolTip = "Không thể đặt sân";
                 }
                 else
-                {
+                {                    
                     PickedField.icn1.Visibility = Visibility.Visible;
                     PickedField.ToolTip = "Đặt sân";
                 }
@@ -419,6 +421,7 @@ namespace FootballFieldManagement.ViewModels
                 {
                     //Chuyển sang sân đang đá
                     MessageBox.Show("Check in thành công!");
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
                     PickedField.icn3.Visibility = Visibility.Hidden;
                     PickedField.icn2.Visibility = Visibility.Visible;
                     PickedField.ToolTip = "Thanh toán";
@@ -608,6 +611,7 @@ namespace FootballFieldManagement.ViewModels
                     payWindow.ShowDialog();
                     if (payWindow.txbIsPaid.Text == "1") // Thanh toán thành công!
                     {
+                        fieldButtonControl.recColor.Visibility = Visibility.Visible;
                         fieldButtonControl.icn2.Visibility = Visibility.Hidden;
                         fieldButtonControl.icn4.Visibility = Visibility.Visible;
                         fieldButtonControl.ToolTip = "Đã thanh toán";
@@ -730,13 +734,16 @@ namespace FootballFieldManagement.ViewModels
                         {
                             case 1:
                                 fieldButtonControl.icn3.Visibility = Visibility.Visible; // Sân đã đặt
+                                fieldButtonControl.bdrOut.BorderBrush= (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                                 fieldButtonControl.ToolTip = "Check In";
                                 break;
                             case 2:
+                                fieldButtonControl.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
                                 fieldButtonControl.icn2.Visibility = Visibility.Visible; // Sân đang đá
                                 fieldButtonControl.ToolTip = "Thanh toán";
                                 break;
                             case 3:
+                                fieldButtonControl.recColor.Visibility = Visibility.Visible;
                                 fieldButtonControl.icn4.Visibility = Visibility.Visible; // Sân đã thanh toán
                                 fieldButtonControl.ToolTip = "Đã thanh toán";
                                 break;
@@ -752,8 +759,11 @@ namespace FootballFieldManagement.ViewModels
                     if (!flag && (homeWindow.dpPickedDate.SelectedDate < DateTime.Today || (homeWindow.dpPickedDate.SelectedDate == DateTime.Today && string.Compare(fieldBookingControl.txbstartTime.Text, DateTime.Now.ToString("HH:mm")) == -1)))
                     {
                         flag = true;
-                        fieldButtonControl.icn5.Visibility = Visibility.Visible;
+                        //fieldButtonControl.icn5.Visibility = Visibility.Visible;
+                        fieldButtonControl.icn1.Visibility = Visibility.Visible;
                         fieldButtonControl.ToolTip = "Không thể đặt sân";
+                        fieldButtonControl.IsEnabled = false;
+                        fieldButtonControl.bdrOut.BorderBrush= (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                     }
                     //Nếu không có thì hiện icon còn trống
                     if (!flag)

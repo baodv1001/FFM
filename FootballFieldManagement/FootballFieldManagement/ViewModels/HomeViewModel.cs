@@ -26,7 +26,6 @@ namespace FootballFieldManagement.ViewModels
         public ICommand E_AddCommand { get; set; }
         public ICommand E_SetSalaryCommand { get; set; }
         public ICommand E_CalculateSalaryCommand { get; set; }
-        public ICommand E_PaySalaryCommand { get; set; }
 
         public ICommand GetUidCommand { get; set; }
 
@@ -49,7 +48,6 @@ namespace FootballFieldManagement.ViewModels
             E_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddEmployee(parameter));
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
-            E_PaySalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => PaySalary(parameter));
 
             S_SaveBtnFieldInfoCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableSaveButtonFieldInfo(parameter));
             S_EnableBtnSavePassCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => EnableButtonSavePass(parameter));
@@ -58,6 +56,8 @@ namespace FootballFieldManagement.ViewModels
 
             OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
         }
+       
+        
         public void SaveNewPassword(HomeWindow parameter)
         {
 
@@ -111,7 +111,6 @@ namespace FootballFieldManagement.ViewModels
                     command.Parameters.AddWithValue("@fieldName", homeWindow.txtFieldName.Text);
                     command.Parameters.AddWithValue("@address", homeWindow.txtAdressInfo.Text);
                     command.Parameters.AddWithValue("@phoneNumber", homeWindow.txtPhoneNumberInfo.Text);
-
                     int rs = command.ExecuteNonQuery();
                     if (rs == 1)
                     {
@@ -288,65 +287,56 @@ namespace FootballFieldManagement.ViewModels
                 }
             }
         }
-        public void CalculateSalary(HomeWindow parameter)
+        public void CalculateSalary(HomeWindow home)
         {
-            bool sucess = true;
-            if (SalarySettingDAL.Instance.ConvertDBToList().Count == 0)
+            foreach (string item in EmployeeDAL.Instance.GetAllPosition())
             {
-                MessageBox.Show("Vui lòng thiết lập lương");
-                SetSalaryWindow wdSetSalary = new SetSalaryWindow();
-                wdSetSalary.ShowDialog();
-                return;
+                SalarySetting salarySetting = SalarySettingDAL.Instance.GetSalarySettings(item);
+                if (salarySetting == null)
+                {
+                    MessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!");
+                    SetSalaryWindow wdSetSalary = new SetSalaryWindow();
+                    wdSetSalary.cboTypeEmployee.Text = item;
+                    wdSetSalary.ShowDialog();
+                    return;
+                }
             }
-
-            foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+            int i = 1;
+            bool success = true;
+            foreach (var salary in SalaryDAL.Instance.GetSalaryByMonth(DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString()))
             {
-
                 int workdays = AttendanceDAL.Instance.GetCount(salary.IdEmployee.ToString());
+                string positionEmployee = EmployeeDAL.Instance.GetPosition(salary.IdEmployee.ToString());
+                SalarySetting salarySetting = SalarySettingDAL.Instance.GetSalarySettings(positionEmployee);
                 if (workdays < 0)
                 {
                     return;
                 }
                 //Lấy ra cái salary setting có loại nhân viên trùng khớp với idEmployee
-                string typeEmployee = EmployeeDAL.Instance.GetPosition(salary.IdEmployee.ToString());
-                List<SalarySetting> salarySettings = SalarySettingDAL.Instance.GetSalarySettings(typeEmployee);
-                if (salarySettings.Count == 0)
+                if (workdays <= salarySetting.StandardWorkDays)
                 {
-                    MessageBox.Show("Vui lòng thiết lập lương cho '" + typeEmployee + "'!");
-                    SetSalaryWindow wdSetSalary = new SetSalaryWindow();
-                    wdSetSalary.cboTypeEmployee.Text = typeEmployee;
-                    wdSetSalary.ShowDialog();
-                    return;
+                    salary.TotalSalary = (salarySetting.SalaryBase / salarySetting.StandardWorkDays) * workdays + salary.NumOfShift * salarySetting.MoneyPerShift - salary.NumOfFault * salarySetting.MoneyPerFault;
                 }
-                foreach (var salarySetting in salarySettings)
+                else
                 {
-                    if (workdays <= salarySetting.StandardWorkDays)
-                    {
-                        salary.TotalSalary = (salarySetting.SalaryBase / salarySetting.StandardWorkDays) * workdays + salary.NumOfShift * salarySetting.MoneyPerShift - salary.NumOfFault * salarySetting.MoneyPerFault;
-                    }
-                    else
-                    {
-                        salary.NumOfShift += (workdays - salarySetting.StandardWorkDays);
-                        salary.TotalSalary = salarySetting.SalaryBase + salary.NumOfShift * salarySetting.MoneyPerShift - salary.NumOfFault * salarySetting.MoneyPerFault;
-                    }
-                    if (salary.TotalSalary < 0)
-                    {
-                        salary.TotalSalary = 0;
-                    }
-                    if (!SalaryDAL.Instance.UpdateTotalSalary(salary))
-                    {
-                        sucess = false;
-                        break;
-                    }
+                    salary.TotalSalary = salarySetting.SalaryBase + salary.NumOfShift * salarySetting.MoneyPerShift - salary.NumOfFault * salarySetting.MoneyPerFault;
+                }
+                if (salary.TotalSalary < 0)
+                {
+                    salary.TotalSalary = 0;
+                }
+                if (!SalaryDAL.Instance.UpdateTotalSalary(salary))
+                {
+                    success = false;
                 }
             }
-            if (sucess)
+            if (success)
             {
-                MessageBox.Show("Tính thành công!");
+                MessageBox.Show("Tính lương thành công!");
             }
             else
             {
-                MessageBox.Show("Tính lỗi!");
+                MessageBox.Show("Tính lương thất bại!");
             }
         }
         public void OpenSetSalaryWindow()
@@ -382,6 +372,7 @@ namespace FootballFieldManagement.ViewModels
             int i = 1;
             homeWindow.stkEmployee.Children.Clear();
             bool flag = false;
+            List<Salary> salaries = SalaryDAL.Instance.GetSalaryByMonth(DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString());
             foreach (var employee in EmployeeDAL.Instance.ConvertDBToList())
             {
                 EmployeeControl temp = new EmployeeControl();
@@ -393,7 +384,20 @@ namespace FootballFieldManagement.ViewModels
                 temp.txbSerial.Text = i.ToString();
                 i++;
                 // load number fault and overtime and salary
-                foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+                if(salaries.Count < 1)
+                {
+                    Salary tmp = new Salary();
+                    tmp.IdEmployee = employee.IdEmployee;
+                    tmp.NumOfFault = 0;
+                    tmp.NumOfShift = 0;
+                    tmp.TotalSalary = -1;
+                    tmp.SalaryMonth = DateTime.Now.Date;
+                    SalaryDAL.Instance.AddIntoDB(tmp);
+                    temp.nsNumOfShift.Text = 0;
+                    temp.nsNumOfFault.Text = 0;
+                    temp.txbTotalSalary.Text = "0";
+                }
+                foreach (var salary in salaries)
                 {
                     if (employee.IdEmployee == salary.IdEmployee)
                     {

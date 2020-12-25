@@ -233,7 +233,7 @@ namespace FootballFieldManagement.ViewModels
                 var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                 note += good.Name + " x " + billInfo.Quantity.ToString() + "\t" + (good.UnitPrice * billInfo.Quantity).ToString() + Environment.NewLine;
             }
-            Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
+            Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, ConvertToNumber(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
             if (BillDAL.Instance.UpdateOnDB(bill))
             {
                 FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(parameter.txbIdFieldInfo.Text);

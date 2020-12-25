@@ -144,6 +144,9 @@
     <Compile Include="Resources\UserControls\ProductDetailsControl.xaml.cs">
       <DependentUpon>ProductDetailsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\UserControls\SalaryEmployeeControl.xaml.cs">
+      <DependentUpon>SalaryEmployeeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\SalaryInfoControl.xaml.cs">
       <DependentUpon>SalaryInfoControl.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,9 @@
     </Compile>
     <Compile Include="Views\ImportStockWindow.xaml.cs">
       <DependentUpon>ImportStockWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PaySalaryWindow.xaml.cs">
+      <DependentUpon>PaySalaryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PayWindow.xaml.cs">
       <DependentUpon>PayWindow.xaml</DependentUpon>
@@ -306,6 +312,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\UserControls\ProductDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\SalaryEmployeeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -421,6 +431,10 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\PaySalaryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PayWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

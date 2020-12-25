@@ -167,7 +167,7 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dataTable);
                 if (dataTable.Rows.Count > 0)
                 {
-                    return int.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+                    return int.Parse(dataTable.Rows[0].ItemArray[0].ToString()) + 1;
                 }
                 else
                 {

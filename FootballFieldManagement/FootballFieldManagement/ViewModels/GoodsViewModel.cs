@@ -181,7 +181,7 @@ namespace FootballFieldManagement.ViewModels
         {
             int idStockReceipt = int.Parse(importStockWindow.txbIdStockReceipt.Text);
 
-            StockReceipt stockReceipt = new StockReceipt(idStockReceipt, CurrentAccount.IdAccount, DateTime.Now, long.Parse(importStockWindow.txbTotal.Text));
+            StockReceipt stockReceipt = new StockReceipt(idStockReceipt, CurrentAccount.IdAccount, DateTime.Now, ConvertToNumber(importStockWindow.txbTotal.Text));
             if (StockReceiptDAL.Instance.UpdateOnDB(stockReceipt))
             {
                 List<StockReceiptInfo> listStockReceiptInfo = StockReceiptInfoDAL.Instance.GetStockReceiptInfoById(idStockReceipt.ToString());
@@ -571,7 +571,7 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed1 = GoodsDAL.Instance.ImportToDB(goods);
 
             StockReceipt stockReceipt = new StockReceipt(int.Parse(parameter.txtIdStockReceipt.Text), CurrentAccount.IdAccount,
-                DateTime.Parse(parameter.dpImportDate.Text), long.Parse(parameter.txtTotal.Text));
+                DateTime.Parse(parameter.dpImportDate.Text), ConvertToNumber(parameter.txtTotal.Text));
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(parameter.txtIdStockReceipt.Text),

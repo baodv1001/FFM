@@ -372,5 +372,31 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public List<string> GetAllPosition()
+        {
+            try
+            {
+                conn.Open();
+                List<string> newList = new List<string>();
+                string query = "select distinct(position) from Employee";
+                SqlCommand command = new SqlCommand(query, conn);
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    newList.Add(dt.Rows[i].ItemArray[0].ToString());
+                }
+                return newList;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

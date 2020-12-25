@@ -21,6 +21,31 @@ namespace FootballFieldManagement.DAL
         private SalaryRecordDAL()
         {
         }
+        public bool AddIntoDB(SalaryRecord record)
+        {
+            try
+            {
+                conn.Open();
+                string query = @"insert into SalaryRecord (idSalaryRecord, salaryRecordDate, total, idAccount) values(@idSalaryRecord, @salaryRecordDate, @total, @idAccount)";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idSalaryRecord", record.IdSalaryRecord.ToString());
+                cmd.Parameters.AddWithValue("@salaryRecordDate", record.SalaryRecordDate);
+                cmd.Parameters.AddWithValue("@total", record.Total.ToString());
+                cmd.Parameters.AddWithValue("@idAccount", record.IdAccount.ToString());
+                if (cmd.ExecuteNonQuery() < 1)
+                    return false;
+                else
+                    return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
         public DataTable GetSalaryRecordByYear(string year)
         {
             DataTable dataTable = new DataTable();
@@ -57,12 +82,40 @@ namespace FootballFieldManagement.DAL
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
                 SalaryRecord res = new SalaryRecord(int.Parse(idSalaryRecord), DateTime.Parse(dataTable.Rows[0].ItemArray[1].ToString()),
-                    int.Parse(dataTable.Rows[0].ItemArray[2].ToString()));
+                    int.Parse(dataTable.Rows[0].ItemArray[2].ToString()), int.Parse(dataTable.Rows[0].ItemArray[3].ToString()));
                 return res;
             }
             catch
             {
                 return new SalaryRecord();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public int SetID()
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select max(idSalaryRecord) from SalaryRecord";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if (dataTable.Rows[0].ItemArray[0].ToString() != "")
+                {
+                    return int.Parse(dataTable.Rows[0].ItemArray[0].ToString()) + 1;
+                }
+                else
+                {
+                    return 1;
+                }
+            }
+            catch
+            {
+                return -1;
             }
             finally
             {

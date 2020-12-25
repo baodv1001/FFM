@@ -14,6 +14,8 @@ using FootballFieldManagement.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -105,12 +107,31 @@ namespace FootballFieldManagement.ViewModels
                 return;
             }
             //Kiểm tra
-            if (parameter.pwbKey.Password != "admin")
+            SQLConnection connection = new SQLConnection();
+            try
             {
-                MessageBox.Show("Mã xác thực không đúng!");
-                parameter.pwbKey.Focus();
-                return;
+                connection.conn.Open();
+                string queryString = "select * from Authorizations where authKey = '" + parameter.pwbKey.Password +"'";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if(dataTable.Rows.Count < 1)
+                {
+                    MessageBox.Show("Mã xác thực không đúng!");
+                    parameter.pwbKey.Focus();
+                    return;
+                }
             }
+            catch
+            {
+
+            }
+            finally
+            {
+                connection.conn.Close();
+            }
+
             if (!Regex.IsMatch(parameter.txtUsername.Text, @"^[a-zA-Z0-9_]+$"))
             {
                 parameter.txtUsername.Focus();
@@ -171,11 +192,29 @@ namespace FootballFieldManagement.ViewModels
                 return;
             }
             //Kiểm tra độ chính xác
-            if (parameter.pwbKey.Password != "admin")
+            SQLConnection connection = new SQLConnection();
+            try
             {
-                MessageBox.Show("Mã xác thực không đúng!");
-                parameter.pwbKey.Focus();
-                return;
+                connection.conn.Open();
+                string queryString = "select * from Authorizations where authKey = '" + parameter.pwbKey.Password + "'";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if (dataTable.Rows.Count < 1)
+                {
+                    MessageBox.Show("Mã xác thực không đúng!");
+                    parameter.pwbKey.Focus();
+                    return;
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                connection.conn.Close();
             }
 
             if (!Regex.IsMatch(parameter.txtUsername.Text, @"^[a-zA-Z0-9_]+$"))

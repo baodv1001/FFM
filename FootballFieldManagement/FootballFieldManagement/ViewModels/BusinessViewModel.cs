@@ -201,6 +201,13 @@ namespace FootballFieldManagement.ViewModels
                 bookingWindow.cboTypeField.Text = "";
                 return;
             }
+            if ((bookingWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
+            {
+                MessageBox.Show("Không thể đặt sân những ngày đã qua!");
+                bookingWindow.dpSetDate.SelectedDate = null;
+                bookingWindow.cboTime.SelectedItem = null;
+                return;
+            }
             if (bookingWindow.cboTime.SelectedIndex == -1)
             {
                 bookingWindow.cboTime.Focus();
@@ -266,23 +273,9 @@ namespace FootballFieldManagement.ViewModels
                 selectedDate = DateTime.Parse(day);
                 itemSourceTimeFrame.Clear();
                 timeFrames = TimeFrameDAL.Instance.GetTimeFrame();
-                if (selectedDate.Date == DateTime.Now.Date)
+                foreach (var timeFrame in timeFrames)
                 {
-                    foreach (var timeFrame in timeFrames)
-                    {
-                        string tmp = DateTime.Now.ToString("HH:mm");
-                        if (string.Compare(timeFrame.EndTime, tmp) == 1)
-                        {
-                            itemSourceTimeFrame.Add(timeFrame);
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var timeFrame in timeFrames)
-                    {
-                        itemSourceTimeFrame.Add(timeFrame);
-                    }
+                    itemSourceTimeFrame.Add(timeFrame);
                 }
             }
             return itemSourceTimeFrame;
@@ -349,16 +342,16 @@ namespace FootballFieldManagement.ViewModels
                 PickedField.icn3.Visibility = Visibility.Hidden;
                 if ((checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
                 {
-                    PickedField.icn5.Visibility = Visibility.Visible;
+                    PickedField.IsEnabled = false;
                     PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                     PickedField.ToolTip = "Không thể đặt sân";
                 }
                 else
                 {
                     PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF27AE60");
-                    PickedField.icn1.Visibility = Visibility.Visible;
                     PickedField.ToolTip = "Đặt sân";
                 }
+                PickedField.icn1.Visibility = Visibility.Visible;
             }
         }
         public void CheckInField(CheckInWindow checkInWindow)
@@ -372,6 +365,13 @@ namespace FootballFieldManagement.ViewModels
             {
                 checkInWindow.cboTime.Focus();
                 checkInWindow.cboTime.Text = "";
+                return;
+            }
+            if ((checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
+            {
+                MessageBox.Show("Không thể đặt sân những ngày đã qua!");
+                checkInWindow.dpSetDate.SelectedDate = null;
+                checkInWindow.cboTime.SelectedItem = null;
                 return;
             }
             if (checkInWindow.cboPickField.SelectedItem == null)
@@ -572,11 +572,11 @@ namespace FootballFieldManagement.ViewModels
                 checkInWindow.cboPickField.ItemsSource = itemSourceField;
                 checkInWindow.txtUserName.Text = fieldInfo.CustomerName;
                 checkInWindow.txtPhoneNumber.Text = fieldInfo.PhoneNumber;
-                checkInWindow.txtPhoneNumber.SelectionStart = checkInWindow.txtPhoneNumber.Text.Length -1;
+                checkInWindow.txtPhoneNumber.SelectionStart = checkInWindow.txtPhoneNumber.Text.Length - 1;
                 checkInWindow.txtPhoneNumber.SelectionLength = 0;
                 checkInWindow.txtMoreInfo.Text = fieldInfo.Note;
                 checkInWindow.txtDiscount.Text = string.Format("{0:N0}", fieldInfo.Discount);
-                checkInWindow.txtDiscount.SelectionStart = checkInWindow.txtDiscount.Text.Length -1;
+                checkInWindow.txtDiscount.SelectionStart = checkInWindow.txtDiscount.Text.Length - 1;
                 checkInWindow.txtDiscount.SelectionLength = 0;
                 checkInWindow.txbPrice.Text = string.Format("{0:N0}", fieldInfo.Price);
                 checkInWindow.ShowDialog();
@@ -736,7 +736,7 @@ namespace FootballFieldManagement.ViewModels
                         {
                             case 1:
                                 fieldButtonControl.icn3.Visibility = Visibility.Visible; // Sân đã đặt
-                                fieldButtonControl.bdrOut.BorderBrush= (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                                fieldButtonControl.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                                 fieldButtonControl.ToolTip = "Check In";
                                 break;
                             case 2:
@@ -765,7 +765,7 @@ namespace FootballFieldManagement.ViewModels
                         fieldButtonControl.icn1.Visibility = Visibility.Visible;
                         fieldButtonControl.ToolTip = "Không thể đặt sân";
                         fieldButtonControl.IsEnabled = false;
-                        fieldButtonControl.bdrOut.BorderBrush= (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
+                        fieldButtonControl.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                     }
                     //Nếu không có thì hiện icon còn trống
                     if (!flag)

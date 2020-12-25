@@ -132,7 +132,8 @@
             CommandParameter="{Binding ElementName=ucImportGoodsDetails}"
             Background="{x:Null}" 
             BorderBrush="{x:Null}" 
-            Padding="0" IsTabStop="False">
+            Padding="0" 
+            IsTabStop="False">
             <materialDesign:PackIcon 
                 Kind="DeleteOutline" 
                 Height="24"
@@ -140,7 +141,8 @@
                 Foreground="{DynamicResource Error}" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
-                Margin="0" IsTabStop="False"/>
+                Margin="0" 
+                IsTabStop="False"/>
         </Button>
     </Grid>
 </UserControl>

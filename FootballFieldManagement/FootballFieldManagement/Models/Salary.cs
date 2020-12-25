@@ -17,26 +17,24 @@ namespace FootballFieldManagement.Models
         private int idEmployee;
         public int IdEmployee { get => idEmployee; set => idEmployee = value; }
 
-        private int idAccount;
-        public int IdAccount { get => idAccount; set => idAccount = value; }
         private DateTime salaryMonth;
         public DateTime SalaryMonth { get => salaryMonth; set => salaryMonth = value; }
-        private DateTime datePay;
-        public DateTime DatePay { get => datePay; set => datePay = value; }
+        private int idSalaryRecord;
+        public int IdSalaryRecord { get => idSalaryRecord; set => idSalaryRecord = value; }
+
 
         public Salary()
         {
 
         }
-        public Salary(int idEmployee, int numOfShift, int numOfFault, long total, int idAccount, DateTime datePay, DateTime month )
+        public Salary(int idEmployee, int numOfShift, int numOfFault, long total, DateTime month, int idSalaryRecord)
         {
             this.idEmployee = idEmployee;
             this.numOfFault = numOfFault;
             this.numOfShift = numOfShift;
             this.totalSalary = total;
-            this.idAccount = idAccount;
-            this.datePay = datePay;
             this.salaryMonth = month;
+            this.IdSalaryRecord = idSalaryRecord;
         }
     }
 }

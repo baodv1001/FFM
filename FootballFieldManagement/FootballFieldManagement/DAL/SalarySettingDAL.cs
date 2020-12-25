@@ -13,7 +13,8 @@ namespace FootballFieldManagement.DAL
     {
         private static SalarySettingDAL instance;
 
-        public static SalarySettingDAL Instance { 
+        public static SalarySettingDAL Instance
+        {
             get
             {
                 if (instance == null)
@@ -38,7 +39,7 @@ namespace FootballFieldManagement.DAL
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                SalarySetting newItem = new SalarySetting(long.Parse(dt.Rows[i].ItemArray[0].ToString()), long.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()),dt.Rows[i].ItemArray[3].ToString(), int.Parse(dt.Rows[i].ItemArray[4].ToString()));
+                SalarySetting newItem = new SalarySetting(long.Parse(dt.Rows[i].ItemArray[0].ToString()), long.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()), dt.Rows[i].ItemArray[3].ToString(), int.Parse(dt.Rows[i].ItemArray[4].ToString()));
                 tmp.Add(newItem);
             }
             return tmp;
@@ -98,27 +99,31 @@ namespace FootballFieldManagement.DAL
             }
         }
 
-        public List<SalarySetting> GetSalarySettings(string typeEmployee) // lấy ra nhân viên có chức vụ 
+        public SalarySetting GetSalarySettings(string typeEmployee) // lấy ra nhân viên có chức vụ 
         {
             try
             {
                 conn.Open();
-                string query = @"select * from SalarySetting where typeEmployee = N'" + typeEmployee +"'";
+                string query = @"select * from SalarySetting where typeEmployee = N'" + typeEmployee + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-                List<SalarySetting> tmp = new List<SalarySetting>();
-                for (int i = 0; i < dt.Rows.Count; i++)
+                if(dt.Rows.Count > 0)
                 {
-                    SalarySetting newItem = new SalarySetting(long.Parse(dt.Rows[i].ItemArray[0].ToString()), long.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()), dt.Rows[i].ItemArray[3].ToString(), int.Parse(dt.Rows[i].ItemArray[4].ToString()));
-                    tmp.Add(newItem);
+                    SalarySetting newItem = new SalarySetting(long.Parse(dt.Rows[0].ItemArray[0].ToString()),
+                   long.Parse(dt.Rows[0].ItemArray[1].ToString()), long.Parse(dt.Rows[0].ItemArray[2].ToString()),
+                   dt.Rows[0].ItemArray[3].ToString(), int.Parse(dt.Rows[0].ItemArray[4].ToString()));
+                    return newItem;
                 }
-                return tmp;
+                else
+                {
+                    return null;
+                }
             }
             catch
             {
-                return new List<SalarySetting>();
+                return null;
             }
             finally
             {

@@ -11,7 +11,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
         xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
-        Title="ReportFieldWindow" 
+        Title="Báo cáo sân lỗi" 
         Height="170" 
         Width="330" 
         WindowStartupLocation="CenterScreen">
@@ -70,16 +70,13 @@
         </ComboBox>
         <Button 
             x:Name="btnSetField"
-            Style="{StaticResource MaterialDesignRaisedButton}"
+            Style="{StaticResource MyPrimaryButtonStyle}"
             Command="{Binding ReportFieldCommand}"
             CommandParameter="{Binding ElementName=wdReportField}"
             Height="40"
-            materialDesign:ButtonAssist.CornerRadius="8"
+            materialDesign:ButtonAssist.CornerRadius="4"
             ToolTip="Xác nhận đặt sân" 
             Margin="0,0,20,0" 
-            Background="{StaticResource Primary}" 
-            BorderBrush="{x:Null}" 
-            Foreground="{StaticResource White}" 
             FontSize="16" 
             VerticalAlignment="Center" 
             HorizontalAlignment="Right" 

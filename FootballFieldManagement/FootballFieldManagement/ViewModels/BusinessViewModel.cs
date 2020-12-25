@@ -13,12 +13,22 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace FootballFieldManagement.ViewModels
 {
     class BusinessViewModel : BaseViewModel
     {
+        //Biển để set validation
+        public DateTime SetDateBooking { get; set; }
+        public string TypeField { get; set; }
+        public string TimeFrame { get; set; }
+        public string Field { get; set; }
+        public string CustomerName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Discount { get; set; }
+
         DateTime selectedDate;
         public HomeWindow home;
         private FieldButtonControl PickedField;
@@ -69,6 +79,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand LoadTimeFrameCICommand { get; set; }
         public ICommand LoadFieldNameCICommand { get; set; }
         public ICommand LoadPriceCICommand { get; set; }
+        public ICommand TextChangedCommand { get; set; } //discount
+
         public BusinessViewModel(HomeWindow homeWindow)
         {
             LoadFieldsToView(homeWindow, currentPage * 7);
@@ -127,6 +139,17 @@ namespace FootballFieldManagement.ViewModels
                 LoadTimeFrame(parameter.dpSetDate.SelectedDate.ToString()); parameter.cboTime.ItemsSource = itemSourceTimeFrame;
             });
             LoadPriceCICommand = new RelayCommand<CheckInWindow>((parameter) => true, (parameter) => LoadPriceCI(parameter));
+            TextChangedCommand = new RelayCommand<TextBox>((parameter) => true, (parameter) => TextChanged(parameter));
+        }
+
+        public void TextChanged(TextBox txtDiscount)
+        {
+            SeparateThousands(txtDiscount);
+
+            if (string.IsNullOrEmpty(txtDiscount.Text))
+            {
+                txtDiscount.Text = "0";
+            }
         }
 
         //Booking Window
@@ -153,7 +176,11 @@ namespace FootballFieldManagement.ViewModels
                     string[] temp = type.Split(' ');
                     if (temp.Length > 1)
                         type = temp[1];
-                    bookingWindow.txbPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(selectedFrame.StartTime, selectedFrame.EndTime, type);
+                    string price = TimeFrameDAL.Instance.GetPriceOfTimeFrame(selectedFrame.StartTime, selectedFrame.EndTime, type);
+                    if (price != null)
+                    {
+                        bookingWindow.txbPrice.Text = string.Format("{0:N0}", long.Parse(price));
+                    }
                 }
                 else
                 {
@@ -163,12 +190,18 @@ namespace FootballFieldManagement.ViewModels
         }
         public void HireField(BookingWindow bookingWindow)
         {
-            if (bookingWindow.dpSetDate.SelectedDate == null)
+            if (bookingWindow.dpSetDate.SelectedDate == null || bookingWindow.dpSetDate.SelectedDate < DateTime.Today)
             {
-                MessageBox.Show("Vui lòng chọn ngày!");
+                bookingWindow.dpSetDate.Focus();
                 return;
             }
-            if (bookingWindow.dpSetDate.SelectedDate < DateTime.Today || (bookingWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
+            if (bookingWindow.cboTypeField.SelectedIndex == -1)
+            {
+                bookingWindow.cboTypeField.Focus();
+                bookingWindow.cboTypeField.Text = "";
+                return;
+            }
+            if ((bookingWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
             {
                 MessageBox.Show("Không thể đặt sân những ngày đã qua!");
                 bookingWindow.dpSetDate.SelectedDate = null;
@@ -177,31 +210,41 @@ namespace FootballFieldManagement.ViewModels
             }
             if (bookingWindow.cboTime.SelectedIndex == -1)
             {
-                MessageBox.Show("Vui lòng chọn khung giờ!");
+                bookingWindow.cboTime.Focus();
+                bookingWindow.cboTime.Text = "";
                 return;
             }
             if (bookingWindow.cboPickField.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng chọn sân!");
+                bookingWindow.cboPickField.Focus();
+                bookingWindow.cboPickField.Text = "";
                 return;
             }
             if (string.IsNullOrEmpty(bookingWindow.txtUserName.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên khách hàng!");
+                bookingWindow.txtUserName.Focus();
+                bookingWindow.txtUserName.Text = "";
                 return;
             }
             if (string.IsNullOrEmpty(bookingWindow.txtPhoneNumber.Text))
             {
-                MessageBox.Show("Vui lòng nhập số điện thoại khách hàng!");
+                bookingWindow.txtPhoneNumber.Focus();
+                bookingWindow.txtPhoneNumber.Text = "";
                 return;
             }
-            if (int.Parse(bookingWindow.txbDisCount.Text) > int.Parse(bookingWindow.txbPrice.Text))
+            if (!Regex.IsMatch(bookingWindow.txtPhoneNumber.Text, @"^[0-9]+$"))
+            {
+                bookingWindow.txtPhoneNumber.Focus();
+                return;
+            }
+            if (ConvertToNumber(bookingWindow.txtDiscount.Text) > ConvertToNumber(bookingWindow.txbPrice.Text))
             {
                 MessageBox.Show("Không nhập giảm giá lớn hơn giá sân!");
+                bookingWindow.txtDiscount.Focus();
                 return;
             }
             int idFieldInfo = FieldInfoDAL.Instance.GetMaxIdFieldInfo() + 1;
-            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.EndTime), 1, bookingWindow.txtPhoneNumber.Text, bookingWindow.txtUserName.Text, bookingWindow.txtMoreInfo.Text, long.Parse(bookingWindow.txbDisCount.Text), long.Parse(bookingWindow.txbPrice.Text));
+            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.EndTime), 1, bookingWindow.txtPhoneNumber.Text, bookingWindow.txtUserName.Text, bookingWindow.txtMoreInfo.Text, ConvertToNumber(bookingWindow.txtDiscount.Text), ConvertToNumber(bookingWindow.txbPrice.Text));
             if (FieldInfoDAL.Instance.AddIntoDB(fieldInfo))
             {
                 MessageBox.Show("Đặt sân thành công!");
@@ -209,6 +252,7 @@ namespace FootballFieldManagement.ViewModels
                 if (!bookingWindow.dpSetDate.IsEnabled)
                 {
                     //Chuyển sang sân đã đặt
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     PickedField.txbidFieldInfo.Text = idFieldInfo.ToString();
                     PickedField.icn1.Visibility = Visibility.Hidden;
                     PickedField.icn3.Visibility = Visibility.Visible;
@@ -285,7 +329,7 @@ namespace FootballFieldManagement.ViewModels
             checkInWindow.txbCheckIn.Text = "Đặt sân";
             checkInWindow.dpSetDate.IsEnabled = true;
             checkInWindow.cboTypeField.IsEnabled = true;
-            checkInWindow.txbDiscount.IsEnabled = true;
+            checkInWindow.txtDiscount.IsEnabled = true;
             checkInWindow.btnCancel.IsEnabled = false;
         }
         public void CancelField(CheckInWindow checkInWindow)
@@ -298,46 +342,62 @@ namespace FootballFieldManagement.ViewModels
                 PickedField.icn3.Visibility = Visibility.Hidden;
                 if ((checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
                 {
-                    PickedField.icn5.Visibility = Visibility.Visible;
+                    PickedField.IsEnabled = false;
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                     PickedField.ToolTip = "Không thể đặt sân";
                 }
                 else
                 {
-                    PickedField.icn1.Visibility = Visibility.Visible;
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF27AE60");
                     PickedField.ToolTip = "Đặt sân";
                 }
+                PickedField.icn1.Visibility = Visibility.Visible;
             }
         }
         public void CheckInField(CheckInWindow checkInWindow)
         {
+            if (string.IsNullOrEmpty(checkInWindow.dpSetDate.Text) || checkInWindow.dpSetDate.SelectedDate < DateTime.Today)
+            {
+                checkInWindow.dpSetDate.Focus();
+                return;
+            }
             if (checkInWindow.cboTime.SelectedItem == null)
             {
-                MessageBox.Show("Vui lòng chọn khung giờ!");
+                checkInWindow.cboTime.Focus();
+                checkInWindow.cboTime.Text = "";
                 return;
             }
-            if (checkInWindow.cboPickField.SelectedItem == null)
+            if ((checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
             {
-                MessageBox.Show("Vui lòng chọn sân!");
-                return;
-            }
-            if (checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.EndTime, DateTime.Now.ToString("HH:mm")) == -1)) // hiện tại > giờ kết thúc thì không được check in 
-            {
-                MessageBox.Show("Không thể đặt sân / check in những khung giờ đã qua!");
+                MessageBox.Show("Không thể đặt sân những ngày đã qua!");
                 checkInWindow.dpSetDate.SelectedDate = null;
                 checkInWindow.cboTime.SelectedItem = null;
                 return;
             }
+            if (checkInWindow.cboPickField.SelectedItem == null)
+            {
+                checkInWindow.cboPickField.Focus();
+                checkInWindow.cboPickField.Text = "";
+                return;
+            }
             if (string.IsNullOrEmpty(checkInWindow.txtUserName.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên khách hàng!");
+                checkInWindow.txtUserName.Focus();
+                checkInWindow.txtUserName.Text = "";
                 return;
             }
             if (string.IsNullOrEmpty(checkInWindow.txtPhoneNumber.Text))
             {
-                MessageBox.Show("Vui lòng nhập số điện thoại khách hàng!");
+                checkInWindow.txtPhoneNumber.Focus();
+                checkInWindow.txtPhoneNumber.Text = "";
                 return;
             }
-            if (int.Parse(checkInWindow.txbDiscount.Text) > int.Parse(checkInWindow.txbPrice.Text))
+            if (!Regex.IsMatch(checkInWindow.txtPhoneNumber.Text, @"^[0-9]+$"))
+            {
+                checkInWindow.txtPhoneNumber.Focus();
+                return;
+            }
+            if (ConvertToNumber(checkInWindow.txtDiscount.Text) > ConvertToNumber(checkInWindow.txbPrice.Text))
             {
                 MessageBox.Show("Không nhập giảm giá lớn hơn giá sân!");
                 return;
@@ -356,13 +416,14 @@ namespace FootballFieldManagement.ViewModels
 
             }
 
-            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.EndTime), status, checkInWindow.txtPhoneNumber.Text, checkInWindow.txtUserName.Text, checkInWindow.txtMoreInfo.Text, long.Parse(checkInWindow.txbDiscount.Text), long.Parse(checkInWindow.txbPrice.Text));
+            FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(checkInWindow.dpSetDate.Text + " " + selectedFrame.EndTime), status, checkInWindow.txtPhoneNumber.Text, checkInWindow.txtUserName.Text, checkInWindow.txtMoreInfo.Text, ConvertToNumber(checkInWindow.txtDiscount.Text), ConvertToNumber(checkInWindow.txbPrice.Text));
             if (status == 2)
             {
                 if (FieldInfoDAL.Instance.UpdateOnDB(fieldInfo))
                 {
                     //Chuyển sang sân đang đá
                     MessageBox.Show("Check in thành công!");
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
                     PickedField.icn3.Visibility = Visibility.Hidden;
                     PickedField.icn2.Visibility = Visibility.Visible;
                     PickedField.ToolTip = "Thanh toán";
@@ -404,7 +465,11 @@ namespace FootballFieldManagement.ViewModels
                     string[] temp = type.Split(' ');
                     if (temp.Length > 1)
                         type = temp[1];
-                    checkInWindow.txbPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(selectedFrame.StartTime, selectedFrame.EndTime, type);
+                    string price = TimeFrameDAL.Instance.GetPriceOfTimeFrame(selectedFrame.StartTime, selectedFrame.EndTime, type);
+                    if (price != null)
+                    {
+                        checkInWindow.txbPrice.Text = string.Format("{0:N0}", long.Parse(price));
+                    }
                 }
                 else
                 {
@@ -425,6 +490,14 @@ namespace FootballFieldManagement.ViewModels
             bookingWindow.cboTypeField.IsEnabled = true;
             bookingWindow.cboTime.IsEnabled = true;
             bookingWindow.cboPickField.IsEnabled = true;
+            bookingWindow.dpSetDate.SelectedDate = null;
+            bookingWindow.cboTypeField.Text = null;
+            bookingWindow.cboTime.Text = null;
+            bookingWindow.cboPickField.Text = null;
+            bookingWindow.txtUserName.Text = null;
+            bookingWindow.txtPhoneNumber.Text = null;
+            bookingWindow.txtDiscount.SelectionStart = bookingWindow.txtDiscount.Text.Length - 1;
+            bookingWindow.txtDiscount.SelectionLength = 0;
             bookingWindow.ShowDialog();
         }
         public void OpenNewWindow(FieldButtonControl fieldButtonControl)
@@ -437,6 +510,10 @@ namespace FootballFieldManagement.ViewModels
                 bookingWindow.txbidField.Text = fieldButtonControl.txbidField.Text;
                 bookingWindow.dpSetDate.Text = fieldButtonControl.txbDay.Text;
                 bookingWindow.cboTypeField.SelectedItem = "Sân " + fieldButtonControl.txbFieldType.Text + " người";
+                bookingWindow.txtUserName.Text = null;
+                bookingWindow.txtPhoneNumber.Text = null;
+                bookingWindow.txtDiscount.SelectionStart = bookingWindow.txtDiscount.Text.Length - 1;
+                bookingWindow.txtDiscount.SelectionLength = 0;
                 LoadTimeFrame(bookingWindow.dpSetDate.Text);
                 for (int i = 0; i < itemSourceTimeFrame.ToList().Count; i++)
                 {
@@ -495,9 +572,13 @@ namespace FootballFieldManagement.ViewModels
                 checkInWindow.cboPickField.ItemsSource = itemSourceField;
                 checkInWindow.txtUserName.Text = fieldInfo.CustomerName;
                 checkInWindow.txtPhoneNumber.Text = fieldInfo.PhoneNumber;
+                checkInWindow.txtPhoneNumber.SelectionStart = checkInWindow.txtPhoneNumber.Text.Length - 1;
+                checkInWindow.txtPhoneNumber.SelectionLength = 0;
                 checkInWindow.txtMoreInfo.Text = fieldInfo.Note;
-                checkInWindow.txbDiscount.Text = fieldInfo.Discount.ToString();
-                checkInWindow.txbPrice.Text = fieldInfo.Price.ToString();
+                checkInWindow.txtDiscount.Text = string.Format("{0:N0}", fieldInfo.Discount);
+                checkInWindow.txtDiscount.SelectionStart = checkInWindow.txtDiscount.Text.Length - 1;
+                checkInWindow.txtDiscount.SelectionLength = 0;
+                checkInWindow.txbPrice.Text = string.Format("{0:N0}", fieldInfo.Price);
                 checkInWindow.ShowDialog();
 
                 return;
@@ -532,6 +613,7 @@ namespace FootballFieldManagement.ViewModels
                     payWindow.ShowDialog();
                     if (payWindow.txbIsPaid.Text == "1") // Thanh toán thành công!
                     {
+                        fieldButtonControl.recColor.Visibility = Visibility.Visible;
                         fieldButtonControl.icn2.Visibility = Visibility.Hidden;
                         fieldButtonControl.icn4.Visibility = Visibility.Visible;
                         fieldButtonControl.ToolTip = "Đã thanh toán";
@@ -654,13 +736,16 @@ namespace FootballFieldManagement.ViewModels
                         {
                             case 1:
                                 fieldButtonControl.icn3.Visibility = Visibility.Visible; // Sân đã đặt
+                                fieldButtonControl.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                                 fieldButtonControl.ToolTip = "Check In";
                                 break;
                             case 2:
+                                fieldButtonControl.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
                                 fieldButtonControl.icn2.Visibility = Visibility.Visible; // Sân đang đá
                                 fieldButtonControl.ToolTip = "Thanh toán";
                                 break;
                             case 3:
+                                fieldButtonControl.recColor.Visibility = Visibility.Visible;
                                 fieldButtonControl.icn4.Visibility = Visibility.Visible; // Sân đã thanh toán
                                 fieldButtonControl.ToolTip = "Đã thanh toán";
                                 break;
@@ -676,8 +761,11 @@ namespace FootballFieldManagement.ViewModels
                     if (!flag && (homeWindow.dpPickedDate.SelectedDate < DateTime.Today || (homeWindow.dpPickedDate.SelectedDate == DateTime.Today && string.Compare(fieldBookingControl.txbstartTime.Text, DateTime.Now.ToString("HH:mm")) == -1)))
                     {
                         flag = true;
-                        fieldButtonControl.icn5.Visibility = Visibility.Visible;
+                        //fieldButtonControl.icn5.Visibility = Visibility.Visible;
+                        fieldButtonControl.icn1.Visibility = Visibility.Visible;
                         fieldButtonControl.ToolTip = "Không thể đặt sân";
+                        fieldButtonControl.IsEnabled = false;
+                        fieldButtonControl.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                     }
                     //Nếu không có thì hiện icon còn trống
                     if (!flag)
@@ -694,7 +782,11 @@ namespace FootballFieldManagement.ViewModels
                         fieldButtonControl.txbendTime.Text = fieldBookingControl.txbendTime.Text;
                         fieldButtonControl.txbDay.Text = homeWindow.dpPickedDate.Text;
                         fieldButtonControl.txbFieldType.Text = footballFields[i].Type.ToString();
-                        fieldButtonControl.txbPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldButtonControl.txbstartTime.Text, fieldButtonControl.txbendTime.Text, fieldButtonControl.txbFieldType.Text);
+                        string price = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldButtonControl.txbstartTime.Text, fieldButtonControl.txbendTime.Text, fieldButtonControl.txbFieldType.Text);
+                        if (price != null)
+                        {
+                            fieldButtonControl.txbPrice.Text = string.Format("{0:N0}", long.Parse(price));
+                        }
                         fieldButtonControl.txbFieldName.Text = footballFields[i].Name;
                     }));
 

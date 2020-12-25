@@ -1,0 +1,91 @@
+﻿<Window x:Name="wdReportField" 
+        x:Class="FootballFieldManagement.Views.ReportFieldWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootballFieldManagement.Views"
+        mc:Ignorable="d"
+        DataContext="{StaticResource FieldVM}"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"  
+        xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
+        Title="Báo cáo sân lỗi" 
+        Height="170" 
+        Width="330" 
+        WindowStartupLocation="CenterScreen">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadFieldCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <ComboBox 
+                x:Name="cboPickField"
+                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                materialDesign:ComboBoxAssist.ClassicMode="true"
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                ItemsSource="{Binding ItemSourceFieldName,Mode=TwoWay}"
+                SelectedItem="{Binding SelectedField,Mode=TwoWay}"
+                materialDesign:HintAssist.Hint="Chọn sân"   
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Center" 
+                Margin="20,0,0,0" 
+                Width="150" 
+                Foreground="{StaticResource Primary}" 
+                FontSize="16" 
+                Height="46" 
+                FontWeight="SemiBold" >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel 
+                            Orientation="Horizontal" 
+                            Width="84" 
+                            HorizontalAlignment="Left">
+                        <TextBlock 
+                                x:Name="txbName"
+                                Text="{Binding Name}"
+                                Width="100"
+                                Height="Auto" 
+                                HorizontalAlignment="Left"/>
+                        <TextBlock 
+                                x:Name="txbidField"  
+                                Text="{Binding IdField}"
+                                Visibility="Hidden" 
+                                Width="0" 
+                                Height="0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+            <ComboBox.Text>
+                <Binding Path="Field" 
+                         UpdateSourceTrigger="PropertyChanged" 
+                         Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <vd:NotNullValidation ErrorMessage="Vui lòng chọn sân!"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </ComboBox.Text>
+        </ComboBox>
+        <Button 
+            x:Name="btnSetField"
+            Style="{StaticResource MyPrimaryButtonStyle}"
+            Command="{Binding ReportFieldCommand}"
+            CommandParameter="{Binding ElementName=wdReportField}"
+            Height="40"
+            materialDesign:ButtonAssist.CornerRadius="4"
+            ToolTip="Xác nhận đặt sân" 
+            Margin="0,0,20,0" 
+            FontSize="16" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Right" 
+            Width="100"
+            FocusVisualStyle="{x:Null}">
+            <TextBlock
+                Text="Báo lỗi" 
+                FontSize="18" 
+                FontWeight="Bold" />
+        </Button>
+    </Grid>
+</Window>

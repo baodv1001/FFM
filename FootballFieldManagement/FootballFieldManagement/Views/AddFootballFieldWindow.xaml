@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
@@ -89,6 +90,7 @@
                 <TextBox 
                     x:Name="txtName"
                     materialDesign:HintAssist.Hint="Tên sân"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     HorizontalAlignment="Right"
                     MaxLength="50"
                     Cursor="IBeam"
@@ -101,7 +103,16 @@
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,5,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center">
+                    <TextBox.Text>
+                        <Binding Path="FieldName" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource" >
+                            <Binding.ValidationRules>
+                                <vd:ExistValidation  ErrorMessageNull="Vui lòng nhập tên sân!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -140,6 +151,7 @@
                     Margin="0,0,5,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     HorizontalContentAlignment="Left">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput">
@@ -150,13 +162,20 @@
                                                    CommandParameter="{Binding ElementName=wdAddFootballField}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <ComboBox.Text>
+                        <Binding Path="FieldType" UpdateSourceTrigger="PropertyChanged"  Mode="OneWayToSource">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation  ErrorMessage="Vui lòng nhập vào loại sân bóng" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.Text>
                 </ComboBox>
             </Grid>
             <Grid
                 VerticalAlignment="Top"  
                 Width="320" 
                 Height="40"
-                Margin="0,175,0,0">
+                Margin="0,180,0,0">
                 <Label
                     Content="Trạng thái"
                     HorizontalAlignment="Left"
@@ -177,7 +196,6 @@
                 <ComboBox
                     x:Name="cboStatus"
                     materialDesign:ComboBoxAssist.ClassicMode="true"
-                    materialDesign:HintAssist.Hint="Loại sân"
                     Height="40" 
                     FontSize="14" 
                     Width="180"
@@ -188,13 +206,13 @@
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left">
-                    <ComboBoxItem  Content="Tốt"/>
+                    <ComboBoxItem IsSelected="True" Content="Tốt"/>
                     <ComboBoxItem  Content="Hỏng"/>
                 </ComboBox>
             </Grid>
         </Grid>
         <Grid 
-            Margin="0,0,40,20" 
+            Margin="0,0,40,15" 
             VerticalAlignment="Bottom" 
             Width="190" 
             HorizontalAlignment="Right">
@@ -210,14 +228,10 @@
                 materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Thêm nhân viên" 
                 Margin="0" 
+                Content="Lưu"
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}"
-                FontSize="12">
-                <TextBlock
-                    Text="Lưu" 
-                    FontSize="18" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" />
+                FontSize="16">
             </Button>
             <Button
                 x:Name="btnCancel"
@@ -231,14 +245,10 @@
                 ToolTip="Thoát"
                 materialDesign:ButtonAssist.CornerRadius="6"    
                 Margin="0" 
+                Content="Bỏ qua"
                 HorizontalAlignment="Right"
                 FocusVisualStyle="{x:Null}" 
-                FontSize="12">
-                <TextBlock
-                    Text="Bỏ qua" 
-                    FontSize="18"
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" />
+                FontSize="16">
             </Button>
         </Grid>
     </Grid>

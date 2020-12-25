@@ -503,9 +503,9 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public double QueryRevenueInMonth(string month, string year)
+        public long QueryRevenueInMonth(string month, string year)
         {
-            double res = 0;
+            long res = 0;
             try
             {
                 conn.Open();
@@ -516,7 +516,7 @@ namespace FootballFieldManagement.DAL
                 SqlDataReader rdr = command.ExecuteReader();
                 while (rdr.Read())
                 {
-                    res = double.Parse(rdr["revenue"].ToString());
+                    res = long.Parse(rdr["revenue"].ToString());
                 }
                 return res;
             }
@@ -529,9 +529,9 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public double QueryRevenueNumOfHiredFieldInMonth(string month, string year)
+        public long QueryRevenueNumOfHiredFieldInMonth(string month, string year)
         {
-            double res = 0;
+            long res = 0;
             try
             {
                 conn.Open();
@@ -542,7 +542,7 @@ namespace FootballFieldManagement.DAL
                 SqlDataReader rdr = command.ExecuteReader();
                 while (rdr.Read())
                 {
-                    res = double.Parse(rdr["numOfHiredField"].ToString());
+                    res = long.Parse(rdr["numOfHiredField"].ToString());
                 }
                 return res;
             }

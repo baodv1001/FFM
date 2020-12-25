@@ -96,6 +96,7 @@
                 <TextBox 
                     x:Name="txtPrice"
                     Cursor="IBeam"
+                    MaxLength="10"
                     materialDesign:HintAssist.Hint="Giá sân"
                     HorizontalAlignment="Right"
                     Height="34"  
@@ -127,8 +128,8 @@
             Style="{StaticResource MyGreenButtonStyle}"
             Command="{Binding AddTimeFrameCommand}"
             CommandParameter="{Binding ElementName=wdAddTimeFrame}"
-            Height="28" 
-            Width="100"
+            Height="26" 
+            Width="80"
             materialDesign:ButtonAssist.CornerRadius="4"
             HorizontalAlignment="Right"
             FocusVisualStyle="{x:Null}"

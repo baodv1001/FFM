@@ -350,5 +350,53 @@ namespace FootballFieldManagement.DAL
             }
             return employees;
         }
+
+        public string GetPosition(string id) // Lấy chức vụ khi biết id
+        {
+            try
+            {
+                conn.Open();
+                string query = "select position from Employee where idEmployee = " + id;
+                SqlCommand command = new SqlCommand(query, conn);
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dt);
+                return dt.Rows[0].ItemArray[0].ToString();
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public List<string> GetAllPosition()
+        {
+            try
+            {
+                conn.Open();
+                List<string> newList = new List<string>();
+                string query = "select distinct(position) from Employee";
+                SqlCommand command = new SqlCommand(query, conn);
+                DataTable dt = new DataTable();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    newList.Add(dt.Rows[i].ItemArray[0].ToString());
+                }
+                return newList;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

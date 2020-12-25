@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:vd="clr-namespace:FootballFieldManagement.Validations"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              mc:Ignorable="d" 
              x:Name="ucImportGoodsDetails"
@@ -12,7 +14,7 @@
              d:DesignHeight="960"
              d:DesignWidth="40" 
              Width="938" 
-             Height="40" 
+             Height="50" 
              Margin="0,2,0,0">
     <Grid 
         Background="{DynamicResource White}">
@@ -73,6 +75,7 @@
         <TextBox
             x:Name="txtImportPrice"
             Grid.Column="3"
+            MaxLength="11"
             materialDesign:HintAssist.Hint="Giá nhập" 
             HorizontalAlignment="Center" 
             Width="120"
@@ -82,19 +85,32 @@
             BorderThickness="0,0,0,2" 
             MaxLines="1" 
             Foreground="{StaticResource Gray1}"
+            Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
             Padding="0"  
-            Margin="0" 
+            Margin="0,0,0,8" 
             Cursor="IBeam"
             VerticalAlignment="Center"
             HorizontalContentAlignment="Left" 
             VerticalContentAlignment="Center" 
-            BorderBrush="{DynamicResource Primary}">
+            BorderBrush="{DynamicResource Primary}" 
+            TabIndex="0">
             <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewTextInput">
+                    <ei:CallMethodAction TargetObject="{Binding }" 
+                                                 MethodName="NumberValidationTextBox" />
+                </i:EventTrigger>
                 <i:EventTrigger EventName="TextChanged">
                     <i:InvokeCommandAction Command="{Binding StockReceiptInfoChangeCommand}" 
                                            CommandParameter="{Binding ElementName=ucImportGoodsDetails}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <TextBox.Text>
+                <Binding Path="ImportPrice" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                    <Binding.ValidationRules>
+                        <vd:NotNullValidation ErrorMessage="Vui lòng nhập giá mặt hàng!"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
         </TextBox>
         <TextBlock
             x:Name="txbtotal" 
@@ -116,7 +132,8 @@
             CommandParameter="{Binding ElementName=ucImportGoodsDetails}"
             Background="{x:Null}" 
             BorderBrush="{x:Null}" 
-            Padding="0">
+            Padding="0" 
+            IsTabStop="False">
             <materialDesign:PackIcon 
                 Kind="DeleteOutline" 
                 Height="24"
@@ -124,7 +141,8 @@
                 Foreground="{DynamicResource Error}" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Center" 
-                Margin="0"/>
+                Margin="0" 
+                IsTabStop="False"/>
         </Button>
     </Grid>
 </UserControl>

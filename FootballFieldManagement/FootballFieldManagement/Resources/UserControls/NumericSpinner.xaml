@@ -82,7 +82,7 @@
                 Grid.RowSpan="2" 
                 Text="1"
                 TextChanged="tb_main_TextChanged" 
-                PreviewTextInput="tb_main_PreviewTextInput" >
+                PreviewTextInput="tb_main_PreviewTextInput" IsTabStop="False" >
             </TextBox>
             <Button 
                 x:Name="cmdUp" 
@@ -92,7 +92,7 @@
                 Width="auto" 
                 Height="auto" 
                 Click="cmdUp_Click" 
-                Cursor="Hand">
+                Cursor="Hand" IsTabStop="False">
                 <Button.Content>
                     <Path 
                         HorizontalAlignment="Center" 
@@ -109,7 +109,7 @@
                 Width="auto" 
                 Height="auto" 
                 Click="cmdDown_Click" 
-                Cursor="Hand">
+                Cursor="Hand" IsTabStop="False">
                 <Button.Content>
                     <Path 
                         HorizontalAlignment="Left" 

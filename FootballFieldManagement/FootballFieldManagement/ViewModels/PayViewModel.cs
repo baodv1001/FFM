@@ -22,28 +22,30 @@ using System.Data.SqlClient;
 
 namespace FootballFieldManagement.ViewModels
 {
-    public class PayViewModel : INotifyPropertyChanged
+    public class PayViewModel : BaseViewModel, INotifyPropertyChanged
     {
         //Binding 
         private PayWindow payWindow;
-        private decimal total;
-        private decimal totalGoods;
-        public decimal Total
+        private string total;
+        private string totalGoods;
+        public string Total
         {
             get => total;
             set
             {
                 total = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Total)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Total)));
+                OnPropertyChanged();
             }
         }
-        public decimal TotalGoods
+        public string TotalGoods
         {
             get => totalGoods;
             set
             {
                 totalGoods = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalGoods)));
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalGoods)));
+                OnPropertyChanged();
             }
         }
         public PayWindow PayWindow { get => payWindow; set => payWindow = value; }
@@ -80,7 +82,7 @@ namespace FootballFieldManagement.ViewModels
 
             ViewBillCommand = new RelayCommand<PayWindow>((parameter) => true, (parameter) => ViewBill(parameter));
 
-            Total = TotalGoods = 0;
+            Total = TotalGoods = "0";
         }
         public void ViewBill(PayWindow payWindow)
         {
@@ -180,7 +182,7 @@ namespace FootballFieldManagement.ViewModels
                     good.txbName.Text = goods.Rows[i].ItemArray[1].ToString();
                     good.txbId.Text = goods.Rows[i].ItemArray[0].ToString();
                     good.imgGood.Source = Converter.Instance.ConvertByteToBitmapImage(Convert.FromBase64String(goods.Rows[i].ItemArray[4].ToString()));
-                    good.txbPrice.Text = goods.Rows[i].ItemArray[3].ToString();
+                    good.txbPrice.Text = string.Format("{0:N0}", long.Parse(goods.Rows[i].ItemArray[3].ToString()));
                     good.txbIdBill.Text = parameter.txbIdBill.Text;
                     parameter.wrpGoods.Children.Add(good);
                 }
@@ -188,7 +190,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void LoadBillInfoToView(PayWindow parameter)
         {
-            TotalGoods = 0;
+            TotalGoods = "0";
             parameter.stkPickedGoods.Children.Clear();
             List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(parameter.txbIdBill.Text);
             for (int i = 0; i < billInfos.Count; i++)
@@ -199,19 +201,19 @@ namespace FootballFieldManagement.ViewModels
                 infoControl.txbIdBill.Text = billInfos[i].IdBill.ToString();
                 Goods goods = GoodsDAL.Instance.GetGoods(billInfos[i].IdGoods.ToString());
                 infoControl.txbName.Text = goods.Name;
-                infoControl.txbPrice.Text = goods.UnitPrice.ToString();
+                infoControl.txbPrice.Text = string.Format("{0:N0}", goods.UnitPrice);
                 infoControl.nmsQuantity.Text = decimal.Parse(billInfos[i].Quantity.ToString());
                 infoControl.nmsQuantity.MinValue = 1;
                 infoControl.nmsQuantity.MaxValue = goods.Quantity;
-                infoControl.txbtotal.Text = (infoControl.nmsQuantity.Value * int.Parse(infoControl.txbPrice.Text)).ToString();
+                infoControl.txbtotal.Text = string.Format("{0:N0}", (infoControl.nmsQuantity.Value * ConvertToNumber(infoControl.txbPrice.Text)));
                 parameter.stkPickedGoods.Children.Add(infoControl);
             }
-            TotalGoods = BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text);
-            Total = TotalGoods + int.Parse(parameter.txbFieldPrice.Text) - int.Parse(parameter.txbDiscount.Text);
+            TotalGoods = string.Format("{0:N0}", BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text));
+            Total = string.Format("{0:N0}", ConvertToNumber(TotalGoods) + ConvertToNumber(parameter.txbFieldPrice.Text) - ConvertToNumber(parameter.txbDiscount.Text));
         }
         public void LoadTotalMoney(PayWindow parameter)
         {
-            parameter.txbSumOfPrice.Text = (int.Parse(parameter.txbFieldPrice.Text) - int.Parse(parameter.txbDiscount.Text)).ToString();
+            parameter.txbSumOfPrice.Text = string.Format("{0:N0}", (ConvertToNumber(parameter.txbFieldPrice.Text) - ConvertToNumber(parameter.txbDiscount.Text)));
         }
         public void DeleteBillInfos(PayWindow parameter)
         {
@@ -219,7 +221,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
                 BillDAL.Instance.DeleteFromDB(parameter.txbIdBill.Text);
-                totalGoods = 0;
+                totalGoods = "0";
             }
         }
         public void PayBill(PayWindow parameter)
@@ -231,7 +233,7 @@ namespace FootballFieldManagement.ViewModels
                 var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                 note += good.Name + " x " + billInfo.Quantity.ToString() + "\t" + (good.UnitPrice * billInfo.Quantity).ToString() + Environment.NewLine;
             }
-            Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, long.Parse(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
+            Bill bill = new Bill(int.Parse(parameter.txbIdBill.Text), CurrentAccount.IdAccount, DateTime.Now, DateTime.Now, DateTime.Now, 1, ConvertToNumber(parameter.txbSumOfPrice.Text), int.Parse(parameter.txbIdFieldInfo.Text), note);
             if (BillDAL.Instance.UpdateOnDB(bill))
             {
                 FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(parameter.txbIdFieldInfo.Text);
@@ -252,7 +254,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                totalGoods = 0;
+                totalGoods = "0";
                 parameter.txbIsPaid.Text = "0";
             }
 
@@ -261,7 +263,7 @@ namespace FootballFieldManagement.ViewModels
         {
             BillInfoDAL.Instance.DeleteAllBillInfo(parameter.txbIdBill.Text);
             BillDAL.Instance.DeleteFromDB(parameter.txbIdBill.Text);
-            totalGoods = 0;
+            totalGoods = "0";
             parameter.Close();
         }
         public void BuyGoods(SellGoodsControl parameter)
@@ -308,19 +310,19 @@ namespace FootballFieldManagement.ViewModels
         {
             BillInfo billInfo = new BillInfo(int.Parse(parameter.txbIdBill.Text), int.Parse(parameter.txbIdGoods.Text), int.Parse(parameter.nmsQuantity.Value.ToString()));
             BillInfoDAL.Instance.UpdateOnDB(billInfo);
-            parameter.txbtotal.Text = (parameter.nmsQuantity.Value * int.Parse(parameter.txbPrice.Text)).ToString();
-            Total -= TotalGoods;
-            TotalGoods = BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text);
-            Total += TotalGoods;
+            parameter.txbtotal.Text = string.Format("{0:N0}", (parameter.nmsQuantity.Value * ConvertToNumber(parameter.txbPrice.Text)));
+            Total = string.Format("{0:N0}", ConvertToNumber(Total) - ConvertToNumber(TotalGoods));
+            TotalGoods = string.Format("{0:N0}", BillInfoDAL.Instance.CountSumMoney(parameter.txbIdBill.Text));
+            Total = string.Format("{0:N0}", ConvertToNumber(Total) + ConvertToNumber(TotalGoods));
         }
         public void DeleteBillInfo(ProductDetailsControl paramter)
         {
             BillInfo billInfo = new BillInfo(int.Parse(paramter.txbIdBill.Text), int.Parse(paramter.txbIdGoods.Text), 1);
             BillInfoDAL.Instance.DeleteFromDB(billInfo);
             ((StackPanel)paramter.Parent).Children.Remove(paramter);
-            Total -= TotalGoods;
-            TotalGoods = BillInfoDAL.Instance.CountSumMoney(paramter.txbIdBill.Text);
-            Total += TotalGoods;
+            Total = string.Format("{0:N0}", ConvertToNumber(Total) - ConvertToNumber(TotalGoods));
+            TotalGoods = string.Format("{0:N0}", BillInfoDAL.Instance.CountSumMoney(paramter.txbIdBill.Text));
+            Total = string.Format("{0:N0}", ConvertToNumber(Total) + ConvertToNumber(TotalGoods));
         }
     }
 }

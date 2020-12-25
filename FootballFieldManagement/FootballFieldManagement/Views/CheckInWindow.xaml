@@ -8,10 +8,11 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:local="clr-namespace:FootballFieldManagement.Views"
+    xmlns:vd="clr-namespace:FootballFieldManagement.Validations"
     DataContext="{StaticResource BusinessVM}"
     mc:Ignorable="d"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"    
-    Height="700"
+    Height="710"
     Width="440" 
     Title="Check In"
     Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
@@ -63,6 +64,7 @@
                 materialDesign:HintAssist.IsFloating="True"
                 materialDesign:HintAssist.Hint="Chọn ngày"
                 Style="{StaticResource MaterialDesignFilledDatePicker}" 
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 VerticalAlignment="Center"  
                 BorderBrush="Gray" 
                 Height="51" 
@@ -70,7 +72,7 @@
                 Margin="0" 
                 FontWeight="Medium" 
                 HorizontalAlignment="Left"
-                Width="120" 
+                Width="164" 
                 Padding="0" 
                 HorizontalContentAlignment="Left" 
                 Foreground="{DynamicResource Black2}" 
@@ -83,12 +85,19 @@
                                                CommandParameter="{Binding ElementName=wdCheckIn}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <DatePicker.SelectedDate>
+                    <Binding Path="SetDateBooking" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vd:DateBookingValidation ErrorMessageNull="Vui lòng chọn ngày!"
+                                                      ErrorMessage="Không thể đặt sân ngày đã qua!"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </DatePicker.SelectedDate>
             </DatePicker>
             <ComboBox 
                 x:Name="cboTypeField"
                 Style="{StaticResource MaterialDesignFloatingHintComboBox}"          
-                materialDesign:HintAssist.Hint="Chọn loại sân"   
-                IsEditable="True" 
+                materialDesign:HintAssist.Hint="Chọn loại sân"
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Margin="0" 
@@ -133,6 +142,7 @@
                 Margin="0" 
                 Width="180" 
                 Foreground="{StaticResource Primary}" 
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 FontSize="16" 
                 Height="46" 
                 FontWeight="SemiBold" 
@@ -175,11 +185,19 @@
                                                CommandParameter="{Binding ElementName=wdCheckIn}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ComboBox.Text>
+                    <Binding Path="TimeFrame" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vd:NotNullValidation ErrorMessage="Vui lòng chọn khung giờ!"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.Text>
             </ComboBox>
             <ComboBox 
                 x:Name="cboPickField"
                 Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                 materialDesign:ComboBoxAssist.ClassicMode="true"
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 ItemsSource="{Binding ItemSourceField,Mode=TwoWay}"
                 SelectedItem="{Binding SelectedField,Mode=TwoWay}"
                 materialDesign:HintAssist.Hint="Chọn sân"   
@@ -219,6 +237,13 @@
                                                CommandParameter="{Binding ElementName=wdCheckIn}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ComboBox.Text>
+                    <Binding Path="Field" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vd:NotNullValidation ErrorMessage="Vui lòng chọn sân!"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </ComboBox.Text>
             </ComboBox>
         </Grid>
         <Grid 
@@ -240,6 +265,7 @@
                 x:Name="txtUserName"
                 materialDesign:HintAssist.Hint="Tên khách hàng"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 Height="48" 
                 Margin="0" 
                 HorizontalAlignment="Right" 
@@ -249,7 +275,15 @@
                 Foreground="{DynamicResource Black2}" 
                 CaretBrush="{x:Null}" 
                 BorderBrush="{DynamicResource Gray2}" 
-                SelectionBrush="{DynamicResource Primary}" />
+                SelectionBrush="{DynamicResource Primary}">
+                <TextBox.Text>
+                    <Binding Path="CustomerName" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource">
+                        <Binding.ValidationRules>
+                            <vd:NotNullValidation ErrorMessage="Vui lòng nhập tên khách hàng!"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </Grid>
         <Grid 
             x:Name="grdPassWord" 
@@ -270,6 +304,7 @@
                 x:Name="txtPhoneNumber"
                 materialDesign:HintAssist.Hint="Số điện thoại"
                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                 Height="48" 
                 Margin="0" 
                 HorizontalAlignment="Right" 
@@ -279,12 +314,14 @@
                 Foreground="{DynamicResource Black2}" 
                 CaretBrush="{x:Null}" 
                 BorderBrush="{DynamicResource Gray2}" >
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewTextInput" >
-                        <ei:CallMethodAction TargetObject="{Binding }" 
-                                             MethodName="NumberValidationTextBox" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+                <TextBox.Text>
+                    <Binding Path="PhoneNumber"  UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource" >
+                        <Binding.ValidationRules>
+                            <vd:NumberValidation ErrorMessage="Chỉ nhập các ký tự số (0 - 9)!" 
+                                                     ErrorMessageNull="Vui lòng nhập số điện thoại!"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
         </Grid>
         <TextBox 
@@ -341,14 +378,14 @@
                 Width="150" 
                 Height="40">
                 <TextBox 
-                    x:Name="txbDiscount" 
-                    Text="0" 
+                    x:Name="txtDiscount" 
                     TextAlignment="Right" 
+                    Text="0"
                     FontSize="18" 
-                    Foreground="{StaticResource Primary}" 
+                    MaxLength="11"
+                    Foreground="{StaticResource Primary}"
                     FontWeight="SemiBold"
-                    Margin="0" 
-                    VerticalAlignment="Center" 
+                    VerticalAlignment="Top" 
                     HorizontalAlignment="Right" 
                     Width="150" 
                     Height="40"
@@ -358,13 +395,17 @@
                             <ei:CallMethodAction TargetObject="{Binding }" 
                                                  MethodName="NumberValidationTextBox" />
                         </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged">
+                            <i:InvokeCommandAction Command="{Binding TextChangedCommand}"
+                                                   CommandParameter="{Binding ElementName=txtDiscount}"/>
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </TextBox>
             </Border>
         </Grid>
         <Grid 
             x:Name="grdPrice" 
-            Margin="0,500,0,0" 
+            Margin="0,510,0,0" 
             HorizontalAlignment="Center" 
             Width="360" 
             VerticalAlignment="Top" 
@@ -398,7 +439,6 @@
                 Height="40" Grid.ColumnSpan="2">
                 <TextBlock 
                     x:Name="txbPrice" 
-                    Text="150000" 
                     TextAlignment="Right" 
                     FontSize="18" 
                     Foreground="{StaticResource Primary}" 
@@ -414,7 +454,7 @@
         <Grid 
             HorizontalAlignment="Center"
             Height="100" 
-            Margin="0,550,0,0" 
+            Margin="0,560,0,0" 
             VerticalAlignment="Top" 
             Width="310">
             <Button 

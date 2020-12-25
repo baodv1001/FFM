@@ -203,7 +203,7 @@ namespace FootballFieldManagement.DAL
                 {
                     StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()),
                         int.Parse(dataTable.Rows[i].ItemArray[1].ToString()), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()),
-                        int.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
+                        long.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
                     listStockReceiptInfo.Add(stockReceiptInfo);
                 }
                 return listStockReceiptInfo;

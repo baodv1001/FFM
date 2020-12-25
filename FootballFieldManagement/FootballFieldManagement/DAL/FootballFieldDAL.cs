@@ -181,14 +181,13 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public bool CheckFieldName(string fieldName)
+        public bool isExistFieldName(string fieldName)
         {
             try
             {
                 conn.Open();
                 string query = @"select * from FootballField where isDeleted=0 and name = '@fieldName'";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@fieldName", fieldName);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -298,6 +297,36 @@ namespace FootballFieldManagement.DAL
                 {
                     FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
                                                                     int.Parse(type), 0, " ", 0);
+                    footballFields.Add(footballField);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return footballFields;
+        }
+        public List<FootballField> GetGoodFields()
+        {
+            List<FootballField> footballFields = new List<FootballField>();
+            try
+            {
+                conn.Open();
+                string query = @"select * from FootballField where isDeleted=0 and status=1 order by idField ASC";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
+                                                  dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()),
+                                                  int.Parse(dt.Rows[i].ItemArray[3].ToString()), dt.Rows[i].ItemArray[4].ToString(),
+                                                  int.Parse(dt.Rows[i].ItemArray[5].ToString()));
                     footballFields.Add(footballField);
                 }
             }

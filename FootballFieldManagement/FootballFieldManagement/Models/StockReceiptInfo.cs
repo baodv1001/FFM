@@ -14,7 +14,7 @@ namespace FootballFieldManagement.Models
         {
 
         }
-        public StockReceiptInfo(int idStockReceipt, int idGoods, int quantity, int importPrice)
+        public StockReceiptInfo(int idStockReceipt, int idGoods, int quantity, long importPrice)
         {
             this.idStockReceipt = idStockReceipt;
             this.idGoods = idGoods;
@@ -31,7 +31,7 @@ namespace FootballFieldManagement.Models
         private int quantity;
         public int Quantity { get => quantity; set => quantity = value; }
 
-        private int importPrice;
-        public int ImportPrice { get => importPrice; set => importPrice = value; }
+        private long importPrice;
+        public long ImportPrice { get => importPrice; set => importPrice = value; }
     }
 }

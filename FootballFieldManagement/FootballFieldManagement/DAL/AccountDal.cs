@@ -78,14 +78,15 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public bool UpdatePassword(Account account)
+        public bool UpdatePassword(string username, string password)
         {
             try
             {
                 conn.Open();
-                string query = "update Account set password=@password where IdAccount = " + account.IdAccount;
+                string query = "update Account set password=@password where username = @username";
                 SqlCommand command = new SqlCommand(query, conn);
-                command.Parameters.AddWithValue("@password", account.Password);
+                command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@password", password);
                 if (command.ExecuteNonQuery() > 0)
                     return true;
                 else
@@ -120,6 +121,62 @@ namespace FootballFieldManagement.DAL
             catch
             {
                 return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool IsExistUserName(string username)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Account where username = '" + username +"'";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if(dataTable.Rows.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public int SetNewID()
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "select max(idAccount) from Account";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if (dataTable.Rows.Count > 0)
+                {
+                    return int.Parse(dataTable.Rows[0].ItemArray[0].ToString()) + 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch
+            {
+                return -1;
             }
             finally
             {

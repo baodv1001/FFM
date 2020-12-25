@@ -45,7 +45,7 @@ namespace FootballFieldManagement.ViewModels
             GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
 
             E_LoadCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
-            E_AddCommand = new RelayCommand<StackPanel>((parameter) => true, (parameter) => AddEmployee(parameter));
+            E_AddCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => AddEmployee(parameter));
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
 
@@ -345,9 +345,9 @@ namespace FootballFieldManagement.ViewModels
             setSalaryWindow.ShowDialog();
         }
 
-        public void AddEmployee(StackPanel parameter)
+        public void AddEmployee(HomeWindow parameter)
         {
-            stack = parameter;
+            stack = parameter.stkEmployee;
             AddEmployeeWindow addEmployee = new AddEmployeeWindow();
             try
             {
@@ -365,6 +365,10 @@ namespace FootballFieldManagement.ViewModels
             addEmployee.txtAddress.Text = null;
             addEmployee.txtTelephoneNumber.Text = null;
             addEmployee.ShowDialog();
+            if (addEmployee.isAdded.Text == "1")
+            {
+                LoadEmployeesToView(parameter);
+            }
         }
 
         public void LoadEmployeesToView(HomeWindow homeWindow)

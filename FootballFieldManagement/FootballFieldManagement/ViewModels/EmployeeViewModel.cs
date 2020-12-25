@@ -186,6 +186,7 @@ namespace FootballFieldManagement.ViewModels
             }
             EmployeeDAL.Instance.AddEmployee(employee);
             SetSalaryEmployee(parameter);
+            parameter.isAdded.Text = "1";
             parameter.Close();
         }
         public void SelectImage(Grid parameter)
@@ -233,21 +234,64 @@ namespace FootballFieldManagement.ViewModels
                 Employee employee = EmployeeDAL.Instance.GetEmployeeByIdEmployee(parameter.txbId.Text);
                 Account account = new Account(employee.IdAccount, "", "", 3);
                 employee.IsDeleted = 1;
-
-                //bool isSuccess1 = SalaryDAL.Instance.DeleteSalary(parameter.txbId.Text);
-                //bool isSuccess2 = AttendanceDAL.Instance.DeleteAttendance(employee.IdEmployee.ToString());
-                //bool isSuccess3 = EmployeeDAL.Instance.DeleteEmployee(employee);
-                //bool isSuccess4 = BillDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
-                //bool isSuccess5 = StockReceiptDAL.Instance.UpdateIdAccount(employee.IdAccount.ToString());
-                //bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
-                if (EmployeeDAL.Instance.UpdateOnDB(employee) && AccountDAL.Instance.UpdateType(account))
+                //Lấy Home Window
+                HomeWindow home = (HomeWindow)(((Grid)((Grid)((Grid)((Grid)((ScrollViewer)((StackPanel)(parameter.Parent)).Parent).Parent).Parent).Parent).Parent).Parent);
+                if (EmployeeDAL.Instance.UpdateOnDB(employee) && (employee.IdAccount == -1 || AccountDAL.Instance.UpdateType(account)))
                 {
+
                     MessageBox.Show("Đã xóa thành công!");
+                    LoadEmployeesToView(home);
                 }
                 else
                 {
                     MessageBox.Show("Xoá thất bại");
                 }
+            }
+        }
+        public void LoadEmployeesToView(HomeWindow homeWindow)
+        {
+            int i = 1;
+            homeWindow.stkEmployee.Children.Clear();
+            bool flag = false;
+            foreach (var employee in EmployeeDAL.Instance.ConvertDBToList())
+            {
+                EmployeeControl temp = new EmployeeControl();
+                flag = !flag;
+                if (flag)
+                {
+                    temp.grdMain.Background = (Brush)new BrushConverter().ConvertFromString("#FFFFFF");
+                }
+                temp.txbSerial.Text = i.ToString();
+                i++;
+                // load number fault and overtime and salary
+                foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
+                {
+                    if (employee.IdEmployee == salary.IdEmployee)
+                    {
+                        temp.nsNumOfShift.Text = decimal.Parse(salary.NumOfShift.ToString());
+                        temp.nsNumOfFault.Text = decimal.Parse(salary.NumOfFault.ToString());
+                        if (salary.TotalSalary == -1)
+                        {
+                            temp.txbTotalSalary.Text = "0";
+                        }
+                        else
+                        {
+                            temp.txbTotalSalary.Text = string.Format("{0:n0}", salary.TotalSalary);
+                        }
+                        break;
+                    }
+                }
+                temp.txbId.Text = employee.IdEmployee.ToString();
+                temp.txbName.Text = employee.Name.ToString();
+                temp.txbPosition.Text = employee.Position.ToString();
+                if (CurrentAccount.Type == 1)
+                {
+                    if (employee.Position == "Nhân viên quản lý")
+                    {
+                        temp.btnEditEmployee.IsEnabled = false;
+                    }
+                }
+                homeWindow.stkEmployee.Children.Add(temp);
             }
         }
         public void OpenUpdateWindow(TextBlock parameter)

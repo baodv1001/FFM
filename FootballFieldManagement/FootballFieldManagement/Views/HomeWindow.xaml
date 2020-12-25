@@ -20,12 +20,6 @@
     Background="#FFF4EEFF"
     Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
     ResizeMode="CanMinimize">
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Activated">
-            <i:InvokeCommandAction Command="{Binding E_LoadCommand}" 
-                                   CommandParameter="{Binding ElementName=wdHome}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Grid 
         x:Name="grdWindow">
         <Grid.ColumnDefinitions>
@@ -1241,7 +1235,7 @@
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
                         Command="{Binding E_AddCommand}" 
-                        CommandParameter="{Binding ElementName=stkEmployee}"
+                        CommandParameter="{Binding ElementName=wdHome}"
                         materialDesign:ButtonAssist.CornerRadius="8"
                         ToolTip="Thêm nhân viên" 
                         Margin="0,0,0,2" 

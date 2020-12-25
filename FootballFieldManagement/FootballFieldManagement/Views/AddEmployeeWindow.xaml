@@ -70,6 +70,12 @@
                 VerticalAlignment="Top"  
                 Margin="0,25,0,0"/>
         </Grid>
+        <TextBlock
+            x:Name="isAdded" 
+            Visibility="Hidden" 
+            Text="0">
+            
+        </TextBlock>
         <Grid 
             x:Name="grdInfo"
             HorizontalAlignment="Left"

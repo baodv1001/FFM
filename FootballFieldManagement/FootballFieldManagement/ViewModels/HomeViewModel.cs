@@ -187,6 +187,17 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 2:
+                    parameter.cboViews.SelectedIndex = -1;
+                    DispatcherTimer timer_F = new DispatcherTimer
+                    {
+                        Interval = TimeSpan.FromMilliseconds(10)
+                    };
+                    timer_F.Tick += (s, e) =>
+                    {
+                        parameter.cboViews.SelectedIndex = 1;
+                        timer_F.Stop();
+                    };
+                    timer_F.Start();
                     parameter.grdBody_Field.Visibility = Visibility.Visible;
                     parameter.btnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
@@ -241,7 +252,7 @@ namespace FootballFieldManagement.ViewModels
         public void PaySalary(HomeWindow parameter)
         {
             MessageBoxResult result = MessageBox.Show("Bạn có chắc chắn là đã tính lương trước chưa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if(result == MessageBoxResult.Yes)
+            if (result == MessageBoxResult.Yes)
             {
                 bool sucess = true;
                 if (SalarySettingDAL.Instance.ConvertDBToList().Count == 0)

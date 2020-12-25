@@ -40,7 +40,16 @@ namespace FootballFieldManagement.ViewModels
         public ICommand SelectionChangedCommand { get; set; } // thay đổi view
         public ICommand AddFieldCommand { get; set; }
         public ICommand SetTimeFrameCommand { get; set; }
+        public ICommand OpenReportFieldCommand { get; set; }
+        // ReportFieldWindow
+        public ICommand ReportFieldCommand { get; set; }
+        public ICommand LoadFieldCommand { get; set; }
+        private ObservableCollection<FootballField> itemSourceFieldName = new ObservableCollection<FootballField>();
+        public ObservableCollection<FootballField> ItemSourceFieldName { get => itemSourceFieldName; set { itemSourceFieldName = value; OnPropertyChanged(); } }
 
+        public FootballField SelectedField { get => selectedField; set { selectedField = value; OnPropertyChanged("SelectedField"); } }
+
+        private FootballField selectedField = new FootballField();
         private HomeWindow home;
         public HomeWindow Home { get => home; set => home = value; }
         private ObservableCollection<string> itemSourceField = new ObservableCollection<string>();
@@ -68,6 +77,32 @@ namespace FootballFieldManagement.ViewModels
             AddFieldCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => ShowAddField(parameter));
             SetTimeFrameCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => ShowWdSetTimeFrame());
             LostFocusCommand = new RelayCommand<AddFootballFieldWindow>((parameter) => true, (parameter) => LostFocusComboBox(parameter));
+            OpenReportFieldCommand = new RelayCommand<object>((parameter) => true, (parameter) => OpenReportFieldWindow());
+            LoadFieldCommand = new RelayCommand<object>((parameter) => true, (parameter) => LoadFieldName());
+            ReportFieldCommand = new RelayCommand<Window>((parameter) => true, (parameter) => ReportField(parameter));
+        }
+        public void ReportField(Window window)
+        {
+            FootballField footballField = selectedField;
+            footballField.Status = 0;
+            if (FootballFieldDAL.Instance.UpdateField(footballField))
+            {
+                MessageBox.Show("Báo lỗi thành công!");
+                window.Close();
+            }
+        }
+        public void LoadFieldName()
+        {
+            itemSourceFieldName.Clear();
+            foreach (var field in FootballFieldDAL.Instance.GetGoodFields())
+            {
+                itemSourceFieldName.Add(field);
+            }
+        }
+        public void OpenReportFieldWindow()
+        {
+            ReportFieldWindow reportFieldWindow = new ReportFieldWindow();
+            reportFieldWindow.ShowDialog();
         }
         public void LostFocusComboBox(AddFootballFieldWindow addFieldWindow)
         {
@@ -79,6 +114,14 @@ namespace FootballFieldManagement.ViewModels
             if (str[0] >= 48 && str[0] <= 57)
             {
                 addFieldWindow.cboFieldType.Text = "Sân " + str + " người";
+            }
+        }
+        public void setItemSourceFieldName()
+        {
+            itemSourceFieldName.Clear();
+            foreach (var field in FootballFieldDAL.Instance.GetGoodFields())
+            {
+                itemSourceFieldName.Add(field);
             }
         }
         public void setItemSourceField()
@@ -391,7 +434,7 @@ namespace FootballFieldManagement.ViewModels
                         {
                             TimeFrameDAL.Instance.DeleteFieldType(control.txbFieldType.Text.Split(' ')[1]);
                         }
-                         bool flag = false;
+                        bool flag = false;
                         for (int i = 0; i < home.wpListField.Children.Count; i++)
                         {
                             FieldDetailsControl temp = (FieldDetailsControl)home.wpListField.Children[i];

@@ -205,6 +205,9 @@
     <Compile Include="Views\PayWindow.xaml.cs">
       <DependentUpon>PayWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ReportFieldWindow.xaml.cs">
+      <DependentUpon>ReportFieldWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SetTimeFrameWindow.xaml.cs">
       <DependentUpon>SetTimeFrameWindow.xaml</DependentUpon>
     </Compile>
@@ -419,6 +422,10 @@
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\PayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportFieldWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

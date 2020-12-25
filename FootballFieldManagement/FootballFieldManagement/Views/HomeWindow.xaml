@@ -1005,6 +1005,32 @@
                         </i:Interaction.Triggers>
                     </DatePicker>
                     <Button 
+                        x:Name="btnReportField"     
+                        Content="Báo sân lỗi"
+                        DataContext="{StaticResource FieldVM}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="6"
+                        ToolTip="Đặt sân" 
+                        Margin="460,5,0,5" 
+                        Background="{DynamicResource Success}" 
+                        BorderBrush="{x:Null}" 
+                        Foreground="{StaticResource  White}" 
+                        FontSize="18" 
+                        VerticalAlignment="Center" 
+                        FocusVisualStyle="{x:Null}"
+                        Width="180"
+                        HorizontalAlignment="Left" 
+                        Padding="0,0,0,2" 
+                        FontWeight="SemiBold" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding OpenReportFieldCommand}"/>
+
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button 
                         x:Name="btnHireField"     
                         Content="Đặt sân"
                         Style="{StaticResource MaterialDesignRaisedButton}"

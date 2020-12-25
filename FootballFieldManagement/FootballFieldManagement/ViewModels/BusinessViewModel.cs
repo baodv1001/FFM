@@ -350,10 +350,12 @@ namespace FootballFieldManagement.ViewModels
                 if ((checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
                 {
                     PickedField.icn5.Visibility = Visibility.Visible;
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                     PickedField.ToolTip = "Không thể đặt sân";
                 }
                 else
-                {                    
+                {
+                    PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF27AE60");
                     PickedField.icn1.Visibility = Visibility.Visible;
                     PickedField.ToolTip = "Đặt sân";
                 }

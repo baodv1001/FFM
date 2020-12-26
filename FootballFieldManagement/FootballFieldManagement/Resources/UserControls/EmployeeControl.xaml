@@ -163,7 +163,7 @@
             Grid.Column="6"
             x:Name="btnEditEmployee"
             Command="{Binding UpdateCommand}"
-            CommandParameter="{Binding ElementName=txbId}"
+            CommandParameter="{Binding ElementName=ucEmployee}"
             Style="{StaticResource MaterialDesignRaisedButton}"
             ToolTip="Sửa thông tin"
             Height="30"

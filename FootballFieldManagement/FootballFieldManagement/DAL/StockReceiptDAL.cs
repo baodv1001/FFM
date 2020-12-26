@@ -25,29 +25,38 @@ namespace FootballFieldManagement.DAL
         }
         public List<StockReceipt> ConvertDBToList()
         {
-            DataTable dt;
-            List<StockReceipt> stockReceiptList = new List<StockReceipt>();
             try
             {
-                dt = LoadData("StockReceipt");
+                conn.Open();
+                string queryString = "select * from StockReceipt";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                List<StockReceipt> stockReceiptList = new List<StockReceipt>();
+
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    int idAccount = -1;
+                    if (dataTable.Rows[i].ItemArray[1].ToString() != "")
+                    {
+                        idAccount = int.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                    }
+                    StockReceipt acc = new StockReceipt(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), idAccount,
+                        DateTime.Parse(dataTable.Rows[i].ItemArray[2].ToString()), long.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
+                    stockReceiptList.Add(acc);
+                }
+                return stockReceiptList;
             }
             catch
             {
-                conn.Close();
-                dt = LoadData("StockReceipt");
+                return new List<StockReceipt>();
             }
-            for (int i = 0; i < dt.Rows.Count; i++)
+            finally
             {
-                int idAccount = -1;
-                if (dt.Rows[i].ItemArray[1].ToString() != "")
-                {
-                    idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
-                }
-                StockReceipt acc = new StockReceipt(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount,
-                    DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString()));
-                stockReceiptList.Add(acc);
+                conn.Close();
             }
-            return stockReceiptList;
         }
         public bool AddIntoDB(StockReceipt stockReceipt)
         {

@@ -61,7 +61,8 @@
                     Height="40" 
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    VerticalAlignment="Center" >
+                    VerticalAlignment="Center" 
+                    FontWeight="SemiBold" >
                 </TextBox>
             </Grid>
             <Grid 
@@ -101,7 +102,8 @@
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,5,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold"/>
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -140,7 +142,8 @@
                     Margin="0,0,5,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left">
+                    HorizontalContentAlignment="Left" 
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput">
                             <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"/>
@@ -187,7 +190,8 @@
                     Margin="0,0,5,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left">
+                    HorizontalContentAlignment="Left" 
+                    FontWeight="SemiBold">
                     <ComboBoxItem  Content="Tốt"/>
                     <ComboBoxItem  Content="Hỏng"/>
                 </ComboBox>
@@ -200,28 +204,23 @@
             HorizontalAlignment="Right">
             <Button
                 x:Name="btnSave"
-                Style="{StaticResource MaterialDesignRaisedButton}"
+                Content="Lưu"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=wdAddFootballField}"
-                Background="{StaticResource Success}" 
-                BorderBrush="{StaticResource Success}"
                 Height="30" 
                 Width="90"
-                materialDesign:ButtonAssist.CornerRadius="6"
+                materialDesign:ButtonAssist.CornerRadius="4"
                 ToolTip="Thêm nhân viên" 
-                Margin="0" 
+                Margin="0"
+                Padding="0"
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}"
-                FontSize="12">
-                <TextBlock
-                    Text="Lưu" 
-                    FontSize="18" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" />
-            </Button>
+                FontSize="16"/>
             <Button
                 x:Name="btnCancel"
                 Height="30"
+                Content="Thoát"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName= wdAddFootballField}"
@@ -229,17 +228,12 @@
                 BorderBrush="{StaticResource Gray3}"
                 Width="90"
                 ToolTip="Thoát"
-                materialDesign:ButtonAssist.CornerRadius="6"    
-                Margin="0" 
+                materialDesign:ButtonAssist.CornerRadius="4"    
+                Margin="0"
+                Padding="0"
                 HorizontalAlignment="Right"
                 FocusVisualStyle="{x:Null}" 
-                FontSize="12">
-                <TextBlock
-                    Text="Bỏ qua" 
-                    FontSize="18"
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" />
-            </Button>
+                FontSize="16"/>
         </Grid>
     </Grid>
 </Window>

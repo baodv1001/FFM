@@ -18,40 +18,17 @@
     <Grid 
         Width="36" 
         Height="36">
-        <TextBlock 
-            x:Name="txbPrice"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbidFieldInfo"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbidField"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbFieldName"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbstartTime"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbendTime"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbDay"  
-            Visibility="Hidden">
-        </TextBlock>
-        <TextBlock 
-            x:Name="txbFieldType"  
-            Visibility="Hidden">
-        </TextBlock>
+        <TextBlock x:Name="txbPrice" Visibility="Hidden"/>
+        <TextBlock x:Name="txbidFieldInfo" Visibility="Hidden"/>
+        <TextBlock x:Name="txbidField" Visibility="Hidden"/>
+        <TextBlock x:Name="txbFieldName" Visibility="Hidden"/>
+        <TextBlock x:Name="txbstartTime" Visibility="Hidden"/>
+        <TextBlock x:Name="txbendTime" Visibility="Hidden"/>
+        <TextBlock x:Name="txbDay" Visibility="Hidden"/>
+        <TextBlock x:Name="txbFieldType" Visibility="Hidden"/>
         <Border 
-            BorderBrush="{DynamicResource Gray2}"
+            x:Name="bdrOut"
+            BorderBrush="{DynamicResource Primary}"
             BorderThickness="2"
             HorizontalAlignment="Left"
             Height="36"
@@ -60,8 +37,16 @@
             Width="36" 
             Padding="0" 
             CornerRadius="6" 
-            Background="{DynamicResource White}">
-        </Border>
+            Background="{DynamicResource White}"/>
+        <Rectangle 
+            x:Name="recColor"
+            Visibility="Hidden"
+            Fill="{StaticResource Success}" 
+            RadiusX="4"
+            RadiusY="4"
+            Stroke="{StaticResource Success}"
+            Width="36"
+            Height="36"/>
         <Button
             Style="{StaticResource MaterialDesignRaisedButton}"
             Command="{Binding PickFieldCommand}"
@@ -96,16 +81,16 @@
                     Visibility="Hidden"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
-                    Foreground="{DynamicResource Primary}" 
+                    Foreground="{DynamicResource Gray1}" 
                     Width="26"
                     Height="26" />
                 <materialDesign:PackIcon 
                     x:Name="icn3" 
                     Kind="CalendarCheckOutline"
-                    Visibility="Hidden"
+                    Visibility="Visible"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
-                    Foreground="{DynamicResource Success}" 
+                    Foreground="{DynamicResource Primary}" 
                     Width="26"
                     Height="26" />
                 <materialDesign:PackIcon 
@@ -114,9 +99,9 @@
                     Visibility="Hidden"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
-                    Foreground="{DynamicResource Gray2}" 
-                    Width="26"
-                    Height="26" />
+                    Foreground="{DynamicResource White}" 
+                    Width="30"
+                    Height="30" />
                 <materialDesign:PackIcon 
                     x:Name="icn5" 
                     Kind="Close"

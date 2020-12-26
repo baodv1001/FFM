@@ -54,7 +54,7 @@
             <VisualBrush>
                 <VisualBrush.Visual>
                     <Border 
-                        Background="Black" 
+                        Background="{StaticResource Gray1}" 
                         SnapsToDevicePixels="True"
                         CornerRadius="4"
                         Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType=Border}}"
@@ -80,6 +80,7 @@
                 Padding="5,1" 
                 Grid.Column="0" 
                 Grid.RowSpan="2" 
+                Foreground="{StaticResource Gray1}"
                 Text="1"
                 TextChanged="tb_main_TextChanged" 
                 PreviewTextInput="tb_main_PreviewTextInput" >
@@ -97,7 +98,7 @@
                     <Path 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center" 
-                        Fill="Black" 
+                        Fill="{StaticResource White}" 
                         Data="M4,0 L0,4 L8,4 z"/>
                 </Button.Content>
             </Button>
@@ -114,15 +115,15 @@
                     <Path 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
-                        Fill="Black" 
+                        Fill="{StaticResource White}" 
                         Data="M0,0 L8,0 L4,4 z"/>
                 </Button.Content>
             </Button>
             <Border 
                 x:Name="brdBrush" 
-                BorderBrush="Gray" 
+                BorderBrush="{StaticResource Gray4}" 
                 IsHitTestVisible="False"
-                BorderThickness="1"
+                BorderThickness="1.5"
                 CornerRadius="4" 
                 Grid.RowSpan="2" 
                 Grid.ColumnSpan="2" 

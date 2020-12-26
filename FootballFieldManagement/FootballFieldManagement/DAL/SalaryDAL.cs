@@ -26,29 +26,35 @@ namespace FootballFieldManagement.DAL
         }
         public List<Salary> ConvertDBToList()
         {
-            DataTable dt;
-            List<Salary> salaries = new List<Salary>();
             try
             {
+                conn.Open();
+                string queryString = "select * from Salary order by idEmployee ASC";
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
 
-                dt = LoadData("Salary");
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                List<Salary> salaries = new List<Salary>();
+
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    Salary salary = new Salary(long.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()), 
+                        long.Parse(dataTable.Rows[i].ItemArray[2].ToString()), int.Parse(dataTable.Rows[i].ItemArray[3].ToString()), 
+                        long.Parse(dataTable.Rows[i].ItemArray[4].ToString()), int.Parse(dataTable.Rows[i].ItemArray[5].ToString()), 
+                        long.Parse(dataTable.Rows[i].ItemArray[6].ToString()), int.Parse(dataTable.Rows[i].ItemArray[7].ToString()));
+                    salaries.Add(salary);
+                }
+                return salaries;
             }
             catch
             {
-                conn.Close();
-                dt = LoadData("Salary");
+                return new List<Salary>();
             }
-            // sort increase
-            DataView dv = dt.DefaultView;
-            dv.Sort = "idEmployee ASC";
-            dt = dv.ToTable();
-            for (int i = 0; i < dt.Rows.Count; i++)
+            finally
             {
-                Salary salary = new Salary(long.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), long.Parse(dt.Rows[i].ItemArray[2].ToString()), int.Parse(dt.Rows[i].ItemArray[3].ToString()), long.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()));
-                salaries.Add(salary);
+                conn.Close();
             }
-            //conn.Close();
-            return salaries;
         }
         public bool ResetSalary(Salary salary)
         {
@@ -195,10 +201,10 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string query = "select position from Employee where idEmployee = " + id;
                 SqlCommand command = new SqlCommand(query, conn);
-                DataTable dt = new DataTable();
+                DataTable dataTable = new DataTable();
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
-                adapter.Fill(dt);
-                return dt.Rows[0].ItemArray[0].ToString();
+                adapter.Fill(dataTable);
+                return dataTable.Rows[0].ItemArray[0].ToString();
             }
             catch
             {

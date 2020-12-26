@@ -288,7 +288,7 @@
                 FontWeight="Bold" />
             <Rectangle 
                 Fill="{DynamicResource Primary}" 
-                Width="260" 
+                Width="300" 
                 Height="3" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top" 
@@ -399,7 +399,7 @@
                     Height="40"
                     Command="{Binding ImportStockCommand}"
                     CommandParameter="{Binding ElementName=wdImportStock}"
-                    materialDesign:ButtonAssist.CornerRadius="6"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,100"  
                     FontSize="20" 
@@ -414,7 +414,7 @@
                     Height="40"
                     Command="{Binding ViewStockReceiptTemplateCommand}"
                     CommandParameter="{Binding ElementName=wdImportStock}"
-                    materialDesign:ButtonAssist.CornerRadius="6"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,30" 
                     Background="{DynamicResource White}" 
@@ -472,7 +472,7 @@
                     Height="3" 
                     Margin="0" 
                     VerticalAlignment="Top"
-                    Width="260"
+                    Width="300"
                     Fill="{DynamicResource Primary}"/>
             </Grid>
         </Grid>

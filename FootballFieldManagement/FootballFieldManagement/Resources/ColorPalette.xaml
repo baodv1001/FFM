@@ -29,7 +29,7 @@
     <SolidColorBrush x:Key="Gray6" Color="#FFF1F1F1" />
     <SolidColorBrush x:Key="Theme_Brush_Bg" Color="White" />
     <SolidColorBrush x:Key="Theme_Brush_SilverBorder" Color="Silver" />
-    <Color x:Key="ThemeColor">#40a6d1</Color>
+    <Color x:Key="ThemeColor">#FF1976D2</Color>
     <Color x:Key="ThemeRedColor">#d14040</Color>
     <Color x:Key="ThemeColorDark">#3992b8</Color>
     <Color x:Key="ThemeColorDarker">#FF688CAF</Color>

@@ -30,35 +30,27 @@
                 StrokeDashArray="4 2" 
                 Stroke="{StaticResource Primary}" 
                 StrokeThickness="4" 
-                RadiusX="8" 
-                RadiusY="8"
+                RadiusX="4" 
+                RadiusY="4"
                 Width="150"
                 Height="150" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top"/>
             <Button 
                 x:Name="btnSelectImage"
-                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Content="Chọn ảnh"
+                Style="{StaticResource MyPrimaryButtonStyle}"
                 Height="35" 
                 Width="100" 
                 Command="{Binding SelectImageCommand}"
                 CommandParameter="{Binding ElementName=grdSelectImage}"
-                materialDesign:ButtonAssist.CornerRadius="8"
-                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
-                Background="{StaticResource Primary}" 
-                BorderBrush="{x:Null}" 
+                materialDesign:ButtonAssist.CornerRadius="4"
+                ToolTip="Chọn ảnh" 
                 Margin="0,0,0,12" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
-                FocusVisualStyle="{x:Null}" Foreground="{DynamicResource White}">
-                <TextBlock  
-                    x:Name="txbSelectImage"
-                    Text="Chọn ảnh" 
-                    LineHeight="22.4" 
-                    TextAlignment="Center" 
-                    FontWeight="Bold" 
-                    Height="23" 
-                    Width="65"/>
+                FocusVisualStyle="{x:Null}"
+                FontSize="16">
             </Button>
             <materialDesign:PackIcon 
                 x:Name="iconImage" 
@@ -99,7 +91,8 @@
                     RadiusY="6"
                     RadiusX="6" 
                     Margin="0"
-                    Stroke="{StaticResource Gray4}" HorizontalAlignment="Right"/>
+                    Stroke="{StaticResource Gray4}"
+                    HorizontalAlignment="Right"/>
                 <TextBox 
                     x:Name="txtIDEmployee"
                     materialDesign:HintAssist.Hint="Mã tự động"
@@ -116,7 +109,8 @@
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
                     VerticalAlignment="Center" 
-                    SelectionBrush="{x:Null}" >
+                    SelectionBrush="{x:Null}"
+                    FontWeight="SemiBold" >
                 </TextBox>
             </Grid>
             <Grid 
@@ -158,7 +152,8 @@
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold"/>
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -198,7 +193,8 @@
                     Margin="0,0,10,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left">
+                    HorizontalContentAlignment="Left" 
+                    FontWeight="SemiBold">
                     <ComboBoxItem x:Name="cboPositionManage" Content="Nhân viên quản lý"/>
                     <ComboBoxItem x:Name="cboPositionCashier" Content="Nhân viên thu ngân"/>
                     <ComboBoxItem x:Name="cboPositionGuard" Content="Bảo vệ"/>
@@ -284,7 +280,8 @@
                     FontSize="14"
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CalendarClosed" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
@@ -329,7 +326,8 @@
                     FontSize="14" 
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CalendarClosed" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
@@ -377,7 +375,8 @@
                     Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold"/>
             </Grid>
             <Grid 
                 Margin="0,420,0,0" 
@@ -420,7 +419,8 @@
                     Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center"
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
@@ -439,44 +439,34 @@
             <Button
                 x:Name="btnSave"
                 IsDefault="True"
-                Style="{StaticResource MaterialDesignRaisedButton}"
+                Content="Lưu"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=wdAddEmployee}"
                 Height="40" 
                 Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
-                ToolTip="Thêm nhân viên" 
-                Background="{StaticResource Success}" 
-                BorderBrush="{StaticResource Success}"
+                FontSize="18"
+                materialDesign:ButtonAssist.CornerRadius="4"
+                ToolTip="Thêm nhân viên"
                 Margin="0" 
                 HorizontalAlignment="Left"
-                FocusVisualStyle="{x:Null}">
-                <TextBlock x:Name="txbConfirm"
-                    Text="Lưu" 
-                    FontSize="18" 
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Center" />
-            </Button>
+                FocusVisualStyle="{x:Null}"/>
             <Button
                 x:Name="btnCancel"
+                Content="Thoát"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
+                FontSize="18"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName= wdAddEmployee}"
                 Width="100"
                 ToolTip="Thoát"
-                materialDesign:ButtonAssist.CornerRadius="6"    
-                Background="{StaticResource Gray4}" 
-                BorderBrush="{StaticResource Gray4}"
+                materialDesign:ButtonAssist.CornerRadius="4"    
+                Background="{StaticResource Gray3}" 
+                BorderBrush="{StaticResource Gray3}"
                 Margin="0" 
                 HorizontalAlignment="Right"
-                FocusVisualStyle="{x:Null}">
-                <TextBlock
-                    Text="Bỏ qua" 
-                    FontSize="18"
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" />
-            </Button>
+                FocusVisualStyle="{x:Null}"/>
         </Grid>
     </Grid>
 </Window>

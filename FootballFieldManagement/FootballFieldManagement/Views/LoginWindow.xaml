@@ -33,7 +33,7 @@
             VerticalContentAlignment="Center" 
             FontSize="46" 
             Margin="140,80,0,0" 
-            Foreground="{StaticResource Black2}" 
+            Foreground="{StaticResource Primary}" 
             FontWeight="Bold"/>
         <Ellipse 
             HorizontalAlignment="Left" 
@@ -83,7 +83,7 @@
                 FontSize="32" 
                 FontWeight="Bold" 
                 Margin="0,30,0,0" 
-                Foreground="{StaticResource Black2}"/>
+                Foreground="{StaticResource Primary}"/>
             <Grid 
                 Width="270" 
                 Height="50"
@@ -166,6 +166,7 @@
                 Margin="0,270,35,0" 
                 FontWeight="Medium" 
                 Cursor="Hand" 
+                FocusVisualStyle="{x:Null}"
                 Background="{x:Null}" 
                 Foreground="{DynamicResource Secondary}" 
                 BorderBrush="{x:Null}">
@@ -179,7 +180,7 @@
                 Content="Đăng nhập"
                 Height="40" 
                 Width="220"
-                materialDesign:ButtonAssist.CornerRadius="6"
+                materialDesign:ButtonAssist.CornerRadius="4"
                 ToolTip="Đăng nhập" 
                 VerticalAlignment="Top" 
                 Margin="0,330,0,0" 

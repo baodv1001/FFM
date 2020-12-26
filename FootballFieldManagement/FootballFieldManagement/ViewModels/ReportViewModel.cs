@@ -43,20 +43,20 @@ namespace FootballFieldManagement.ViewModels
         public string[] Labels { get => labels; set { labels = value; OnPropertyChanged(); } }
 
         //Column chart - report tab
-        private ObservableCollection<string> report_itemSourceTime = new ObservableCollection<string>();
-        public ObservableCollection<string> report_ItemSourceTime { get => report_itemSourceTime; set { report_itemSourceTime = value; OnPropertyChanged(); } }
+        private ObservableCollection<string> rpitemSourceTime = new ObservableCollection<string>();
+        public ObservableCollection<string> RpItemSourceTime { get => rpitemSourceTime; set { rpitemSourceTime = value; OnPropertyChanged(); } }
 
-        private SeriesCollection report_seriesCollection;
-        public SeriesCollection report_SeriesCollection { get => report_seriesCollection; set { report_seriesCollection = value; OnPropertyChanged(); } }
+        private SeriesCollection rpseriesCollection;
+        public SeriesCollection RpSeriesCollection { get => rpseriesCollection; set { rpseriesCollection = value; OnPropertyChanged(); } }
 
-        private Func<double, string> report_formatter;
-        public Func<double, string> report_Formatter { get => report_formatter; set => report_formatter = value; }
+        private Func<double, string> rpformatter;
+        public Func<double, string> RpFormatter { get => rpformatter; set => rpformatter = value; }
 
-        private string report_axisXTitle;
-        public string report_AxisXTitle { get => report_axisXTitle; set { report_axisXTitle = value; OnPropertyChanged(); } }
+        private string rpaxisXTitle;
+        public string RpAxisXTitle { get => rpaxisXTitle; set { rpaxisXTitle = value; OnPropertyChanged(); } }
 
-        private string[] report_labels;
-        public string[] report_Labels { get => report_labels; set { report_labels = value; OnPropertyChanged(); } }
+        private string[] rplabels;
+        public string[] RpLabels { get => rplabels; set { rplabels = value; OnPropertyChanged(); } }
 
         //Pie chart
         private SeriesCollection pieSeriesCollection;
@@ -89,11 +89,11 @@ namespace FootballFieldManagement.ViewModels
         public ObservableCollection<string> ItemSourceYearBill { get => itemSourceYearBill; set { itemSourceYearBill = value; OnPropertyChanged(); } }
 
         //Xem stock receipt
-        private ObservableCollection<string> itemSourceMonthStockReceipt = new ObservableCollection<string>();
-        public ObservableCollection<string> ItemSourceMonthStockReceipt { get => itemSourceMonthStockReceipt; set { itemSourceMonthStockReceipt = value; OnPropertyChanged(); } }
+        private ObservableCollection<string> itemSourceMonthStR = new ObservableCollection<string>();
+        public ObservableCollection<string> ItemSourceMonthStR { get => itemSourceMonthStR; set { itemSourceMonthStR = value; OnPropertyChanged(); } }
 
-        private ObservableCollection<string> itemSourceYearStockReceipt = new ObservableCollection<string>();
-        public ObservableCollection<string> ItemSourceYearStockReceipt { get => itemSourceYearStockReceipt; set { itemSourceYearStockReceipt = value; OnPropertyChanged(); } }
+        private ObservableCollection<string> itemSourceYearStR = new ObservableCollection<string>();
+        public ObservableCollection<string> ItemSourceYearStR { get => itemSourceYearStR; set { itemSourceYearStR = value; OnPropertyChanged(); } }
 
         //Xem salary record
         private ObservableCollection<string> itemSourceMonthSalaryRecord = new ObservableCollection<string>();
@@ -109,8 +109,8 @@ namespace FootballFieldManagement.ViewModels
         public ICommand InitDashboardCommand { get; set; }
         public ICommand LoadCommand { get; set; }
 
-        public ICommand Report_SelectionChangedCommand { get; set; }
-        public ICommand Report_InitColumnChartCommand { get; set; }
+        public ICommand RpSelectionChangedCommand { get; set; }
+        public ICommand RpInitColumnChartCommand { get; set; }
 
         public ICommand ViewModeCommand { get; set; }
         public ICommand ViewBillByDateCommand { get; set; }
@@ -118,11 +118,11 @@ namespace FootballFieldManagement.ViewModels
         public ICommand ViewBillByYearCommand { get; set; }
         public ICommand ViewBillTemplateCommand { get; set; }
 
-        public ICommand ViewModeCommandStockReceipt { get; set; }
-        public ICommand ViewStockReceiptByDateCommand { get; set; }
-        public ICommand ViewStockReceiptByMonthCommand { get; set; }
-        public ICommand ViewStockReceiptByYearCommand { get; set; }
-        public ICommand ViewStockReceiptTemplateCommand { get; set; }
+        public ICommand ViewModeCommandStR { get; set; }
+        public ICommand ViewStRByDateCommand { get; set; }
+        public ICommand ViewStRByMonthCommand { get; set; }
+        public ICommand ViewStRByYearCommand { get; set; }
+        public ICommand ViewStRTemplateCommand { get; set; }
 
         public ICommand UpdateItemSource { get; set; }
         public ICommand ViewSalaryRecordByYearCommand { get; set; }
@@ -136,8 +136,8 @@ namespace FootballFieldManagement.ViewModels
             DataClickColumnChartCommand = new RelayCommand<ChartPoint>(parameter => true, parameter => DataClick(parameter));
             LoadCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadDefaultChart(parameter));
 
-            Report_SelectionChangedCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => Report_UpdateSelectTimeItemSource(parameter));
-            Report_InitColumnChartCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => Report_InitColumnChart(parameter));
+            RpSelectionChangedCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => RpUpdateSelectTimeItemSource(parameter));
+            RpInitColumnChartCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => RpInitColumnChart(parameter));
 
             ViewModeCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => UpdateViewMode(parameter));
             ViewBillByDateCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadBillByDate(parameter));
@@ -145,11 +145,11 @@ namespace FootballFieldManagement.ViewModels
             ViewBillByYearCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadBillByYear(parameter));
             ViewBillTemplateCommand = new RelayCommand<BillControl>(parameter => true, parameter => ViewBillTemplate(parameter));
 
-            ViewModeCommandStockReceipt = new RelayCommand<HomeWindow>(parameter => true, parameter => UpdateViewModeStockReceipt(parameter));
-            ViewStockReceiptByDateCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadStockReceiptByDate(parameter));
-            ViewStockReceiptByMonthCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadStockReceiptByMonth(parameter));
-            ViewStockReceiptByYearCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadStockReceiptByYear(parameter));
-            ViewStockReceiptTemplateCommand = new RelayCommand<StockReceiptControl>(parameter => true, parameter => ViewStockReceiptTemplate(parameter));
+            ViewModeCommandStR = new RelayCommand<HomeWindow>(parameter => true, parameter => UpdateViewModeStR(parameter));
+            ViewStRByDateCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadStRByDate(parameter));
+            ViewStRByMonthCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadStRByMonth(parameter));
+            ViewStRByYearCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadStRByYear(parameter));
+            ViewStRTemplateCommand = new RelayCommand<StockReceiptControl>(parameter => true, parameter => ViewStRTemplate(parameter));
 
             UpdateItemSource = new RelayCommand<HomeWindow>(parameter => true, parameter => UpdateViewModeSalaryRecord());
             ViewSalaryRecordByYearCommand = new RelayCommand<HomeWindow>(parameter => true, parameter => LoadSalaryRecordByYear(parameter));
@@ -261,7 +261,7 @@ namespace FootballFieldManagement.ViewModels
             itemSourceYearSalaryRecord.Add("Năm " + (currentYear).ToString());
         }
 
-        public void ViewStockReceiptTemplate(StockReceiptControl stockReceiptControl)
+        public void ViewStRTemplate(StockReceiptControl stockReceiptControl)
         {
             //Thông tin stock receipt
             string idStockReceipt = stockReceiptControl.txbId.Text;
@@ -322,14 +322,14 @@ namespace FootballFieldManagement.ViewModels
 
             stockReceiptTemplate.ShowDialog();
         }
-        public void LoadStockReceiptByYear(HomeWindow homeWindow)
+        public void LoadStRByYear(HomeWindow homeWindow)
         {
-            if (homeWindow.cboSelectYearStockReceipt.SelectedIndex == -1)
+            if (homeWindow.cboSelectYearStR.SelectedIndex == -1)
             {
                 return;
             }
             homeWindow.stkStockReceipt.Children.Clear();
-            string[] tmp = homeWindow.cboSelectYearStockReceipt.SelectedValue.ToString().Split(' ');
+            string[] tmp = homeWindow.cboSelectYearStR.SelectedValue.ToString().Split(' ');
             string selectedYear = tmp[1];
             DataTable dataTable = StockReceiptDAL.Instance.GetStockReceiptByYear(selectedYear);
             bool flag = false;
@@ -360,14 +360,14 @@ namespace FootballFieldManagement.ViewModels
                 temp++;
             }
         }
-        public void LoadStockReceiptByMonth(HomeWindow homeWindow)
+        public void LoadStRByMonth(HomeWindow homeWindow)
         {
-            if (homeWindow.cboSelectMonthStockReceipt.SelectedIndex == -1)
+            if (homeWindow.cboSelectMonthStR.SelectedIndex == -1)
             {
                 return;
             }
             homeWindow.stkStockReceipt.Children.Clear();
-            string[] tmp = homeWindow.cboSelectMonthStockReceipt.SelectedValue.ToString().Split(' ');
+            string[] tmp = homeWindow.cboSelectMonthStR.SelectedValue.ToString().Split(' ');
             string selectedMonth = tmp[1];
             DataTable dataTable = StockReceiptDAL.Instance.GetStockReceiptByMonth(selectedMonth, DateTime.Now.Year.ToString());
             bool flag = false;
@@ -398,16 +398,16 @@ namespace FootballFieldManagement.ViewModels
                 temp++;
             }
         }
-        public void LoadStockReceiptByDate(HomeWindow homeWindow)
+        public void LoadStRByDate(HomeWindow homeWindow)
         {
-            if (string.IsNullOrEmpty(homeWindow.dpSelectDateStockReceipt.Text))
+            if (string.IsNullOrEmpty(homeWindow.dpSelectDateStR.Text))
             {
                 return;
             }
             homeWindow.stkStockReceipt.Children.Clear();
-            string selectedDay = DateTime.Parse(homeWindow.dpSelectDateStockReceipt.Text).Day.ToString();
-            string selectedMonth = DateTime.Parse(homeWindow.dpSelectDateStockReceipt.Text).Month.ToString();
-            string selectedYear = DateTime.Parse(homeWindow.dpSelectDateStockReceipt.Text).Year.ToString();
+            string selectedDay = DateTime.Parse(homeWindow.dpSelectDateStR.Text).Day.ToString();
+            string selectedMonth = DateTime.Parse(homeWindow.dpSelectDateStR.Text).Month.ToString();
+            string selectedYear = DateTime.Parse(homeWindow.dpSelectDateStR.Text).Year.ToString();
             DataTable dataTable = StockReceiptDAL.Instance.GetStockReceiptByDate(selectedDay, selectedMonth, selectedYear);
             bool flag = false;
             int temp = 1;
@@ -437,37 +437,37 @@ namespace FootballFieldManagement.ViewModels
                 temp++;
             }
         }
-        public void UpdateViewModeStockReceipt(HomeWindow homeWindow)
+        public void UpdateViewModeStR(HomeWindow homeWindow)
         {
-            homeWindow.dpSelectDateStockReceipt.Visibility = Visibility.Hidden;
-            homeWindow.cboSelectMonthStockReceipt.Visibility = Visibility.Hidden;
-            homeWindow.cboSelectYearStockReceipt.Visibility = Visibility.Hidden;
+            homeWindow.dpSelectDateStR.Visibility = Visibility.Hidden;
+            homeWindow.cboSelectMonthStR.Visibility = Visibility.Hidden;
+            homeWindow.cboSelectYearStR.Visibility = Visibility.Hidden;
 
             homeWindow.stkStockReceipt.Children.Clear();
 
-            switch (homeWindow.cboSelectViewModeStockReceipt.SelectedIndex)
+            switch (homeWindow.cboSelectViewModeStR.SelectedIndex)
             {
                 case 0:
-                    homeWindow.dpSelectDateStockReceipt.Visibility = Visibility.Visible;
-                    homeWindow.dpSelectDateStockReceipt.SelectedDate = DateTime.Now;
+                    homeWindow.dpSelectDateStR.Visibility = Visibility.Visible;
+                    homeWindow.dpSelectDateStR.SelectedDate = DateTime.Now;
                     //LoadBillByDate(homeWindow);
                     break;
                 case 1:
-                    homeWindow.cboSelectMonthStockReceipt.Visibility = Visibility.Visible;
-                    itemSourceMonthStockReceipt.Clear();
+                    homeWindow.cboSelectMonthStR.Visibility = Visibility.Visible;
+                    itemSourceMonthStR.Clear();
                     int currentMonth = DateTime.Now.Month;
                     for (int i = 0; i < currentMonth; i++)
                     {
-                        itemSourceMonthStockReceipt.Add("Tháng " + (i + 1).ToString());
+                        itemSourceMonthStR.Add("Tháng " + (i + 1).ToString());
                     }
                     break;
                 case 2:
-                    homeWindow.cboSelectYearStockReceipt.Visibility = Visibility.Visible;
-                    itemSourceYearStockReceipt.Clear();
+                    homeWindow.cboSelectYearStR.Visibility = Visibility.Visible;
+                    itemSourceYearStR.Clear();
                     int currentYear = DateTime.Now.Year;
-                    itemSourceYearStockReceipt.Add("Năm " + (currentYear - 2).ToString());
-                    itemSourceYearStockReceipt.Add("Năm " + (currentYear - 1).ToString());
-                    itemSourceYearStockReceipt.Add("Năm " + (currentYear).ToString());
+                    itemSourceYearStR.Add("Năm " + (currentYear - 2).ToString());
+                    itemSourceYearStR.Add("Năm " + (currentYear - 1).ToString());
+                    itemSourceYearStR.Add("Năm " + (currentYear).ToString());
                     break;
             }
         }
@@ -511,7 +511,7 @@ namespace FootballFieldManagement.ViewModels
             fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
             fieldBillInfoControl.txbUnit.Text = "";
             fieldBillInfoControl.txbQuantity.Text = "";
-            fieldBillInfoControl.txbUnitPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString()); // nhớ sửa price query từ FieldInfo nha
+            fieldBillInfoControl.txbUnitPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
             fieldBillInfoControl.txbTotal.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
 
             billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
@@ -712,7 +712,7 @@ namespace FootballFieldManagement.ViewModels
 
         public void DataClick(ChartPoint p)
         {
-            MessageBox.Show("[COMMAND] you clicked " + p.X + ", " + p.Y);
+            CustomMessageBox.Show("[COMMAND] you clicked " + p.X + ", " + p.Y);
         }
         public void LoadDefaultChart(HomeWindow homeWindow)
         {
@@ -744,8 +744,8 @@ namespace FootballFieldManagement.ViewModels
                 homeWindow.cboSelectPeriod.SelectedIndex = 0;
                 homeWindow.cboSelectTime.SelectedIndex = DateTime.Now.Month - 1;
 
-                homeWindow.cboSelectPeriod_Report.SelectedIndex = 0;
-                homeWindow.cboSelectTime_Report.SelectedIndex = DateTime.Now.Month - 1;
+                homeWindow.cboSelectPeriodRp.SelectedIndex = 0;
+                homeWindow.cboSelectTimeRp.SelectedIndex = DateTime.Now.Month - 1;
 
                 timer.Stop();
             };
@@ -910,17 +910,17 @@ namespace FootballFieldManagement.ViewModels
             }
         }
 
-        public void Report_InitColumnChart(HomeWindow homeWindow)
+        public void RpInitColumnChart(HomeWindow homeWindow)
         {
-            if (homeWindow.cboSelectPeriod_Report.SelectedIndex == 0) //Theo tháng => 31 ngày
+            if (homeWindow.cboSelectPeriodRp.SelectedIndex == 0) //Theo tháng => 31 ngày
             {
-                if (homeWindow.cboSelectTime_Report.SelectedIndex != -1)
+                if (homeWindow.cboSelectTimeRp.SelectedIndex != -1)
                 {
-                    report_AxisXTitle = "Ngày";
-                    string[] tmp = homeWindow.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
+                    RpAxisXTitle = "Ngày";
+                    string[] tmp = homeWindow.cboSelectTimeRp.SelectedValue.ToString().Split(' ');
                     string selectedMonth = tmp[1];
                     string currentYear = DateTime.Now.Year.ToString();
-                    report_SeriesCollection = new SeriesCollection
+                    RpSeriesCollection = new SeriesCollection
                     {
                         new ColumnSeries
                         {
@@ -935,18 +935,18 @@ namespace FootballFieldManagement.ViewModels
                             Values = ReportDAL.Instance.QueryOutcomeByMonth(selectedMonth, currentYear),
                         }
                     };
-                    report_Labels = ReportDAL.Instance.QueryDayInMonth(selectedMonth, currentYear);
-                    report_Formatter = value => value.ToString("N");
+                    RpLabels = ReportDAL.Instance.QueryDayInMonth(selectedMonth, currentYear);
+                    RpFormatter = value => value.ToString("N");
                 }
             }
-            else if (homeWindow.cboSelectPeriod_Report.SelectedIndex == 1) //Theo quý => 4 quý
+            else if (homeWindow.cboSelectPeriodRp.SelectedIndex == 1) //Theo quý => 4 quý
             {
-                if (homeWindow.cboSelectTime_Report.SelectedIndex != -1)
+                if (homeWindow.cboSelectTimeRp.SelectedIndex != -1)
                 {
-                    report_AxisXTitle = "Quý";
-                    string[] tmp = homeWindow.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
+                    RpAxisXTitle = "Quý";
+                    string[] tmp = homeWindow.cboSelectTimeRp.SelectedValue.ToString().Split(' ');
                     string selectedYear = tmp[1];
-                    report_SeriesCollection = new SeriesCollection
+                    RpSeriesCollection = new SeriesCollection
                     {
                         new ColumnSeries
                         {
@@ -961,18 +961,18 @@ namespace FootballFieldManagement.ViewModels
                             Values = ReportDAL.Instance.QueryOutcomeByQuarter(selectedYear),
                         }
                     };
-                    report_Labels = ReportDAL.Instance.QueryQuarterInYear(selectedYear);
-                    report_Formatter = value => value.ToString("N");
+                    RpLabels = ReportDAL.Instance.QueryQuarterInYear(selectedYear);
+                    RpFormatter = value => value.ToString("N");
                 }
             }
             else
             {
-                if (homeWindow.cboSelectTime_Report.SelectedIndex != -1) //Theo năm => 12 tháng
+                if (homeWindow.cboSelectTimeRp.SelectedIndex != -1) //Theo năm => 12 tháng
                 {
-                    report_AxisXTitle = "Tháng";
-                    string[] tmp = homeWindow.cboSelectTime_Report.SelectedValue.ToString().Split(' ');
+                    RpAxisXTitle = "Tháng";
+                    string[] tmp = homeWindow.cboSelectTimeRp.SelectedValue.ToString().Split(' ');
                     string selectedYear = tmp[1];
-                    report_SeriesCollection = new SeriesCollection
+                    RpSeriesCollection = new SeriesCollection
                     {
                         new ColumnSeries
                         {
@@ -987,28 +987,28 @@ namespace FootballFieldManagement.ViewModels
                             Values = ReportDAL.Instance.QueryOutcomeByYear(selectedYear)
                         }
                     };
-                    report_Labels = ReportDAL.Instance.QueryMonthInYear(selectedYear);
-                    report_Formatter = value => value.ToString("N");
+                    RpLabels = ReportDAL.Instance.QueryMonthInYear(selectedYear);
+                    RpFormatter = value => value.ToString("N");
                 }
             }
         }
-        public void Report_UpdateSelectTimeItemSource(HomeWindow homeWindow)
+        public void RpUpdateSelectTimeItemSource(HomeWindow homeWindow)
         {
-            report_ItemSourceTime.Clear();
-            if (homeWindow.cboSelectPeriod_Report.SelectedIndex == 0) //Theo tháng
+            RpItemSourceTime.Clear();
+            if (homeWindow.cboSelectPeriodRp.SelectedIndex == 0) //Theo tháng
             {
                 int currentMonth = DateTime.Now.Month;
                 for (int i = 0; i < currentMonth; i++)
                 {
-                    report_ItemSourceTime.Add("Tháng " + (i + 1).ToString());
+                    RpItemSourceTime.Add("Tháng " + (i + 1).ToString());
                 }
             }
             else
             {
                 int currentYear = DateTime.Now.Year;
-                report_ItemSourceTime.Add("Năm " + (currentYear - 2).ToString());
-                report_ItemSourceTime.Add("Năm " + (currentYear - 1).ToString());
-                report_ItemSourceTime.Add("Năm " + (currentYear).ToString());
+                RpItemSourceTime.Add("Năm " + (currentYear - 2).ToString());
+                RpItemSourceTime.Add("Năm " + (currentYear - 1).ToString());
+                RpItemSourceTime.Add("Năm " + (currentYear).ToString());
             }
         }
     }

@@ -29,9 +29,9 @@
             TextWrapping="Wrap" 
             VerticalAlignment="Top"
             Width="290"
-            Foreground="{DynamicResource Gray1}"
+            Foreground="{DynamicResource Primary}"
             FontSize="24" 
-            FontWeight="SemiBold"/>
+            FontWeight="Bold"/>
         <Grid 
             Width="270" 
             Height="40"
@@ -185,9 +185,9 @@
                 Command="{Binding CheckAttendanceCommand}"
                 CommandParameter="{Binding ElementName=wdCheckAttendance}"
                 FocusVisualStyle="{x:Null}"
-                Height="30" 
+                Height="35" 
                 Width="180"
-                materialDesign:ButtonAssist.CornerRadius="6"
+                materialDesign:ButtonAssist.CornerRadius="4"
                 ToolTip="Điểm danh" 
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Right"
@@ -204,9 +204,9 @@
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName=wdCheckAttendance}"
                 FocusVisualStyle="{x:Null}"
-                Height="30" 
+                Height="35" 
                 Width="80"
-                materialDesign:ButtonAssist.CornerRadius="6"
+                materialDesign:ButtonAssist.CornerRadius="4"
                 ToolTip="Thoát" 
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Right"
@@ -216,7 +216,7 @@
                 FontSize="16" 
                 FontWeight="SemiBold"
                 Padding="0" 
-                Margin="20,0,0,0"/>
+                Margin="30,0,0,0"/>
         </WrapPanel>
     </Grid>
 </Window>

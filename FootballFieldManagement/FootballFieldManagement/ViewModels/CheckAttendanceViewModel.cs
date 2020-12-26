@@ -81,7 +81,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (!AttendanceDAL.Instance.DeleteData())
                 {
-                    MessageBox.Show("Lỗi hệ thống!");
+                    CustomMessageBox.Show("Lỗi hệ thống!");
                     parameter.Close();
                 }
             }

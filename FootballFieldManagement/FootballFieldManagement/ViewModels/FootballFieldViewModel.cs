@@ -191,20 +191,20 @@ namespace FootballFieldManagement.ViewModels
             //Check các ô có bị null hay không?
             if (string.IsNullOrEmpty(parameter.txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên sân!");
+                CustomMessageBox.Show("Vui lòng nhập tên sân!");
                 parameter.txtName.Focus();
                 return;
             }
 
             if (string.IsNullOrEmpty(parameter.cboFieldType.Text))
             {
-                MessageBox.Show("Vui lòng chọn loại sân!");
+                CustomMessageBox.Show("Vui lòng chọn loại sân!");
                 parameter.cboFieldType.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.cboStatus.Text))
             {
-                MessageBox.Show("Vui lòng chọn trạng thái sân!");
+                CustomMessageBox.Show("Vui lòng chọn trạng thái sân!");
                 parameter.cboStatus.Focus();
                 return;
             }
@@ -227,13 +227,13 @@ namespace FootballFieldManagement.ViewModels
                 //Thực hiện lưu xuống database
                 if (FootballFieldDAL.Instance.CheckFieldName(parameter.txtName.Text))
                 {
-                    MessageBox.Show("Tên sân đã tồn tại!");
+                    CustomMessageBox.Show("Tên sân đã tồn tại!");
                     return;
                 }
                 if (FootballFieldDAL.Instance.AddIntoDB(newField))
                 {
                     isSuccess1 = true;
-                    MessageBox.Show("Thêm thành công!", "Thông báo");
+                    CustomMessageBox.Show("Thêm thành công!", "Thông báo");
 
                     //Hiển thị 
                     if (home.cboViews.SelectedIndex == 0)
@@ -261,7 +261,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Thêm thất bại!");
+                    CustomMessageBox.Show("Thêm thất bại!");
                 }
             }
             else
@@ -270,7 +270,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
                     isSuccess2 = true;
-                    MessageBox.Show("Cập nhật thành công!");
+                    CustomMessageBox.Show("Cập nhật thành công!");
                     //Cập nhật lên display
                     if (home.cboViews.SelectedIndex == 0)
                     {
@@ -294,7 +294,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật thất bại!");
+                    CustomMessageBox.Show("Cập nhật thất bại!");
                 }
             }
 
@@ -362,7 +362,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteListField(FieldDetailsControl control)
         {
-            MessageBoxResult result = MessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 //Lưu xuống DB
@@ -388,7 +388,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteCardField(FieldControl control)
         {
-            MessageBoxResult result = MessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 //Lưu xuống DB

@@ -160,20 +160,20 @@ namespace FootballFieldManagement.ViewModels
             //Check IdConfirm
             if (string.IsNullOrEmpty(parameter.pwbKey.Password))
             {
-                MessageBox.Show("Vui lòng nhập mã xác thực!");
+                CustomMessageBox.Show("Vui lòng nhập mã xác thực!");
                 parameter.pwbKey.Focus();
                 return;
             }
             if (parameter.pwbKey.Password != "admin")
             {
-                MessageBox.Show("Mã xác thực không đúng!");
+                CustomMessageBox.Show("Mã xác thực không đúng!");
                 parameter.pwbKey.Focus();
                 return;
             }
             //Check select employee
             if (string.IsNullOrEmpty(parameter.cboSelectEmployee.Text))
             {
-                MessageBox.Show("Vui lòng chọn nhân viên!");
+                CustomMessageBox.Show("Vui lòng chọn nhân viên!");
                 parameter.cboSelectEmployee.Focus();
                 return;
             }
@@ -181,14 +181,14 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (parameter.cboSelectEmployee.Text.ToString() != item.ToString())
                 {
-                    MessageBox.Show("Nhân viên không hợp lệ!");
+                    CustomMessageBox.Show("Nhân viên không hợp lệ!");
                     return;
                 }
             }
             // Check username
             if (string.IsNullOrEmpty(parameter.txtUsername.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                CustomMessageBox.Show("Vui lòng nhập tên đăng nhập!");
                 parameter.txtUsername.Focus();
                 return;
             }
@@ -196,7 +196,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (!((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
                 {
-                    MessageBox.Show("Không nhập các ký tự đặc biệt");
+                    CustomMessageBox.Show("Không nhập các ký tự đặc biệt");
                     return;
                 }
             }
@@ -205,26 +205,26 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (acc.Username == parameter.txtUsername.Text)
                 {
-                    MessageBox.Show("Tên tài khoản đã tồn tại!");
+                    CustomMessageBox.Show("Tên tài khoản đã tồn tại!");
                     return;
                 }
             }
             //Check password
             if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
             {
-                MessageBox.Show("Vui lòng nhập mật khẩu!");
+                CustomMessageBox.Show("Vui lòng nhập mật khẩu!");
                 parameter.pwbPassword.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.pwbPasswordConfirm.Password))
             {
-                MessageBox.Show("Vui lòng xác thực mật khẩu!");
+                CustomMessageBox.Show("Vui lòng xác thực mật khẩu!");
                 parameter.pwbPasswordConfirm.Focus();
                 return;
             }
             if (password != passwordConfirm)
             {
-                MessageBox.Show("Mật khẩu không trùng khớp!");
+                CustomMessageBox.Show("Mật khẩu không trùng khớp!");
                 return;
             }
             int type = 0;
@@ -237,7 +237,7 @@ namespace FootballFieldManagement.ViewModels
             selectedEmployee.IdAccount = setID(accounts);
             if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))
             {
-                MessageBox.Show("Đăng ký thành công!");
+                CustomMessageBox.Show("Đăng ký thành công!");
                 isSignUp = true;
                 parameter.cboSelectEmployee.Text = "";
                 parameter.txtUsername.Text = null;

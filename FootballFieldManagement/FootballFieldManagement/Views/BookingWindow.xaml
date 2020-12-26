@@ -36,7 +36,7 @@
             Visibility="Hidden"/>
         <TextBlock 
             x:Name="txbSetField" 
-	        Margin="0,20,0,0" 
+	        Margin="0,18,0,0" 
             TextWrapping="Wrap" 
             Text="Đặt sân" 
             VerticalAlignment="Top" 
@@ -47,7 +47,7 @@
             FontWeight="Bold" />
         <Grid 
             x:Name="grdPickDate" 
-            Margin="0,80,0,0" 
+            Margin="0,70,0,0" 
             VerticalAlignment="Top" 
             HorizontalAlignment="Center" 
             Width="360">
@@ -101,14 +101,14 @@
         </Grid>
         <Rectangle 
             HorizontalAlignment="Center" 
-            Height="2" 
-            Margin="0,150,0,0" 
-            Stroke="{StaticResource Primary}" 
+            Height="3" 
+            Margin="0,140,0,0" 
+            Fill="{StaticResource Primary}" 
             VerticalAlignment="Top" 
             Width="300"  />
         <Grid 
             x:Name="grdPickTime" 
-            Margin="0,160,0,0" 
+            Margin="0,150,0,0" 
             VerticalAlignment="Top"
             HorizontalAlignment="Center" 
             Height="46" 
@@ -217,7 +217,7 @@
             x:Name="grdUserName" 
             HorizontalAlignment="Center" 
             Height="48" 
-            Margin="0,220,0,0" 
+            Margin="0,210,0,0" 
             VerticalAlignment="Top"
             Width="360"  >
             <materialDesign:PackIcon 
@@ -236,14 +236,14 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Width="322" 
-                FontSize="16" 
+                FontSize="16" FontWeight="SemiBold" 
                 />
         </Grid>
         <Grid 
             x:Name="grdPassWord" 
             HorizontalAlignment="Center" 
             Height="48" 
-            Margin="0,280,0,0" 
+            Margin="0,270,0,0" 
             VerticalAlignment="Top" 
             Width="360"  >
             <materialDesign:PackIcon 
@@ -262,7 +262,7 @@
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Width="322" 
-                FontSize="16" >
+                FontSize="16" FontWeight="SemiBold" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="PreviewTextInput" >
                         <ei:CallMethodAction TargetObject="{Binding }" 
@@ -282,17 +282,16 @@
             materialDesign:HintAssist.Hint="Thông tin thêm"
             IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignOutlinedTextFieldTextBoxEnabledComboBox}" 
             HorizontalAlignment="Center" 
-            Margin="0,350,0,0" 
+            Margin="0,340,0,0" 
             Width="360" 
             Foreground="{StaticResource Gray1}" 
             BorderBrush="{StaticResource Gray5}" 
-            FontSize="16" />
+            FontSize="16" FontWeight="SemiBold" />
         <Grid  
-            Margin="0,450,0,0" 
+            Margin="0,445,0,0" 
             HorizontalAlignment="Center" 
             Width="360" 
-            VerticalAlignment="Top" 
-            Height="40" >
+            VerticalAlignment="Top" >
             <TextBlock  
                 TextWrapping="Wrap" 
                 Text="Giảm giá" 
@@ -306,14 +305,13 @@
                 FontWeight="Medium" />
             <Border 
                 Margin="0" 
-                Padding="5" 
                 BorderThickness="2" 
                 BorderBrush="{DynamicResource Gray4}"  
-                CornerRadius="8" 
+                CornerRadius="6" 
                 HorizontalAlignment="Right" 
-                VerticalAlignment="Top" 
+                VerticalAlignment="Bottom" 
                 Width="150" 
-                Height="40">
+                Height="35">
                 <TextBox 
                     x:Name="txbDisCount" 
                     Text="0" 
@@ -321,10 +319,7 @@
                     FontSize="18" 
                     Foreground="{StaticResource Primary}" 
                     FontWeight="SemiBold" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Center" 
-                    Width="140" 
-                    Height="30">
+                    Margin="5,0" VerticalContentAlignment="Bottom">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" 
@@ -336,18 +331,17 @@
         </Grid>
         <Rectangle 
             HorizontalAlignment="Center" 
-            Height="2" 
-            Margin="0,500,0,0" 
-            Stroke="{StaticResource Primary}"
-            VerticalAlignment="Top"
+            Height="3" 
+            Margin="0,0,0,120" 
+            Fill="{StaticResource Primary}"
+            VerticalAlignment="Bottom"
             Width="300"/>
         <Grid 
             x:Name="grdPrice" 
-            Margin="0,510,0,0" 
+            Margin="0,0,0,70" 
             HorizontalAlignment="Center" 
             Width="360" 
-            VerticalAlignment="Top" 
-            Height="40" >
+            VerticalAlignment="Bottom" >
             <TextBlock 
                 x:Name="txbPriceOfField" 
                 TextWrapping="Wrap" 
@@ -362,49 +356,40 @@
                 FontWeight="Medium" />
             <Border 
                 x:Name="brdPrice" 
-                Margin="0" 
-                Padding="5" 
+                Margin="0"
                 BorderThickness="2" 
                 BorderBrush="{DynamicResource Gray4}"  
-                CornerRadius="8" 
+                CornerRadius="6" 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Width="150" 
-                Height="40">
+                Height="35">
                 <TextBlock 
                     x:Name="txbPrice" 
-                    Text="" 
+                    Text="1" 
                     TextAlignment="Right" 
                     FontSize="18" 
                     Foreground="{StaticResource Primary}" 
-                    FontWeight="SemiBold" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Center" 
-                    Width="140" 
-                    Height="26"/>
+                    FontWeight="SemiBold"
+                    Margin="5,0" 
+                    Padding="0,5,0,0"/>
             </Border>
         </Grid>
         <Button 
             x:Name="btnSetField"
-            Style="{StaticResource MaterialDesignRaisedButton}"
+            Content="Đặt sân"
+            Style="{StaticResource MyPrimaryButtonStyle}"
             Command="{Binding HireFieldCommand}"
             CommandParameter="{Binding ElementName=wdBooking}"
             Height="40"
-            materialDesign:ButtonAssist.CornerRadius="8"
+            materialDesign:ButtonAssist.CornerRadius="6"
             ToolTip="Xác nhận đặt sân" 
-            Margin="0,560,0,0" 
-            Background="{StaticResource Primary}" 
-            BorderBrush="{x:Null}" 
-            Foreground="{StaticResource White}" 
-            FontSize="16" 
-            VerticalAlignment="Top" 
+            Margin="0,0,0,15" 
+            FontSize="20" 
+            FontWeight="SemiBold"
+            VerticalAlignment="Bottom" 
             HorizontalAlignment="Center" 
             Width="260"
-            FocusVisualStyle="{x:Null}">
-            <TextBlock
-                Text="Đặt sân" 
-                FontSize="20" 
-                FontWeight="Bold" />
-        </Button>
+            FocusVisualStyle="{x:Null}"/>
     </Grid>
 </Window>

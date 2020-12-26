@@ -505,7 +505,7 @@
                     Style="{StaticResource MyPrimaryButtonStyle}"
                     Height="40" 
                     Width="180"
-                    materialDesign:ButtonAssist.CornerRadius="6"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     ToolTip="Đăng nhập" 
                     VerticalAlignment="Center" 
                     Margin="0,0,250,0"
@@ -523,7 +523,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -882,7 +882,7 @@
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
                                            CommandParameter="{Binding ElementName=wdHome}"/>
-                                    </i:EventTrigger>   
+                                    </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <ComboBoxItem Content="Theo tháng"/>
                                 <ComboBoxItem Content="Theo quý"/>
@@ -959,7 +959,7 @@
                 Margin="0"
                 Grid.Row="1"
                 DataContext="{StaticResource BusinessVM}"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction 
@@ -971,7 +971,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="12*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="60"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
@@ -1009,7 +1009,7 @@
                         Content="Đặt sân"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="4"
                         ToolTip="Đặt sân" 
                         Margin="700,5,0,5" 
                         Background="{DynamicResource Success}" 
@@ -1035,7 +1035,7 @@
                         Content="Hôm nay"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="4"
                         ToolTip="Xem thông tin ngày hôm nay" 
                         Margin="940,5,0,5" 
                         Background="{DynamicResource Success}" 
@@ -1061,38 +1061,35 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled" 
                     Margin="0,10"
-                    Width="1120"
-                    Height="540">
+                    Width="1120">
                     <Grid 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top"
-                        Background="#FFDDDDDD" 
                         ScrollViewer.CanContentScroll="False" 
                         ScrollViewer.VerticalScrollBarVisibility="Disabled" >
-                        <Grid                             
-                            Height="36" 
-                            Margin="0,0,0,0" 
+                        <Grid
+                            Width="130" 
+                            Height="50"
+                            Margin="0" 
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top" 
                             Background="{DynamicResource Primary}">
                             <TextBlock 
                                 Text="Giờ" 
-                                HorizontalAlignment="Left" 
+                                HorizontalAlignment="Center" 
                                 Margin="0" 
                                 TextWrapping="Wrap" 
                                 VerticalAlignment="Center"
                                 TextAlignment="Center" 
-                                FontSize="16"
-                                Foreground="White" 
-                                FontWeight="SemiBold" 
-                                Width="130" 
-                                Height="26"/>
+                                FontSize="18"
+                                Foreground="{StaticResource White}" 
+                                FontWeight="SemiBold" />
                         </Grid>
                         <StackPanel 
                             x:Name="stkFieldTitle" 
                             Orientation="Horizontal" 
                             VerticalAlignment="Top" 
-                            Height="36" 
+                            Height="50" 
                             HorizontalAlignment="Left" 
                             CanHorizontallyScroll="True" 
                             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
@@ -1102,7 +1099,7 @@
                         <ScrollViewer
                             Style="{StaticResource FavsScrollViewer}"
                             VerticalScrollBarVisibility="Auto"
-                            Margin="0,36,0,0" 
+                            Margin="0,51,0,0" 
                             VerticalAlignment="Top" 
                             HorizontalAlignment="Left" >
                             <StackPanel
@@ -1116,70 +1113,109 @@
                 </Grid>
                 <StackPanel
                     Grid.Row="2"
-                    Height="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal" 
+                    Margin="40,0,0,0">
+                    <UserControls:FieldButtonControl Margin="0"/>
+                    <TextBlock
+                        Text="Sân không" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0"/>
+                    <UserControls:FieldButtonControl Margin="0"/>
+                    <TextBlock
+                        Text="Sân đã đặt" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0"/>
+                    <UserControls:FieldButtonControl Margin="0"/>
+                    <TextBlock
+                        Text="Sân đang đá" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0"/>
+                    <UserControls:FieldButtonControl Margin="0"/>
+                    <TextBlock
+                        Text="Đã thanh toán" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    DockPanel.Dock="Bottom"
                     Orientation="Horizontal" 
-                    Margin="0,0,50,-2">
-                    <WrapPanel 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" 
-                        Margin="0,0,0,5">
-                        <Button 
-                            x:Name="btnFirstPage" 
-                            Margin="10,5,10,5" 
-                            ToolTip="Trang đầu"
-                            Command="{Binding FirstPageCommand}"
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}" 
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronDoubleLeft" />
-                        </Button>
-                        <Button 
-                            x:Name="btnPreviousPage" 
-                            Margin="10,5,10,5"
-                            ToolTip="Trang trước"
-                            Command="{Binding PreviousPageCommand}" 
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}" 
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronLeft" />
-                        </Button>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center" />
-                        </Grid>
-                        <Button 
-                            x:Name="btnNextPage" 
-                            Margin="10,5,10,5" 
-                            ToolTip="Trang tiếp theo"
-                            Command="{Binding NextPageCommand}"
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}"
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronRight" />
-                        </Button>
-                        <Button 
-                            x:Name="btnLastPage" 
-                            Margin="10,5,10,5" 
-                            ToolTip="Trang cuối"
-                            Command="{Binding LastPageCommand}" 
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}" 
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronDoubleRight" />
-                        </Button>
-                    </WrapPanel>
+                    Margin="0,0,50,0">
+                    <Button 
+                        x:Name="btnFirstPage" 
+                        Margin="10,5,10,5" 
+                        ToolTip="Trang đầu"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding FirstPageCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Background="{DynamicResource Primary}" 
+                        Height="36">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronDoubleLeft"
+                            Width="26" 
+                            Height="26"
+                            Foreground="{DynamicResource White}" />
+                    </Button>
+                    <Button 
+                        x:Name="btnPreviousPage" 
+                        Margin="10,5,10,5"
+                        ToolTip="Trang trước"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding PreviousPageCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Background="{DynamicResource Primary}" 
+                        Height="36">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronLeft" 
+                            Width="26" 
+                            Height="26"
+                            Foreground="{DynamicResource White}" />
+                    </Button>
+                    <Button 
+                        x:Name="btnNextPage" 
+                        Margin="10,5,10,5" 
+                        ToolTip="Trang tiếp theo"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding NextPageCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Background="{DynamicResource Primary}"
+                        Height="36">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronRight" 
+                            Width="26"
+                            Height="26" 
+                            Foreground="{DynamicResource White}" />
+                    </Button>
+                    <Button 
+                        x:Name="btnLastPage" 
+                        Margin="10,5,10,5" 
+                        ToolTip="Trang cuối"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding LastPageCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Background="{DynamicResource Primary}" 
+                        Height="36">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronDoubleRight" 
+                            Width="26"
+                            Height="26" 
+                            Foreground="{DynamicResource White}" />
+                    </Button>
                 </StackPanel>
             </Grid>
             <Grid 
@@ -1656,8 +1692,8 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="1.5*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="140"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
@@ -1784,7 +1820,7 @@
                                 Margin="30,15,0,0">
                                 <ComboBox
                                     DataContext="{StaticResource ReportVM}"
-                                    x:Name="cboSelectPeriod_Report"
+                                    x:Name="cboSelectPeriodRp"
                                     materialDesign:ComboBoxAssist.ClassicMode="true"
                                     FontSize="16"
                                     FontWeight="Medium" 
@@ -1799,8 +1835,8 @@
                                     Margin="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
-                                            <i:InvokeCommandAction Command="{Binding Report_SelectionChangedCommand}" 
-                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                                            <i:InvokeCommandAction Command="{Binding RpSelectionChangedCommand}" 
+                                                                   CommandParameter="{Binding ElementName=wdHome}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <ComboBoxItem Content="Theo tháng"/>
@@ -1808,9 +1844,9 @@
                                     <ComboBoxItem Content="Theo năm"/>
                                 </ComboBox>
                                 <ComboBox
-                                    x:Name="cboSelectTime_Report"
+                                    x:Name="cboSelectTimeRp"
                                     DataContext="{StaticResource ReportVM}"
-                                    ItemsSource="{Binding report_ItemSourceTime, Mode=TwoWay}"
+                                    ItemsSource="{Binding RpItemSourceTime, Mode=TwoWay}"
                                     materialDesign:ComboBoxAssist.ClassicMode="true"
                                     FontSize="16"
                                     FontWeight="Medium" 
@@ -1825,8 +1861,8 @@
                                     Margin="60,0,0,0" >
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
-                                            <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
-                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                                            <i:InvokeCommandAction Command="{Binding RpInitColumnChartCommand}" 
+                                                                   CommandParameter="{Binding ElementName=wdHome}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </ComboBox>
@@ -1847,14 +1883,14 @@
                                 </Border.Effect>
                                 <lvc:CartesianChart 
                                     DataContext="{StaticResource ReportVM}"
-                                    Series="{Binding report_SeriesCollection}" 
+                                    Series="{Binding RpSeriesCollection}" 
                                     LegendLocation="Bottom"
                                     Margin="0" 
                                     FontSize="14" >
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis 
-                                            Title="{Binding report_AxisXTitle, Mode=TwoWay}" 
-                                            Labels="{Binding report_Labels, Mode=TwoWay}" 
+                                            Title="{Binding RpAxisXTitle, Mode=TwoWay}" 
+                                            Labels="{Binding RpLabels, Mode=TwoWay}" 
                                             Foreground="{DynamicResource Gray1}"
                                             FontSize="14">
                                             <lvc:Axis.Separator>
@@ -1865,14 +1901,14 @@
                                     <lvc:CartesianChart.AxisY>
                                         <lvc:Axis 
                                             Title="VNĐ" 
-                                            LabelFormatter="{Binding report_Formatter}"
+                                            LabelFormatter="{Binding RpFormatter}"
                                             Foreground="{DynamicResource Gray1}"
                                             FontSize="14"/>
                                     </lvc:CartesianChart.AxisY>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Initialized">
-                                            <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
-                                                    CommandParameter="{Binding ElementName=wdHome}"/>
+                                            <i:InvokeCommandAction Command="{Binding RpInitColumnChartCommand}" 
+                                                                   CommandParameter="{Binding ElementName=wdHome}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </lvc:CartesianChart>
@@ -2100,7 +2136,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <ComboBox
-                                x:Name="cboSelectViewModeStockReceipt"
+                                x:Name="cboSelectViewModeStR"
                                 DataContext="{StaticResource ReportVM}"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
                                 FontSize="16"
@@ -2117,7 +2153,7 @@
                                 VerticalAlignment="Center">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewModeCommandStockReceipt}" 
+                                        <i:InvokeCommandAction Command="{Binding ViewModeCommandStR}" 
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
@@ -2126,7 +2162,7 @@
                                 <ComboBoxItem Content="Theo năm"/>
                             </ComboBox>
                             <DatePicker 
-                                x:Name="dpSelectDateStockReceipt"
+                                x:Name="dpSelectDateStR"
                                 DataContext="{StaticResource ReportVM}"
                                 Visibility="Hidden"
                                 Height="40" 
@@ -2135,14 +2171,14 @@
                                 Margin="220,0,0,0" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectedDateChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByDateCommand}"
+                                        <i:InvokeCommandAction Command="{Binding ViewStRByDateCommand}"
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </DatePicker>
                             <ComboBox
-                                x:Name="cboSelectMonthStockReceipt"
-                                ItemsSource="{Binding ItemSourceMonthStockReceipt}"
+                                x:Name="cboSelectMonthStR"
+                                ItemsSource="{Binding ItemSourceMonthStR}"
                                 DataContext="{StaticResource ReportVM}"
                                 Visibility="Hidden"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -2159,14 +2195,14 @@
                                 MaxDropDownHeight="260" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByMonthCommand}" 
+                                        <i:InvokeCommandAction Command="{Binding ViewStRByMonthCommand}" 
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
                             <ComboBox
-                                x:Name="cboSelectYearStockReceipt"
-                                ItemsSource="{Binding ItemSourceYearStockReceipt}"
+                                x:Name="cboSelectYearStR"
+                                ItemsSource="{Binding ItemSourceYearStR}"
                                 Visibility="Hidden"
                                 DataContext="{StaticResource ReportVM}"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -2183,7 +2219,7 @@
                                 Margin="220,0,0,0" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByYearCommand}" 
+                                        <i:InvokeCommandAction Command="{Binding ViewStRByYearCommand}" 
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>

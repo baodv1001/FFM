@@ -65,13 +65,13 @@ namespace FootballFieldManagement.ViewModels
         {
             if (string.IsNullOrEmpty(parameter.txtName.Text))
             {
-                MessageBox.Show("Vui lòng nhập họ tên!");
+                CustomMessageBox.Show("Vui lòng nhập họ tên!");
                 parameter.txtName.Focus();
                 return;
             }
             if (parameter.cboPosition.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập chức vụ!");
+                CustomMessageBox.Show("Vui lòng nhập chức vụ!");
                 parameter.cboPosition.Focus();
                 return;
             }
@@ -79,14 +79,14 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (parameter.cboPosition.Text != "Bảo vệ" && parameter.cboPosition.Text != "Nhân viên quản lý" && parameter.cboPosition.Text != "Nhân viên thu ngân")
                 {
-                    MessageBox.Show("Vui lòng nhập đúng chức vụ!");
+                    CustomMessageBox.Show("Vui lòng nhập đúng chức vụ!");
                     parameter.cboPosition.Focus();
                     return;
                 }
             }
             if (parameter.dpBirthDate.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập ngày sinh!");
+                CustomMessageBox.Show("Vui lòng nhập ngày sinh!");
                 parameter.dpBirthDate.Focus();
                 return;
             }
@@ -95,26 +95,26 @@ namespace FootballFieldManagement.ViewModels
                 DateTime dateTime = new DateTime();
                 if (!DateTime.TryParse(parameter.dpBirthDate.Text, out dateTime))
                 {
-                    MessageBox.Show("Vui lòng nhập lại ngày sinh!");
+                    CustomMessageBox.Show("Vui lòng nhập lại ngày sinh!");
                     parameter.dpBirthDate.Focus();
                     return;
                 }
             }
             if (parameter.txtAddress.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập địa chỉ!");
+                CustomMessageBox.Show("Vui lòng nhập địa chỉ!");
                 parameter.txtAddress.Focus();
                 return;
             }
             if (parameter.txtTelephoneNumber.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập số điện thoại!");
+                CustomMessageBox.Show("Vui lòng nhập số điện thoại!");
                 parameter.txtTelephoneNumber.Focus();
                 return;
             }
             if (parameter.dpWorkDate.Text == "")
             {
-                MessageBox.Show("Vui lòng nhập ngày vào làm!");
+                CustomMessageBox.Show("Vui lòng nhập ngày vào làm!");
                 parameter.dpWorkDate.Focus();
                 return;
             }
@@ -123,13 +123,13 @@ namespace FootballFieldManagement.ViewModels
                 DateTime dateTime = new DateTime();
                 if (!DateTime.TryParse(parameter.dpWorkDate.Text, out dateTime))
                 {
-                    MessageBox.Show("Vui lòng nhập lại ngày vào làm!");
+                    CustomMessageBox.Show("Vui lòng nhập lại ngày vào làm!");
                     parameter.dpWorkDate.Focus();
                     return;
                 }
                 if (dateTime < DateTime.Parse(parameter.dpBirthDate.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập lại ngày vào làm lớn hơn ngày sinh!");
+                    CustomMessageBox.Show("Vui lòng nhập lại ngày vào làm lớn hơn ngày sinh!");
                     parameter.dpWorkDate.Focus();
                     return;
                 }
@@ -140,7 +140,7 @@ namespace FootballFieldManagement.ViewModels
                 gender = "Nữ";
             if (parameter.grdSelectImage.Background == null)
             {
-                MessageBox.Show("Vui lòng thêm hình ảnh!");
+                CustomMessageBox.Show("Vui lòng thêm hình ảnh!");
                 return;
             }
             byte[] imgByteArr;
@@ -217,7 +217,7 @@ namespace FootballFieldManagement.ViewModels
         //UC Employee
         public void DeleteEmployee(EmployeeControl parameter)
         {
-            MessageBoxResult result = MessageBox.Show("Xác nhận xóa nhân viên?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Xác nhận xóa nhân viên?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -230,11 +230,11 @@ namespace FootballFieldManagement.ViewModels
                 bool isSuccess6 = AccountDAL.Instance.DeleteAccount(employee.IdAccount.ToString());
                 if ((isSuccess1 && isSuccess2 && isSuccess3 && isSuccess4 && isSuccess5 && isSuccess6) || (isSuccess3))
                 {
-                    MessageBox.Show("Đã xóa thành công!");
+                    CustomMessageBox.Show("Đã xóa thành công!");
                 }
                 else
                 {
-                    MessageBox.Show("Xoá thất bại");
+                    CustomMessageBox.Show("Xoá thất bại");
                 }
             }
         }
@@ -328,31 +328,31 @@ namespace FootballFieldManagement.ViewModels
             }
             if (string.IsNullOrEmpty(parameter.cboTypeEmployee.Text))
             {
-                MessageBox.Show("Vui lòng chọn loại nhân viên!");
+                CustomMessageBox.Show("Vui lòng chọn loại nhân viên!");
                 parameter.cboTypeEmployee.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtSalaryBasic.Text))
             {
-                MessageBox.Show("Vui lòng nhập mức lương cơ bản!");
+                CustomMessageBox.Show("Vui lòng nhập mức lương cơ bản!");
                 parameter.txtSalaryBasic.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtOvertime.Text))
             {
-                MessageBox.Show("Vui lòng nhập số tiền mỗi ca!");
+                CustomMessageBox.Show("Vui lòng nhập số tiền mỗi ca!");
                 parameter.txtOvertime.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.txtSalaryDeduction.Text))
             {
-                MessageBox.Show("Vui lòng nhập số tiền mỗi lỗi!");
+                CustomMessageBox.Show("Vui lòng nhập số tiền mỗi lỗi!");
                 parameter.txtSalaryDeduction.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.cboStandardWorkDays.Text))
             {
-                MessageBox.Show("Vui lòng nhập số ngày công chuẩn!");
+                CustomMessageBox.Show("Vui lòng nhập số ngày công chuẩn!");
                 parameter.txtSalaryDeduction.Focus();
                 return;
             }
@@ -369,7 +369,7 @@ namespace FootballFieldManagement.ViewModels
                     salary.IdEmployee = tmp.IdEmployee;
                     if (!SalaryDAL.Instance.ResetSalary(salary))
                     {
-                        MessageBox.Show("Thiết lập lương thất bại!");
+                        CustomMessageBox.Show("Thiết lập lương thất bại!");
                         parameter.Close();
                         return;
                     }
@@ -385,14 +385,14 @@ namespace FootballFieldManagement.ViewModels
                         salary.IdEmployee = employee.IdEmployee;
                         if (!SalaryDAL.Instance.AddIntoDB(salary))
                         {
-                            MessageBox.Show("Thiết lập lương thất bại!");
+                            CustomMessageBox.Show("Thiết lập lương thất bại!");
                             parameter.Close();
                             return;
                         }
                     }
                 }
             }
-            MessageBox.Show("Thiết lập lương thành công!");
+            CustomMessageBox.Show("Thiết lập lương thành công!");
             parameter.Close();
         }
         public void SetBaseSalary(AddEmployeeWindow parameter)

@@ -114,14 +114,14 @@ namespace FootballFieldManagement.ViewModels
             //check username
             if (string.IsNullOrEmpty(parameter.txtUsername.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                CustomMessageBox.Show("Vui lòng nhập tên đăng nhập!");
                 parameter.txtUsername.Focus();
                 return;
             }
             //check password
             if (string.IsNullOrEmpty(parameter.txtPassword.Password))
             {
-                MessageBox.Show("Vui lòng nhập mật khẩu!");
+                CustomMessageBox.Show("Vui lòng nhập mật khẩu!");
                 parameter.txtPassword.Focus();
                 return;
             }
@@ -149,6 +149,7 @@ namespace FootballFieldManagement.ViewModels
                     CurrentAccount.IdAccount = account.IdAccount;
                     CurrentAccount.Password = password;
                     isLogin = true;
+                    break;
                 }
             }
             if (isLogin)
@@ -165,7 +166,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
+                CustomMessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
             }
         }
         public void DisplayEmployee(Employee employee, HomeWindow home)
@@ -188,7 +189,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 home.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                home.grdCursor.Margin = new Thickness(0, (175 + 70 * 1), 40, 0);
+                home.grdCursor.Margin = new Thickness(0, (175 + 65 * 1), 40, 0);
             }
             else
             {

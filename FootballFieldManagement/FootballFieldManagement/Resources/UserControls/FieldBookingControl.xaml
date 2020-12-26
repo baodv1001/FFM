@@ -7,99 +7,59 @@
     xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
     mc:Ignorable="d" 
     Width="1120" 
-    Height="56" 
-    Margin="0,0">
-    <Grid
-        Width="Auto"
-        Background="#FFE5F1FF" 
-        Height="56" >
+    Height="50" 
+    Margin="0,0,0,2" >
+    <Grid 
+        x:Name="grdMain"    
+        Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="130"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid 
-            Grid.Column="0"
-            Width="130" 
-            Height="36" 
-            HorizontalAlignment="Center" 
-            VerticalAlignment="Center">
-            <Border 
-                x:Name="brdMain"
-                BorderThickness="2"
-                HorizontalAlignment="Left"
-                Height="36"
-                Margin="5,0" 
-                VerticalAlignment="Top" 
-                Width="120" 
-                Padding="0" 
-                CornerRadius="6" 
-                Background="{DynamicResource White}"/>
+            Background="{StaticResource Primary}"
+            Grid.Column="0">
             <Grid 
-                Width="130" 
-                Height="36"
-                Margin="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="7*"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
+                Width="100" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Center">
                 <TextBlock 
                     x:Name="txbstartTime"
-                    Text="Sân 1" 
+                    Text="10:00" 
                     HorizontalAlignment="Left" 
-                    Margin="4,8,0,8" 
+                    Margin="0" 
                     TextWrapping="Wrap" 
                     VerticalAlignment="Center"
                     TextAlignment="Center" 
-                    Height="20" 
-                    Width="60" 
-                    FontSize="16" 
-                    Foreground="{DynamicResource Black1}" 
-                    FontWeight="SemiBold" 
-                    Grid.RowSpan="2"/>
+                    FontSize="16"
+                    Foreground="{DynamicResource White}"
+                    FontWeight="SemiBold"/>
                 <TextBlock 
-                    x:Name="txbDivide" 
                     Text="-" 
                     HorizontalAlignment="Center" 
-                    Margin="42,7" 
-                    TextWrapping="Wrap" 
                     VerticalAlignment="Center"
-                    TextAlignment="Center"
-                    FontWeight="SemiBold" 
-                    Height="22" 
-                    Width="36" 
-                    FontSize="16" 
-                    Foreground="{DynamicResource Black1}" 
-                    Grid.RowSpan="2"/>
+                    FontWeight="Bold"
+                    FontSize="16"
+                    Foreground="{DynamicResource White}" />
                 <TextBlock 
                     x:Name="txbendTime"
-                    Text="Sân 1" 
+                    Text="11:00" 
                     HorizontalAlignment="Right" 
-                    Margin="0,8,4,8" 
+                    Margin="0" 
                     TextWrapping="Wrap" 
                     TextAlignment="Center"
-                    VerticalAlignment="Center" 
-                    Height="20" 
-                    Width="60" 
-                    FontSize="16" 
-                    Foreground="{DynamicResource Black1}" 
-                    FontWeight="SemiBold" 
-                    Grid.RowSpan="2"/>
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="{DynamicResource White}"
+                    FontWeight="SemiBold"/>
             </Grid>
         </Grid>
         <StackPanel
             Grid.Column="1"
             x:Name="stkMain"
-            Orientation="Horizontal"
+            Orientation="Horizontal" 
             Margin="0" 
             VerticalAlignment="Center">
-            <StackPanel.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </StackPanel.RenderTransform>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -86,6 +86,7 @@
     </ApplicationDefinition>
     <Compile Include="Converter.cs" />
     <Compile Include="CurrentAccount.cs" />
+    <Compile Include="CustomMessageBox.cs" />
     <Compile Include="DAL\BillDAL.cs" />
     <Compile Include="DAL\BillInfoDAL.cs" />
     <Compile Include="DAL\FieldInfoDAL.cs" />
@@ -156,6 +157,7 @@
     <Compile Include="Resources\UserControls\StockReceiptInfoControl.xaml.cs">
       <DependentUpon>StockReceiptInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
     <Compile Include="ViewModels\BusinessViewModel.cs" />
     <Compile Include="ViewModels\FootballFieldViewModel.cs" />
     <Compile Include="ViewModels\PayViewModel.cs" />
@@ -185,6 +187,9 @@
     </Compile>
     <Compile Include="Views\ForgotPasswordWindow.xaml.cs">
       <DependentUpon>ForgotPasswordWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomMessageBoxWindow.xaml.cs">
+      <DependentUpon>CustomMessageBoxWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ImportGoodsWindow.xaml.cs">
       <DependentUpon>ImportGoodsWindow.xaml</DependentUpon>
@@ -349,6 +354,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ForgotPasswordWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CustomMessageBoxWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

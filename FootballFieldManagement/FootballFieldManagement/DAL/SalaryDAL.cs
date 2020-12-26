@@ -92,8 +92,80 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public List<Salary> GetPaidSalary(string month, string year)
+        {
+            try
+            {
+                List<Salary> salaries = new List<Salary>();
+                conn.Open();
+                string query = @"select * from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idSalaryRecord is not null";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@month", month);
+                cmd.Parameters.AddWithValue("@year", year);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    int idSalaryRecord = -1;
+                    if (dt.Rows[i].ItemArray[5].ToString() != "")
+                    {
+                        idSalaryRecord = int.Parse(dt.Rows[i].ItemArray[5].ToString());
+                    }
+                    Salary salary = new Salary(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
+                        int.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString())
+                        , DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), idSalaryRecord);
+                    salaries.Add(salary);
+                }
+                return salaries;
+            }
+            catch
+            {
+                return new List<Salary>();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public List<Salary> GetUnPaidSalary(string idEmployee, string month, string year)
+        {
+            List<Salary> salaries = new List<Salary>();
+            try
+            {
+                conn.Open();
+                string query = @"select* from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idEmployee =@idEmployee and idSalaryRecord is null";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@month", month);
+                cmd.Parameters.AddWithValue("@year", year);
+                cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    int idSalaryRecord = -1;
+                    if (dt.Rows[i].ItemArray[5].ToString() != "")
+                    {
+                        idSalaryRecord = int.Parse(dt.Rows[i].ItemArray[5].ToString());
+                    }
+                    Salary salary = new Salary(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
+                        int.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString())
+                        , DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), idSalaryRecord);
+                    salaries.Add(salary);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Lỗi!");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return salaries;
+        }
 
-        
         public bool AddIntoDB(Salary salary)
         {
             try
@@ -127,7 +199,8 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = "update Salary set idSalaryRecord = @idSalaryRecord where month(salaryMonth) = @month and year(salaryMonth) = @year";
+                string query = "update Salary set idSalaryRecord = @idSalaryRecord where month(salaryMonth) = @month and year(salaryMonth) = @year "
+                                + "and idEmployee in (select idEmployee from Employee where isDeleted = 0)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idSalaryRecord", id.ToString());
                 cmd.Parameters.AddWithValue("@month", month.ToString());
@@ -141,7 +214,7 @@ namespace FootballFieldManagement.DAL
                 {
                     return true;
                 }
-            }
+        }
             catch
             {
                 return false;
@@ -150,7 +223,7 @@ namespace FootballFieldManagement.DAL
             {
                 conn.Close();
             }
-        }
+}
         public bool UpdateQuantity(Salary salary)
         {
             try
@@ -249,17 +322,15 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"select distinct(idSalaryRecord) from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year";
+                string query = @"select distinct(idSalaryRecord) from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idSalaryRecord is not null";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@month", month);
                 cmd.Parameters.AddWithValue("@year", year);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
-                if (dt.Rows[0].ItemArray[0].ToString() == "")
-                {
+                if (dt.Rows.Count < 1)
                     return false;
-                }
                 else
                 {
                     return true;
@@ -276,13 +347,46 @@ namespace FootballFieldManagement.DAL
             }
         }
 
-        public long GetSumSalary()
+        public long GetTotalSalary(string idEmployee, string month, string year)
         {
             try
             {
                 conn.Open();
-                string query = "select Sum(totalSalary) from Salary";
+                string query = "select totalSalary from Salary where idEmployee = @idEmployee and month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
+                cmd.Parameters.AddWithValue("@month", month);
+                cmd.Parameters.AddWithValue("@year", year);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Rows[0].ItemArray[0].ToString() != "")
+                {
+                    return long.Parse(dt.Rows[0].ItemArray[0].ToString());
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch
+            {
+                return -1;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public long GetSumSalary(string month, string year)
+        {
+            try
+            {
+                conn.Open();
+                string query = "select Sum(totalSalary) from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idSalaryRecord is not null";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@month", month);
+                cmd.Parameters.AddWithValue("@year", year);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
@@ -304,6 +408,46 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+
+        public List<Salary> GetSalaryOfEmployee(string month, string year) // Lấy lương của những nhân viên đang làm việc
+        {
+            List<Salary> salaries = new List<Salary>();
+            try
+            {
+                conn.Open();
+                string query = "select Salary.idEmployee, Salary.numOfShift, Salary.numOfFault, Salary.totalSalary , Salary.salaryMonth, Salary.idSalaryRecord from Salary " +
+                                "join Employee on Salary.idEmployee = Employee.idEmployee" +
+                                 " where Employee.isDeleted = 0 and month(Salary.salaryMonth) = @month and year(Salary.salaryMonth) =@year";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@month", month);
+                cmd.Parameters.AddWithValue("@year", year);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    int idSalaryRecord = -1;
+                    if (dt.Rows[i].ItemArray[5].ToString() != "")
+                    {
+                        idSalaryRecord = int.Parse(dt.Rows[i].ItemArray[5].ToString());
+                    }
+                    Salary salary = new Salary(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
+                        int.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString())
+                        , DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), idSalaryRecord);
+                    salaries.Add(salary);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Lỗi!");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return salaries;
+        }
+
         /*public List<Salary> GetSalaryInfoById(string idSalaryRecord)
         {
             List<Salary> listSalaryInfo = new List<Salary>();

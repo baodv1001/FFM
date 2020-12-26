@@ -159,6 +159,14 @@ namespace FootballFieldManagement.ViewModels
             }
             if (isLogin)
             {
+                if (AttendanceDAL.Instance.GetMonth() != DateTime.Now.Month && AttendanceDAL.Instance.GetMonth() != 0)
+                {
+                    if (!AttendanceDAL.Instance.DeleteData())
+                    {
+                        MessageBox.Show("Lỗi hệ thống!");
+                        return;
+                    }
+                }
                 HomeWindow home = new HomeWindow();
                 home.txbFieldName.Text = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
                 SetJurisdiction(home);

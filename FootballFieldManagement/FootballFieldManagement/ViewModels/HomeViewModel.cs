@@ -44,7 +44,7 @@ namespace FootballFieldManagement.ViewModels
             SwitchTabCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => SwitchTab(parameter));
             GetUidCommand = new RelayCommand<Button>((parameter) => true, (parameter) => uid = parameter.Uid);
 
-            E_LoadCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadEmployeesToView(parameter));
+            E_LoadCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => LoadTabEmployee(parameter));
             E_AddCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => AddEmployee(parameter));
             E_SetSalaryCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSetSalaryWindow());
             E_CalculateSalaryCommand = new RelayCommand<HomeWindow>((parameter) => true, (parameter) => CalculateSalary(parameter));
@@ -56,8 +56,7 @@ namespace FootballFieldManagement.ViewModels
 
             OpenCheckAttendanceWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenCheckAttendanceWindow(parameter));
         }
-       
-        
+
         public void SaveNewPassword(HomeWindow parameter)
         {
 
@@ -248,45 +247,6 @@ namespace FootballFieldManagement.ViewModels
             parameter.Show();
         }
         //Tab employee
-        public void PaySalary(HomeWindow parameter)
-        {
-            MessageBoxResult result = MessageBox.Show("Bạn có chắc chắn là đã tính lương trước chưa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
-            {
-                bool sucess = true;
-                if (SalarySettingDAL.Instance.ConvertDBToList().Count == 0)
-                {
-                    MessageBox.Show("Vui lòng thiết lập lương");
-                    SetSalaryWindow wdSetSalary = new SetSalaryWindow();
-                    wdSetSalary.ShowDialog();
-                    return;
-                }
-                foreach (var salary in SalaryDAL.Instance.ConvertDBToList())
-                {
-                    if (salary.TotalSalary == -1)
-                    {
-                        MessageBox.Show("Vui lòng tính lương trước!");
-                        return;
-                    }
-                    salary.TotalSalary = -1;
-                    salary.NumOfFault = 0;
-                    salary.NumOfShift = 0;
-                    if (!SalaryDAL.Instance.UpdateTotalSalary(salary) || !SalaryDAL.Instance.UpdateQuantity(salary))
-                    {
-                        sucess = false;
-                        break;
-                    }
-                }
-                if (sucess)
-                {
-                    MessageBox.Show("Đã trả lương!");
-                }
-                else
-                {
-                    MessageBox.Show("Trả lương thất bại!");
-                }
-            }
-        }
         public void CalculateSalary(HomeWindow home)
         {
             foreach (string item in EmployeeDAL.Instance.GetAllPosition())
@@ -301,7 +261,6 @@ namespace FootballFieldManagement.ViewModels
                     return;
                 }
             }
-            int i = 1;
             bool success = true;
             foreach (var salary in SalaryDAL.Instance.GetSalaryByMonth(DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString()))
             {
@@ -333,6 +292,11 @@ namespace FootballFieldManagement.ViewModels
             if (success)
             {
                 MessageBox.Show("Tính lương thành công!");
+                for (int i = 0; i < home.stkEmployee.Children.Count; i++)
+                {
+                    EmployeeControl control = (EmployeeControl)home.stkEmployee.Children[i];
+                    control.txbTotalSalary.Text = string.Format("{0:N0}", SalaryDAL.Instance.GetTotalSalary(control.txbId.Text, DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString()));
+                }
             }
             else
             {
@@ -370,9 +334,17 @@ namespace FootballFieldManagement.ViewModels
                 LoadEmployeesToView(parameter);
             }
         }
-
+        public void LoadTabEmployee(HomeWindow home)
+        {
+            LoadEmployeesToView(home);
+            if (SalaryDAL.Instance.IsExistIdSalaryRecord(DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString()))
+            {
+                home.btnCalculateSalary.IsEnabled = false;
+            }
+        }
         public void LoadEmployeesToView(HomeWindow homeWindow)
         {
+
             int i = 1;
             homeWindow.stkEmployee.Children.Clear();
             bool flag = false;
@@ -387,8 +359,10 @@ namespace FootballFieldManagement.ViewModels
                 }
                 temp.txbSerial.Text = i.ToString();
                 i++;
+                temp.nsNumOfFault.IsEnabled = false;
+                temp.nsNumOfShift.IsEnabled = false;
                 // load number fault and overtime and salary
-                if(salaries.Count < 1)
+                if (salaries.Count < 1)
                 {
                     Salary tmp = new Salary();
                     tmp.IdEmployee = employee.IdEmployee;
@@ -401,10 +375,12 @@ namespace FootballFieldManagement.ViewModels
                     temp.nsNumOfFault.Text = 0;
                     temp.txbTotalSalary.Text = "0";
                 }
-                foreach (var salary in salaries)
+                foreach (var salary in SalaryDAL.Instance.GetUnPaidSalary(employee.IdEmployee.ToString(), DateTime.Now.Month.ToString(), DateTime.Now.Year.ToString()))
                 {
-                    if (employee.IdEmployee == salary.IdEmployee)
+                    if (employee.IdEmployee == salary.IdEmployee && salary.IdSalaryRecord == -1)
                     {
+                        temp.nsNumOfShift.IsEnabled = true;
+                        temp.nsNumOfFault.IsEnabled = true;
                         temp.nsNumOfShift.Text = decimal.Parse(salary.NumOfShift.ToString());
                         temp.nsNumOfFault.Text = decimal.Parse(salary.NumOfFault.ToString());
                         if (salary.TotalSalary == -1)

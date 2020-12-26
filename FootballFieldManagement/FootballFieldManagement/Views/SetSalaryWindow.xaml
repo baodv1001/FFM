@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:FootballFieldManagement"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
         mc:Ignorable="d"
         DataContext="{StaticResource EmployeeVM}"
@@ -18,7 +19,8 @@
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded" >
-            <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetItemSourceDay"></ei:CallMethodAction>
+            <i:InvokeCommandAction Command="{Binding LoadedSetSalaryCommand}" 
+                                   CommandParameter="{Binding ElementName=wdSetSalary}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
@@ -61,7 +63,6 @@
                     x:Name="cboTypeEmployee"
                     materialDesign:ComboBoxAssist.ClassicMode="true"
                     materialDesign:HintAssist.Hint="Chọn nhân viên" 
-                    IsEditable="True"
                     Height="44" 
                     FontSize="14"
                     Width="205"
@@ -79,8 +80,9 @@
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=wdSetSalary}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <ComboBoxItem Content="Bảo vệ"/>
-                    <ComboBoxItem Content="Nhân viên quản lý"/>
+                    <ComboBoxItem  Content="Nhân viên quản lý"/>
+                    <ComboBoxItem  Content="Nhân viên thu ngân"/>
+                    <ComboBoxItem  Content="Bảo vệ"/>
                 </ComboBox>
             </Grid>
             <Grid 
@@ -124,7 +126,9 @@
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left" 
-                    TabIndex="1" FontWeight="SemiBold">
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                    TabIndex="1"
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
@@ -134,6 +138,13 @@
                                                    CommandParameter="{Binding ElementName=txtSalaryBasic}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="SalaryBase" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập lương cho nhân viên"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
             </Grid>
             <Grid 
@@ -153,7 +164,8 @@
                 <TextBox 
                     x:Name="txtOvertime"
                     MaxLength="10"
-                    Foreground="{DynamicResource Gray1}" 
+                    Foreground="{StaticResource Gray1}" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Right" 
@@ -170,6 +182,13 @@
                             <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtOvertime}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="MoneyPerShift" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập tiền tăng ca"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
                 <Label
                     Width="70"
@@ -199,7 +218,8 @@
                 <TextBox 
                     x:Name="txtSalaryDeduction"
                     VerticalAlignment="Center" 
-                    Foreground="{DynamicResource Gray1}" 
+                    Foreground="{StaticResource Gray1}" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Right" 
                     HorizontalAlignment="Left" 
@@ -216,6 +236,13 @@
                             <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" CommandParameter="{Binding ElementName=txtSalaryDeduction}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="MoneyPerFault" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập tiền phạt"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
                 <Label
                     Width="70"
@@ -252,30 +279,43 @@
                     RadiusX="6" 
                     Stroke="#FFBDBDBD" 
                     Margin="175,0,0,0"/>
-                <ComboBox
-                    x:Name="cboStandardWorkDays"
-                    materialDesign:ComboBoxAssist.ClassicMode="true"
-                    materialDesign:HintAssist.Hint="Số ngày công chuẩn" 
+                <TextBox 
+                    x:Name="txtStandardWorkDays"
+                    materialDesign:HintAssist.Hint="Số ngày công chuẩn"
+                    HorizontalAlignment="Right"
+                    MaxLength="15"
                     Height="44" 
-                    FontSize="14"
-                    Width="205"
-                    BorderThickness="0"
-                    Foreground="{DynamicResource Gray1}"  
-                    ItemsSource="{Binding ItemSourceDay}"
-                    Padding="0" 
-                    Margin="0,0,14,0" 
-                    HorizontalAlignment="Right" 
+                    Width="205" 
+                    FontSize="14" 
+                    BorderThickness="0" 
+                    MaxLines="1"
+                    Padding="0"
+                    Foreground="{StaticResource Gray1}" 
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                    Margin="0,0,14,0"
                     VerticalAlignment="Center" 
-                    HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    TabIndex="2" FontWeight="SemiBold"/>
+                    HorizontalContentAlignment="Left" 
+                    TabIndex="2"
+                    FontWeight="SemiBold">
+                    <TextBox.Text>
+                        <Binding Path="StandardWorkDays" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:RangeOfNumberValidation Min="1" 
+                                                            Max="30"
+                                                            ErrorMessageNull="Vui lòng nhập số ngày công chuẩn"
+                                                            ErrorMessage="Chỉ nhập các số có phạm vị 1 - 30"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
         </Grid>
         <Grid 
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Width="220" 
-            Margin="0,0,30,30">
+            Margin="0,0,30,15">
             <Button
                 x:Name="btnSave"
                 IsDefault="True"

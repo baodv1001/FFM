@@ -31,9 +31,13 @@ namespace FootballFieldManagement.ViewModels
         public ObservableCollection<string> ItemSourceFieldType { get => itemSourceFieldType; set { itemSourceFieldType = value; OnPropertyChanged(); } }
 
         private bool isChanged; // kiểm tra có sự thay đổi nào không
-        public bool IsChanged { get => isChanged; set => isChanged = value; }
+        public bool IsChanged { get => isChanged;  set => isChanged = value; }
         private string price;
-        public string Price { get => price; set => price = value; }
+        public string Price { get => price;  set => price = value; }
+        public string OpenTime { get; set; }
+        public string CloseTime { get; set; }
+        public string TimePerMatch { get; set; }
+
         private SetTimeFrameWindow setTimeWd;
         public SetTimeFrameWindow SetTimeWd { get => setTimeWd; set => setTimeWd = value; }
 
@@ -97,18 +101,28 @@ namespace FootballFieldManagement.ViewModels
             wdSetTime.cboFieldType.SelectedIndex = 0;
             if (tmpTimeFrames.Count != 0)
             {
-                wdSetTime.tpkOpenTime.Text = tmpTimeFrames[0].StartTime;
-                wdSetTime.tpkCloseTime.Text = tmpTimeFrames[tmpTimeFrames.Count - 1].EndTime;
+                wdSetTime.tpkOpenTime.SelectedTime = DateTime.Parse(tmpTimeFrames[0].StartTime);
+                wdSetTime.tpkCloseTime.SelectedTime = DateTime.Parse(tmpTimeFrames[tmpTimeFrames.Count - 1].EndTime);
             }
-
+            wdSetTime.cboTimePerMatch.Text = null;
             ChangedFieldType(wdSetTime);
         }
         public void GenerateTimeFrame(SetTimeFrameWindow wdSetTime)
         {
-            if (string.IsNullOrEmpty(wdSetTime.tpkOpenTime.Text) || string.IsNullOrEmpty(wdSetTime.tpkCloseTime.Text) || wdSetTime.cboTimePerMatch.SelectedItem == null)
+            if (string.IsNullOrEmpty(wdSetTime.tpkOpenTime.Text))
             {
-                wdSetTime.cboTimePerMatch.SelectedItem = null;
-                CustomMessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                wdSetTime.tpkOpenTime.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(wdSetTime.tpkCloseTime.Text))
+            {
+                wdSetTime.tpkCloseTime.Focus();
+                return;
+            }
+            if (string.IsNullOrEmpty(wdSetTime.cboTimePerMatch.Text))
+            {
+                wdSetTime.cboTimePerMatch.Focus();
+                wdSetTime.cboTimePerMatch.Text = "";
                 return;
             }
             if (CovertToMinute(wdSetTime.tpkOpenTime.Text) > CovertToMinute(wdSetTime.tpkCloseTime.Text))

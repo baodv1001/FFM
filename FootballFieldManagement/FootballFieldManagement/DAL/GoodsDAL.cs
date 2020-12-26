@@ -224,5 +224,33 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public bool isExistGoodsName(string goodsName)
+        {
+            try
+            {
+                conn.Open();
+                string query = @"select * from Goods where name = '" + goodsName + "'";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Rows.Count == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return true;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

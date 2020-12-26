@@ -6,12 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:vm ="clr-namespace:FootballFieldManagement.ViewModels"
+        xmlns:vd="clr-namespace:FootballFieldManagement.Validations"
         mc:Ignorable="d"
         DataContext="{StaticResource SignUpVM}"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Đăng ký tài khoản" 
-        Height="610"
+        Height="630"
         Width="390" 
         Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
         WindowStartupLocation="CenterScreen"
@@ -21,17 +21,6 @@
             <i:InvokeCommandAction Command="{Binding LoadCommand}" CommandParameter="{Binding ElementName=wdSignUp}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Window.Resources>
-        <ControlTemplate x:Key="textBoxErrorTemplate">
-            <StackPanel>
-                <AdornedElementPlaceholder x:Name="placeholder"/>
-                <TextBlock 
-                    DockPanel.Dock="Bottom" 
-                    Foreground="Red"
-                    Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
-            </StackPanel>
-        </ControlTemplate>
-    </Window.Resources>
     <Grid 
         Background="#FFFFFFFF">
         <Grid.Effect>
@@ -53,7 +42,7 @@
             Foreground="{StaticResource Primary}"/>
         <Grid 
             HorizontalAlignment="Center" 
-            Height="330" 
+            Height="350" 
             Margin="0,110,0,0"
             VerticalAlignment="Top" 
             Width="270">
@@ -62,7 +51,7 @@
                 Height="50"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top"
-                Margin="0,70,0,0">
+                Margin="0,75,0,0">
                 <materialDesign:PackIcon 
                     Kind="CardAccountDetailsOutline" 
                     Foreground="{StaticResource Gray2}" 
@@ -75,6 +64,7 @@
                     materialDesign:ComboBoxAssist.ClassicMode="true"
                     FontSize="18"
                     FontWeight="Medium"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     BorderBrush="{StaticResource Primary}" 
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                     materialDesign:HintAssist.Hint="Chọn nhân viên"
@@ -104,6 +94,13 @@
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
+                    <ComboBox.Text>
+                        <Binding Path="TypeEmployee" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng chọn nhân viên!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.Text>
                 </ComboBox>
             </Grid>
             <Grid 
@@ -111,7 +108,7 @@
                 Height="50"
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top"
-                Margin="0,140,0,0">
+                Margin="0,150,0,0">
                 <materialDesign:PackIcon 
                     Kind="AccountOutline" 
                     Width="30" 
@@ -136,7 +133,9 @@
                     <TextBox.Text>
                         <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" >
                             <Binding.ValidationRules>
-                                <vm:TextBoxValidation ErrorMessage="Không nhập ký tự đặc biệt" TypeValidation="1"/>
+                                <vd:TextBoxValidation ErrorMessage="Chỉ sử dụng các chữ cái (a -> z, A->Z) hoặc chữ số (0 -> 9)" 
+                                                      ErrorMessageNull="Vui lòng nhập tên đăng nhập!"/>
+                                <vd:ExistValidation ErrorMessage="Tên đăng nhập đãn tồn tại!" ElementName="UserName"/>
                             </Binding.ValidationRules>
                         </Binding>
                     </TextBox.Text>
@@ -147,7 +146,7 @@
                 Height="50" 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left"
-                Margin="0,210,0,0">
+                Margin="0,225,0,0">
                 <materialDesign:PackIcon 
                     Kind="LockOutline" 
                     Foreground="{StaticResource Gray2}"
@@ -167,7 +166,7 @@
                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
                     FontSize="18" 
                     TabIndex="3" 
-                    VerticalAlignment="Center" 
+                    VerticalAlignment="Center"
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="SemiBold" 
                     Padding="2,0,0,0" Foreground="{DynamicResource Gray1}">
@@ -184,7 +183,7 @@
                 Height="50" 
                 VerticalAlignment="Top" 
                 HorizontalAlignment="Left"
-                Margin="0,280,0,0">
+                Margin="0,300,0,0">
                 <materialDesign:PackIcon 
                     Kind="LockOutline" 
                     Foreground="{StaticResource Gray2}"
@@ -263,7 +262,7 @@
             materialDesign:ButtonAssist.CornerRadius="4"
             ToolTip="Đăng ký" 
             VerticalAlignment="Top" 
-            Margin="0,470,0,0" 
+            Margin="0,490,0,0" 
             HorizontalAlignment="Center" 
             BorderThickness="0" >
             <TextBlock 
@@ -288,7 +287,7 @@
             HorizontalContentAlignment="Center" 
             VerticalContentAlignment="Center" 
             FontSize="18" 
-            Margin="0,530,0,0" 
+            Margin="0,550,0,0" 
             Foreground="{StaticResource Secondary}" 
             FontWeight="Medium" 
             Cursor="Hand"

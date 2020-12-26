@@ -54,6 +54,7 @@
       <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -93,12 +94,14 @@
     <Compile Include="DAL\FootballFieldDAL.cs" />
     <Compile Include="DAL\ReportDAL.cs" />
     <Compile Include="DAL\SalaryRecordDAL.cs" />
+    <Compile Include="DAL\SalarySettingDAL.cs" />
     <Compile Include="DAL\StockReceiptDAL.cs" />
     <Compile Include="DAL\StockReceiptInfoDAL.cs" />
     <Compile Include="DAL\TimeFrameDAL.cs" />
     <Compile Include="Models\FieldInfo.cs" />
     <Compile Include="Models\Report.cs" />
     <Compile Include="Models\SalaryRecord.cs" />
+    <Compile Include="Models\SalarySetting.cs" />
     <Compile Include="Resources\Template\SalaryRecordTemplate.xaml.cs">
       <DependentUpon>SalaryRecordTemplate.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,9 @@
     <Compile Include="Resources\UserControls\ProductDetailsControl.xaml.cs">
       <DependentUpon>ProductDetailsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resources\UserControls\SalaryEmployeeControl.xaml.cs">
+      <DependentUpon>SalaryEmployeeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\UserControls\SalaryInfoControl.xaml.cs">
       <DependentUpon>SalaryInfoControl.xaml</DependentUpon>
     </Compile>
@@ -158,7 +164,15 @@
       <DependentUpon>StockReceiptInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
+    <Compile Include="Validations\DateBookingValidation.cs" />
+    <Compile Include="Validations\NotExistValidation.cs" />
     <Compile Include="ViewModels\BusinessViewModel.cs" />
+    <Compile Include="Validations\NotNullValidation.cs" />
+    <Compile Include="Validations\PickersValidation.cs" />
+    <Compile Include="Validations\ExistValidation.cs" />
+    <Compile Include="Validations\NumberValidation.cs" />
+    <Compile Include="Validations\RangeOfNumberValidation.cs" />
+    <Compile Include="Validations\TextBoxValidation.cs" />
     <Compile Include="ViewModels\FootballFieldViewModel.cs" />
     <Compile Include="ViewModels\PayViewModel.cs" />
     <Compile Include="DAL\AttendanceDAL.cs" />
@@ -174,7 +188,6 @@
     <Compile Include="ViewModels\CheckAttendanceViewModel.cs" />
     <Compile Include="ViewModels\PrintViewModel.cs" />
     <Compile Include="ViewModels\ReportViewModel.cs" />
-    <Compile Include="ViewModels\TextBoxValidation.cs" />
     <Compile Include="ViewModels\TimeFrameViewModel.cs" />
     <Compile Include="Views\AddFootballFieldWindow.xaml.cs">
       <DependentUpon>AddFootballFieldWindow.xaml</DependentUpon>
@@ -197,8 +210,14 @@
     <Compile Include="Views\ImportStockWindow.xaml.cs">
       <DependentUpon>ImportStockWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PaySalaryWindow.xaml.cs">
+      <DependentUpon>PaySalaryWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PayWindow.xaml.cs">
       <DependentUpon>PayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportFieldWindow.xaml.cs">
+      <DependentUpon>ReportFieldWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SetTimeFrameWindow.xaml.cs">
       <DependentUpon>SetTimeFrameWindow.xaml</DependentUpon>
@@ -298,6 +317,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\UserControls\ProductDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\UserControls\SalaryEmployeeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -417,7 +440,15 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\PaySalaryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportFieldWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

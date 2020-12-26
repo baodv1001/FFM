@@ -31,7 +31,7 @@ namespace FootballFieldManagement.ViewModels
         public SeriesCollection SeriesCollection { get => seriesCollection; set { seriesCollection = value; OnPropertyChanged(); } }
 
         private Func<double, string> formatter;
-        public Func<double, string> Formatter { get => formatter; set => formatter = value; }
+        public Func<double, string> Formatter { get => formatter; set { formatter = value; OnPropertyChanged(); } }
 
         private string axisYTitle;
         public string AxisYTitle { get => axisYTitle; set { axisYTitle = value; OnPropertyChanged(); } }
@@ -187,10 +187,10 @@ namespace FootballFieldManagement.ViewModels
 
                 salaryInfoControl.txbOrderNum.Text = i.ToString();
                 salaryInfoControl.txbName.Text = employee.Name;
-                salaryInfoControl.txbBasicSalary.Text = salaryInfo.SalaryBasic.ToString();
+                // salaryInfoControl.txbBasicSalary.Text = salaryInfo.SalaryBasic.ToString();
                 salaryInfoControl.txbNumOfFault.Text = salaryInfo.NumOfFault.ToString();
                 salaryInfoControl.txbNumOfShift.Text = salaryInfo.NumOfShift.ToString();
-                salaryInfoControl.txbTotalSalary.Text = salaryInfo.TotalSalary.ToString();
+                salaryInfoControl.txbTotalSalary.Text = string.Format("{0:N0}", salaryInfo.TotalSalary);
 
                 salaryRecordTemplate.stkSalaryInfo.Children.Add(salaryInfoControl);
                 i++;
@@ -247,7 +247,7 @@ namespace FootballFieldManagement.ViewModels
                 DateTime SalaryRecordDate = (DateTime)dataTable.Rows[i].ItemArray[1];
                 SalaryRecordControl.txbSalaryRecordDate.Text = SalaryRecordDate.ToString("dd/MM/yyyy");
                 SalaryRecordControl.txbSalaryRecordTime.Text = SalaryRecordDate.ToString("HH:mm");
-                SalaryRecordControl.txbTotal.Text = dataTable.Rows[i].ItemArray[2].ToString();
+                SalaryRecordControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
                 homeWindow.stkSalaryRecord.Children.Add(SalaryRecordControl);
                 temp++;
             }
@@ -288,8 +288,8 @@ namespace FootballFieldManagement.ViewModels
                 stockReceiptInfoControl.txbName.Text = goods.Name;
                 stockReceiptInfoControl.txbUnit.Text = goods.Unit;
                 stockReceiptInfoControl.txbQuantity.Text = stockReceiptInfo.Quantity.ToString();
-                stockReceiptInfoControl.txbImportPrice.Text = stockReceiptInfo.ImportPrice.ToString();
-                stockReceiptInfoControl.txbTotal.Text = (stockReceiptInfo.ImportPrice * stockReceiptInfo.Quantity).ToString();
+                stockReceiptInfoControl.txbImportPrice.Text = string.Format("{0:N0}", stockReceiptInfo.ImportPrice);
+                stockReceiptInfoControl.txbTotal.Text = string.Format("{0:N0}", stockReceiptInfo.ImportPrice * stockReceiptInfo.Quantity);
 
                 stockReceiptTemplate.stkStockReceiptInfo.Children.Add(stockReceiptInfoControl);
                 i++;
@@ -346,7 +346,7 @@ namespace FootballFieldManagement.ViewModels
                 DateTime stockReceiptDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 StockReceiptControl.txbStockReceiptDate.Text = stockReceiptDate.ToString("dd/MM/yyyy");
                 StockReceiptControl.txbStockReceiptTime.Text = stockReceiptDate.ToString("HH:mm");
-                StockReceiptControl.txbTotal.Text = dataTable.Rows[i].ItemArray[3].ToString();
+                StockReceiptControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
                 string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(idAccount))
                 {
@@ -384,7 +384,7 @@ namespace FootballFieldManagement.ViewModels
                 DateTime stockReceiptDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 StockReceiptControl.txbStockReceiptDate.Text = stockReceiptDate.ToString("dd/MM/yyyy");
                 StockReceiptControl.txbStockReceiptTime.Text = stockReceiptDate.ToString("HH:mm");
-                StockReceiptControl.txbTotal.Text = dataTable.Rows[i].ItemArray[3].ToString();
+                StockReceiptControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
                 string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(idAccount))
                 {
@@ -423,7 +423,7 @@ namespace FootballFieldManagement.ViewModels
                 DateTime stockReceiptDate = (DateTime)dataTable.Rows[i].ItemArray[2];
                 StockReceiptControl.txbStockReceiptDate.Text = stockReceiptDate.ToString("dd/MM/yyyy");
                 StockReceiptControl.txbStockReceiptTime.Text = stockReceiptDate.ToString("HH:mm");
-                StockReceiptControl.txbTotal.Text = dataTable.Rows[i].ItemArray[3].ToString();
+                StockReceiptControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[3].ToString()));
                 string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(idAccount))
                 {
@@ -482,15 +482,15 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbInvoiceDate.Text = billControl.txbInvoiceDate.Text;
             billTemplate.txbCheckInTime.Text = bill.CheckInTime.ToString("H:mm");
             billTemplate.txbCheckOutTime.Text = bill.CheckOutTime.ToString("H:mm");
-            billTemplate.txbTotal.Text = bill.TotalMoney.ToString();
+            billTemplate.txbTotal.Text = string.Format("{0:N0}", bill.TotalMoney);
             billTemplate.txbEmployeeName.Text = billControl.txbEmployeeName.Text;
 
             //Thông tin khách hàng
             FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
             billTemplate.txbCustomerName.Text = fieldInfo.CustomerName;
             billTemplate.txbCustomerPhoneNumber.Text = fieldInfo.PhoneNumber;
-            billTemplate.txbDiscount.Text = fieldInfo.Discount.ToString();
-            billTemplate.txbTotalBefore.Text = (bill.TotalMoney + fieldInfo.Discount).ToString();
+            billTemplate.txbDiscount.Text = string.Format("{0:N0}", fieldInfo.Discount);
+            billTemplate.txbTotalBefore.Text = string.Format("{0:N0}", bill.TotalMoney + fieldInfo.Discount);
 
             //Load các mặt hàng trong Bill
             List<BillInfo> listBillInfo = BillInfoDAL.Instance.GetBillInfos(idBill);
@@ -509,10 +509,11 @@ namespace FootballFieldManagement.ViewModels
             FootballField field = FootballFieldDAL.Instance.GetFootballFieldById(idField);
             string note = fieldInfo.StartingTime.ToString("HH:mm") + " - " + fieldInfo.EndingTime.ToString("HH:mm");
             fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
-            fieldBillInfoControl.txbUnit.Text = "";
-            fieldBillInfoControl.txbQuantity.Text = "";
-            fieldBillInfoControl.txbUnitPrice.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
-            fieldBillInfoControl.txbTotal.Text = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
+            fieldBillInfoControl.txbUnit.Text = "lần";
+            fieldBillInfoControl.txbQuantity.Text = "1";
+            string str = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
+            fieldBillInfoControl.txbUnitPrice.Text = string.Format("{0:N0}", long.Parse(str));
+            fieldBillInfoControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(str));
 
             billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
             foreach (var billInfo in listBillInfo)
@@ -521,10 +522,10 @@ namespace FootballFieldManagement.ViewModels
                 Goods goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                 billInfoControl.txbOrderNum.Text = i.ToString();
                 billInfoControl.txbName.Text = goods.Name;
-                billInfoControl.txbUnitPrice.Text = goods.UnitPrice.ToString();
+                billInfoControl.txbUnitPrice.Text = string.Format("{0:N0}", goods.UnitPrice);
                 billInfoControl.txbQuantity.Text = billInfo.Quantity.ToString();
                 billInfoControl.txbUnit.Text = goods.Unit;
-                billInfoControl.txbTotal.Text = (goods.UnitPrice * billInfo.Quantity).ToString();
+                billInfoControl.txbTotal.Text = string.Format("{0:N0}", goods.UnitPrice * billInfo.Quantity);
 
                 billTemplate.stkBillInfo.Children.Add(billInfoControl);
                 i++;
@@ -582,7 +583,7 @@ namespace FootballFieldManagement.ViewModels
                 TimeSpan invoiceTime = (TimeSpan)dataTable.Rows[i].ItemArray[3];
                 billControl.txbInvoiceDate.Text = invoiceDate.ToString("dd/MM/yyyy");
                 billControl.txbTime.Text = invoiceTime.ToString(@"hh\:mm");
-                billControl.txbTotal.Text = dataTable.Rows[i].ItemArray[4].ToString();
+                billControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[4].ToString()));
                 string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(idAccount))
                 {
@@ -621,7 +622,7 @@ namespace FootballFieldManagement.ViewModels
                 TimeSpan invoiceTime = (TimeSpan)dataTable.Rows[i].ItemArray[3];
                 billControl.txbInvoiceDate.Text = invoiceDate.ToString("dd/MM/yyyy");
                 billControl.txbTime.Text = invoiceTime.ToString(@"hh\:mm");
-                billControl.txbTotal.Text = dataTable.Rows[i].ItemArray[4].ToString();
+                billControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[4].ToString()));
                 string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(idAccount))
                 {
@@ -661,7 +662,7 @@ namespace FootballFieldManagement.ViewModels
                 TimeSpan invoiceTime = (TimeSpan)dataTable.Rows[i].ItemArray[3];
                 billControl.txbInvoiceDate.Text = invoiceDate.ToString("dd/MM/yyyy");
                 billControl.txbTime.Text = invoiceTime.ToString(@"hh\:mm");
-                billControl.txbTotal.Text = dataTable.Rows[i].ItemArray[4].ToString();
+                billControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[4].ToString()));
                 string idAccount = dataTable.Rows[i].ItemArray[1].ToString();
                 if (string.IsNullOrEmpty(idAccount))
                 {
@@ -722,10 +723,10 @@ namespace FootballFieldManagement.ViewModels
             string currentYear = DateTime.Now.Year.ToString();
             ThisMonth = DateTime.Now.ToString("MM/yyyy");
             NumOfHiredField = ReportDAL.Instance.QueryRevenueNumOfHiredFieldInMonth(currentMonth, currentYear).ToString() + " lượt";
-            ThisMonthRevenue = ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear).ToString() + " đồng";
+            ThisMonthRevenue = string.Format("{0:N0}", ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear)) + " đồng";
             try
             {
-                IncreasingPercent = (Math.Round((ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear) / ReportDAL.Instance.QueryRevenueInMonth(lastMonth, currentYear) * 100), 2)).ToString() + "%";
+                IncreasingPercent = (ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear) / ReportDAL.Instance.QueryRevenueInMonth(lastMonth, currentYear) * 100).ToString() + "%";
             }
             catch
             {
@@ -753,7 +754,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void InitPieChart(HomeWindow homeWindow)
         {
-            labelPoint = chartPoint => string.Format("{0}", chartPoint.Y);
+            labelPoint = chartPoint => string.Format("{0:N0}", chartPoint.Y);
             if (homeWindow.cboSelectTimePie.SelectedIndex == 0)
             {
                 string currentDay = DateTime.Now.Day.ToString();
@@ -834,7 +835,7 @@ namespace FootballFieldManagement.ViewModels
                         }
                     };
                     Labels = ReportDAL.Instance.QueryDayInMonth(selectedMonth, currentYear);
-                    Formatter = value => value.ToString("N");
+                    Formatter = value => string.Format("{0:N0}", value);
                 }
             }
             else if (homeWindow.cboSelectPeriod.SelectedIndex == 1) //Theo quý => 4 quý
@@ -860,7 +861,7 @@ namespace FootballFieldManagement.ViewModels
                         }
                     };
                     Labels = ReportDAL.Instance.QueryQuarterInYear(selectedYear);
-                    Formatter = value => value.ToString("N");
+                    Formatter = value => string.Format("{0:N0}", value);
                 }
             }
             else
@@ -886,7 +887,7 @@ namespace FootballFieldManagement.ViewModels
                         }
                     };
                     Labels = ReportDAL.Instance.QueryMonthInYear(selectedYear);
-                    Formatter = value => value.ToString("N");
+                    Formatter = value => string.Format("{0:N0}", value);
                 }
             }
         }
@@ -936,7 +937,7 @@ namespace FootballFieldManagement.ViewModels
                         }
                     };
                     RpLabels = ReportDAL.Instance.QueryDayInMonth(selectedMonth, currentYear);
-                    RpFormatter = value => value.ToString("N");
+                    RpFormatter = value => string.Format("{0:N0}", value);
                 }
             }
             else if (homeWindow.cboSelectPeriodRp.SelectedIndex == 1) //Theo quý => 4 quý
@@ -962,7 +963,7 @@ namespace FootballFieldManagement.ViewModels
                         }
                     };
                     RpLabels = ReportDAL.Instance.QueryQuarterInYear(selectedYear);
-                    RpFormatter = value => value.ToString("N");
+                    RpFormatter = value => string.Format("{0:N0}", value);
                 }
             }
             else
@@ -988,7 +989,7 @@ namespace FootballFieldManagement.ViewModels
                         }
                     };
                     RpLabels = ReportDAL.Instance.QueryMonthInYear(selectedYear);
-                    RpFormatter = value => value.ToString("N");
+                    RpFormatter = value => string.Format("{0:N0}", value);
                 }
             }
         }

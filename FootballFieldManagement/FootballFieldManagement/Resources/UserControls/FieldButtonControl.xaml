@@ -28,7 +28,7 @@
         <TextBlock x:Name="txbFieldType" Visibility="Hidden"/>
         <Border 
             x:Name="bdrOut"
-            BorderBrush="{DynamicResource Primary}"
+            BorderBrush="{DynamicResource Success}"
             BorderThickness="2"
             HorizontalAlignment="Left"
             Height="36"

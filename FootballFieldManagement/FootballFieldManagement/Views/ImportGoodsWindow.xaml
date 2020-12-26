@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vd="clr-namespace:FootballFieldManagement.Validations"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
@@ -295,8 +296,8 @@
                     Margin="0"/>
                 <TextBox 
                     x:Name="txtImportPrice"
-                    Text="{Binding ImportPrice}"
                     Cursor="IBeam"
+                    MaxLength="11"
                     materialDesign:HintAssist.Hint="Giá nhập"
                     HorizontalAlignment="Right"
                     Height="40"  
@@ -304,18 +305,34 @@
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
-                    MaxLength="11"
                     Padding="0" 
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center" FontWeight="SemiBold" >
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                    VerticalContentAlignment="Center"
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding }" 
+                                                 MethodName="NumberValidationTextBox" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="TextChanged" >
+                            <i:InvokeCommandAction Command="{Binding SeparateThousandsCommand}" 
+                                                   CommandParameter="{Binding ElementName=txtImportPrice}"/>
+                        </i:EventTrigger>
                         <i:EventTrigger EventName="KeyUp" >
                             <i:InvokeCommandAction Command="{Binding CalculateTotalCommand}"
                                                    CommandParameter="{Binding ElementName=wdImportGoods}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="ImportPrice" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation ErrorMessage="Vui lòng nhập giá mặt hàng!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
             </Grid>
             <Grid 
@@ -342,8 +359,8 @@
                     Margin="0"/>
                 <TextBox 
                     x:Name="txtQuantity"
-                    Text="{Binding Quantity}"
                     Cursor="IBeam"
+                    MaxLength="5"
                     materialDesign:HintAssist.Hint="Số lượng"
                     HorizontalAlignment="Right"
                     Height="40"  
@@ -351,9 +368,9 @@
                     FontSize="14" 
                     BorderThickness="0" 
                     MaxLines="1"
-                    MaxLength="6"
                     Padding="0" 
-                    Foreground="{StaticResource Gray3}" 
+                    Foreground="{StaticResource Gray3}"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" FontWeight="SemiBold" >
@@ -363,6 +380,14 @@
                                                    CommandParameter="{Binding ElementName=wdImportGoods}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <TextBox.Text>
+                        <Binding Path="Quantity" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <vd:NumberValidation ErrorMessageNull="Vui lòng nhập số lượng hàng!"
+                                                     ErrorMessage="Chỉ nhập các ký tự số (0 - 9)!"></vd:NumberValidation>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
             </Grid>
             <Grid 

@@ -32,47 +32,50 @@ namespace FootballFieldManagement.DAL
         }
         public List<FootballField> ConvertDBToList()
         {
+            DataTable dataTable = new DataTable();
+            List<FootballField> footballFields = new List<FootballField>();
             try
             {
                 conn.Open();
-                string queryString = "select * from FootballField";
+                string queryString = @"Select * from FootballField
+                                       Where isDeleted=0";
+
                 SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
-
-                DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-                List<FootballField> footballFields = new List<FootballField>();
-
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()),
-                        dataTable.Rows[i].ItemArray[1].ToString(), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()), int.Parse(dataTable.Rows[i].ItemArray[3].ToString())
-                        , dataTable.Rows[i].ItemArray[4].ToString());
+                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), dataTable.Rows[i].ItemArray[1].ToString(),
+                    int.Parse(dataTable.Rows[i].ItemArray[2].ToString()), int.Parse(dataTable.Rows[i].ItemArray[3].ToString()),
+                    dataTable.Rows[i].ItemArray[4].ToString(), int.Parse(dataTable.Rows[i].ItemArray[5].ToString()));
                     footballFields.Add(footballField);
                 }
-                return footballFields;
             }
             catch
             {
-                return new List<FootballField>();
+
             }
             finally
             {
                 conn.Close();
             }
+
+            return footballFields;
         }
         public bool AddIntoDB(FootballField footballField)
         {
             try
             {
                 conn.Open();
-                string query = "insert into FootballField(idField, name, type, status, note) values (@idField, @name, @type, @status, @note)";
+                string query = "insert into FootballField(idField, name, type, status, note,isDeleted) values (@idField, @name, @type, @status, @note,@isDeleted)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idField", footballField.IdField.ToString());
                 command.Parameters.AddWithValue("@name", footballField.Name);
                 command.Parameters.AddWithValue("@type", footballField.Type.ToString());
                 command.Parameters.AddWithValue("@status", footballField.Status.ToString());
                 command.Parameters.AddWithValue("@note", footballField.Note);
+                command.Parameters.AddWithValue("@isDeleted", footballField.IsDeleted);
                 int rs = command.ExecuteNonQuery();
                 if (rs != 1)
                 {
@@ -97,7 +100,9 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"delete from FootballField where idField = " + idField;
+                string query = @"Update FootballField 
+                                 Set isDeleted=1
+                                 Where idField = " + idField;
                 SqlCommand command = new SqlCommand(query, conn);
                 int rs = command.ExecuteNonQuery();
                 if (rs == 1)
@@ -123,12 +128,13 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"update FootballField set idField = @idField, name = @name, type = @type, status = @status where idField = " + footballField.IdField.ToString();
+                string query = @"update FootballField set idField = @idField, name = @name, type = @type, status = @status,isDeleted=@isDeleted where idField = " + footballField.IdField.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idField", footballField.IdField.ToString());
                 command.Parameters.AddWithValue("@name", footballField.Name);
                 command.Parameters.AddWithValue("@type", footballField.Type.ToString());
                 command.Parameters.AddWithValue("@status", footballField.Status.ToString());
+                command.Parameters.AddWithValue("@isDeleted", footballField.IsDeleted);
                 int rs = command.ExecuteNonQuery();
                 if (rs == 1)
                 {
@@ -154,7 +160,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"select distinct(type) from FootballField order by type ASC";
+                string query = @"select distinct(type) from FootballField where isDeleted=0 order by type ASC";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
@@ -175,14 +181,13 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public bool CheckFieldName(string fieldName)
+        public bool isExistFieldName(string fieldName)
         {
             try
             {
                 conn.Open();
-                string query = @"select * from FootballField where name = '@fieldName'";
+                string query = @"select * from FootballField where isDeleted=0 and name = '@fieldName'";
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@fieldName", fieldName);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
@@ -220,7 +225,7 @@ namespace FootballFieldManagement.DAL
 
                 FootballField res = new FootballField(int.Parse(idField), dataTable.Rows[0].ItemArray[1].ToString(),
                     int.Parse(dataTable.Rows[0].ItemArray[2].ToString()), int.Parse(dataTable.Rows[0].ItemArray[3].ToString()),
-                    dataTable.Rows[0].ItemArray[4].ToString());
+                    dataTable.Rows[0].ItemArray[4].ToString(), int.Parse(dataTable.Rows[0].ItemArray[5].ToString()));
                 return res;
             }
             catch
@@ -240,7 +245,7 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string queryString = @"Select *
                                        From FootballField
-                                       Where type =@type
+                                       Where type =@type and isDeleted=0
                                        Order by type ASC ";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@type", type);
@@ -250,7 +255,10 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dataTable);
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), dataTable.Rows[i].ItemArray[1].ToString(), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()), int.Parse(dataTable.Rows[i].ItemArray[3].ToString()), dataTable.Rows[i].ItemArray[4].ToString());
+                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
+                                                  dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()),
+                                                  int.Parse(dt.Rows[i].ItemArray[3].ToString()), dt.Rows[i].ItemArray[4].ToString(),
+                                                  int.Parse(dt.Rows[i].ItemArray[5].ToString()));
                     res.Add(footballField);
                 }
             }
@@ -275,7 +283,7 @@ namespace FootballFieldManagement.DAL
                                  Except
                                  Select FieldInfo.idField,FootballField.name from FieldInfo
                                  Join FootballField on FieldInfo.idField=FootballField.idField
-                                 Where convert(varchar(10), startingTime, 103)=@day and convert(varchar(5), startingTime, 108)=@startTime and convert(varchar(5), endingTime, 108) =@endTime and FootballField.type=@type";
+                                 Where convert(varchar(10), startingTime, 103)=@day and convert(varchar(5), startingTime, 108)=@startTime and convert(varchar(5), endingTime, 108) =@endTime and FootballField.type=@type and FootballField.isDeleted=0";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@day", day);
                 command.Parameters.AddWithValue("@startTime", startTime);
@@ -287,7 +295,38 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dataTable);
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), dataTable.Rows[i].ItemArray[1].ToString(), int.Parse(type), 0, " ");
+                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
+                                                                    int.Parse(type), 0, " ", 0);
+                    footballFields.Add(footballField);
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return footballFields;
+        }
+        public List<FootballField> GetGoodFields()
+        {
+            List<FootballField> footballFields = new List<FootballField>();
+            try
+            {
+                conn.Open();
+                string query = @"select * from FootballField where isDeleted=0 and status=1 order by idField ASC";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
+                                                  dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()),
+                                                  int.Parse(dt.Rows[i].ItemArray[3].ToString()), dt.Rows[i].ItemArray[4].ToString(),
+                                                  int.Parse(dt.Rows[i].ItemArray[5].ToString()));
                     footballFields.Add(footballField);
                 }
             }

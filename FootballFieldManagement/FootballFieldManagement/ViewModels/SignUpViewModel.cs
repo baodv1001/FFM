@@ -9,8 +9,13 @@ using FootballFieldManagement.Views;
 using FootballFieldManagement.ViewModels;
 using System.Windows.Controls;
 using FootballFieldManagement.DAL;
+using FootballFieldManagement.Validations;
 using FootballFieldManagement.Models;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace FootballFieldManagement.ViewModels
 {
@@ -27,6 +32,7 @@ namespace FootballFieldManagement.ViewModels
         public ObservableCollection<Employee> ItemSourceEmployee { get => itemSourceEmployee; set { itemSourceEmployee = value; OnPropertyChanged(); } }
         private bool isSignUp;
         public bool IsSignUp { get => isSignUp; set => isSignUp = value; }
+        public string TypeEmployee { get; set; }
         private string password;
         public string Password { get => password; set { password = value; OnPropertyChanged(); } }
         private string userName;
@@ -59,19 +65,6 @@ namespace FootballFieldManagement.ViewModels
             this.passwordConfirm = parameter.Password;
             this.passwordConfirm = MD5Hash(this.passwordConfirm);
         }
-        public int setID(List<Account> accounts)
-        {
-            int id;
-            try
-            {
-                id = (accounts[accounts.Count() - 1].IdAccount + 1);
-            }
-            catch
-            {
-                id = 1;
-            }
-            return id;
-        }
 
         public void SetItemSourcEmloyee()
         {
@@ -87,39 +80,17 @@ namespace FootballFieldManagement.ViewModels
         }
         public void ChangePassword(ForgotPasswordWindow parameter)
         {
-            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
-            Account account = null;
             if (string.IsNullOrEmpty(parameter.pwbKey.Password))
             {
                 MessageBox.Show("Vui lòng nhập mã xác thực!");
                 parameter.pwbKey.Focus();
                 return;
             }
-            if (parameter.pwbKey.Password != "admin")
-            {
-                MessageBox.Show("Mã xác thực không đúng!");
-                parameter.pwbKey.Focus();
-                return;
-            }
             // Check username
-            if (string.IsNullOrEmpty(parameter.txtUsername.Text))
+            if (string.IsNullOrEmpty(parameter.txtUsername.Text) || !AccountDAL.Instance.IsExistUserName(parameter.txtUsername.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
                 parameter.txtUsername.Focus();
-                return;
-            }
-            foreach (char c in parameter.txtUsername.Text)
-            {
-                if (!((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
-                {
-                    MessageBox.Show("Không nhập các ký tự đặc biệt");
-                    return;
-                }
-            }
-            account = accounts.Find(x => x.Username == parameter.txtUsername.Text); // Sửa thành hàm find Account
-            if (account == null)
-            {
-                MessageBox.Show("Không tồn tại tên đăng nhập!");
+                parameter.txtUsername.Text = "";
                 return;
             }
             //Check password
@@ -135,13 +106,43 @@ namespace FootballFieldManagement.ViewModels
                 parameter.pwbPasswordConfirm.Focus();
                 return;
             }
+            //Kiểm tra
+            SQLConnection connection = new SQLConnection();
+            try
+            {
+                connection.conn.Open();
+                string queryString = "select * from Authorizations where authKey = '" + parameter.pwbKey.Password +"'";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if(dataTable.Rows.Count < 1)
+                {
+                    MessageBox.Show("Mã xác thực không đúng!");
+                    parameter.pwbKey.Focus();
+                    return;
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                connection.conn.Close();
+            }
+
+            if (!Regex.IsMatch(parameter.txtUsername.Text, @"^[a-zA-Z0-9_]+$"))
+            {
+                parameter.txtUsername.Focus();
+                return;
+            }
             if (password != passwordConfirm)
             {
                 MessageBox.Show("Mật khẩu không trùng khớp!");
                 return;
             }
-            account.Password = password;
-            if (AccountDAL.Instance.UpdatePassword(account))
+            if (AccountDAL.Instance.UpdatePassword(parameter.txtUsername.Text, password))
             {
                 MessageBox.Show("Đổi mật khẩu thành công!");
                 parameter.txtUsername.Text = null;
@@ -156,7 +157,6 @@ namespace FootballFieldManagement.ViewModels
             {
                 return;
             }
-            List<Account> accounts = AccountDAL.Instance.ConvertDBToList();
             //Check IdConfirm
             if (string.IsNullOrEmpty(parameter.pwbKey.Password))
             {
@@ -164,50 +164,19 @@ namespace FootballFieldManagement.ViewModels
                 parameter.pwbKey.Focus();
                 return;
             }
-            if (parameter.pwbKey.Password != "admin")
-            {
-                CustomMessageBox.Show("Mã xác thực không đúng!");
-                parameter.pwbKey.Focus();
-                return;
-            }
             //Check select employee
             if (string.IsNullOrEmpty(parameter.cboSelectEmployee.Text))
             {
-                CustomMessageBox.Show("Vui lòng chọn nhân viên!");
                 parameter.cboSelectEmployee.Focus();
+                parameter.cboSelectEmployee.Text = "";
                 return;
-            }
-            foreach (var item in parameter.cboSelectEmployee.ItemsSource)
-            {
-                if (parameter.cboSelectEmployee.Text.ToString() != item.ToString())
-                {
-                    CustomMessageBox.Show("Nhân viên không hợp lệ!");
-                    return;
-                }
             }
             // Check username
-            if (string.IsNullOrEmpty(parameter.txtUsername.Text))
+            if (string.IsNullOrEmpty(parameter.txtUsername.Text) || AccountDAL.Instance.IsExistUserName(parameter.txtUsername.Text))
             {
-                CustomMessageBox.Show("Vui lòng nhập tên đăng nhập!");
                 parameter.txtUsername.Focus();
+                parameter.txtUsername.Text = "";
                 return;
-            }
-            foreach (char c in parameter.txtUsername.Text)
-            {
-                if (!((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)))
-                {
-                    CustomMessageBox.Show("Không nhập các ký tự đặc biệt");
-                    return;
-                }
-            }
-
-            foreach (var acc in accounts)
-            {
-                if (acc.Username == parameter.txtUsername.Text)
-                {
-                    CustomMessageBox.Show("Tên tài khoản đã tồn tại!");
-                    return;
-                }
             }
             //Check password
             if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
@@ -222,27 +191,63 @@ namespace FootballFieldManagement.ViewModels
                 parameter.pwbPasswordConfirm.Focus();
                 return;
             }
+            //Kiểm tra độ chính xác
+            SQLConnection connection = new SQLConnection();
+            try
+            {
+                connection.conn.Open();
+                string queryString = "select * from Authorizations where authKey = '" + parameter.pwbKey.Password + "'";
+                SqlCommand command = new SqlCommand(queryString, connection.conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                if (dataTable.Rows.Count < 1)
+                {
+                    MessageBox.Show("Mã xác thực không đúng!");
+                    parameter.pwbKey.Focus();
+                    return;
+                }
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                connection.conn.Close();
+            }
+
+            if (!Regex.IsMatch(parameter.txtUsername.Text, @"^[a-zA-Z0-9_]+$"))
+            {
+                parameter.txtUsername.Focus();
+                return;
+            }
             if (password != passwordConfirm)
             {
                 CustomMessageBox.Show("Mật khẩu không trùng khớp!");
                 return;
             }
+
             int type = 0;
             if (selectedEmployee.Position == "Nhân viên quản lý")
                 type = 1;
             else
                 type = 2;
-            Account newAccount = new Account(setID(accounts), parameter.txtUsername.Text.ToString(), password, type);
-            AccountDAL.Instance.AddIntoDB(newAccount);
-            selectedEmployee.IdAccount = setID(accounts);
-            if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))
+            int idAccount = AccountDAL.Instance.SetNewID();
+            if (idAccount != -1)
             {
-                CustomMessageBox.Show("Đăng ký thành công!");
-                isSignUp = true;
-                parameter.cboSelectEmployee.Text = "";
-                parameter.txtUsername.Text = null;
-                parameter.pwbPassword.Password = "";
-                parameter.pwbPasswordConfirm.Password = "";
+                Account newAccount = new Account(idAccount, parameter.txtUsername.Text.ToString(), password, type);
+                AccountDAL.Instance.AddIntoDB(newAccount);
+                selectedEmployee.IdAccount = idAccount;
+                if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))
+                {
+                    CustomMessageBox.Show("Đăng ký thành công!");
+                    isSignUp = true;
+                    parameter.cboSelectEmployee.Text = "";
+                    parameter.txtUsername.Text = null;
+                    parameter.pwbPassword.Password = "";
+                    parameter.pwbPasswordConfirm.Password = "";
+                }
             }
         }
     }

@@ -19,6 +19,7 @@ namespace FootballFieldManagement.Models
         public int Quantity { get => quantity; set => quantity = value; }
 
         private long unitPrice;
+
         public long UnitPrice { get => unitPrice; set => unitPrice = value; }
 
         private string unit;

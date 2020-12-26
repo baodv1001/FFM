@@ -28,6 +28,9 @@ namespace FootballFieldManagement.Models
 
         public string Note { get => note; set => note = value; }
 
+        private int isDeleted;
+
+        public int IsDeleted { get => isDeleted; set => isDeleted = value; }
         //Constructor
 
         public FootballField()
@@ -35,13 +38,14 @@ namespace FootballFieldManagement.Models
 
         }
 
-        public FootballField(int idField, string name, int type, int status, string note)
+        public FootballField(int idField, string name, int type, int status, string note, int isDeleted)
         {
             this.idField = idField;
             this.name = name;
             this.type = type;
             this.status = status;
             this.note = note;
+            this.isDeleted = isDeleted;
         }
     }
 }

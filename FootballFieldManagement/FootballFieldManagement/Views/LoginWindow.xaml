@@ -155,9 +155,11 @@
             <Button 
                 x:Name="btnForgetPassword" 
                 Command="{Binding ChangePasswordCommand}"
+                CommandParameter="{Binding ElementName=wdLogin}"
                 Content="Quên mật khẩu?" 
                 HorizontalAlignment="Right" 
-                Height="24" Width="120" 
+                Height="24"
+                Width="120" 
                 VerticalAlignment="Top" 
                 Padding="0" 
                 HorizontalContentAlignment="Right" 
@@ -169,7 +171,8 @@
                 FocusVisualStyle="{x:Null}"
                 Background="{x:Null}" 
                 Foreground="{DynamicResource Secondary}" 
-                BorderBrush="{x:Null}">
+                BorderBrush="{x:Null}" 
+                IsTabStop="False">
             </Button>
             <Button 
                 x:Name="btnLogin"

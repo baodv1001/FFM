@@ -380,7 +380,7 @@
                     FontSize="16" 
                     FontWeight="Medium"/>
                 <TextBlock 
-                    x:Name="txbCustomerPhoneNumber" 
+                    x:Name="txbCustomerPhone" 
                     HorizontalAlignment="Left"
                     Height="27" 
                     Margin="92,33,0,0" 

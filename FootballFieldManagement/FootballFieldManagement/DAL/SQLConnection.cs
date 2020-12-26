@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Configuration;
 namespace FootballFieldManagement.DAL
 {
     public class SQLConnection
@@ -13,7 +13,7 @@ namespace FootballFieldManagement.DAL
         public SqlConnection conn;
         public SQLConnection()
         {
-            strConn = @"Data Source=(local);Initial Catalog=FootballFieldManagement1;Integrated Security=True";
+            strConn = ConfigurationManager.ConnectionStrings["FFM"].ConnectionString;
             conn = new SqlConnection(strConn);
         }
     }

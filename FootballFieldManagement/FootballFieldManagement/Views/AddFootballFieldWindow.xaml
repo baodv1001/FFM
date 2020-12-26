@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         xmlns:ei ="http://schemas.microsoft.com/expression/2010/interactions"
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         mc:Ignorable="d"
@@ -90,6 +91,7 @@
                 <TextBox 
                     x:Name="txtName"
                     materialDesign:HintAssist.Hint="Tên sân"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     HorizontalAlignment="Right"
                     MaxLength="50"
                     Cursor="IBeam"
@@ -103,7 +105,15 @@
                     Margin="0,0,5,0" 
                     HorizontalContentAlignment="Left" 
                     VerticalContentAlignment="Center" 
-                    FontWeight="SemiBold"/>
+                    FontWeight="SemiBold">
+                    <TextBox.Text>
+                        <Binding Path="FieldName" UpdateSourceTrigger="PropertyChanged" Mode="OneWayToSource" >
+                            <Binding.ValidationRules>
+                                <vd:ExistValidation  ErrorMessageNull="Vui lòng nhập tên sân!"/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </Grid>
             <Grid 
                 Margin="0,120,0,0"
@@ -142,8 +152,9 @@
                     Margin="0,0,5,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left" 
-                    FontWeight="SemiBold">
+                    FontWeight="SemiBold"
+                    Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
+                    HorizontalContentAlignment="Left">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput">
                             <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"/>
@@ -153,13 +164,20 @@
                                                    CommandParameter="{Binding ElementName=wdAddFootballField}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <ComboBox.Text>
+                        <Binding Path="FieldType" UpdateSourceTrigger="PropertyChanged"  Mode="OneWayToSource">
+                            <Binding.ValidationRules>
+                                <vd:NotNullValidation  ErrorMessage="Vui lòng nhập vào loại sân bóng" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </ComboBox.Text>
                 </ComboBox>
             </Grid>
             <Grid
                 VerticalAlignment="Top"  
                 Width="320" 
                 Height="40"
-                Margin="0,175,0,0">
+                Margin="0,180,0,0">
                 <Label
                     Content="Trạng thái"
                     HorizontalAlignment="Left"
@@ -180,7 +198,6 @@
                 <ComboBox
                     x:Name="cboStatus"
                     materialDesign:ComboBoxAssist.ClassicMode="true"
-                    materialDesign:HintAssist.Hint="Loại sân"
                     Height="40" 
                     FontSize="14" 
                     Width="180"
@@ -190,15 +207,15 @@
                     Margin="0,0,5,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left" 
+                    HorizontalContentAlignment="Left"
                     FontWeight="SemiBold">
-                    <ComboBoxItem  Content="Tốt"/>
+                    <ComboBoxItem IsSelected="True" Content="Tốt"/>
                     <ComboBoxItem  Content="Hỏng"/>
                 </ComboBox>
             </Grid>
         </Grid>
         <Grid 
-            Margin="0,0,40,20" 
+            Margin="0,0,40,15" 
             VerticalAlignment="Bottom" 
             Width="190" 
             HorizontalAlignment="Right">
@@ -220,7 +237,7 @@
             <Button
                 x:Name="btnCancel"
                 Height="30"
-                Content="Thoát"
+                Content="Bỏ qua"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName= wdAddFootballField}"

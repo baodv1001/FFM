@@ -47,12 +47,18 @@ namespace FootballFieldManagement.ViewModels
             PasswordChangedCommand = new RelayCommand<PasswordBox>((parameter) => true, (parameter) => EncodingPassword(parameter));
             OpenSignUpWindowCommand = new RelayCommand<Window>((parameter) => true, (parameter) => OpenSignUpWindow(parameter));
             TurnOnNotiCommand = new RelayCommand<object>((parameter) => true, (parameter) => TurnOnNotification());
-            ChangePasswordCommand = new RelayCommand<object>((parameter) => true, (parameter) => OpenForgotPasswordWindow());
+            ChangePasswordCommand = new RelayCommand<LoginWindow>((parameter) => true, (parameter) => OpenForgotPasswordWindow(parameter));
         }
-        public void OpenForgotPasswordWindow()
+        public void OpenForgotPasswordWindow(LoginWindow loginWindow)
         {
             ForgotPasswordWindow forgotPasswordWindow = new ForgotPasswordWindow();
+            forgotPasswordWindow.txtUsername.Text = null;
+            loginWindow.Opacity = 0.5;
+            loginWindow.WindowStyle = WindowStyle.None;
             forgotPasswordWindow.ShowDialog();
+            loginWindow.WindowStyle = WindowStyle.SingleBorderWindow;
+            loginWindow.Opacity = 1;
+            loginWindow.Show();
         }
         public void TurnOnNotification()
         {
@@ -127,7 +133,7 @@ namespace FootballFieldManagement.ViewModels
             }
             foreach (var account in accounts)
             {
-                if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password)
+                if (account.Username == parameter.txtUsername.Text.ToString() && account.Password == password && account.Type != 3)
                 {
                     CurrentAccount.Type = account.Type; // Kiểm tra quyền
                     if (CurrentAccount.Type != 0)
@@ -154,6 +160,14 @@ namespace FootballFieldManagement.ViewModels
             }
             if (isLogin)
             {
+                if (AttendanceDAL.Instance.GetMonth() != DateTime.Now.Month && AttendanceDAL.Instance.GetMonth() != 0)
+                {
+                    if (!AttendanceDAL.Instance.DeleteData())
+                    {
+                        MessageBox.Show("Lỗi hệ thống!");
+                        return;
+                    }
+                }
                 HomeWindow home = new HomeWindow();
                 home.txbFieldName.Text = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
                 SetJurisdiction(home);
@@ -247,6 +261,7 @@ namespace FootballFieldManagement.ViewModels
         public void OpenSignUpWindow(Window parameter)
         {
             SignUpWindow signUp = new SignUpWindow();
+            signUp.txtUsername.Text = null;
             parameter.Opacity = 0.5;
             parameter.WindowStyle = WindowStyle.None;
             signUp.ShowDialog();

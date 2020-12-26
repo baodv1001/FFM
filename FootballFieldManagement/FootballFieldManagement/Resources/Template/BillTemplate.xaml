@@ -520,7 +520,6 @@
                 Height="25" 
                 Width="100"
                 VerticalAlignment="Bottom" 
-                BorderBrush="{DynamicResource Success}" 
                 Padding="0" />
             <Grid 
                 Grid.Column="1" 

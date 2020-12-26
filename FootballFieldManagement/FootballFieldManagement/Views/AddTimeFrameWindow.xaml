@@ -87,8 +87,8 @@
                     HorizontalAlignment="Right" 
                     Height="34" 
                     Width="140" 
-                    RadiusY="6" 
-                    RadiusX="6"
+                    RadiusY="4" 
+                    RadiusX="4"
                     Stroke="{DynamicResource Primary}" 
                     Margin="0" 
                     StrokeThickness="1.5"/>
@@ -129,7 +129,6 @@
             CommandParameter="{Binding ElementName=wdAddTimeFrame}"
             Height="26" 
             Width="80"
-            materialDesign:ButtonAssist.CornerRadius="4"
             HorizontalAlignment="Right"
             FocusVisualStyle="{x:Null}"
             Content="Lưu" 

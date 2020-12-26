@@ -448,35 +448,34 @@ namespace FootballFieldManagement.DAL
             return salaries;
         }
 
-        //public List<Salary> GetSalaryInfoById(string idSalaryRecord)
-        //{
-        //    List<Salary> listSalaryInfo = new List<Salary>();
-        //    try
-        //    {
-        //        conn.Open();
-        //        string queryString = "select * from BillInfo where idBill = " + idSalaryRecord;
-        //        SqlCommand command = new SqlCommand(queryString, conn);
-        //        SqlDataAdapter adapter = new SqlDataAdapter(command);
-        //        DataTable dataTable = new DataTable();
-        //        adapter.Fill(dataTable);
-        //        for (int i = 0; i < dataTable.Rows.Count; i++)
-        //        {
-        //            Salary salary = new Salary(long.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()),
-        //                long.Parse(dataTable.Rows[i].ItemArray[2].ToString()), int.Parse(dataTable.Rows[i].ItemArray[3].ToString()),
-        //                long.Parse(dataTable.Rows[i].ItemArray[4].ToString()), int.Parse(dataTable.Rows[i].ItemArray[5].ToString()),
-        //                long.Parse(dataTable.Rows[i].ItemArray[6].ToString()), int.Parse(dataTable.Rows[i].ItemArray[7].ToString()));
-        //            listSalaryInfo.Add(salary);
-        //        }
-        //        return listSalaryInfo;
-        //    }
-        //    catch
-        //    {
-        //        return new List<Salary>();
-        //    }
-        //    finally
-        //    {
-        //        conn.Close();
-        //    }
-        //}
+        public List<Salary> GetSalaryInfoById(string idSalaryRecord)
+        {
+            List<Salary> listSalaryInfo = new List<Salary>();
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Salary where idSalaryRecord = " + idSalaryRecord;
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    Salary salary = new Salary(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()),
+                        int.Parse(dataTable.Rows[i].ItemArray[2].ToString()), long.Parse(dataTable.Rows[i].ItemArray[3].ToString()),
+                        DateTime.Parse(dataTable.Rows[i].ItemArray[4].ToString()), int.Parse(dataTable.Rows[i].ItemArray[5].ToString()));
+                    listSalaryInfo.Add(salary);
+                }
+                return listSalaryInfo;
+            }
+            catch
+            {
+                return new List<Salary>();
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

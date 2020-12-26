@@ -255,10 +255,10 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dataTable);
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
-                                                  dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()),
-                                                  int.Parse(dt.Rows[i].ItemArray[3].ToString()), dt.Rows[i].ItemArray[4].ToString(),
-                                                  int.Parse(dt.Rows[i].ItemArray[5].ToString()));
+                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()),
+                                                  dataTable.Rows[i].ItemArray[1].ToString(), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()),
+                                                  int.Parse(dataTable.Rows[i].ItemArray[3].ToString()), dataTable.Rows[i].ItemArray[4].ToString(),
+                                                  int.Parse(dataTable.Rows[i].ItemArray[5].ToString()));
                     res.Add(footballField);
                 }
             }
@@ -295,7 +295,7 @@ namespace FootballFieldManagement.DAL
                 adapter.Fill(dataTable);
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()), dt.Rows[i].ItemArray[1].ToString(),
+                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), dataTable.Rows[i].ItemArray[1].ToString(),
                                                                     int.Parse(type), 0, " ", 0);
                     footballFields.Add(footballField);
                 }
@@ -319,14 +319,14 @@ namespace FootballFieldManagement.DAL
                 string query = @"select * from FootballField where isDeleted=0 and status=1 order by idField ASC";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                for (int i = 0; i < dt.Rows.Count; i++)
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    FootballField footballField = new FootballField(int.Parse(dt.Rows[i].ItemArray[0].ToString()),
-                                                  dt.Rows[i].ItemArray[1].ToString(), int.Parse(dt.Rows[i].ItemArray[2].ToString()),
-                                                  int.Parse(dt.Rows[i].ItemArray[3].ToString()), dt.Rows[i].ItemArray[4].ToString(),
-                                                  int.Parse(dt.Rows[i].ItemArray[5].ToString()));
+                    FootballField footballField = new FootballField(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()),
+                                                  dataTable.Rows[i].ItemArray[1].ToString(), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()),
+                                                  int.Parse(dataTable.Rows[i].ItemArray[3].ToString()), dataTable.Rows[i].ItemArray[4].ToString(),
+                                                  int.Parse(dataTable.Rows[i].ItemArray[5].ToString()));
                     footballFields.Add(footballField);
                 }
             }

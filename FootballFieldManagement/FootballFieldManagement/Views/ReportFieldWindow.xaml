@@ -74,7 +74,6 @@
             Command="{Binding ReportFieldCommand}"
             CommandParameter="{Binding ElementName=wdReportField}"
             Height="40"
-            materialDesign:ButtonAssist.CornerRadius="4"
             ToolTip="Xác nhận đặt sân" 
             Margin="0,0,20,0" 
             FontSize="16" 

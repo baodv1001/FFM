@@ -123,7 +123,7 @@ namespace FootballFieldManagement.ViewModels
             StockReceiptTemplate stockReceiptTemplate = new StockReceiptTemplate();
 
             stockReceiptTemplate.txbIdStockReceipt.Text = "#" + idStockReceipt;
-            stockReceiptTemplate.txbDate.Text = importStockWindow.txbToday.Text;
+            stockReceiptTemplate.txbDate.Text = importStockWindow.txbDate.Text;
             stockReceiptTemplate.txbTotal.Text = importStockWindow.txbTotal.Text;
             stockReceiptTemplate.txbEmployeeName.Text = importStockWindow.txbName.Text;
 
@@ -338,7 +338,8 @@ namespace FootballFieldManagement.ViewModels
                 StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
                 importStockWindow.txbIdStockReceipt.Text = "1";
             }
-            importStockWindow.txbToday.Text = DateTime.Now.ToString("HH:mm, dd/MM/yyyy");
+            importStockWindow.txbDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            importStockWindow.txbTime.Text = DateTime.Now.ToString("HH:mm");
             importStockWindow.txbId.Text = CurrentAccount.IdEmployee.ToString();
             importStockWindow.txbName.Text = CurrentAccount.DisplayName;
             importStockWindow.ShowDialog();

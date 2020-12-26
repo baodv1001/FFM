@@ -9,8 +9,8 @@
         xmlns:local="clr-namespace:FootballFieldManagement.Views"
         xmlns:vd ="clr-namespace:FootballFieldManagement.Validations"
         mc:Ignorable="d"
-        Title="Trả lương" 
-        Height="700"
+        Title="Trả lương nhân viên" 
+        Height="680"
         Width="510"
         x:Name="wdPaySalary"
         DataContext="{StaticResource EmployeeVM}"
@@ -25,14 +25,14 @@
     </i:Interaction.Triggers>
     <Grid Width="500">
         <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
+            <RowDefinition Height="120"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock 
             HorizontalAlignment="Left" 
             Margin="30,30,0,0"
             TextWrapping="Wrap" 
-            Text="Thiết lập khung giờ" 
+            Text="Trả lương nhân viên" 
             VerticalAlignment="Top" 
             FontSize="18"
             FontWeight="Bold" 
@@ -45,8 +45,8 @@
         </StackPanel>
         <Rectangle 
             Grid.Row="1"
-            Height="2" 
-            Margin="30,5,30,0"
+            Height="3" 
+            Margin="30,5,35,0"
             VerticalAlignment="Top"
             Fill="{DynamicResource Primary}"/>
         <TextBlock 
@@ -67,68 +67,71 @@
                 <RowDefinition Height="95"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0"  Background="{DynamicResource Primary}" Margin="0,55,0,0">
+            <Grid 
+                Grid.Row="0" 
+                Background="{DynamicResource Primary}"
+                Margin="0,55,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="200"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock 
-                        x:Name="txbOrderNum"
-                        Text="STT"
-                        Grid.Column="0"
-                        HorizontalAlignment="Center" 
-                        Margin="0" 
-                        TextWrapping="Wrap" 
-                        VerticalAlignment="Center" 
-                        FontWeight="SemiBold" 
-                        Foreground="{DynamicResource White}" 
-                        TextAlignment="Center" 
-                        FontSize="13"/>
+                    x:Name="txbOrderNum"
+                    Text="STT"
+                    Grid.Column="0"
+                    HorizontalAlignment="Center" 
+                    Margin="0" 
+                    TextWrapping="Wrap" 
+                    VerticalAlignment="Center" 
+                    FontWeight="SemiBold" 
+                    Foreground="{DynamicResource White}" 
+                    TextAlignment="Center" 
+                    FontSize="16"/>
                 <TextBlock 
-                        x:Name="txbName"
-                        Grid.Column="1"
-                        Text="Tên nhân viên"
-                        HorizontalAlignment="Left" 
-                        Margin="10,0,0,0" 
-                        TextWrapping="Wrap" 
-                        TextTrimming="CharacterEllipsis"
-                        MaxWidth="240"
-                        VerticalAlignment="Center" 
-                        FontWeight="SemiBold" 
-                        Foreground="{DynamicResource White}" 
-                        FontSize="13"/>
+                    x:Name="txbName"
+                    Grid.Column="1"
+                    Text="Tên nhân viên"
+                    HorizontalAlignment="Left" 
+                    Margin="10,0,0,0" 
+                    TextWrapping="Wrap" 
+                    TextTrimming="CharacterEllipsis"
+                    MaxWidth="240"
+                    VerticalAlignment="Center" 
+                    FontWeight="SemiBold" 
+                    Foreground="{DynamicResource White}" 
+                    FontSize="16"/>
                 <TextBlock 
-                        x:Name="txbTotalSalary"
-                        Text="Lương"
-                        Grid.Column="2"
-                        HorizontalAlignment="Center" 
-                        Margin="0" 
-                        TextWrapping="Wrap" 
-                        VerticalAlignment="Center" 
-                        FontWeight="SemiBold" 
-                        Foreground="{DynamicResource White}" 
-                        TextAlignment="Center" 
-                        FontSize="13"/>
+                    x:Name="txbTotalSalary"
+                    Text="Lương"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center" 
+                    Margin="0" 
+                    TextWrapping="Wrap" 
+                    VerticalAlignment="Center" 
+                    FontWeight="SemiBold" 
+                    Foreground="{DynamicResource White}" 
+                    TextAlignment="Center" 
+                    FontSize="16"/>
             </Grid>
             <ScrollViewer
                 Grid.Row="1" >
                 <StackPanel
                     Grid.Row="1"
                     x:Name="stkSalaryInfo" 
-                    Margin="0,10,0,0"/>
+                    Margin="0,2,0,0"/>
             </ScrollViewer>
         </Grid>
         <Border 
             BorderBrush="{DynamicResource Primary}"
-            BorderThickness="1"
-            Height="400" 
-            Margin="30,100,0,0"
+            BorderThickness="2"
+            Height="410" 
+            Margin="0,88,0,0"
             Grid.Row="1" 
             VerticalAlignment="Top"
-            Width="435" 
-            CornerRadius="6" 
-            HorizontalAlignment="Left"/>
+            Width="432" 
+            CornerRadius="4" 
+            HorizontalAlignment="Center"/>
         <ComboBox
             x:Name="cboSalaryMonth"
             materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -144,7 +147,7 @@
             HorizontalContentAlignment="Left"
             VerticalContentAlignment="Center" 
             Padding="3,0,0,0" 
-            Margin="30,80,0,0" 
+            Margin="30,70,0,0" 
             VerticalAlignment="Top"
             HorizontalAlignment="Left" 
             Foreground="{DynamicResource Gray1}"
@@ -171,13 +174,12 @@
             Style="{StaticResource MyGreenButtonStyle}"
             Height="30" 
             Width="100"
-            materialDesign:ButtonAssist.CornerRadius="4"
             HorizontalAlignment="Right"
             FocusVisualStyle="{x:Null}"
             Content="Trả lương" 
-            FontSize="14" 
+            FontSize="16" 
             VerticalAlignment="Top"
             Padding="0" 
-            Margin="0,90,35,0" />
+            Margin="0,80,35,0" />
     </Grid>
 </Window>

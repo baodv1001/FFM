@@ -278,5 +278,31 @@ namespace FootballFieldManagement.DAL
             }
             return fieldInfos;
         }
+        public long GetPriceByFieldInfoId(string idFieldInfo)
+        {
+            int res = 0;
+            try
+            {
+                conn.Open();
+                string queryString = "select price from FieldInfo where idFieldInfo = " + idFieldInfo;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+
+                res = int.Parse(dataTable.Rows[0].ItemArray[0].ToString());
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
     }
 }

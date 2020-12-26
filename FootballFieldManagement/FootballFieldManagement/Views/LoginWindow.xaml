@@ -55,7 +55,7 @@
             x:Name="lblCopyright" 
             Content="Created by COF | Copyright © 2020 All Rights Reserved" 
             HorizontalAlignment="Right" 
-            Height="34" Width="540" 
+            Width="540" 
             VerticalAlignment="Bottom" 
             Padding="0" 
             VerticalContentAlignment="Bottom" 

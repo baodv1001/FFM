@@ -171,9 +171,10 @@ namespace FootballFieldManagement.ViewModels
             salaryRecordTemplate.txbIdSalaryRecord.Text = "#" + idSalaryRecord;
             salaryRecordTemplate.txbDate.Text = salaryRecordControl.txbSalaryRecordDate.Text;
             salaryRecordTemplate.txbTotal.Text = salaryRecordControl.txbTotal.Text;
+            salaryRecordTemplate.txbName.Text = salaryRecordControl.txbName.Text;
 
             //Thông tin salary info
-            List<Salary> listSalaryInfo = SalaryDAL.Instance.ConvertDBToList();
+            List<Salary> listSalaryInfo = SalaryDAL.Instance.GetSalaryInfoById(idSalaryRecord);
             int numOfEmployees = listSalaryInfo.Count();
             if (numOfEmployees > 5)
             {
@@ -187,7 +188,7 @@ namespace FootballFieldManagement.ViewModels
 
                 salaryInfoControl.txbOrderNum.Text = i.ToString();
                 salaryInfoControl.txbName.Text = employee.Name;
-                // salaryInfoControl.txbBasicSalary.Text = salaryInfo.SalaryBasic.ToString();
+                salaryInfoControl.txbBasicSalary.Text = SalarySettingDAL.Instance.GetBaseSalary(employee.Position);
                 salaryInfoControl.txbNumOfFault.Text = salaryInfo.NumOfFault.ToString();
                 salaryInfoControl.txbNumOfShift.Text = salaryInfo.NumOfShift.ToString();
                 salaryInfoControl.txbTotalSalary.Text = string.Format("{0:N0}", salaryInfo.TotalSalary);
@@ -237,18 +238,20 @@ namespace FootballFieldManagement.ViewModels
             int temp = 1;
             for (int i = 0; i < dataTable.Rows.Count; i++)
             {
-                SalaryRecordControl SalaryRecordControl = new SalaryRecordControl();
+                SalaryRecordControl salaryRecordControl = new SalaryRecordControl();
                 flag = !flag;
                 if (flag)
                 {
-                    SalaryRecordControl.grdMain.Background = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
+                    salaryRecordControl.grdMain.Background = (Brush)new BrushConverter().ConvertFrom("#FFFFFFFF");
                 }
-                SalaryRecordControl.txbId.Text = dataTable.Rows[i].ItemArray[0].ToString();
+                salaryRecordControl.txbId.Text = dataTable.Rows[i].ItemArray[0].ToString();
                 DateTime SalaryRecordDate = (DateTime)dataTable.Rows[i].ItemArray[1];
-                SalaryRecordControl.txbSalaryRecordDate.Text = SalaryRecordDate.ToString("dd/MM/yyyy");
-                SalaryRecordControl.txbSalaryRecordTime.Text = SalaryRecordDate.ToString("HH:mm");
-                SalaryRecordControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
-                homeWindow.stkSalaryRecord.Children.Add(SalaryRecordControl);
+                salaryRecordControl.txbSalaryRecordDate.Text = SalaryRecordDate.ToString("dd/MM/yyyy");
+                salaryRecordControl.txbSalaryRecordTime.Text = SalaryRecordDate.ToString("HH:mm");
+                salaryRecordControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
+                salaryRecordControl.txbName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(dataTable.Rows[i].ItemArray[3].ToString()).Name;
+                
+                homeWindow.stkSalaryRecord.Children.Add(salaryRecordControl);
                 temp++;
             }
         }
@@ -511,10 +514,10 @@ namespace FootballFieldManagement.ViewModels
             fieldBillInfoControl.txbName.Text = string.Format("{0} ({1})", field.Name, note);
             fieldBillInfoControl.txbUnit.Text = "lần";
             fieldBillInfoControl.txbQuantity.Text = "1";
-            string str = TimeFrameDAL.Instance.GetPriceOfTimeFrame(fieldInfo.StartingTime.ToString("HH:mm"), fieldInfo.EndingTime.ToString("HH:mm"), field.Type.ToString());
+            string str = FieldInfoDAL.Instance.GetPriceByFieldInfoId(fieldInfo.IdFieldInfo.ToString()).ToString();
             fieldBillInfoControl.txbUnitPrice.Text = string.Format("{0:N0}", long.Parse(str));
             fieldBillInfoControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(str));
-
+            
             billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
             foreach (var billInfo in listBillInfo)
             {

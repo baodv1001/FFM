@@ -36,7 +36,7 @@
             VerticalAlignment="Top" 
             Width="36" 
             Padding="0" 
-            CornerRadius="6" 
+            CornerRadius="4" 
             Background="{DynamicResource White}"/>
         <Rectangle 
             x:Name="recColor"
@@ -87,7 +87,7 @@
                 <materialDesign:PackIcon 
                     x:Name="icn3" 
                     Kind="CalendarCheckOutline"
-                    Visibility="Visible"
+                    Visibility="Hidden"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" 
                     Foreground="{DynamicResource Primary}" 

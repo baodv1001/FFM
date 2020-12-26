@@ -220,8 +220,6 @@
                     <Button 
                         x:Name="btnGoods" 
                         Uid="3"
-                        Command="{Binding G_LoadCommand}"
-                        CommandParameter="{Binding ElementName=stkGoods}"
                         Content="Hàng hóa"
                         HorizontalAlignment="Right" 
                         Height="40" 
@@ -497,14 +495,13 @@
                     Command="{Binding OpenCheckAttendanceWindowCommand}"
                     CommandParameter="{Binding ElementName=wdHome}"
                     Style="{StaticResource MyPrimaryButtonStyle}"
-                    Height="40" 
-                    Width="180"
-                    materialDesign:ButtonAssist.CornerRadius="4"
+                    Height="35" 
+                    Width="120"
+                    materialDesign:ButtonAssist.CornerRadius="2"
                     ToolTip="Đăng nhập" 
                     VerticalAlignment="Center" 
                     Margin="0,0,250,0"
-                    FontSize="20" 
-                    FontWeight="Bold"
+                    FontSize="18" 
                     Padding="0"
                     HorizontalAlignment="Right" />
             </Grid>
@@ -517,7 +514,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -953,7 +950,7 @@
                 Margin="0"
                 Grid.Row="1"
                 DataContext="{StaticResource BusinessVM}"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction 
@@ -965,7 +962,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="12*"></RowDefinition>
-                    <RowDefinition Height="60"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
@@ -1002,19 +999,16 @@
                         x:Name="btnReportField"     
                         Content="Báo sân lỗi"
                         DataContext="{StaticResource FieldVM}"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyRedButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Đặt sân" 
-                        Margin="460,5,0,5" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource  White}" 
+                        Margin="0" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
-                        Width="180"
-                        HorizontalAlignment="Left" 
+                        Width="120"
+                        HorizontalAlignment="Right" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" >
                         <i:Interaction.Triggers>
@@ -1027,19 +1021,16 @@
                     <Button 
                         x:Name="btnHireField"     
                         Content="Đặt sân"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="4"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Đặt sân" 
-                        Margin="700,5,0,5" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource  White}" 
+                        Margin="0,0,160,0" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
                         Width="180"
-                        HorizontalAlignment="Left" 
+                        HorizontalAlignment="Right" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" >
                         <i:Interaction.Triggers>
@@ -1053,18 +1044,15 @@
                     <Button 
                         x:Name="btn"     
                         Content="Hôm nay"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="4"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Xem thông tin ngày hôm nay" 
-                        Margin="940,5,0,5" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource  White}" 
+                        Margin="200,0,0,0" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
-                        Width="180"
+                        Width="100"
                         HorizontalAlignment="Left" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" >
@@ -1136,7 +1124,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Orientation="Horizontal" 
-                    Margin="40,0,0,0">
+                    Margin="40,0,0,5">
                     <UserControls:FieldButtonControl Margin="0"/>
                     <TextBlock
                         Text="Sân không" 
@@ -1175,65 +1163,67 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Orientation="Horizontal" 
-                    Margin="0,0,50,0">
+                    Margin="0,0,40,5">
                     <Button 
                         x:Name="btnFirstPage" 
-                        Margin="10,5,10,5" 
+                        Margin="20,0,0,0" 
                         ToolTip="Trang đầu"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding FirstPageCommand}"
                         CommandParameter="{Binding ElementName=wdHome}"
                         Background="{DynamicResource Primary}" 
-                        Height="36">
+                        Height="36" 
+                        Width="50" 
+                        Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronDoubleLeft"
-                            Width="26" 
-                            Height="26"
+                            Width="30" 
+                            Height="30"
                             Foreground="{DynamicResource White}" />
                     </Button>
                     <Button 
                         x:Name="btnPreviousPage" 
-                        Margin="10,5,10,5"
+                        Margin="20,0,0,0"
                         ToolTip="Trang trước"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding PreviousPageCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
                         Background="{DynamicResource Primary}" 
-                        Height="36">
+                        Height="36" Width="50" Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronLeft" 
-                            Width="26" 
-                            Height="26"
+                            Width="30" 
+                            Height="30"
                             Foreground="{DynamicResource White}" />
                     </Button>
                     <Button 
                         x:Name="btnNextPage" 
-                        Margin="10,5,10,5" 
+                        Margin="20,0,0,0" 
                         ToolTip="Trang tiếp theo"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding NextPageCommand}"
                         CommandParameter="{Binding ElementName=wdHome}"
                         Background="{DynamicResource Primary}"
-                        Height="36">
+                        Height="36" Width="50" Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronRight" 
-                            Width="26"
-                            Height="26" 
+                            Width="30"
+                            Height="30" 
                             Foreground="{DynamicResource White}" />
                     </Button>
                     <Button 
                         x:Name="btnLastPage" 
-                        Margin="10,5,10,5" 
+                        Margin="20,0,0,0" 
                         ToolTip="Trang cuối"
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding LastPageCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
                         Background="{DynamicResource Primary}" 
-                        Height="36">
+                        Height="36" Width="50" Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronDoubleRight" 
-                            Width="26"
-                            Height="26" 
+                            Width="30"
+                            Height="30" 
                             Foreground="{DynamicResource White}" />
                     </Button>
                 </StackPanel>
@@ -1252,32 +1242,21 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <Grid 
-                    Width="760" 
-                    Height="50"
+                <StackPanel
+                    Orientation="Horizontal"
                     Grid.Row="0" 
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center" 
                     Margin="0,0,40,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
                     <Button 
                         x:Name="btnAddEmployee"
-                        Grid.Column="3"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
                         Command="{Binding E_AddCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Thêm nhân viên" 
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
+                        Margin="40,0,0,0" 
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Center" 
                         Width="180"
@@ -1287,66 +1266,55 @@
                         FontWeight="SemiBold" />
                     <Button 
                         x:Name="btnSetSalary"
-                        Grid.Column="2"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
                         Height="40"
                         Command="{Binding E_SetSalaryCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Thiết lập lương"
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
-                        Width="180"
+                        Margin="50,0,0,0" 
+                        Width="150"
                         FocusVisualStyle="{x:Null}"
                         Content="Thiết lập lương" 
                         FontSize="18" 
                         FontWeight="SemiBold" 
                         VerticalAlignment="Center" 
-                        HorizontalAlignment="Center" />
-                    <Button 
-                        x:Name="btnPaySalary"
-                        Grid.Column="1"
-                        DataContext="{StaticResource EmployeeVM}"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
-                        Height="40"
-                        Command="{Binding OpenPaySalaryCommand}" 
-                        CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
-                        ToolTip="Trả lương"
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
-                        VerticalAlignment="Center" 
-                        Width="180"
-                        FocusVisualStyle="{x:Null}"
-                        Content="Trả lương" 
-                        FontSize="18" 
-                        FontWeight="SemiBold" 
-                        HorizontalAlignment="Center" />
+                        HorizontalAlignment="Center"
+                        Padding="0" />
                     <Button 
                         x:Name="btnCalculateSalary"
-                        Grid.Column="0"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
                         Height="40"
                         Command="{Binding E_CalculateSalaryCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Tính lương"
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
+                        Margin="20,0,0,0" 
                         VerticalAlignment="Center" 
-                        Width="180"
+                        Width="120"
                         FocusVisualStyle="{x:Null}"
                         Content="Tính lương" 
                         FontSize="18" 
                         FontWeight="SemiBold" 
                         HorizontalAlignment="Center" />
-                </Grid>
+                    <Button 
+                        x:Name="btnPaySalary"
+                        DataContext="{StaticResource EmployeeVM}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
+                        Height="40"
+                        Command="{Binding OpenPaySalaryCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        materialDesign:ButtonAssist.CornerRadius="2"
+                        ToolTip="Trả lương"
+                        Margin="20,0,0,0" 
+                        VerticalAlignment="Center" 
+                        Width="120"
+                        FocusVisualStyle="{x:Null}"
+                        Content="Trả lương" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        HorizontalAlignment="Center" />
+                </StackPanel>
                 <Grid 
                     Grid.Row="1"
                     HorizontalAlignment="Left"
@@ -1473,24 +1441,8 @@
                     Grid.Row="0"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
-                    Margin="0,0,40,0"
+                    Margin="0,0,35,0"
                     VerticalAlignment="Center">
-                    <Button 
-                        x:Name="btnImportStock"
-                        Command="{Binding OpenImportStockWindowCommand}"
-                        CommandParameter="{Binding ElementName=wdHome}"
-                        Content="Nhập hàng"
-                        Style="{StaticResource MyPrimaryButtonStyle}"
-                        Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
-                        ToolTip="Thêm hàng hóa" 
-                        Margin="0,0,20,0" 
-                        FontSize="18" 
-                        VerticalAlignment="Center" 
-                        FocusVisualStyle="{x:Null}"
-                        Width="160" 
-                        Padding="0,0,0,2" 
-                        FontWeight="SemiBold"/>
                     <Button 
                         x:Name="btnAddGoods"
                         Command="{Binding AddGoodsCommand}"
@@ -1498,7 +1450,7 @@
                         Content="Thêm mặt hàng"
                         Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Thêm hàng hóa" 
                         Margin="0" 
                         FontSize="18" 
@@ -1507,6 +1459,22 @@
                         Width="180" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" />
+                    <Button 
+                        x:Name="btnImportStock"
+                        Command="{Binding OpenImportStockWindowCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Content="Nhập hàng"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="2"
+                        ToolTip="Thêm hàng hóa" 
+                        Margin="40,0,0,0" 
+                        FontSize="18" 
+                        VerticalAlignment="Center" 
+                        FocusVisualStyle="{x:Null}"
+                        Width="140" 
+                        Padding="0,0,0,2" 
+                        FontWeight="SemiBold"/>
                 </StackPanel>
                 <Grid 
                     Grid.Row="1"
@@ -1619,8 +1587,8 @@
                 <Grid
                     Grid.Row="0" 
                     Height="50"
-                    Margin="40,0"
-                    VerticalAlignment="Center">
+                    Margin="0"
+                    VerticalAlignment="Center" Width="1140" HorizontalAlignment="Center">
                     <ComboBox
                         x:Name="cboViews"
                         materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -1655,40 +1623,35 @@
                         VerticalAlignment="Center"/>
                     <StackPanel 
                         Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                        <Button 
-                            x:Name="btnSettingTime" 
-                            Content="Thiết lập khung giờ"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            Height="44"
-                            materialDesign:ButtonAssist.CornerRadius="6"
-                            ToolTip="Thêm sân bóng" 
-                            Margin="0,0,40,0" 
-                            Command="{Binding SetTimeFrameCommand}"
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Success}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{StaticResource  White}" 
-                            FontSize="18" 
-                            VerticalAlignment="Center" 
-                            FocusVisualStyle="{x:Null}"
-                            Width="190"
-                            HorizontalAlignment="Right" 
-                            Padding="0,0,0,2" 
-                            FontWeight="SemiBold" />
+                        HorizontalAlignment="Right"
+                        Margin="0,0,20,0">
                         <Button 
                             x:Name="btnAddField"
                             Content="Thêm sân bóng"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource MyGreenButtonStyle}"
                             Height="44"
-                            materialDesign:ButtonAssist.CornerRadius="6"
+                            materialDesign:ButtonAssist.CornerRadius="2"
                             ToolTip="Thêm sân bóng" 
                             Margin="0" 
                             Command="{Binding AddFieldCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Success}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{StaticResource  White}" 
+                            FontSize="18" 
+                            VerticalAlignment="Center" 
+                            FocusVisualStyle="{x:Null}"
+                            Width="180"
+                            HorizontalAlignment="Right" 
+                            Padding="0,0,0,2" 
+                            FontWeight="SemiBold" />
+                        <Button 
+                            x:Name="btnSettingTime" 
+                            Content="Thiết lập khung giờ"
+                            Style="{StaticResource MyPrimaryButtonStyle}"
+                            Height="44"
+                            materialDesign:ButtonAssist.CornerRadius="2"
+                            ToolTip="Thêm sân bóng" 
+                            Margin="40,0,0,0" 
+                            Command="{Binding SetTimeFrameCommand}"
+                            CommandParameter="{Binding ElementName=wdHome}"
                             FontSize="18" 
                             VerticalAlignment="Center" 
                             FocusVisualStyle="{x:Null}"
@@ -2398,11 +2361,12 @@
                                 Height="40" 
                                 VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="300"/>
                                     <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="0.5*"/>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="0.8*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="10"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock 
@@ -2416,17 +2380,17 @@
                                     Foreground="{DynamicResource White}"
                                     FontWeight="SemiBold"/>
                                 <TextBlock 
-                                    Text="Ngày" 
-                                    Grid.Column="1" 
-                                    HorizontalAlignment="Center"
-                                    Margin="0" 
+                                    Text="Tên người lập phiếu" 
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left" 
+                                    Margin="15,0,0,0" 
                                     TextWrapping="Wrap" 
                                     VerticalAlignment="Center" 
-                                    FontSize="18"
-                                    Foreground="{DynamicResource White}" 
+                                    FontSize="18" 
+                                    Foreground="{DynamicResource White}"
                                     FontWeight="SemiBold"/>
                                 <TextBlock 
-                                    Text="Giờ" 
+                                    Text="Ngày" 
                                     Grid.Column="2" 
                                     HorizontalAlignment="Center"
                                     Margin="0" 
@@ -2436,8 +2400,18 @@
                                     Foreground="{DynamicResource White}" 
                                     FontWeight="SemiBold"/>
                                 <TextBlock 
-                                    Text="Tổng giá trị" 
+                                    Text="Giờ" 
                                     Grid.Column="3" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Tổng giá trị" 
+                                    Grid.Column="4" 
                                     HorizontalAlignment="Center"
                                     Margin="0" 
                                     TextWrapping="Wrap" 
@@ -2497,7 +2471,7 @@
                     HorizontalAlignment="Left" 
                     Width="500"
                     Height="340" 
-                    Margin="50,40,0,0" 
+                    Margin="50,30,0,0" 
                     VerticalAlignment="Top">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -2598,14 +2572,14 @@
                             CommandParameter="{Binding ElementName=wdHome}"
                             Style="{StaticResource MyGreenButtonStyle}"
                             Height="40" 
-                            Width="100"
-                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Width="120"
+                            materialDesign:ButtonAssist.CornerRadius="2"
                             ToolTip="Lưu thông tin" 
                             Margin="0,0,40,0" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
                             Content="Lưu" 
-                            FontSize="18" 
+                            FontSize="20" 
                             VerticalAlignment="Center"
                             Padding="0" 
                             IsEnabled="False"/>
@@ -2624,7 +2598,7 @@
                     HorizontalAlignment="Left" 
                     Width="500"
                     Height="300" 
-                    Margin="50,0,0,20" 
+                    Margin="50,0,0,30" 
                     VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -2712,14 +2686,14 @@
                             CommandParameter="{Binding ElementName=wdHome}"
                             Style="{StaticResource MyGreenButtonStyle}"
                             Height="40" 
-                            Width="100"
-                            materialDesign:ButtonAssist.CornerRadius="6"
+                            Width="120"
+                            materialDesign:ButtonAssist.CornerRadius="2"
                             ToolTip="Lưu thông tin" 
                             Margin="0,0,40,10" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
                             Content="Lưu" 
-                            FontSize="18" 
+                            FontSize="20" 
                             VerticalAlignment="Bottom"
                             Padding="0" 
                             IsEnabled="False"/>
@@ -2739,7 +2713,7 @@
                     HorizontalAlignment="Right" 
                     Width="520"
                     Height="520" 
-                    Margin="0,40,60,0" 
+                    Margin="0,30,60,0" 
                     VerticalAlignment="Top">
                     <Grid
                         Width="520"

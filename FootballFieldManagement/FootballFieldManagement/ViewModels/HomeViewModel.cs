@@ -214,7 +214,7 @@ namespace FootballFieldManagement.ViewModels
                     parameter.cboSelectPeriodRp.SelectedIndex = -1;
                     parameter.cboSelectTimeRp.SelectedIndex = -1;
                     parameter.cboSelectViewMode.SelectedIndex = -1;
-                    parameter.cboSelectViewModeStockReceipt.SelectedIndex = -1;
+                    parameter.cboSelectViewModeStR.SelectedIndex = -1;
                     parameter.cboSelectYearSalaryRecord.SelectedIndex = -1;
                     DispatcherTimer timer = new DispatcherTimer
                     {

@@ -371,7 +371,7 @@
                 Padding="0" 
                 BorderThickness="2" 
                 BorderBrush="{StaticResource Gray3}"  
-                CornerRadius="6" 
+                CornerRadius="4" 
                 HorizontalAlignment="Right" 
                 VerticalAlignment="Top" 
                 Width="150" 
@@ -423,7 +423,7 @@
                 Padding="0" 
                 BorderThickness="2" 
                 BorderBrush="{StaticResource Gray3}"  
-                CornerRadius="6" 
+                CornerRadius="4" 
                 HorizontalAlignment="Right" 
                 Width="150" 
                 Height="35">

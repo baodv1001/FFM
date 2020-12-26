@@ -104,10 +104,11 @@
                     x:Name="recSearch"
                     HorizontalAlignment="Left" 
                     Width="400"
-                    RadiusY="6" 
-                    RadiusX="6" 
+                    RadiusY="4" 
+                    RadiusX="4" 
                     Stroke="{DynamicResource Primary}" 
-                    Height="40" StrokeThickness="2"/>
+                    Height="40" 
+                    StrokeThickness="2"/>
                 <TextBox 
                     x:Name="txtSearch"
                     materialDesign:HintAssist.Hint="Tìm sản phẩm"
@@ -289,7 +290,7 @@
                 Margin="70,50,0,0" 
                 VerticalAlignment="Top"
                 Width="938" 
-                CornerRadius="6"/>
+                CornerRadius="4"/>
             <Label 
                 Content="Sản phẩm" 
                 HorizontalAlignment="Left" 
@@ -323,7 +324,7 @@
                 </ScrollViewer>
             </Grid>
             <Border 
-                CornerRadius="6"
+                CornerRadius="4"
                 HorizontalAlignment="Left"
                 Height="280" 
                 Width="938"
@@ -484,7 +485,9 @@
                 Width="350" 
                 Foreground="{DynamicResource Gray1}" 
                 BorderBrush="{DynamicResource Gray3}" 
-                FontSize="16" AcceptsTab="True" FontWeight="SemiBold" BorderThickness="2" />
+                FontSize="16" 
+                AcceptsTab="True"
+                FontWeight="SemiBold"/>
             <Grid            
                 x:Name="grdPayForm" 
                 Height="190" 
@@ -496,7 +499,7 @@
                     Height="40"
                     Command="{Binding PayBillCommand}"
                     CommandParameter="{Binding ElementName=wdPay}"
-                    materialDesign:ButtonAssist.CornerRadius="8"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,80" 
                     FontSize="20" 
@@ -511,7 +514,7 @@
                     Height="40"
                     Command="{Binding ViewBillCommand}"
                     CommandParameter="{Binding ElementName=wdPay}"
-                    materialDesign:ButtonAssist.CornerRadius="8"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,20" 
                     Background="{DynamicResource White}" 

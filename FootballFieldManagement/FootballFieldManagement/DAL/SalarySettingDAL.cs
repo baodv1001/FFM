@@ -130,5 +130,31 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
+        public string GetBaseSalary(string typeEmployee)
+        {
+            string res = "0";
+            try
+            {
+                conn.Open();
+                string query = @"select salaryBase from SalarySetting where typeEmployee = N'" + typeEmployee + "'";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                if (dt.Rows.Count > 0)
+                {
+                    res = dt.Rows[0].ItemArray[0].ToString();
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
     }
 }

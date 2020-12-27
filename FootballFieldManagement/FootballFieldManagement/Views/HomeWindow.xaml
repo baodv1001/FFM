@@ -1098,12 +1098,10 @@
                             Orientation="Horizontal" 
                             VerticalAlignment="Top" 
                             Height="50" 
-                            HorizontalAlignment="Left" 
                             CanHorizontallyScroll="True" 
                             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
                             Margin="130,0,0,0" 
-                            Background="{DynamicResource Primary}">
-                        </StackPanel>
+                            Background="{DynamicResource Primary}"/>
                         <ScrollViewer
                             Style="{StaticResource FavsScrollViewer}"
                             VerticalScrollBarVisibility="Auto"
@@ -1136,7 +1134,7 @@
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
-                        Margin="5,0"/>
+                        Margin="5,0,10,0"/>
                     <UserControls:FieldButtonControl 
                         DataContext=""
                         x:Name="ucField2"
@@ -1147,7 +1145,7 @@
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
-                        Margin="5,0"/>
+                        Margin="5,0,10,0"/>
                     <UserControls:FieldButtonControl
                         DataContext=""
                         x:Name="ucField3" 
@@ -1158,7 +1156,7 @@
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
-                        Margin="5,0"/>
+                        Margin="5,0,10,0"/>
                     <UserControls:FieldButtonControl 
                         DataContext=""
                         x:Name="ucField4" 
@@ -1169,7 +1167,7 @@
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
-                        Margin="5,0"/>
+                        Margin="5,0,10,0"/>
                     <UserControls:FieldButtonControl 
                         DataContext=""
                         x:Name="ucField5" 
@@ -1182,7 +1180,7 @@
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
-                        Margin="5,0"/>
+                        Margin="5,0,10,0"/>
                 </StackPanel>
                 <StackPanel
                     Grid.Row="2"
@@ -1197,7 +1195,7 @@
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding FirstPageCommand}"
                         CommandParameter="{Binding ElementName=wdHome}"
-                        Background="{DynamicResource Primary}" 
+                        FocusVisualStyle="{x:Null}"
                         Height="36" 
                         Width="50" 
                         Padding="0">
@@ -1214,8 +1212,10 @@
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding PreviousPageCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        Background="{DynamicResource Primary}" 
-                        Height="36" Width="50" Padding="0">
+                        FocusVisualStyle="{x:Null}"
+                        Height="36" 
+                        Width="50"
+                        Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronLeft" 
                             Width="30" 
@@ -1229,8 +1229,10 @@
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding NextPageCommand}"
                         CommandParameter="{Binding ElementName=wdHome}"
-                        Background="{DynamicResource Primary}"
-                        Height="36" Width="50" Padding="0">
+                        FocusVisualStyle="{x:Null}"
+                        Height="36" 
+                        Width="50" 
+                        Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronRight" 
                             Width="30"
@@ -1244,8 +1246,10 @@
                         Style="{StaticResource MaterialDesignRaisedLightButton}"
                         Command="{Binding LastPageCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        Background="{DynamicResource Primary}" 
-                        Height="36" Width="50" Padding="0">
+                        FocusVisualStyle="{x:Null}"
+                        Height="36"
+                        Width="50" 
+                        Padding="0">
                         <materialDesign:PackIcon 
                             Kind="ChevronDoubleRight" 
                             Width="30"

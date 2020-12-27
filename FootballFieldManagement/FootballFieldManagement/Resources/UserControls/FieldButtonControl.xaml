@@ -55,6 +55,7 @@
             Background="{x:Null}" 
             BorderBrush="{x:Null}"
             Foreground="{x:Null}" 
+            FocusVisualStyle="{x:Null}"
             Cursor="Hand"
             Padding="0" 
             Width="36" 

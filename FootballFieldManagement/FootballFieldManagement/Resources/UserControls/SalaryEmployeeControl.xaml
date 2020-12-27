@@ -10,7 +10,7 @@
              Width="430" 
              Height="30"
              x:Name="ucrMain"
-             Background="#FFF4EEFF"
+             Background="#FFE5F1FF"
              Margin="3,0,3,1">
     <Grid>
         <Grid.ColumnDefinitions>

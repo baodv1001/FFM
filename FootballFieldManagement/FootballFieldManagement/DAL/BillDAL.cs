@@ -93,7 +93,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             finally
@@ -103,29 +103,37 @@ namespace FootballFieldManagement.DAL
         }
         public List<Bill> ConvertDBToList()
         {
-            DataTable dt;
-            List<Bill> bills = new List<Bill>();
             try
             {
-                dt = LoadData("Bill");
+                List<Bill> bills = new List<Bill>();
+                conn.Open();
+                string queryString = "select * from Bill";
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    int idAccount = -1;
+                    if (dataTable.Rows[i].ItemArray[1].ToString() != "")
+                    {
+                        idAccount = int.Parse(dataTable.Rows[i].ItemArray[1].ToString());
+                    }
+                    Bill bill = new Bill(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), idAccount, DateTime.Parse(dataTable.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dataTable.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dataTable.Rows[i].ItemArray[4].ToString()), int.Parse(dataTable.Rows[i].ItemArray[5].ToString()), long.Parse(dataTable.Rows[i].ItemArray[6].ToString()), int.Parse(dataTable.Rows[i].ItemArray[7].ToString()), dataTable.Rows[i].ItemArray[8].ToString());
+                    bills.Add(bill);
+                }
+                return bills;
             }
             catch
             {
-                conn.Close();
-                dt = LoadData("Bill");
+                return new List<Bill>();
             }
-            for (int i = 0; i < dt.Rows.Count; i++)
+            finally
             {
-                int idAccount = -1;
-                if (dt.Rows[i].ItemArray[1].ToString() != "")
-                {
-                    idAccount = int.Parse(dt.Rows[i].ItemArray[1].ToString());
-                }
-                Bill bill = new Bill(int.Parse(dt.Rows[i].ItemArray[0].ToString()), idAccount, DateTime.Parse(dt.Rows[i].ItemArray[2].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[3].ToString()), DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), int.Parse(dt.Rows[i].ItemArray[5].ToString()), long.Parse(dt.Rows[i].ItemArray[6].ToString()), int.Parse(dt.Rows[i].ItemArray[7].ToString()), dt.Rows[i].ItemArray[8].ToString());
-                bills.Add(bill);
+                conn.Close();
             }
-            conn.Close();
-            return bills;
         }
         public Bill GetBill(string idBill)
         {

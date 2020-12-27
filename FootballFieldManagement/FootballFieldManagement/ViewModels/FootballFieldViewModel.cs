@@ -203,6 +203,11 @@ namespace FootballFieldManagement.ViewModels
                 {
                     temp.txbStatus.Text = "Tốt";
                 }
+                if (CurrentAccount.Type == 2)
+                {
+                    temp.btnDeleteField.IsEnabled = false;
+                    temp.btnEditField.IsEnabled = false;
+                }
                 wrap.Children.Add(temp);
             }
         }
@@ -219,6 +224,11 @@ namespace FootballFieldManagement.ViewModels
                     child.icnError.Visibility = Visibility.Hidden;
                 }
                 child.txbFieldType.Text = "Sân " + field.Type.ToString() + " người";
+                if (CurrentAccount.Type == 2)
+                {
+                    child.btnDelete.IsEnabled = false;
+                    child.btnEdit.IsEnabled = false;
+                }
                 parameter.wpCardField.Children.Add(child);
             }
         }
@@ -274,7 +284,7 @@ namespace FootballFieldManagement.ViewModels
                 //Kiểm tra tên sân có tồn tại hay chưa
                 if (FootballFieldDAL.Instance.isExistFieldName(parameter.txtName.Text))
                 {
-                    MessageBox.Show("Tên sân đã tồn tại! Vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show("Tên sân đã tồn tại! Vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     parameter.txtName.Text = "";
                     parameter.txtName.Focus();
                     return;
@@ -283,7 +293,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.AddIntoDB(newField))
                 {
                     isSuccess1 = true;
-                    MessageBox.Show("Thêm thành công!", "Thông báo");
+                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
 
                     //Hiển thị 
                     if (home.cboViews.SelectedIndex == 0)
@@ -311,7 +321,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Thêm thất bại!");
+                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -331,7 +341,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
                     isSuccess2 = true;
-                    MessageBox.Show("Cập nhật thành công!");
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
                     //Cập nhật lên display
                     if (home.cboViews.SelectedIndex == 0)
                     {
@@ -355,7 +365,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật thất bại!");
+                    CustomMessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 
@@ -419,7 +429,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteListField(FieldDetailsControl control)
         {
-            MessageBoxResult result = MessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 List<FieldInfo> fieldInfos = FieldInfoDAL.Instance.GetFieldInfoByIdField(control.txbIdField.Text);
@@ -460,7 +470,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteCardField(FieldControl control)
         {
-            MessageBoxResult result = MessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Xác nhận xóa sân bóng?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 //Lưu xuống DB

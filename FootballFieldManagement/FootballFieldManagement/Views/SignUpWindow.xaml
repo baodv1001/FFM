@@ -13,7 +13,7 @@
         Title="Đăng ký tài khoản" 
         Height="630"
         Width="390" 
-        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
@@ -39,7 +39,7 @@
             FontSize="32" 
             FontWeight="Bold" 
             Margin="0,30,0,0" 
-            Foreground="{StaticResource Black2}"/>
+            Foreground="{StaticResource Primary}"/>
         <Grid 
             HorizontalAlignment="Center" 
             Height="350" 
@@ -76,7 +76,7 @@
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
                     Padding="3,0,0,0"
-                    TabIndex="1">
+                    TabIndex="1" Foreground="{DynamicResource Gray1}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Width="220">
@@ -129,7 +129,7 @@
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="Medium" 
-                    Padding="2,0,0,0" >
+                    Padding="2,0,0,0" Foreground="{DynamicResource Gray1}" >
                     <TextBox.Text>
                         <Binding Path="UserName" UpdateSourceTrigger="PropertyChanged" >
                             <Binding.ValidationRules>
@@ -169,7 +169,7 @@
                     VerticalAlignment="Center"
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="SemiBold" 
-                    Padding="2,0,0,0">
+                    Padding="2,0,0,0" Foreground="{DynamicResource Gray1}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
                             <i:InvokeCommandAction Command="{Binding PasswordChangedCommand}" 
@@ -206,7 +206,7 @@
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="SemiBold" 
-                    Padding="2,0,0,0">
+                    Padding="2,0,0,0" Foreground="{DynamicResource Gray1}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
                             <i:InvokeCommandAction Command="{Binding PasswordConfirmChangedCommand}" 
@@ -240,7 +240,7 @@
                     VerticalAlignment="Center" 
                     CaretBrush="{StaticResource Primary}" 
                     FontWeight="SemiBold" 
-                    Padding="2,0,0,0">
+                    Padding="2,0,0,0" Foreground="{DynamicResource Gray1}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PasswordChanged">
                             <i:InvokeCommandAction Command="{Binding KeyCommand}" 
@@ -255,26 +255,19 @@
             x:Name="btnSignUp"
             Command="{Binding SignUpCommand}"
             CommandParameter="{Binding ElementName=wdSignUp}"
-            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            Style="{StaticResource MyPrimaryButtonStyle}"
             FocusVisualStyle="{x:Null}"
+            Content="Đăng ký"
+            FontSize="20"
+            FontWeight="Bold"
             Height="40" 
             Width="220"
-            materialDesign:ButtonAssist.CornerRadius="18"
+            materialDesign:ButtonAssist.CornerRadius="4"
             ToolTip="Đăng ký" 
             VerticalAlignment="Top" 
             Margin="0,490,0,0" 
             HorizontalAlignment="Center" 
-            BorderThickness="0" 
-            BorderBrush="{x:Null}" 
-            Background="{StaticResource Primary}" 
-            IsTabStop="False">
-            <TextBlock 
-                Text="Đăng ký" 
-                Foreground="{StaticResource White}" 
-                FontSize="20" 
-                FontWeight="SemiBold" 
-                VerticalAlignment="Center" 
-                Margin="0,0,0,4"/>
+            BorderThickness="0" >
         </Button>
         <Button 
             x:Name="btnLogin" 
@@ -283,7 +276,7 @@
             Content="Đăng nhập" 
             ToolTip="Đăng nhập"
             HorizontalAlignment="Center" 
-            Height="24" 
+            Height="30" 
             Width="120" 
             VerticalAlignment="Top" 
             Padding="0" 
@@ -298,5 +291,5 @@
             BorderBrush="{x:Null}" 
             IsTabStop="False"
             FocusVisualStyle="{x:Null}"/>
-    </Grid>     
+    </Grid>
 </Window>

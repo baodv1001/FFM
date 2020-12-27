@@ -18,7 +18,7 @@
     Width="1447" 
     WindowStartupLocation="CenterScreen" 
     Background="#FFF4EEFF"
-    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
     ResizeMode="CanMinimize">
     <Grid 
         x:Name="grdWindow">
@@ -220,8 +220,6 @@
                     <Button 
                         x:Name="btnGoods" 
                         Uid="3"
-                        Command="{Binding G_LoadCommand}"
-                        CommandParameter="{Binding ElementName=stkGoods}"
                         Content="Hàng hóa"
                         HorizontalAlignment="Right" 
                         Height="40" 
@@ -497,14 +495,13 @@
                     Command="{Binding OpenCheckAttendanceWindowCommand}"
                     CommandParameter="{Binding ElementName=wdHome}"
                     Style="{StaticResource MyPrimaryButtonStyle}"
-                    Height="40" 
-                    Width="180"
-                    materialDesign:ButtonAssist.CornerRadius="6"
+                    Height="35" 
+                    Width="120"
+                    materialDesign:ButtonAssist.CornerRadius="2"
                     ToolTip="Đăng nhập" 
                     VerticalAlignment="Center" 
                     Margin="0,0,250,0"
-                    FontSize="20" 
-                    FontWeight="Bold"
+                    FontSize="18" 
                     Padding="0"
                     HorizontalAlignment="Right" />
             </Grid>
@@ -876,7 +873,7 @@
                                     <i:EventTrigger EventName="SelectionChanged">
                                         <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
                                            CommandParameter="{Binding ElementName=wdHome}"/>
-                                    </i:EventTrigger>   
+                                    </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <ComboBoxItem Content="Theo tháng"/>
                                 <ComboBoxItem Content="Theo quý"/>
@@ -965,7 +962,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
                     <RowDefinition Height="12*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="70"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
@@ -1002,19 +999,16 @@
                         x:Name="btnReportField"     
                         Content="Báo sân lỗi"
                         DataContext="{StaticResource FieldVM}"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyRedButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Đặt sân" 
-                        Margin="460,5,0,5" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource  White}" 
+                        Margin="0" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
-                        Width="180"
-                        HorizontalAlignment="Left" 
+                        Width="120"
+                        HorizontalAlignment="Right" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" >
                         <i:Interaction.Triggers>
@@ -1027,19 +1021,16 @@
                     <Button 
                         x:Name="btnHireField"     
                         Content="Đặt sân"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Đặt sân" 
-                        Margin="700,5,0,5" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource  White}" 
+                        Margin="0,0,160,0" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
                         Width="180"
-                        HorizontalAlignment="Left" 
+                        HorizontalAlignment="Right" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" >
                         <i:Interaction.Triggers>
@@ -1053,18 +1044,15 @@
                     <Button 
                         x:Name="btn"     
                         Content="Hôm nay"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Xem thông tin ngày hôm nay" 
-                        Margin="940,5,0,5" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource  White}" 
+                        Margin="200,0,0,0" 
                         FontSize="18" 
                         VerticalAlignment="Center" 
                         FocusVisualStyle="{x:Null}"
-                        Width="180"
+                        Width="100"
                         HorizontalAlignment="Left" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" >
@@ -1081,48 +1069,43 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled" 
                     Margin="0,10"
-                    Width="1120"
-                    Height="540">
+                    Width="1120">
                     <Grid 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top"
-                        Background="#FFDDDDDD" 
                         ScrollViewer.CanContentScroll="False" 
                         ScrollViewer.VerticalScrollBarVisibility="Disabled" >
-                        <Grid                             
-                            Height="36" 
-                            Margin="0,0,0,0" 
+                        <Grid
+                            Width="130" 
+                            Height="50"
+                            Margin="0" 
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Top" 
                             Background="{DynamicResource Primary}">
                             <TextBlock 
                                 Text="Giờ" 
-                                HorizontalAlignment="Left" 
+                                HorizontalAlignment="Center" 
                                 Margin="0" 
                                 TextWrapping="Wrap" 
                                 VerticalAlignment="Center"
                                 TextAlignment="Center" 
-                                FontSize="16"
-                                Foreground="White" 
-                                FontWeight="SemiBold" 
-                                Width="130" 
-                                Height="26"/>
+                                FontSize="18"
+                                Foreground="{StaticResource White}" 
+                                FontWeight="SemiBold" />
                         </Grid>
                         <StackPanel 
                             x:Name="stkFieldTitle" 
                             Orientation="Horizontal" 
                             VerticalAlignment="Top" 
-                            Height="36" 
-                            HorizontalAlignment="Left" 
+                            Height="50" 
                             CanHorizontallyScroll="True" 
                             ScrollViewer.VerticalScrollBarVisibility="Disabled" 
                             Margin="130,0,0,0" 
-                            Background="{DynamicResource Primary}">
-                        </StackPanel>
+                            Background="{DynamicResource Primary}"/>
                         <ScrollViewer
                             Style="{StaticResource FavsScrollViewer}"
                             VerticalScrollBarVisibility="Auto"
-                            Margin="0,36,0,0" 
+                            Margin="0,51,0,0" 
                             VerticalAlignment="Top" 
                             HorizontalAlignment="Left" >
                             <StackPanel
@@ -1136,70 +1119,143 @@
                 </Grid>
                 <StackPanel
                     Grid.Row="2"
-                    Height="50"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal" 
+                    Margin="40,0,0,5">
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField1" 
+                        Margin="0">
+                    </UserControls:FieldButtonControl>
+                    <TextBlock
+                        Text="Sân trống " 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0,10,0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField2"
+                        Margin="0"/>
+                    <TextBlock
+                        Text="Sân đã đặt" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0,10,0"/>
+                    <UserControls:FieldButtonControl
+                        DataContext=""
+                        x:Name="ucField3" 
+                        Margin="0"/>
+                    <TextBlock
+                        Text="Sân đang đá" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0,10,0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField4" 
+                        Margin="0"/>
+                    <TextBlock
+                        Text="Đã thanh toán" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0,10,0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField5" 
+                        Margin="0" 
+                        IsEnabled="False"
+                        Cursor=""/>
+                    <TextBlock
+                        Text="Không được đặt" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0,10,0"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
-                    DockPanel.Dock="Bottom"
                     Orientation="Horizontal" 
-                    Margin="0,0,50,-2">
-                    <WrapPanel 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center" 
-                        Margin="0,0,0,5">
-                        <Button 
-                            x:Name="btnFirstPage" 
-                            Margin="10,5,10,5" 
-                            ToolTip="Trang đầu"
-                            Command="{Binding FirstPageCommand}"
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}" 
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronDoubleLeft" />
-                        </Button>
-                        <Button 
-                            x:Name="btnPreviousPage" 
-                            Margin="10,5,10,5"
-                            ToolTip="Trang trước"
-                            Command="{Binding PreviousPageCommand}" 
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}" 
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronLeft" />
-                        </Button>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
-                                Grid.Column="1"
-                                VerticalAlignment="Center" />
-                        </Grid>
-                        <Button 
-                            x:Name="btnNextPage" 
-                            Margin="10,5,10,5" 
-                            ToolTip="Trang tiếp theo"
-                            Command="{Binding NextPageCommand}"
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}"
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronRight" />
-                        </Button>
-                        <Button 
-                            x:Name="btnLastPage" 
-                            Margin="10,5,10,5" 
-                            ToolTip="Trang cuối"
-                            Command="{Binding LastPageCommand}" 
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Primary}" 
-                            Height="36">
-                            <materialDesign:PackIcon 
-                                Kind="ChevronDoubleRight" />
-                        </Button>
-                    </WrapPanel>
+                    Margin="0,0,40,5">
+                    <Button 
+                        x:Name="btnFirstPage" 
+                        Margin="20,0,0,0" 
+                        ToolTip="Trang đầu"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding FirstPageCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        FocusVisualStyle="{x:Null}"
+                        Height="36" 
+                        Width="50" 
+                        Padding="0">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronDoubleLeft"
+                            Width="30" 
+                            Height="30"
+                            Foreground="{DynamicResource White}" />
+                    </Button>
+                    <Button 
+                        x:Name="btnPreviousPage" 
+                        Margin="20,0,0,0"
+                        ToolTip="Trang trước"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding PreviousPageCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        FocusVisualStyle="{x:Null}"
+                        Height="36" 
+                        Width="50"
+                        Padding="0">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronLeft" 
+                            Width="30" 
+                            Height="30"
+                            Foreground="{DynamicResource White}" />
+                    </Button>
+                    <Button 
+                        x:Name="btnNextPage" 
+                        Margin="20,0,0,0" 
+                        ToolTip="Trang tiếp theo"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding NextPageCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        FocusVisualStyle="{x:Null}"
+                        Height="36" 
+                        Width="50" 
+                        Padding="0">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronRight" 
+                            Width="30"
+                            Height="30" 
+                            Foreground="{DynamicResource White}" />
+                    </Button>
+                    <Button 
+                        x:Name="btnLastPage" 
+                        Margin="20,0,0,0" 
+                        ToolTip="Trang cuối"
+                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                        Command="{Binding LastPageCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        FocusVisualStyle="{x:Null}"
+                        Height="36"
+                        Width="50" 
+                        Padding="0">
+                        <materialDesign:PackIcon 
+                            Kind="ChevronDoubleRight" 
+                            Width="30"
+                            Height="30" 
+                            Foreground="{DynamicResource White}" />
+                    </Button>
                 </StackPanel>
             </Grid>
             <Grid 
@@ -1216,32 +1272,21 @@
                     <RowDefinition Height="50"/>
                     <RowDefinition Height="10*"/>
                 </Grid.RowDefinitions>
-                <Grid 
-                    Width="760" 
-                    Height="50"
+                <StackPanel
+                    Orientation="Horizontal"
                     Grid.Row="0" 
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center" 
                     Margin="0,0,40,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
                     <Button 
                         x:Name="btnAddEmployee"
-                        Grid.Column="3"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
                         Command="{Binding E_AddCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Thêm nhân viên" 
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
+                        Margin="40,0,0,0" 
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Center" 
                         Width="180"
@@ -1251,66 +1296,55 @@
                         FontWeight="SemiBold" />
                     <Button 
                         x:Name="btnSetSalary"
-                        Grid.Column="2"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
                         Height="40"
                         Command="{Binding E_SetSalaryCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Thiết lập lương"
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
-                        Width="180"
+                        Margin="50,0,0,0" 
+                        Width="150"
                         FocusVisualStyle="{x:Null}"
                         Content="Thiết lập lương" 
                         FontSize="18" 
                         FontWeight="SemiBold" 
                         VerticalAlignment="Center" 
-                        HorizontalAlignment="Center" />
-                    <Button 
-                        x:Name="btnPaySalary"
-                        Grid.Column="1"
-                        DataContext="{StaticResource EmployeeVM}"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
-                        Height="40"
-                        Command="{Binding OpenPaySalaryCommand}" 
-                        CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
-                        ToolTip="Trả lương"
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
-                        VerticalAlignment="Center" 
-                        Width="180"
-                        FocusVisualStyle="{x:Null}"
-                        Content="Trả lương" 
-                        FontSize="18" 
-                        FontWeight="SemiBold" 
-                        HorizontalAlignment="Center" />
+                        HorizontalAlignment="Center"
+                        Padding="0" />
                     <Button 
                         x:Name="btnCalculateSalary"
-                        Grid.Column="0"
-                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
                         Height="40"
                         Command="{Binding E_CalculateSalaryCommand}" 
                         CommandParameter="{Binding ElementName=wdHome}"
-                        materialDesign:ButtonAssist.CornerRadius="8"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Tính lương"
-                        Margin="0,0,0,2" 
-                        Background="{DynamicResource Success}" 
-                        BorderBrush="{x:Null}" 
-                        Foreground="{StaticResource White}" 
+                        Margin="20,0,0,0" 
                         VerticalAlignment="Center" 
-                        Width="180"
+                        Width="120"
                         FocusVisualStyle="{x:Null}"
                         Content="Tính lương" 
                         FontSize="18" 
                         FontWeight="SemiBold" 
                         HorizontalAlignment="Center" />
-                </Grid>
+                    <Button 
+                        x:Name="btnPaySalary"
+                        DataContext="{StaticResource EmployeeVM}"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
+                        Height="40"
+                        Command="{Binding OpenPaySalaryCommand}" 
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        materialDesign:ButtonAssist.CornerRadius="2"
+                        ToolTip="Trả lương"
+                        Margin="20,0,0,0" 
+                        VerticalAlignment="Center" 
+                        Width="120"
+                        FocusVisualStyle="{x:Null}"
+                        Content="Trả lương" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        HorizontalAlignment="Center" />
+                </StackPanel>
                 <Grid 
                     Grid.Row="1"
                     HorizontalAlignment="Left"
@@ -1437,24 +1471,8 @@
                     Grid.Row="0"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
-                    Margin="0,0,40,0"
+                    Margin="0,0,35,0"
                     VerticalAlignment="Center">
-                    <Button 
-                        x:Name="btnImportStock"
-                        Command="{Binding OpenImportStockWindowCommand}"
-                        CommandParameter="{Binding ElementName=wdHome}"
-                        Content="Nhập hàng"
-                        Style="{StaticResource MyPrimaryButtonStyle}"
-                        Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
-                        ToolTip="Thêm hàng hóa" 
-                        Margin="0,0,20,0" 
-                        FontSize="18" 
-                        VerticalAlignment="Center" 
-                        FocusVisualStyle="{x:Null}"
-                        Width="160" 
-                        Padding="0,0,0,2" 
-                        FontWeight="SemiBold"/>
                     <Button 
                         x:Name="btnAddGoods"
                         Command="{Binding AddGoodsCommand}"
@@ -1462,7 +1480,7 @@
                         Content="Thêm mặt hàng"
                         Style="{StaticResource MyGreenButtonStyle}"
                         Height="40"
-                        materialDesign:ButtonAssist.CornerRadius="6"
+                        materialDesign:ButtonAssist.CornerRadius="2"
                         ToolTip="Thêm hàng hóa" 
                         Margin="0" 
                         FontSize="18" 
@@ -1471,6 +1489,22 @@
                         Width="180" 
                         Padding="0,0,0,2" 
                         FontWeight="SemiBold" />
+                    <Button 
+                        x:Name="btnImportStock"
+                        Command="{Binding OpenImportStockWindowCommand}"
+                        CommandParameter="{Binding ElementName=wdHome}"
+                        Content="Nhập hàng"
+                        Style="{StaticResource MyPrimaryButtonStyle}"
+                        Height="40"
+                        materialDesign:ButtonAssist.CornerRadius="2"
+                        ToolTip="Thêm hàng hóa" 
+                        Margin="40,0,0,0" 
+                        FontSize="18" 
+                        VerticalAlignment="Center" 
+                        FocusVisualStyle="{x:Null}"
+                        Width="140" 
+                        Padding="0,0,0,2" 
+                        FontWeight="SemiBold"/>
                 </StackPanel>
                 <Grid 
                     Grid.Row="1"
@@ -1583,8 +1617,8 @@
                 <Grid
                     Grid.Row="0" 
                     Height="50"
-                    Margin="40,0"
-                    VerticalAlignment="Center">
+                    Margin="0"
+                    VerticalAlignment="Center" Width="1140" HorizontalAlignment="Center">
                     <ComboBox
                         x:Name="cboViews"
                         materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -1619,40 +1653,35 @@
                         VerticalAlignment="Center"/>
                     <StackPanel 
                         Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                        <Button 
-                            x:Name="btnSettingTime" 
-                            Content="Thiết lập khung giờ"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
-                            Height="44"
-                            materialDesign:ButtonAssist.CornerRadius="6"
-                            ToolTip="Thêm sân bóng" 
-                            Margin="0,0,40,0" 
-                            Command="{Binding SetTimeFrameCommand}"
-                            CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Success}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{StaticResource  White}" 
-                            FontSize="18" 
-                            VerticalAlignment="Center" 
-                            FocusVisualStyle="{x:Null}"
-                            Width="190"
-                            HorizontalAlignment="Right" 
-                            Padding="0,0,0,2" 
-                            FontWeight="SemiBold" />
+                        HorizontalAlignment="Right"
+                        Margin="0,0,20,0">
                         <Button 
                             x:Name="btnAddField"
                             Content="Thêm sân bóng"
-                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Style="{StaticResource MyGreenButtonStyle}"
                             Height="44"
-                            materialDesign:ButtonAssist.CornerRadius="6"
+                            materialDesign:ButtonAssist.CornerRadius="2"
                             ToolTip="Thêm sân bóng" 
                             Margin="0" 
                             Command="{Binding AddFieldCommand}"
                             CommandParameter="{Binding ElementName=wdHome}"
-                            Background="{DynamicResource Success}" 
-                            BorderBrush="{x:Null}" 
-                            Foreground="{StaticResource  White}" 
+                            FontSize="18" 
+                            VerticalAlignment="Center" 
+                            FocusVisualStyle="{x:Null}"
+                            Width="180"
+                            HorizontalAlignment="Right" 
+                            Padding="0,0,0,2" 
+                            FontWeight="SemiBold" />
+                        <Button 
+                            x:Name="btnSettingTime" 
+                            Content="Thiết lập khung giờ"
+                            Style="{StaticResource MyPrimaryButtonStyle}"
+                            Height="44"
+                            materialDesign:ButtonAssist.CornerRadius="2"
+                            ToolTip="Thêm sân bóng" 
+                            Margin="40,0,0,0" 
+                            Command="{Binding SetTimeFrameCommand}"
+                            CommandParameter="{Binding ElementName=wdHome}"
                             FontSize="18" 
                             VerticalAlignment="Center" 
                             FocusVisualStyle="{x:Null}"
@@ -1677,8 +1706,8 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition Width="1.5*"/>
-                            <ColumnDefinition Width="1*"/>
-                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                             <ColumnDefinition Width="140"/>
                             <ColumnDefinition Width="10"/>
                         </Grid.ColumnDefinitions>
@@ -1805,7 +1834,7 @@
                                 Margin="30,15,0,0">
                                 <ComboBox
                                     DataContext="{StaticResource ReportVM}"
-                                    x:Name="cboSelectPeriod_Report"
+                                    x:Name="cboSelectPeriodRp"
                                     materialDesign:ComboBoxAssist.ClassicMode="true"
                                     FontSize="16"
                                     FontWeight="Medium" 
@@ -1820,8 +1849,8 @@
                                     Margin="0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
-                                            <i:InvokeCommandAction Command="{Binding Report_SelectionChangedCommand}" 
-                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                                            <i:InvokeCommandAction Command="{Binding RpSelectionChangedCommand}" 
+                                                                   CommandParameter="{Binding ElementName=wdHome}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                     <ComboBoxItem Content="Theo tháng"/>
@@ -1829,9 +1858,9 @@
                                     <ComboBoxItem Content="Theo năm"/>
                                 </ComboBox>
                                 <ComboBox
-                                    x:Name="cboSelectTime_Report"
+                                    x:Name="cboSelectTimeRp"
                                     DataContext="{StaticResource ReportVM}"
-                                    ItemsSource="{Binding report_ItemSourceTime, Mode=TwoWay}"
+                                    ItemsSource="{Binding RpItemSourceTime, Mode=TwoWay}"
                                     materialDesign:ComboBoxAssist.ClassicMode="true"
                                     FontSize="16"
                                     FontWeight="Medium" 
@@ -1846,8 +1875,8 @@
                                     Margin="60,0,0,0" >
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="SelectionChanged">
-                                            <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
-                                                CommandParameter="{Binding ElementName=wdHome}"/>
+                                            <i:InvokeCommandAction Command="{Binding RpInitColumnChartCommand}" 
+                                                                   CommandParameter="{Binding ElementName=wdHome}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </ComboBox>
@@ -1868,14 +1897,14 @@
                                 </Border.Effect>
                                 <lvc:CartesianChart 
                                     DataContext="{StaticResource ReportVM}"
-                                    Series="{Binding report_SeriesCollection}" 
+                                    Series="{Binding RpSeriesCollection}" 
                                     LegendLocation="Bottom"
                                     Margin="0" 
                                     FontSize="14" >
                                     <lvc:CartesianChart.AxisX>
                                         <lvc:Axis 
-                                            Title="{Binding report_AxisXTitle, Mode=TwoWay}" 
-                                            Labels="{Binding report_Labels, Mode=TwoWay}" 
+                                            Title="{Binding RpAxisXTitle, Mode=TwoWay}" 
+                                            Labels="{Binding RpLabels, Mode=TwoWay}" 
                                             Foreground="{DynamicResource Gray1}"
                                             FontSize="14">
                                             <lvc:Axis.Separator>
@@ -1886,14 +1915,14 @@
                                     <lvc:CartesianChart.AxisY>
                                         <lvc:Axis 
                                             Title="VNĐ" 
-                                            LabelFormatter="{Binding report_Formatter}"
+                                            LabelFormatter="{Binding RpFormatter}"
                                             Foreground="{DynamicResource Gray1}"
                                             FontSize="14"/>
                                     </lvc:CartesianChart.AxisY>
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Initialized">
-                                            <i:InvokeCommandAction Command="{Binding Report_InitColumnChartCommand}" 
-                                                    CommandParameter="{Binding ElementName=wdHome}"/>
+                                            <i:InvokeCommandAction Command="{Binding RpInitColumnChartCommand}" 
+                                                                   CommandParameter="{Binding ElementName=wdHome}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </lvc:CartesianChart>
@@ -2121,7 +2150,7 @@
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <ComboBox
-                                x:Name="cboSelectViewModeStockReceipt"
+                                x:Name="cboSelectViewModeStR"
                                 DataContext="{StaticResource ReportVM}"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
                                 FontSize="16"
@@ -2138,7 +2167,7 @@
                                 VerticalAlignment="Center">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewModeCommandStockReceipt}" 
+                                        <i:InvokeCommandAction Command="{Binding ViewModeCommandStR}" 
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
@@ -2147,7 +2176,7 @@
                                 <ComboBoxItem Content="Theo năm"/>
                             </ComboBox>
                             <DatePicker 
-                                x:Name="dpSelectDateStockReceipt"
+                                x:Name="dpSelectDateStR"
                                 DataContext="{StaticResource ReportVM}"
                                 Visibility="Hidden"
                                 Height="40" 
@@ -2156,14 +2185,14 @@
                                 Margin="220,0,0,0" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectedDateChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByDateCommand}"
+                                        <i:InvokeCommandAction Command="{Binding ViewStRByDateCommand}"
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </DatePicker>
                             <ComboBox
-                                x:Name="cboSelectMonthStockReceipt"
-                                ItemsSource="{Binding ItemSourceMonthStockReceipt}"
+                                x:Name="cboSelectMonthStR"
+                                ItemsSource="{Binding ItemSourceMonthStR}"
                                 DataContext="{StaticResource ReportVM}"
                                 Visibility="Hidden"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -2180,14 +2209,14 @@
                                 MaxDropDownHeight="260" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByMonthCommand}" 
+                                        <i:InvokeCommandAction Command="{Binding ViewStRByMonthCommand}" 
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </ComboBox>
                             <ComboBox
-                                x:Name="cboSelectYearStockReceipt"
-                                ItemsSource="{Binding ItemSourceYearStockReceipt}"
+                                x:Name="cboSelectYearStR"
+                                ItemsSource="{Binding ItemSourceYearStR}"
                                 Visibility="Hidden"
                                 DataContext="{StaticResource ReportVM}"
                                 materialDesign:ComboBoxAssist.ClassicMode="true"
@@ -2204,7 +2233,7 @@
                                 Margin="220,0,0,0" >
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="SelectionChanged">
-                                        <i:InvokeCommandAction Command="{Binding ViewStockReceiptByYearCommand}" 
+                                        <i:InvokeCommandAction Command="{Binding ViewStRByYearCommand}" 
                                                                CommandParameter="{Binding ElementName=wdHome}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
@@ -2362,11 +2391,12 @@
                                 Height="40" 
                                 VerticalAlignment="Top">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.5*"/>
+                                    <ColumnDefinition Width="300"/>
                                     <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="0.5*"/>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="0.8*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="10"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock 
@@ -2380,17 +2410,17 @@
                                     Foreground="{DynamicResource White}"
                                     FontWeight="SemiBold"/>
                                 <TextBlock 
-                                    Text="Ngày" 
-                                    Grid.Column="1" 
-                                    HorizontalAlignment="Center"
-                                    Margin="0" 
+                                    Text="Tên người lập phiếu" 
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Left" 
+                                    Margin="15,0,0,0" 
                                     TextWrapping="Wrap" 
                                     VerticalAlignment="Center" 
-                                    FontSize="18"
-                                    Foreground="{DynamicResource White}" 
+                                    FontSize="18" 
+                                    Foreground="{DynamicResource White}"
                                     FontWeight="SemiBold"/>
                                 <TextBlock 
-                                    Text="Giờ" 
+                                    Text="Ngày" 
                                     Grid.Column="2" 
                                     HorizontalAlignment="Center"
                                     Margin="0" 
@@ -2400,8 +2430,18 @@
                                     Foreground="{DynamicResource White}" 
                                     FontWeight="SemiBold"/>
                                 <TextBlock 
-                                    Text="Tổng giá trị" 
+                                    Text="Giờ" 
                                     Grid.Column="3" 
+                                    HorizontalAlignment="Center"
+                                    Margin="0" 
+                                    TextWrapping="Wrap" 
+                                    VerticalAlignment="Center" 
+                                    FontSize="18"
+                                    Foreground="{DynamicResource White}" 
+                                    FontWeight="SemiBold"/>
+                                <TextBlock 
+                                    Text="Tổng giá trị" 
+                                    Grid.Column="4" 
                                     HorizontalAlignment="Center"
                                     Margin="0" 
                                     TextWrapping="Wrap" 
@@ -2461,7 +2501,7 @@
                     HorizontalAlignment="Left" 
                     Width="500"
                     Height="340" 
-                    Margin="50,40,0,0" 
+                    Margin="50,30,0,0" 
                     VerticalAlignment="Top">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -2562,14 +2602,14 @@
                             CommandParameter="{Binding ElementName=wdHome}"
                             Style="{StaticResource MyGreenButtonStyle}"
                             Height="40" 
-                            Width="100"
-                            materialDesign:ButtonAssist.CornerRadius="4"
+                            Width="120"
+                            materialDesign:ButtonAssist.CornerRadius="2"
                             ToolTip="Lưu thông tin" 
                             Margin="0,0,40,0" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
                             Content="Lưu" 
-                            FontSize="18" 
+                            FontSize="20" 
                             VerticalAlignment="Center"
                             Padding="0" 
                             IsEnabled="False"/>
@@ -2588,7 +2628,7 @@
                     HorizontalAlignment="Left" 
                     Width="500"
                     Height="300" 
-                    Margin="50,0,0,20" 
+                    Margin="50,0,0,30" 
                     VerticalAlignment="Bottom">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -2676,14 +2716,14 @@
                             CommandParameter="{Binding ElementName=wdHome}"
                             Style="{StaticResource MyGreenButtonStyle}"
                             Height="40" 
-                            Width="100"
-                            materialDesign:ButtonAssist.CornerRadius="6"
+                            Width="120"
+                            materialDesign:ButtonAssist.CornerRadius="2"
                             ToolTip="Lưu thông tin" 
                             Margin="0,0,40,10" 
                             HorizontalAlignment="Right"
                             FocusVisualStyle="{x:Null}"
                             Content="Lưu" 
-                            FontSize="18" 
+                            FontSize="20" 
                             VerticalAlignment="Bottom"
                             Padding="0" 
                             IsEnabled="False"/>
@@ -2703,7 +2743,7 @@
                     HorizontalAlignment="Right" 
                     Width="520"
                     Height="520" 
-                    Margin="0,40,60,0" 
+                    Margin="0,30,60,0" 
                     VerticalAlignment="Top">
                     <Grid
                         Width="520"

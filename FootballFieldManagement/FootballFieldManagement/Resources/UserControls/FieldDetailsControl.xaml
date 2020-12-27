@@ -18,12 +18,12 @@
         x:Name="grdMain"
         Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"></ColumnDefinition>
-            <ColumnDefinition Width="1.5*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="1.5*"></ColumnDefinition>
-            <ColumnDefinition Width="140"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="140"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <TextBlock 
             x:Name="txbIdField"
@@ -53,6 +53,8 @@
             x:Name="txbFieldName"
             Text="Tên sân" 
             Grid.Column="1"
+            MaxWidth="300"
+            TextTrimming="CharacterEllipsis"
             HorizontalAlignment="Left" 
             Margin="20,0,0,0" 
             TextWrapping="Wrap" 

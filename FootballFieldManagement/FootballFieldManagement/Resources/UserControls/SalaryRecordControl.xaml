@@ -19,11 +19,12 @@
         x:Name="grdMain"
         Background="#FFE5F1FF">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.8*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <TextBlock 
@@ -38,9 +39,22 @@
             Foreground="{DynamicResource Gray1}"
             FontWeight="SemiBold"/>
         <TextBlock 
+            x:Name="txbName"
+            Text="Mã phiếu" 
+            Grid.Column="1"
+            HorizontalAlignment="Left" 
+            Margin="15,0,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Center" 
+            FontSize="18" 
+            MaxWidth="270"
+            TextTrimming="CharacterEllipsis"
+            Foreground="{DynamicResource Gray1}"
+            FontWeight="SemiBold"/>
+        <TextBlock 
             x:Name="txbSalaryRecordDate"
             Text="Thời gian" 
-            Grid.Column="1" 
+            Grid.Column="2" 
             HorizontalAlignment="Center"
             Margin="0" 
             TextWrapping="Wrap" 
@@ -51,7 +65,7 @@
         <TextBlock 
             x:Name="txbSalaryRecordTime"
             Text="Giờ" 
-            Grid.Column="2" 
+            Grid.Column="3" 
             HorizontalAlignment="Center"
             Margin="0" 
             TextWrapping="Wrap" 
@@ -62,7 +76,7 @@
         <TextBlock 
             x:Name="txbTotal"
             Text="Tổng giá trị" 
-            Grid.Column="3" 
+            Grid.Column="4" 
             HorizontalAlignment="Center"
             Margin="0" 
             TextWrapping="Wrap" 
@@ -72,7 +86,7 @@
             FontWeight="SemiBold"/>
         <Button 
             x:Name="btnViewBill"
-            Grid.Column="4"
+            Grid.Column="5"
             Command="{Binding ViewSalaryRecordTemplateCommand}"
             CommandParameter="{Binding ElementName=ucSalaryRecordInfo}"
             Style="{StaticResource MaterialDesignRaisedButton}"

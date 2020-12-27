@@ -217,7 +217,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Xóa thất bại!");
+                CustomMessageBox.Show("Xóa thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             finally
@@ -230,16 +230,16 @@ namespace FootballFieldManagement.DAL
             if (ConvertDBToList().Count == 0 || employee.IdEmployee > GetMaxIdEmployee())
             {
                 if (AddIntoDB(employee))
-                    MessageBox.Show("Thêm thành công!");
+                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 else
-                    MessageBox.Show("Thêm thất bại!");
+                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {
                 if (UpdateOnDB(employee))
-                    MessageBox.Show("Cập nhật thành công!");
+                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 else
-                    MessageBox.Show("Cập nhật thất bại!");
+                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             //conn.Close();
         }

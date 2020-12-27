@@ -14,7 +14,7 @@
         Title="Thiết lập lương" 
         Height="500" 
         Width="500"
-        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
@@ -31,7 +31,7 @@
             RenderTransformOrigin="1.694,1.125" 
             Margin="43,32,0,0" 
             FontSize="24" 
-            Foreground="#FF007AFF" 
+            Foreground="{DynamicResource Primary}" 
             FontWeight="Bold"
             Height="40"/>
         <Grid Width="405" Height="300">
@@ -46,8 +46,7 @@
                     HorizontalAlignment="Left"  
                     FontSize="18" 
                     FontWeight="SemiBold" 
-                    Foreground="#FF333333"
-                    Height="44" 
+                    Foreground="{DynamicResource Gray1}" 
                     Margin="0" 
                     VerticalAlignment="Center" 
                     Padding="0" 
@@ -68,18 +67,18 @@
                     FontSize="14"
                     Width="205"
                     BorderThickness="0"
-                    Foreground="{StaticResource Gray1}"  
+                    Foreground="{DynamicResource Gray1}"  
                     Padding="0" 
                     Margin="0,0,14,0" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Center" 
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    TabIndex="0">
+                    TabIndex="0" FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=wdSetSalary}"/>
-                        </i:EventTrigger>   
+                        </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ComboBoxItem  Content="Nhân viên quản lý"/>
                     <ComboBoxItem  Content="Nhân viên thu ngân"/>
@@ -97,8 +96,7 @@
                     HorizontalAlignment="Left"  
                     FontSize="18"
                     FontWeight="SemiBold" 
-                    Foreground="#FF333333"
-                    Height="44" 
+                    Foreground="{DynamicResource Gray1}" 
                     Margin="0" 
                     VerticalAlignment="Center" 
                     Padding="0"
@@ -123,13 +121,14 @@
                     BorderThickness="0" 
                     MaxLines="1"
                     Padding="0"
-                    Foreground="{StaticResource Gray1}" 
+                    Foreground="{DynamicResource Gray1}" 
                     Margin="0,0,14,0"
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left" 
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
-                    TabIndex="1">
+                    TabIndex="1"
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
@@ -149,24 +148,21 @@
                 </TextBox>
             </Grid>
             <Grid 
-                Width="405" 
-                Height="44"
-                Margin="0,192,0,0" 
+                Width="405"
+                Margin="0,0,0,70" 
                 HorizontalAlignment="Left" 
-                VerticalAlignment="Top">
+                VerticalAlignment="Bottom">
                 <Label 
                     Content="Tăng ca"
                     HorizontalAlignment="Left"  
                     FontSize="18"
                     FontWeight="SemiBold" 
-                    Foreground="#FF333333"
-                    Height="44" 
+                    Foreground="{DynamicResource Gray1}" 
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Bottom" 
                     Padding="0"/>
                 <TextBox 
                     x:Name="txtOvertime"
-                    Height="44"
                     MaxLength="10"
                     Foreground="{StaticResource Gray1}" 
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
@@ -177,7 +173,7 @@
                     Margin="175,0,0,0" 
                     FontSize="14"
                     Width="155" 
-                    TabIndex="3">
+                    TabIndex="3" FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
@@ -195,7 +191,6 @@
                     </TextBox.Text>
                 </TextBox>
                 <Label
-                    Height="44"
                     Width="70"
                     FontSize="14"
                     Content="VNĐ / Ca" 
@@ -204,26 +199,23 @@
                     HorizontalAlignment="Right" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Center"
-                    FontWeight="Medium"/>
+                    FontWeight="Medium" Foreground="{DynamicResource Gray1}"/>
             </Grid>
             <Grid 
-                Width="405" 
-                Height="44"
-                Margin="0,256,0,0"
+                Width="405"
+                Margin="0,0,0,10"
                 HorizontalAlignment="Left" 
-                VerticalAlignment="Top">
+                VerticalAlignment="Bottom">
                 <Label 
                     Content="Giảm trừ"
                     HorizontalAlignment="Left"  
                     FontSize="18" 
                     FontWeight="SemiBold" 
-                    Foreground="#FF333333"
-                    Height="44"
+                    Foreground="{DynamicResource Gray1}"
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Bottom"
                     Padding="0"/>
                 <TextBox 
-                    Height="44" 
                     x:Name="txtSalaryDeduction"
                     VerticalAlignment="Center" 
                     Foreground="{StaticResource Gray1}" 
@@ -235,7 +227,7 @@
                     MaxLength="10"
                     FontSize="14"
                     Width="155" 
-                    TabIndex="4">
+                    TabIndex="4" FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="NumberValidationTextBox" />
@@ -253,7 +245,6 @@
                     </TextBox.Text>
                 </TextBox>
                 <Label
-                    Height="44"
                     Width="70"
                     FontSize="14"
                     Content="VNĐ / Lỗi" 
@@ -262,7 +253,7 @@
                     HorizontalAlignment="Right" 
                     VerticalContentAlignment="Bottom" 
                     HorizontalContentAlignment="Center" 
-                    FontWeight="Medium"/>
+                    FontWeight="Medium" Foreground="{DynamicResource Gray1}"/>
             </Grid>
             <Grid 
                 Margin="0,128,0,0" 
@@ -275,8 +266,7 @@
                     HorizontalAlignment="Left"  
                     FontSize="18"
                     FontWeight="SemiBold" 
-                    Foreground="#FF333333"
-                    Height="44" 
+                    Foreground="{DynamicResource Gray1}" 
                     Margin="0" 
                     VerticalAlignment="Center" 
                     Padding="0"
@@ -306,7 +296,8 @@
                     VerticalAlignment="Center" 
                     VerticalContentAlignment="Center" 
                     HorizontalContentAlignment="Left" 
-                    TabIndex="2">
+                    TabIndex="2"
+                    FontWeight="SemiBold">
                     <TextBox.Text>
                         <Binding Path="StandardWorkDays" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -324,41 +315,36 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Width="220" 
-            Margin="0,0,30,15">
+            Margin="0,0,30,20">
             <Button
                 x:Name="btnSave"
                 IsDefault="True"
+                Content="Lưu"
                 Command="{Binding SaveSetSalaryCommand}"
                 CommandParameter="{Binding ElementName=wdSetSalary}"
                 FocusVisualStyle="{x:Null}"
-                Style="{StaticResource MaterialDesignRaisedButton}"
-                Height="40" Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
+                Style="{StaticResource MyGreenButtonStyle}"
+                Height="40" 
+                Width="100"
                 ToolTip="Lưu" 
-                Background="#FF27AE60" 
-                BorderBrush="#FF27AE60"
+                FontSize="18"
                 Margin="0" 
                 HorizontalAlignment="Left"
-                VerticalAlignment="Center" 
-                IsTabStop="False">
-                <TextBlock Text="Lưu"/>
-            </Button>
+                VerticalAlignment="Center" />
             <Button
                 x:Name="btnCancel"
+                Content="Bỏ qua"
+                FontSize="18"
                 FocusVisualStyle="{x:Null}"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName=wdSetSalary}"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40" Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Bỏ qua"  
-                Background="#FFBDBDBD" 
-                BorderBrush="#FFBDBDBD"
+                Background="{StaticResource Gray3}" 
+                BorderBrush="{StaticResource Gray3}"
                 Margin="0"
-                HorizontalAlignment="Right" 
-                IsTabStop="False">
-                <TextBlock Text="Bỏ qua"/>
-            </Button>
+                HorizontalAlignment="Right"/>
         </Grid>
     </Grid>
 </Window>

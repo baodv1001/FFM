@@ -16,7 +16,7 @@
         Background="#FFFF" 
         DataContext="{StaticResource EmployeeVM}"
         WindowStartupLocation="CenterScreen" 
-        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
         ResizeMode="CanMinimize">
     <Grid Margin="0">
         <Grid  
@@ -31,36 +31,26 @@
                 StrokeDashArray="4 2" 
                 Stroke="{StaticResource Primary}" 
                 StrokeThickness="4" 
-                RadiusX="8" 
-                RadiusY="8"
+                RadiusX="4" 
+                RadiusY="4"
                 Width="150"
                 Height="150" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top"/>
             <Button 
                 x:Name="btnSelectImage"
-                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Content="Chọn ảnh"
+                Style="{StaticResource MyPrimaryButtonStyle}"
                 Height="35" 
                 Width="100" 
                 Command="{Binding SelectImageCommand}"
                 CommandParameter="{Binding ElementName=grdSelectImage}"
-                materialDesign:ButtonAssist.CornerRadius="8"
-                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" 
-                Background="{StaticResource Primary}" 
-                BorderBrush="{x:Null}" 
+                ToolTip="Chọn ảnh" 
                 Margin="0,0,0,12" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
                 FocusVisualStyle="{x:Null}"
-                Foreground="{DynamicResource White}">
-                <TextBlock  
-                    x:Name="txbSelectImage"
-                    Text="Chọn ảnh" 
-                    LineHeight="22.4" 
-                    TextAlignment="Center" 
-                    FontWeight="Bold" 
-                    Height="23" 
-                    Width="65"/>
+                FontSize="16">
             </Button>
             <materialDesign:PackIcon 
                 x:Name="iconImage" 
@@ -126,7 +116,8 @@
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
                     VerticalAlignment="Center" 
-                    SelectionBrush="{x:Null}" >
+                    SelectionBrush="{x:Null}"
+                    FontWeight="SemiBold" >
                 </TextBox>
             </Grid>
             <Grid 
@@ -169,7 +160,8 @@
                     Foreground="{StaticResource Gray3}"
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold">
                     <TextBox.Text>
                         <Binding Path="Name" Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -217,7 +209,8 @@
                     Margin="0,0,10,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left">
+                    HorizontalContentAlignment="Left" 
+                    FontWeight="SemiBold">
                     <ComboBoxItem x:Name="cboPositionManage" Content="Nhân viên quản lý"/>
                     <ComboBoxItem x:Name="cboPositionCashier" Content="Nhân viên thu ngân"/>
                     <ComboBoxItem IsSelected="True" x:Name="cboPositionGuard" Content="Bảo vệ"/>
@@ -303,6 +296,7 @@
                     FontSize="14"
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left"
+                    FontWeight="SemiBold"
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     VerticalContentAlignment="Center">
                     <i:Interaction.Triggers>
@@ -357,7 +351,8 @@
                     Foreground="{StaticResource Gray3}" 
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CalendarClosed" >
                             <ei:CallMethodAction TargetObject="{Binding }" MethodName="SetPickedDay" />
@@ -413,7 +408,8 @@
                     Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center" 
+                    FontWeight="SemiBold">
                     <TextBox.Text>
                         <Binding Path="Address"  Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -465,7 +461,8 @@
                     Cursor="IBeam"
                     VerticalAlignment="Center"
                     HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center">
+                    VerticalContentAlignment="Center"
+                    FontWeight="SemiBold">
                     <TextBox.Text>
                         <Binding Path="Phonenumber" Source="{StaticResource Employee}" UpdateSourceTrigger="PropertyChanged" >
                             <Binding.ValidationRules>
@@ -487,38 +484,32 @@
             <Button
                 x:Name="btnSave"
                 IsDefault="True"
-                Style="{StaticResource MaterialDesignRaisedButton}"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Command="{Binding SaveCommand}"
                 CommandParameter="{Binding ElementName=wdAddEmployee}"
                 Height="40" 
                 Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
-                ToolTip="Thêm nhân viên" 
-                Background="{StaticResource Success}" 
-                BorderBrush="{StaticResource Success}"
+                ToolTip="Thêm nhân viên"
                 Margin="0" 
                 Content="Lưu"
                 FontSize="18"
                 HorizontalAlignment="Left"
-                FocusVisualStyle="{x:Null}">
-            </Button>
+                FocusVisualStyle="{x:Null}"/>
             <Button
                 x:Name="btnCancel"
+                Content="Bỏ qua"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
+                FontSize="18"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName= wdAddEmployee}"
                 Width="100"
-                ToolTip="Thoát"
-                materialDesign:ButtonAssist.CornerRadius="6"    
-                Background="{StaticResource Gray4}" 
-                BorderBrush="{StaticResource Gray4}"
+                ToolTip="Thoát" 
+                Background="{StaticResource Gray3}" 
+                BorderBrush="{StaticResource Gray3}"
                 Margin="0" 
-                Content="Bỏ qua"
-                FontSize="18"
                 HorizontalAlignment="Right"
-                FocusVisualStyle="{x:Null}">
-            </Button>
+                FocusVisualStyle="{x:Null}"/>
         </Grid>
     </Grid>
 </Window>

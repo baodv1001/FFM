@@ -83,8 +83,8 @@
                 HorizontalAlignment="Left" 
                 Height="34" 
                 Width="160" 
-                RadiusY="6" 
-                RadiusX="6"
+                RadiusY="4" 
+                RadiusX="4"
                 Stroke="{DynamicResource Primary}" 
                 Margin="0,0,5,0" 
                 StrokeThickness="1.5"/>

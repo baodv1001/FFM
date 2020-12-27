@@ -120,14 +120,14 @@ namespace FootballFieldManagement.ViewModels
             //check username
             if (string.IsNullOrEmpty(parameter.txtUsername.Text))
             {
-                MessageBox.Show("Vui lòng nhập tên đăng nhập!");
+                CustomMessageBox.Show("Vui lòng nhập tên đăng nhập!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.txtUsername.Focus();
                 return;
             }
             //check password
             if (string.IsNullOrEmpty(parameter.txtPassword.Password))
             {
-                MessageBox.Show("Vui lòng nhập mật khẩu!");
+                CustomMessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.txtPassword.Focus();
                 return;
             }
@@ -155,6 +155,7 @@ namespace FootballFieldManagement.ViewModels
                     CurrentAccount.IdAccount = account.IdAccount;
                     CurrentAccount.Password = password;
                     isLogin = true;
+                    break;
                 }
             }
             if (isLogin)
@@ -168,7 +169,21 @@ namespace FootballFieldManagement.ViewModels
                     }
                 }
                 HomeWindow home = new HomeWindow();
+                // Gán thông tin cho các uc chú thích 
                 home.txbFieldName.Text = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
+                home.ucField1.icn1.Visibility = Visibility.Visible;
+                home.ucField2.icn3.Visibility = Visibility.Visible;
+                home.ucField1.btn.Cursor = null;
+                home.ucField2.btn.Cursor = null;
+                home.ucField3.btn.Cursor = null;
+                home.ucField4.btn.Cursor = null;
+                home.ucField2.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.ucField3.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
+                home.ucField3.icn2.Visibility = Visibility.Visible;
+                home.ucField4.recColor.Visibility = Visibility.Visible;
+                home.ucField4.icn4.Visibility = Visibility.Visible;
+                home.ucField5.icn1.Visibility = Visibility.Visible;
+                home.ucField5.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                 SetJurisdiction(home);
                 DisplayAccount(home);
                 DisplayEmployee(employee, home);
@@ -179,7 +194,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!");
+                CustomMessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void DisplayEmployee(Employee employee, HomeWindow home)
@@ -202,7 +217,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 home.btnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.icnBusiness.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
-                home.grdCursor.Margin = new Thickness(0, (175 + 70 * 1), 40, 0);
+                home.grdCursor.Margin = new Thickness(0, (175 + 65 * 1), 40, 0);
             }
             else
             {
@@ -216,6 +231,7 @@ namespace FootballFieldManagement.ViewModels
                 home.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.grdCursor.Margin = new Thickness(0, 175, 40, 0);
+                CurrentAccount.DisplayName = "Chủ sân";
             }
             home.txtDayOfBirth.IsEnabled = false;
             home.txtGender.IsEnabled = false;
@@ -238,9 +254,13 @@ namespace FootballFieldManagement.ViewModels
                 home.btnHome.IsEnabled = false;
                 home.btnSettingTime.IsEnabled = false;
                 home.btnAddField.IsEnabled = false;
+                home.txtAdressInfo.IsEnabled = false;
+                home.txtPhoneNumberInfo.IsEnabled = false;
+                home.btnCheckIn.IsEnabled = false;
             }
             if (CurrentAccount.Type == 1)
             {
+                home.btnCheckIn.IsEnabled = true;
                 home.btnAddGoods.IsEnabled = true;
                 home.btnEmployee.IsEnabled = true;
             }

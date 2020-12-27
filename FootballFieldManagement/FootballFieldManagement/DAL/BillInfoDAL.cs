@@ -34,7 +34,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -108,7 +108,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Đã tồn tại mặt hàng");
+                CustomMessageBox.Show("Đã tồn tại mặt hàng", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             finally
@@ -140,7 +140,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             finally
@@ -175,13 +175,13 @@ namespace FootballFieldManagement.DAL
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.ExecuteNonQuery();
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                for (int i = 0; i < dt.Rows.Count; i++)
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    if (dt.Rows[i].ItemArray[0].ToString() == idBill)
+                    if (dataTable.Rows[i].ItemArray[0].ToString() == idBill)
                     {
-                        BillInfo billInfo = new BillInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), int.Parse(dt.Rows[i].ItemArray[2].ToString()));
+                        BillInfo billInfo = new BillInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()), int.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
                         billInfos.Add(billInfo);
                     }
                 }
@@ -198,25 +198,34 @@ namespace FootballFieldManagement.DAL
         }
         public List<BillInfo> ConvertDBToList()
         {
-            DataTable dt;
-            List<BillInfo> billInfos = new List<BillInfo>();
             try
             {
+                conn.Open();
+                string queryString = "select * from BillInfo";
 
-                dt = LoadData("BillInfo");
+                SqlCommand command = new SqlCommand(queryString, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                List<BillInfo> billInfos = new List<BillInfo>();
+
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    BillInfo billInfo = new BillInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()),
+                        int.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
+                    billInfos.Add(billInfo);
+                }
+                return billInfos;
             }
             catch
             {
-                conn.Close();
-                dt = LoadData("BillInfo");
+                return new List<BillInfo>();
             }
-            for (int i = 0; i < dt.Rows.Count; i++)
+            finally
             {
-                BillInfo billInfo = new BillInfo(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()), int.Parse(dt.Rows[i].ItemArray[2].ToString()));
-                billInfos.Add(billInfo);
+                conn.Close();
             }
-            conn.Close();
-            return billInfos;
         }
     }
 }

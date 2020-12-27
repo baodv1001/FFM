@@ -36,7 +36,7 @@
             VerticalAlignment="Top" 
             Width="36" 
             Padding="0" 
-            CornerRadius="6" 
+            CornerRadius="4" 
             Background="{DynamicResource White}"/>
         <Rectangle 
             x:Name="recColor"
@@ -48,12 +48,14 @@
             Width="36"
             Height="36"/>
         <Button
+            x:Name="btn"
             Style="{StaticResource MaterialDesignRaisedButton}"
             Command="{Binding PickFieldCommand}"
             CommandParameter="{Binding ElementName=ucButtonField}"
             Background="{x:Null}" 
             BorderBrush="{x:Null}"
             Foreground="{x:Null}" 
+            FocusVisualStyle="{x:Null}"
             Cursor="Hand"
             Padding="0" 
             Width="36" 

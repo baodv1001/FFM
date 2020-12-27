@@ -123,7 +123,7 @@ namespace FootballFieldManagement.ViewModels
             StockReceiptTemplate stockReceiptTemplate = new StockReceiptTemplate();
 
             stockReceiptTemplate.txbIdStockReceipt.Text = "#" + idStockReceipt;
-            stockReceiptTemplate.txbDate.Text = importStockWindow.txbToday.Text;
+            stockReceiptTemplate.txbDate.Text = importStockWindow.txbDate.Text;
             stockReceiptTemplate.txbTotal.Text = importStockWindow.txbTotal.Text;
             stockReceiptTemplate.txbEmployeeName.Text = importStockWindow.txbName.Text;
 
@@ -189,14 +189,14 @@ namespace FootballFieldManagement.ViewModels
                 {
                     if (stockReceiptInfo.ImportPrice == 0)
                     {
-                        MessageBox.Show("Vui lòng nhập giá nhập kho!");
+                        CustomMessageBox.Show("Vui lòng nhập giá nhập kho!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
                     Goods goods = GoodsDAL.Instance.GetGoods(stockReceiptInfo.IdGoods.ToString());
                     goods.Quantity = stockReceiptInfo.Quantity;
                     GoodsDAL.Instance.ImportToDB(goods);
                 }
-                MessageBox.Show("Nhập hàng thành công!");
+                CustomMessageBox.Show("Nhập hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 importStockWindow.Close();
                 LoadStkGoods(homeWindow);
             }
@@ -211,7 +211,7 @@ namespace FootballFieldManagement.ViewModels
             long importPrice = 0;
             if (!string.IsNullOrWhiteSpace(importGoodsDetailsControl.txtImportPrice.Text))
             {
-               importPrice =  ConvertToNumber(importGoodsDetailsControl.txtImportPrice.Text);
+                importPrice = ConvertToNumber(importGoodsDetailsControl.txtImportPrice.Text);
             }
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(idStockReceipt),
                 int.Parse(importGoodsDetailsControl.txbIdGoods.Text), quantity, importPrice);
@@ -338,7 +338,8 @@ namespace FootballFieldManagement.ViewModels
                 StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
                 importStockWindow.txbIdStockReceipt.Text = "1";
             }
-            importStockWindow.txbToday.Text = DateTime.Now.ToString("HH:mm, dd/MM/yyyy");
+            importStockWindow.txbDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            importStockWindow.txbTime.Text = DateTime.Now.ToString("HH:mm");
             importStockWindow.txbId.Text = CurrentAccount.IdEmployee.ToString();
             importStockWindow.txbName.Text = CurrentAccount.DisplayName;
             importStockWindow.ShowDialog();
@@ -414,7 +415,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteGoods(GoodsControl goodsControl)
         {
-            MessageBoxResult result = MessageBox.Show("Xác nhận xóa hàng hóa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Xác nhận xóa hàng hóa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -423,11 +424,11 @@ namespace FootballFieldManagement.ViewModels
                 if (isSuccessed)
                 {
                     homeWindow.stkGoods.Children.Remove(goodsControl);
-                    MessageBox.Show("Xoá thành công!");
+                    CustomMessageBox.Show("Xoá thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
                 else
                 {
-                    MessageBox.Show("Thực hiện thất bại!");
+                    CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -493,7 +494,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (parameter.grdSelectImg.Background == null)
             {
-                MessageBox.Show("Vui lòng thêm hình ảnh!");
+                CustomMessageBox.Show("Vui lòng thêm hình ảnh!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             byte[] imgByteArr;
@@ -513,7 +514,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (GoodsDAL.Instance.isExistGoodsName(parameter.txtName.Text))
                 {
-                    MessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     parameter.txtName.Focus();
                     parameter.txtName.Text = "";
                     return;
@@ -521,7 +522,7 @@ namespace FootballFieldManagement.ViewModels
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
                 if (isSuccessed1)
                 {
-                    MessageBox.Show("Thêm mặt hàng thành công!");
+                    CustomMessageBox.Show("Thêm mặt hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
             }
             else
@@ -530,7 +531,7 @@ namespace FootballFieldManagement.ViewModels
                 {
                     if (GoodsDAL.Instance.isExistGoodsName(parameter.txtName.Text))
                     {
-                        MessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                         parameter.txtName.Focus();
                         parameter.txtName.Text = "";
                         return;
@@ -539,12 +540,12 @@ namespace FootballFieldManagement.ViewModels
                 isSuccessed2 = GoodsDAL.Instance.UpdateOnDB(newGoods);
                 if (isSuccessed2)
                 {
-                    MessageBox.Show("Cập nhật thành công!");
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
             }
             if (!isSuccessed1 || !isSuccessed2)
             {
-                MessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             parameter.Close();
             LoadStkGoods(homeWindow);
@@ -575,19 +576,19 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(parameter.txtIdStockReceipt.Text),
-                int.Parse(parameter.txtIdGoods.Text), int.Parse(parameter.txtQuantity.Text),
-                int.Parse(parameter.txtImportPrice.Text));
+                int.Parse(parameter.txtIdGoods.Text), Convert.ToInt32(ConvertToNumber(parameter.txtQuantity.Text)),
+                ConvertToNumber(parameter.txtImportPrice.Text));
             bool isSuccessed3 = StockReceiptInfoDAL.Instance.AddIntoDB(stockReceiptInfo);
 
             if (isSuccessed1 && isSuccessed2 && isSuccessed3)
             {
-                MessageBox.Show("Nhập hàng thành công!");
+                CustomMessageBox.Show("Nhập hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 parameter.Close();
                 LoadStkGoods(homeWindow);
             }
             else
             {
-                MessageBox.Show("Thực hiện thất bại!");
+                CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void CalculateTotal(ImportGoodsWindow parameter)

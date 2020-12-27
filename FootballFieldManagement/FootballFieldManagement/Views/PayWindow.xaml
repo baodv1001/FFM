@@ -15,7 +15,7 @@
     Height="810"
     DataContext="{StaticResource PayVM}"
     Width="1440" 
-    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+    Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
     WindowStartupLocation="CenterScreen" 
     ResizeMode="CanMinimize" 
     HorizontalAlignment="Right">
@@ -104,10 +104,11 @@
                     x:Name="recSearch"
                     HorizontalAlignment="Left" 
                     Width="400"
-                    RadiusY="6" 
-                    RadiusX="6" 
+                    RadiusY="4" 
+                    RadiusX="4" 
                     Stroke="{DynamicResource Primary}" 
-                    Height="40" StrokeThickness="2"/>
+                    Height="40" 
+                    StrokeThickness="2"/>
                 <TextBox 
                     x:Name="txtSearch"
                     materialDesign:HintAssist.Hint="Tìm sản phẩm"
@@ -116,7 +117,7 @@
                     BorderThickness="0" 
                     MaxLines="1"
                     Margin="12,0,0,0" 
-                    FontWeight="Medium" 
+                    FontWeight="SemiBold" 
                     Height="40" 
                     VerticalAlignment="Center" 
                     HorizontalContentAlignment="Left" 
@@ -289,7 +290,7 @@
                 Margin="70,50,0,0" 
                 VerticalAlignment="Top"
                 Width="938" 
-                CornerRadius="6"/>
+                CornerRadius="4"/>
             <Label 
                 Content="Sản phẩm" 
                 HorizontalAlignment="Left" 
@@ -323,7 +324,7 @@
                 </ScrollViewer>
             </Grid>
             <Border 
-                CornerRadius="6"
+                CornerRadius="4"
                 HorizontalAlignment="Left"
                 Height="280" 
                 Width="938"
@@ -348,8 +349,8 @@
                 Width="174" 
                 FontWeight="Bold" />
             <Rectangle 
-                Fill="#FF007AFF" 
-                Width="260" 
+                Fill="{StaticResource Primary}" 
+                Width="300" 
                 Height="3" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top" 
@@ -391,9 +392,7 @@
                     FontSize="16" 
                     FontWeight="Medium"/>
             </Grid>
-            <Grid 
-                x:Name="grdInfoPrice" 
-                Height="89"
+            <StackPanel
                 Margin="30,240,30,0" 
                 VerticalAlignment="Top"
                 Width="340" 
@@ -401,86 +400,77 @@
                 <Grid
                     x:Name="grdMoreInfo" 
                     VerticalAlignment="Top" 
-                    Width="340" 
-                    Height="30">
+                    Width="340">
                     <TextBlock 
                         HorizontalAlignment="Left" 
-                        Height="30" 
                         TextWrapping="Wrap"
                         Text="Tiền hàng" 
                         VerticalAlignment="Center"
                         Width="130" 
-                        FontSize="16" 
-                        Padding="0"/>
+                        FontSize="18" 
+                        Padding="0" FontWeight="SemiBold"/>
                     <TextBlock 
                         x:Name="txbtotalGoodsPrice" 
-                        HorizontalAlignment="Right"
-                        Height="30" 
+                        HorizontalAlignment="Right" 
                         TextWrapping="Wrap" 
                         Text="{Binding Path=TotalGoods, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         VerticalAlignment="Center"
                         Width="130" 
-                        FontSize="16"
+                        FontSize="18"
                         Margin="0" 
-                        TextAlignment="Right"/>
+                        TextAlignment="Right" FontWeight="SemiBold"/>
                 </Grid>
                 <Grid 
                     x:Name="grdPriceTime" 
                     VerticalAlignment="Top" 
-                    Margin="0,30,0,0" 
-                    Height="30" 
+                    Margin="0,10,0,0" 
                     HorizontalAlignment="Left" 
                     Width="340">
                     <TextBlock 
                         HorizontalAlignment="Left" 
-                        Height="30" 
                         TextWrapping="Wrap" 
                         Text="Tiền sân" 
                         VerticalAlignment="Center"
                         Width="130"
-                        FontSize="16"
-                        Margin="0"/>
+                        FontSize="18"
+                        Margin="0" FontWeight="SemiBold"/>
                     <TextBlock 
                         x:Name="txbFieldPrice" 
-                        HorizontalAlignment="Right"
-                        Height="27" 
+                        HorizontalAlignment="Right" 
                         TextWrapping="Wrap"
                         Text="150000"
                         VerticalAlignment="Center"
                         Width="132" 
-                        FontSize="16" 
+                        FontSize="18" 
                         Margin="0" 
-                        TextAlignment="Right"/>
+                        TextAlignment="Right" FontWeight="SemiBold"/>
                 </Grid>
                 <Grid 
                     x:Name="grdTax" 
                     VerticalAlignment="Top" 
-                    Margin="0,59,0,0" 
-                    Height="30" 
+                    Margin="0,10,0,0" 
                     HorizontalAlignment="Left" 
                     Width="340">
                     <TextBlock 
                         HorizontalAlignment="Left" 
-                        Height="30" 
                         TextWrapping="Wrap" 
                         Text="Giảm giá sân" 
                         VerticalAlignment="Center"
                         Width="130"
-                        FontSize="16"
-                        Margin="0"/>
+                        FontSize="18"
+                        Margin="0" FontWeight="SemiBold"/>
                     <TextBlock 
                         x:Name="txbDiscount" 
-                        HorizontalAlignment="Right"
-                        Height="27" 
+                        HorizontalAlignment="Right" 
                         TextWrapping="Wrap"
                         Text="10000"
                         VerticalAlignment="Center"
                         Width="132" 
-                        FontSize="16" 
+                        FontSize="18" 
                         Margin="0" 
-                        TextAlignment="Right"/>
+                        TextAlignment="Right" FontWeight="SemiBold"/>
                 </Grid>
-            </Grid>
+            </StackPanel>
             <TextBox 
                 x:Name="txtMoreInfo"
                 Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
@@ -491,14 +481,16 @@
                 VerticalScrollBarVisibility="Auto"
                 materialDesign:HintAssist.Hint="Thông tin thêm"
                 HorizontalAlignment="Center" 
-                Margin="30,360,28,0" 
-                Width="342" 
-                Foreground="Gray" 
-                BorderBrush="#FFE0E0E0" 
-                FontSize="16" />
+                Margin="0,360,0,0" 
+                Width="350" 
+                Foreground="{DynamicResource Gray1}" 
+                BorderBrush="{DynamicResource Gray3}" 
+                FontSize="16" 
+                AcceptsTab="True"
+                FontWeight="SemiBold"/>
             <Grid            
                 x:Name="grdPayForm" 
-                Height="180" 
+                Height="190" 
                 Margin="0" 
                 VerticalAlignment="Bottom">
                 <Button 
@@ -507,12 +499,12 @@
                     Height="40"
                     Command="{Binding PayBillCommand}"
                     CommandParameter="{Binding ElementName=wdPay}"
-                    materialDesign:ButtonAssist.CornerRadius="8"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
-                    Margin="0,60,0,0" 
+                    Margin="0,0,0,80" 
                     FontSize="20" 
                     Content="Thanh toán"
-                    VerticalAlignment="Top" 
+                    VerticalAlignment="Bottom" 
                     Width="320" 
                     FontWeight="Bold" 
                     HorizontalAlignment="Center"/>
@@ -522,7 +514,7 @@
                     Height="40"
                     Command="{Binding ViewBillCommand}"
                     CommandParameter="{Binding ElementName=wdPay}"
-                    materialDesign:ButtonAssist.CornerRadius="8"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,20" 
                     Background="{DynamicResource White}" 
@@ -547,8 +539,7 @@
                 </Button>
                 <Grid 
                     HorizontalAlignment="Center" 
-                    Height="30" 
-                    Margin="0,15,0,0" 
+                    Margin="0,20,0,0" 
                     VerticalAlignment="Top"
                     Width="340">
                     <TextBlock 
@@ -557,22 +548,19 @@
                         TextWrapping="Wrap" 
                         Text="{Binding Path=Total, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         VerticalAlignment="Center"
-                        FontSize="18" 
+                        FontSize="20" 
                         Margin="0" 
                         TextAlignment="Right" 
-                        FontWeight="SemiBold" 
-                        Height="30"
+                        FontWeight="SemiBold"
                         Foreground="{DynamicResource Gray1}"/>
                     <TextBlock  
                         HorizontalAlignment="Left" 
                         TextWrapping="Wrap" 
                         Text="Tổng tiền" 
                         VerticalAlignment="Center" 
-                        FontSize="18" 
+                        FontSize="20" 
                         Margin="0"
                         FontWeight="Medium" 
-                        Height="30" 
-                        Width="80" 
                         Foreground="{DynamicResource Gray1}"/>
                 </Grid>
                 <Rectangle 
@@ -580,8 +568,8 @@
                     Height="3" 
                     Margin="0" 
                     VerticalAlignment="Top"
-                    Width="260"
-                    Fill="#FF007AFF"/>
+                    Width="300"
+                    Fill="{StaticResource Primary}"/>
             </Grid>
         </Grid>
     </Grid>

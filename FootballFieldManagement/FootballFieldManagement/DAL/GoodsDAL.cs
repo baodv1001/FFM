@@ -113,13 +113,14 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "update Goods set name=@name, unit=@unit, unitPrice=@unitPrice, imageFile=@imageFile " +
+                string queryString = "update Goods set name=@name, unit=@unit, unitPrice=@unitPrice, imageFile=@imageFile,quantity=@quantity " +
                     "where idGoods =" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
+                command.Parameters.AddWithValue("@quantity", goods.Quantity);
                 
                 int rs = command.ExecuteNonQuery();
                 return true;

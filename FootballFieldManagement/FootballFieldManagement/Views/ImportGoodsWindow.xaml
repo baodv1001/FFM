@@ -15,7 +15,7 @@
         Width="700" 
         DataContext="{StaticResource GoodsVM}"
         Background="{StaticResource White}" 
-        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <Grid Margin="0">
@@ -31,8 +31,8 @@
                 StrokeDashArray="4 2" 
                 Stroke="{StaticResource Primary}" 
                 StrokeThickness="4" 
-                RadiusX="8" 
-                RadiusY="8"
+                RadiusX="4" 
+                RadiusY="4"
                 Width="150"
                 Height="150" 
                 HorizontalAlignment="Left" 
@@ -42,23 +42,20 @@
                 Visibility="Hidden"
                 Command="{Binding SelectImageCommand}"
                 CommandParameter="{Binding ElementName=grdSelectImg}"
-                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                Style="{StaticResource MyPrimaryButtonStyle}"
                 Height="35" 
                 Width="100" 
                 Content="Chọn ảnh" 
                 FontSize="16"
                 FontWeight="SemiBold" 
-                materialDesign:ButtonAssist.CornerRadius="8"
+                materialDesign:ButtonAssist.CornerRadius="4"
                 ToolTip="Chọn ảnh" 
-                Background="{StaticResource Primary}" 
-                BorderBrush="{x:Null}" 
                 Margin="0,0,0,12" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom"
                 FocusVisualStyle="{x:Null}"
                 Foreground="{DynamicResource White}" 
-                Padding="0">
-            </Button>
+                Padding="0"/>
             <materialDesign:PackIcon 
                 x:Name="iconImage" 
                 Visibility="Hidden"
@@ -110,7 +107,7 @@
                     FontSize="14"
                     Foreground="{StaticResource Gray3}" 
                     HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Center"/>
+                    VerticalContentAlignment="Center" FontWeight="SemiBold"/>
             </Grid>
             <Grid 
                 Margin="0,20,0,0"
@@ -150,7 +147,7 @@
                     Height="40" 
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center" FontWeight="SemiBold" />
             </Grid>
             <Grid 
                 Margin="0,20,0,0"
@@ -190,7 +187,7 @@
                     Height="40" 
                     HorizontalContentAlignment="Left"
                     VerticalContentAlignment="Center" 
-                    VerticalAlignment="Center" />
+                    VerticalAlignment="Center" FontWeight="SemiBold" />
             </Grid>
             <Grid 
                 Margin="0,20,0,0" 
@@ -229,7 +226,7 @@
                     Foreground="{StaticResource Gray3}" 
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center" />
+                    VerticalContentAlignment="Center" FontWeight="SemiBold" />
             </Grid>
             <Grid 
                 Margin="0,20,0,0"
@@ -267,7 +264,7 @@
                     Margin="0,0,10,0" 
                     HorizontalAlignment="Right"
                     VerticalContentAlignment="Center" 
-                    HorizontalContentAlignment="Left">
+                    HorizontalContentAlignment="Left" FontWeight="SemiBold">
                     <ComboBoxItem Content="Chai"/>
                     <ComboBoxItem Content="Đôi"/>
                     <ComboBoxItem Content="Cái"/>
@@ -313,7 +310,8 @@
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
-                    VerticalContentAlignment="Center" >
+                    VerticalContentAlignment="Center"
+                    FontWeight="SemiBold">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewTextInput" >
                             <ei:CallMethodAction TargetObject="{Binding }" 
@@ -375,7 +373,7 @@
                     Validation.ErrorTemplate="{StaticResource textBoxErrorTemplate}"
                     Margin="0,0,10,0" 
                     HorizontalContentAlignment="Left" 
-                    VerticalContentAlignment="Center" >
+                    VerticalContentAlignment="Center" FontWeight="SemiBold" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="KeyUp" >
                             <i:InvokeCommandAction Command="{Binding CalculateTotalCommand}"
@@ -416,12 +414,11 @@
                     FontSize="18" 
                     BorderThickness="0,0,0,2" 
                     MaxLines="1"
-                    Padding="0" 
+                    Padding="0,0,5,0" 
                     Foreground="{DynamicResource Secondary}" 
                     Margin="0" 
-                    HorizontalContentAlignment="Left" 
+                    HorizontalContentAlignment="Right" 
                     VerticalContentAlignment="Center" 
-                    FlowDirection="RightToLeft" 
                     IsTabStop="False" 
                     FontWeight="Bold" 
                     IsReadOnly="True" />
@@ -438,21 +435,17 @@
                 Command="{Binding ImportCommand}"
                 CommandParameter="{Binding ElementName=wdImportGoods}"
                 IsDefault="True"
-                Style="{StaticResource MaterialDesignRaisedButton}"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Height="40" 
                 Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Lưu thông tin" 
-                Background="{StaticResource Success}" 
-                BorderBrush="{StaticResource Success}"
                 Margin="0" 
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}"
                 Content="Lưu" 
                 FontSize="18" 
                 VerticalAlignment="Center"
-                Padding="0" >
-            </Button>
+                Padding="0" />
             <Button
                 x:Name="btnCancel"
                 Command="{Binding ExitImportCommand}"
@@ -460,18 +453,16 @@
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
                 Width="100"
-                materialDesign:ButtonAssist.CornerRadius="6"
                 ToolTip="Thoát"  
-                Background="{StaticResource Gray4}" 
-                BorderBrush="{StaticResource Gray4}"
+                Background="{StaticResource Gray3}" 
+                BorderBrush="{StaticResource Gray3}"
                 Margin="0" 
                 HorizontalAlignment="Right"
                 FocusVisualStyle="{x:Null}"
                 Content="Bỏ qua" 
                 FontSize="18"
                 VerticalAlignment="Center"
-                Padding="0" >
-            </Button>
+                Padding="0" />
         </Grid>
     </Grid>
 </Window>

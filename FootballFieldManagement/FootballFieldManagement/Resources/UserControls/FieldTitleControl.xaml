@@ -7,31 +7,32 @@
     xmlns:local="clr-namespace:FootballFieldManagement.Resources.UserControls"
     mc:Ignorable="d" 
     Width="142" 
-    Height="36" >
+    Height="50" >
     <Grid 
-        Background="{DynamicResource Primary}" 
-        Width="142">
+        Background="{DynamicResource Primary}">
         <Border
             BorderThickness="2"
             HorizontalAlignment="Center"
-            Height="36"
+            Height="30"
             Margin="0" 
-            VerticalAlignment="Center" 
-            Width="50" 
-            Padding="0" 
-            CornerRadius="6" 
-            Background="{DynamicResource White}"/>
-        <TextBlock 
-            Grid.Row="0"
-            x:Name="txbName"
-            Text="Sân 1" 
-            HorizontalAlignment="Center" 
-            Margin="0" 
-            TextWrapping="Wrap" 
             VerticalAlignment="Center"
-            TextAlignment="Center"
-            FontSize="16"
-            FontWeight="SemiBold" 
-            Foreground="{DynamicResource Primary}"/>
+            Padding="4,0" 
+            CornerRadius="6" 
+            Background="{DynamicResource White}">
+            <TextBlock 
+                Grid.Row="0"
+                x:Name="txbName"
+                Text="Sân này để test" 
+                HorizontalAlignment="Center" 
+                Margin="0" 
+                TextWrapping="Wrap" 
+                VerticalAlignment="Center"
+                TextAlignment="Center"
+                FontSize="16"
+                MaxWidth="135"
+                TextTrimming="CharacterEllipsis"
+                FontWeight="SemiBold" 
+                Foreground="{DynamicResource Primary}"/>
+        </Border>
     </Grid>
 </UserControl>

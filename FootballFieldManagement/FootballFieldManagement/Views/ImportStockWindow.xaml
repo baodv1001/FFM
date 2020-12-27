@@ -13,7 +13,7 @@
         Title="Nhập hàng" 
         Height="810"
         Width="1440" 
-        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
         WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize" >
     <i:Interaction.Triggers>
@@ -64,8 +64,8 @@
                     x:Name="recSearch"
                     HorizontalAlignment="Left" 
                     Width="400"
-                    RadiusY="6" 
-                    RadiusX="6" 
+                    RadiusY="4" 
+                    RadiusX="4" 
                     Stroke="{DynamicResource Primary}" 
                     Height="40" 
                     StrokeThickness="2"/>
@@ -231,7 +231,7 @@
                 Margin="60,50,0,0" 
                 VerticalAlignment="Top"
                 Width="938" 
-                CornerRadius="6"/>
+                CornerRadius="4"/>
             <Label 
                 Content="Danh sách mặt hàng" 
                 HorizontalAlignment="Left" 
@@ -263,7 +263,7 @@
                 </ScrollViewer>
             </Grid>
             <Border 
-                CornerRadius="6"
+                CornerRadius="4"
                 HorizontalAlignment="Left"
                 Height="280" 
                 Width="938"
@@ -288,7 +288,7 @@
                 FontWeight="Bold" />
             <Rectangle 
                 Fill="{DynamicResource Primary}" 
-                Width="260" 
+                Width="300" 
                 Height="3" 
                 HorizontalAlignment="Center" 
                 VerticalAlignment="Top" 
@@ -351,13 +351,34 @@
                         HorizontalAlignment="Left" 
                         Margin="0" 
                         TextWrapping="Wrap"
+                        Text="Thời gian" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Gray1}"/>
+                    <TextBlock 
+                        x:Name="txbTime"
+                        HorizontalAlignment="Right" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
+                        Text="11h00" 
+                        VerticalAlignment="Top" 
+                        FontSize="18" 
+                        FontWeight="SemiBold" 
+                        Foreground="{DynamicResource Gray1}"/>
+                </Grid>
+                <Grid Margin="0,15,0,0">
+                    <TextBlock 
+                        HorizontalAlignment="Left" 
+                        Margin="0" 
+                        TextWrapping="Wrap"
                         Text="Ngày" 
                         VerticalAlignment="Top" 
                         FontSize="18" 
                         FontWeight="SemiBold" 
                         Foreground="{DynamicResource Gray1}"/>
                     <TextBlock 
-                        x:Name="txbToday"
+                        x:Name="txbDate"
                         HorizontalAlignment="Right" 
                         Margin="0" 
                         TextWrapping="Wrap"
@@ -399,7 +420,7 @@
                     Height="40"
                     Command="{Binding ImportStockCommand}"
                     CommandParameter="{Binding ElementName=wdImportStock}"
-                    materialDesign:ButtonAssist.CornerRadius="6"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,100"  
                     FontSize="20" 
@@ -415,7 +436,7 @@
                     Height="40"
                     Command="{Binding ViewStockReceiptTemplateCommand}"
                     CommandParameter="{Binding ElementName=wdImportStock}"
-                    materialDesign:ButtonAssist.CornerRadius="6"
+                    materialDesign:ButtonAssist.CornerRadius="4"
                     BorderThickness="2"
                     Margin="0,0,0,30" 
                     Background="{DynamicResource White}" 
@@ -473,7 +494,7 @@
                     Height="3" 
                     Margin="0" 
                     VerticalAlignment="Top"
-                    Width="260"
+                    Width="300"
                     Fill="{DynamicResource Primary}"/>
             </Grid>
         </Grid>

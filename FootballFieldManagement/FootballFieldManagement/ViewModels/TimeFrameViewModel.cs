@@ -64,7 +64,7 @@ namespace FootballFieldManagement.ViewModels
             TimeFrame time = tmpTimeFrames.Find(x => x.Price == -1);
             if (isChanged ||  time != null)
             {
-                MessageBoxResult result = MessageBox.Show("Bạn có muốn lưu hay không?", "Thông báo", MessageBoxButton.YesNoCancel);
+                MessageBoxResult result = CustomMessageBox.Show("Bạn có muốn lưu hay không?", "Thông báo", MessageBoxButton.YesNoCancel);
                 if (result == MessageBoxResult.Yes)
                 {
                     if (IsPriceNull(SetTimeWd))
@@ -83,7 +83,7 @@ namespace FootballFieldManagement.ViewModels
                     if (TimeFrameDAL.Instance.CheckPriceIsNull())
                     {
                         e.Cancel = true;
-                        MessageBox.Show("Khung giờ của loại sân mới chưa được thiết lập!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show("Khung giờ của loại sân mới chưa được thiết lập!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
@@ -130,7 +130,7 @@ namespace FootballFieldManagement.ViewModels
                 wdSetTime.cboTimePerMatch.SelectedItem = null;
                 wdSetTime.tpkOpenTime.Text = null;
                 wdSetTime.tpkCloseTime.Text = null;
-                MessageBox.Show("Giờ bắt đầu nhỏ hơn giờ kết thúc!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show("Giờ bắt đầu nhỏ hơn giờ kết thúc!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             this.tmpTimeFrames.Clear();
@@ -206,7 +206,7 @@ namespace FootballFieldManagement.ViewModels
         }
         public void DeleteTimeFrame(PeriodControl control)
         {
-            MessageBoxResult result = MessageBox.Show("Sẽ xóa những loại sân có cùng khung giờ này. Bạn có muốn xóa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = CustomMessageBox.Show("Sẽ xóa những loại sân có cùng khung giờ này. Bạn có muốn xóa?", "Thông báo", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 this.tmpTimeFrames.RemoveAll(x => x.StartTime == control.txtStartTime.Text && x.EndTime == control.txtEndTime.Text);
@@ -229,7 +229,7 @@ namespace FootballFieldManagement.ViewModels
                 int i = 0;
                 if (listTemp[0].FieldType.ToString() == wdSetTime.cboFieldType.Text.Split(' ')[1])
                 {
-                    MessageBox.Show("Vui lòng nhập giá!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show("Vui lòng nhập giá!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 foreach (string fieldType in FootballFieldDAL.Instance.GetFieldType())
                 {
@@ -261,12 +261,13 @@ namespace FootballFieldManagement.ViewModels
                 }
                 if (isSuccess)
                 {
-                    MessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK);
+                    CustomMessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK,MessageBoxImage.Hand);
                     isChanged = false;
+                    wdSetTime.Close();
                 }
                 else
                 {
-                    MessageBox.Show("Lưu lỗi!", "Thông báo", MessageBoxButton.OK);
+                    CustomMessageBox.Show("Lưu lỗi!", "Thông báo", MessageBoxButton.OK,MessageBoxImage.Error);
                 }
             }
         }
@@ -287,7 +288,7 @@ namespace FootballFieldManagement.ViewModels
         {
             if (string.IsNullOrEmpty(wdAddTime.tpkStartTime.Text) || string.IsNullOrEmpty(wdAddTime.tpkEndTime.Text) || string.IsNullOrEmpty(wdAddTime.txtPrice.Text))
             {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show("Vui lòng nhập đầy đủ thông tin!", "Cảnh báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             //Kiểm tra khung giờ thêm vào có hợp lệ hay không
@@ -309,7 +310,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (CovertToMinute(wdAddTime.tpkStartTime.Text) > CovertToMinute(wdAddTime.tpkEndTime.Text))
             {
-                MessageBox.Show("Khung giờ không hợp lệ!", "Thông báo", MessageBoxButton.OK);
+                CustomMessageBox.Show("Khung giờ không hợp lệ!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 wdAddTime.tpkEndTime.Text = null;
                 wdAddTime.tpkStartTime.Text = null;
                 wdAddTime.txtPrice.Text = null;
@@ -342,7 +343,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                MessageBox.Show("Khung giờ đã bị trùng lặp!", "Thông báo", MessageBoxButton.OK);
+                CustomMessageBox.Show("Khung giờ đã bị trùng lặp!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 wdAddTime.tpkEndTime.Text = null;
                 wdAddTime.tpkStartTime.Text = null;
                 wdAddTime.txtPrice.Text = null;

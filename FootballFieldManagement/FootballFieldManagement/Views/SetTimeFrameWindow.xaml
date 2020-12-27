@@ -15,7 +15,7 @@
         Width="510"
         x:Name="wdSetTimeFrame"
         DataContext="{StaticResource TimeFrameVM}"
-        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Dark.png"
+        Icon="/FootballFieldManagement;component/Resources/Images/FFM_Logo_Icon.png"
         WindowStartupLocation="CenterScreen" 
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
@@ -101,7 +101,7 @@
         </StackPanel>
         <Rectangle 
             Grid.Row="1"
-            Height="2" 
+            Height="3" 
             Margin="30,5,30,0"
             VerticalAlignment="Top"
             Fill="{DynamicResource Primary}"/>
@@ -152,7 +152,7 @@
         </ScrollViewer>
         <Border 
             BorderBrush="{DynamicResource Primary}"
-            BorderThickness="1"
+            BorderThickness="2"
             Height="400" 
             Margin="30,70,0,0"
             Grid.Row="1" 
@@ -169,7 +169,7 @@
             FocusVisualStyle="{x:Null}"
             Height="30" 
             Width="200"
-            materialDesign:ButtonAssist.CornerRadius="8"
+            materialDesign:ButtonAssist.CornerRadius="4"
             ToolTip="Đăng nhập" 
             VerticalAlignment="Top" 
             Margin="0,10,0,0" 
@@ -212,7 +212,6 @@
                 Style="{StaticResource MyGreenButtonStyle}"
                 Height="26" 
                 Width="120"
-                materialDesign:ButtonAssist.CornerRadius="6"
                 HorizontalAlignment="Left"
                 FocusVisualStyle="{x:Null}"
                 Content="Lưu" 
@@ -227,9 +226,8 @@
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="26" 
                 Width="70"
-                materialDesign:ButtonAssist.CornerRadius="6"
                 FocusVisualStyle="{x:Null}"
-                Content="Thoát" 
+                Content="Bỏ qua" 
                 FontSize="14" 
                 VerticalAlignment="Bottom"
                 Padding="0" 
@@ -276,7 +274,6 @@
             Style="{StaticResource MyGreenButtonStyle}"
             Height="28" 
             Width="100"
-            materialDesign:ButtonAssist.CornerRadius="4"
             HorizontalAlignment="Right"
             FocusVisualStyle="{x:Null}"
             Content="Thiết lập" 

@@ -261,13 +261,13 @@ namespace FootballFieldManagement.ViewModels
                 }
                 if (isSuccess)
                 {
-                    CustomMessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK);
+                    CustomMessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK,MessageBoxImage.Hand);
                     isChanged = false;
                     wdSetTime.Close();
                 }
                 else
                 {
-                    CustomMessageBox.Show("Lưu lỗi!", "Thông báo", MessageBoxButton.OK);
+                    CustomMessageBox.Show("Lưu lỗi!", "Thông báo", MessageBoxButton.OK,MessageBoxImage.Error);
                 }
             }
         }
@@ -310,7 +310,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (CovertToMinute(wdAddTime.tpkStartTime.Text) > CovertToMinute(wdAddTime.tpkEndTime.Text))
             {
-                CustomMessageBox.Show("Khung giờ không hợp lệ!", "Thông báo", MessageBoxButton.OK);
+                CustomMessageBox.Show("Khung giờ không hợp lệ!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 wdAddTime.tpkEndTime.Text = null;
                 wdAddTime.tpkStartTime.Text = null;
                 wdAddTime.txtPrice.Text = null;
@@ -343,7 +343,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                CustomMessageBox.Show("Khung giờ đã bị trùng lặp!", "Thông báo", MessageBoxButton.OK);
+                CustomMessageBox.Show("Khung giờ đã bị trùng lặp!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 wdAddTime.tpkEndTime.Text = null;
                 wdAddTime.tpkStartTime.Text = null;
                 wdAddTime.txtPrice.Text = null;

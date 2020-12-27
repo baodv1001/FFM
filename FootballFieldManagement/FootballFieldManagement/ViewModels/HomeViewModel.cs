@@ -71,25 +71,25 @@ namespace FootballFieldManagement.ViewModels
                         CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
                         if (AccountDAL.Instance.UpdatePassword(CurrentAccount.DisplayName, CurrentAccount.Password))
                         {
-                            CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo");
+                            CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
                             parameter.pwbOldPassword.Password = null;
                             parameter.pwbNewPassword.Password = null;
                             parameter.pwbConfirmedPassword.Password = null;
                         }
                         else
                         {
-                            CustomMessageBox.Show("Đổi mật khẩu thất bại!", "Thông báo");
+                            CustomMessageBox.Show("Đổi mật khẩu thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                         }
                     }
                     else
                     {
-                        CustomMessageBox.Show("Nhập mật khẩu xác thực không khớp!", "Thông báo");
+                        CustomMessageBox.Show("Nhập mật khẩu xác thực không khớp!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             }
             else
             {
-                CustomMessageBox.Show("Nhập mật khẩu hiện tại không đúng!", "Thông báo");
+                CustomMessageBox.Show("Nhập mật khẩu hiện tại không đúng!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
 
         }
@@ -113,16 +113,16 @@ namespace FootballFieldManagement.ViewModels
                     int rs = command.ExecuteNonQuery();
                     if (rs == 1)
                     {
-                        CustomMessageBox.Show("Sửa thông tin sân thành công!", "Thông báo");
+                        CustomMessageBox.Show("Sửa thông tin sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
                     }
                     else
                     {
-                        CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo");
+                        CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo");
+                    CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 finally
                 {
@@ -256,7 +256,7 @@ namespace FootballFieldManagement.ViewModels
                 SalarySetting salarySetting = SalarySettingDAL.Instance.GetSalarySettings(item);
                 if (salarySetting == null)
                 {
-                    CustomMessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!", "Thông báo");
+                    CustomMessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     SetSalaryWindow wdSetSalary = new SetSalaryWindow();
                     wdSetSalary.cboTypeEmployee.Text = item;
                     wdSetSalary.ShowDialog();

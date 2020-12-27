@@ -247,7 +247,7 @@ namespace FootballFieldManagement.ViewModels
             FieldInfo fieldInfo = new FieldInfo(idFieldInfo, selectedField.IdField, DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.StartTime), DateTime.Parse(bookingWindow.dpSetDate.Text + " " + selectedFrame.EndTime), 1, bookingWindow.txtPhoneNumber.Text, bookingWindow.txtUserName.Text, bookingWindow.txtMoreInfo.Text, ConvertToNumber(bookingWindow.txtDiscount.Text), ConvertToNumber(bookingWindow.txbPrice.Text));
             if (FieldInfoDAL.Instance.AddIntoDB(fieldInfo))
             {
-                CustomMessageBox.Show("Đặt sân thành công!", "Thông báo");
+                CustomMessageBox.Show("Đặt sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 
                 if (!bookingWindow.dpSetDate.IsEnabled)
                 {
@@ -261,7 +261,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                CustomMessageBox.Show("Đặt sân thất bại!", "Thông báo");
+                CustomMessageBox.Show("Đặt sân thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             bookingWindow.Close();
         }
@@ -337,7 +337,7 @@ namespace FootballFieldManagement.ViewModels
             if (FieldInfoDAL.Instance.DeleteFromDB(PickedField.txbidFieldInfo.Text))
             {
                 //Hủy sân đã đặt
-                CustomMessageBox.Show("Hủy sân thành công!", "Thông báo");
+                CustomMessageBox.Show("Hủy sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 checkInWindow.Close();
                 PickedField.icn3.Visibility = Visibility.Hidden;
                 if ((checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
@@ -369,14 +369,14 @@ namespace FootballFieldManagement.ViewModels
             }
             if (checkInWindow.dpSetDate.IsEnabled && (checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
             {
-                CustomMessageBox.Show("Khung giờ đã qua!", "Thông báo");
+                CustomMessageBox.Show("Khung giờ đã qua!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 checkInWindow.dpSetDate.SelectedDate = null;
                 checkInWindow.cboTime.SelectedItem = null;
                 return;
             }
             if (!checkInWindow.dpSetDate.IsEnabled && (checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.EndTime, DateTime.Now.ToString("HH:mm")) == -1)))
             {
-                CustomMessageBox.Show("Khung giờ đã qua!", "Thông báo");
+                CustomMessageBox.Show("Khung giờ đã qua!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 checkInWindow.dpSetDate.SelectedDate = null;
                 checkInWindow.cboTime.SelectedItem = null;
                 return;
@@ -406,12 +406,12 @@ namespace FootballFieldManagement.ViewModels
             }
             if (ConvertToNumber(checkInWindow.txtDiscount.Text) > ConvertToNumber(checkInWindow.txbPrice.Text))
             {
-                CustomMessageBox.Show("Không nhập giảm giá lớn hơn giá sân!", "Thông báo");
+                CustomMessageBox.Show("Không nhập giảm giá lớn hơn giá sân!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             if (!checkInWindow.dpSetDate.IsEnabled && (checkInWindow.dpSetDate.SelectedDate > DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare((DateTime.Parse(selectedFrame.StartTime).Subtract(new TimeSpan(0, 30, 0))).ToString("HH:mm"), DateTime.Now.ToString("HH:mm")) == 1))) // hiện tại < giờ bắt đầu-30 phút thì không được checkin 
             {
-                CustomMessageBox.Show("Chưa đến giờ check in !", "Thông báo");
+                CustomMessageBox.Show("Chưa đến giờ check in !", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -429,7 +429,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FieldInfoDAL.Instance.UpdateOnDB(fieldInfo))
                 {
                     //Chuyển sang sân đang đá
-                    CustomMessageBox.Show("Check in thành công!", "Thông báo");
+                    CustomMessageBox.Show("Check in thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     PickedField.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
                     PickedField.icn3.Visibility = Visibility.Hidden;
                     PickedField.icn2.Visibility = Visibility.Visible;
@@ -437,7 +437,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Check in thất bại!", "Thông báo");
+                    CustomMessageBox.Show("Check in thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else //Nếu đang đặt sân
@@ -447,17 +447,17 @@ namespace FootballFieldManagement.ViewModels
                     fieldInfo.IdFieldInfo = FieldInfoDAL.Instance.GetMaxIdFieldInfo() + 1;
                     if (FieldInfoDAL.Instance.AddIntoDB(fieldInfo))
                     {
-                        CustomMessageBox.Show("Đổi sân thành công!", "Thông báo");
+                        CustomMessageBox.Show("Đổi sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                         LoadFieldsToView(this.home, currentPage * 7);
                     }
                     else
                     {
-                        CustomMessageBox.Show("Đổi sân thất bại!", "Thông báo");
+                        CustomMessageBox.Show("Đổi sân thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    CustomMessageBox.Show("Đổi sân thất bại!", "Thông báo");
+                    CustomMessageBox.Show("Đổi sân thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             checkInWindow.Close();
@@ -628,7 +628,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Chưa thể thanh toán!", "Thông báo");
+                    CustomMessageBox.Show("Chưa thể thanh toán!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 return;
             }

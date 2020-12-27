@@ -293,7 +293,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.AddIntoDB(newField))
                 {
                     isSuccess1 = true;
-                    CustomMessageBox.Show("Thêm thành công!", "Thông báo");
+                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
 
                     //Hiển thị 
                     if (home.cboViews.SelectedIndex == 0)
@@ -321,7 +321,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo");
+                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             else
@@ -341,7 +341,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
                     isSuccess2 = true;
-                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo");
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
                     //Cập nhật lên display
                     if (home.cboViews.SelectedIndex == 0)
                     {
@@ -365,7 +365,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Cập nhật thất bại!", "Thông báo");
+                    CustomMessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 

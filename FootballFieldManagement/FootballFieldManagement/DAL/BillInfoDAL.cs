@@ -34,7 +34,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                CustomMessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
@@ -108,7 +108,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                CustomMessageBox.Show("Đã tồn tại mặt hàng");
+                CustomMessageBox.Show("Đã tồn tại mặt hàng", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
             finally
@@ -140,7 +140,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                CustomMessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             finally
@@ -212,7 +212,7 @@ namespace FootballFieldManagement.DAL
 
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
-                    BillInfo billInfo = new BillInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()), 
+                    BillInfo billInfo = new BillInfo(int.Parse(dataTable.Rows[i].ItemArray[0].ToString()), int.Parse(dataTable.Rows[i].ItemArray[1].ToString()),
                         int.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
                     billInfos.Add(billInfo);
                 }

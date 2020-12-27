@@ -321,7 +321,7 @@ namespace FootballFieldManagement.ViewModels
                 DateTime dateTime = new DateTime();
                 if (!DateTime.TryParse(parameter.dpBirthDate.Text, out dateTime))
                 {
-                    CustomMessageBox.Show("Vui lòng nhập lại ngày sinh!");
+                    CustomMessageBox.Show("Vui lòng nhập lại ngày sinh!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                     parameter.dpBirthDate.Focus();
                     return;
                 }
@@ -341,7 +341,7 @@ namespace FootballFieldManagement.ViewModels
 
             if (parameter.dpWorkDate.Text == "")
             {
-                CustomMessageBox.Show("Vui lòng nhập ngày vào làm!");
+                CustomMessageBox.Show("Vui lòng nhập ngày vào làm!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.dpWorkDate.Focus();
                 return;
             }
@@ -350,7 +350,7 @@ namespace FootballFieldManagement.ViewModels
                 DateTime dateTime = new DateTime();
                 if (!DateTime.TryParse(parameter.dpWorkDate.Text, out dateTime))
                 {
-                    CustomMessageBox.Show("Vui lòng nhập lại ngày vào làm!");
+                    CustomMessageBox.Show("Vui lòng nhập lại ngày vào làm!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                     parameter.dpWorkDate.Focus();
                     return;
                 }
@@ -366,7 +366,7 @@ namespace FootballFieldManagement.ViewModels
                 gender = "Nữ";
             if (parameter.grdSelectImage.Background == null)
             {
-                CustomMessageBox.Show("Vui lòng thêm hình ảnh!");
+                CustomMessageBox.Show("Vui lòng thêm hình ảnh!", "", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             byte[] imgByteArr;
@@ -475,7 +475,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Xoá thất bại");
+                    CustomMessageBox.Show("Xoá thất bại", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -631,7 +631,7 @@ namespace FootballFieldManagement.ViewModels
                 isExist = true;
                 if (SalarySettingDAL.Instance.UpdateDB(salarySetting))
                 {
-                    MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
                 else
                 {
@@ -643,7 +643,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (SalarySettingDAL.Instance.AddIntoDB(salarySetting))
                 {
-                    MessageBox.Show("Đã thiết lập lương cho '" + salarySetting.TypeEmployee + "'!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Đã thiết lập lương cho '" + salarySetting.TypeEmployee + "'!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
                 else
                 {

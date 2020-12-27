@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -188,28 +189,28 @@ namespace FootballFieldManagement.Views
 
         private void DisplayImage(MessageBoxImage image)
         {
-            Icon icon;
+            BitmapImage bitmapImage;
 
             switch (image)
             {
-                case MessageBoxImage.Exclamation:       // Enumeration value 48 - also covers "Warning"
-                    icon = SystemIcons.Exclamation;
+                case MessageBoxImage.Warning:
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/warning.ico"));
                     break;
-                case MessageBoxImage.Error:             // Enumeration value 16, also covers "Hand" and "Stop"
-                    icon = SystemIcons.Hand;
+                case MessageBoxImage.Asterisk:
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/succes.ico"));
                     break;
-                case MessageBoxImage.Information:       // Enumeration value 64 - also covers "Asterisk"
-                    icon = SystemIcons.Information;
+                case MessageBoxImage.Error:
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/error.png"));
                     break;
                 case MessageBoxImage.Question:
-                    icon = SystemIcons.Question;
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/help.ico"));
                     break;
                 default:
-                    icon = SystemIcons.Information;
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/info.ico"));
                     break;
             }
 
-            Image_MessageBox.Source = icon.ToImageSource();
+            Image_MessageBox.Source = bitmapImage;
             Image_MessageBox.Visibility = System.Windows.Visibility.Visible;
         }
 

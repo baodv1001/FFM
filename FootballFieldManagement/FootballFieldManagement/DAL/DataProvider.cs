@@ -28,7 +28,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                CustomMessageBox.Show("Mất kết nối đến cơ sở dữ liệu!");
+                CustomMessageBox.Show("Mất kết nối đến cơ sở dữ liệu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 App.Current.Shutdown();
 
             }

@@ -120,14 +120,14 @@ namespace FootballFieldManagement.ViewModels
             //check username
             if (string.IsNullOrEmpty(parameter.txtUsername.Text))
             {
-                CustomMessageBox.Show("Vui lòng nhập tên đăng nhập!", "Thông báo");
+                CustomMessageBox.Show("Vui lòng nhập tên đăng nhập!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.txtUsername.Focus();
                 return;
             }
             //check password
             if (string.IsNullOrEmpty(parameter.txtPassword.Password))
             {
-                CustomMessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo");
+                CustomMessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.txtPassword.Focus();
                 return;
             }
@@ -194,7 +194,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                CustomMessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!", "Thông báo");
+                CustomMessageBox.Show("Tên đăng nhập hoặc mật khẩu không chính xác!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void DisplayEmployee(Employee employee, HomeWindow home)

@@ -160,7 +160,7 @@ namespace FootballFieldManagement.ViewModels
             //Check IdConfirm
             if (string.IsNullOrEmpty(parameter.pwbKey.Password))
             {
-                CustomMessageBox.Show("Vui lòng nhập mã xác thực!", "Thông báo");
+                CustomMessageBox.Show("Vui lòng nhập mã xác thực!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.pwbKey.Focus();
                 return;
             }
@@ -181,13 +181,13 @@ namespace FootballFieldManagement.ViewModels
             //Check password
             if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
             {
-                CustomMessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo");
+                CustomMessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.pwbPassword.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.pwbPasswordConfirm.Password))
             {
-                CustomMessageBox.Show("Vui lòng xác thực mật khẩu!", "Thông báo");
+                CustomMessageBox.Show("Vui lòng xác thực mật khẩu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 parameter.pwbPasswordConfirm.Focus();
                 return;
             }
@@ -224,7 +224,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (password != passwordConfirm)
             {
-                CustomMessageBox.Show("Mật khẩu không trùng khớp!", "Thông báo");
+                CustomMessageBox.Show("Mật khẩu không trùng khớp!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -241,7 +241,7 @@ namespace FootballFieldManagement.ViewModels
                 selectedEmployee.IdAccount = idAccount;
                 if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))
                 {
-                    CustomMessageBox.Show("Đăng ký thành công!", "Thông báo");
+                    CustomMessageBox.Show("Đăng ký thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
                     isSignUp = true;
                     parameter.cboSelectEmployee.Text = "";
                     parameter.txtUsername.Text = null;

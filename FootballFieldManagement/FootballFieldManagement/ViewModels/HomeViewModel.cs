@@ -201,6 +201,8 @@ namespace FootballFieldManagement.ViewModels
                     parameter.icnField.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     break;
                 case 3:
+                    GoodsViewModel goodsViewModel = new GoodsViewModel();
+                    goodsViewModel.LoadStkGoods(parameter);
                     parameter.grdBody_Goods.Visibility = Visibility.Visible;
                     parameter.btnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                     parameter.icnGoods.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");

@@ -33,7 +33,9 @@ namespace FootballFieldManagement.DAL
                 string queryString = string.Format("select day(invoiceDate) as day from Bill " +
                     "where month(invoiceDate) = {0} and year(invoiceDate) = {1} group by day(invoiceDate) " +
                     "union select day(dateTimeStockReceipt) as day from StockReceipt where month(dateTimeStockReceipt) =  {0} " +
-                    "and year(dateTimeStockReceipt) = {1} group by day(dateTimeStockReceipt)", month, year);
+                    "and year(dateTimeStockReceipt) = {1} group by day(dateTimeStockReceipt)" +
+                    "union select day(salaryRecordDate) as day from SalaryRecord where month(salaryRecordDate) =  {0}" +
+                    "and year(salaryRecordDate) = {1} group by day(salaryRecordDate)", month, year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -60,7 +62,9 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string queryString = string.Format("select month(invoiceDate) as month from Bill where year(invoiceDate) = {0} " +
                     "group by month(invoiceDate) union select month(dateTimeStockReceipt) as month from StockReceipt " +
-                    "where year(dateTimeStockReceipt) = {0} group by month(dateTimeStockReceipt)", year);
+                    "where year(dateTimeStockReceipt) = {0} group by month(dateTimeStockReceipt)" +
+                    "union select month(salaryRecordDate) as month from SalaryRecord where " +
+                    "year(salaryRecordDate) = {0} group by month(salaryRecordDate)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();
@@ -87,7 +91,9 @@ namespace FootballFieldManagement.DAL
                 conn.Open();
                 string queryString = string.Format("select datepart(quarter, invoiceDate) as quarter from Bill where year(invoiceDate) = {0} " +
                     "group by datepart(quarter, invoiceDate) union select datepart(quarter, dateTimeStockReceipt) as quarter " +
-                    "from StockReceipt where year(dateTimeStockReceipt) = {0} group by datepart(quarter, dateTimeStockReceipt)", year);
+                    "from StockReceipt where year(dateTimeStockReceipt) = {0} group by datepart(quarter, dateTimeStockReceipt)" +
+                    "union select datepart(quarter,salaryRecordDate) as quarter from SalaryRecord where " +
+                    "year(salaryRecordDate) = {0} group by datepart(quarter,salaryRecordDate)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
 
                 SqlDataReader rdr = command.ExecuteReader();

@@ -367,9 +367,16 @@ namespace FootballFieldManagement.ViewModels
                 checkInWindow.cboTime.Text = "";
                 return;
             }
-            if ((checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
+            if (checkInWindow.dpSetDate.IsEnabled && (checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1)))
             {
-                CustomMessageBox.Show("Không thể đặt sân những ngày đã qua!");
+                CustomMessageBox.Show("Khung giờ đã qua!");
+                checkInWindow.dpSetDate.SelectedDate = null;
+                checkInWindow.cboTime.SelectedItem = null;
+                return;
+            }
+            if (!checkInWindow.dpSetDate.IsEnabled && (checkInWindow.dpSetDate.SelectedDate < DateTime.Today || (checkInWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.EndTime, DateTime.Now.ToString("HH:mm")) == -1)))
+            {
+                CustomMessageBox.Show("Khung giờ đã qua!");
                 checkInWindow.dpSetDate.SelectedDate = null;
                 checkInWindow.cboTime.SelectedItem = null;
                 return;

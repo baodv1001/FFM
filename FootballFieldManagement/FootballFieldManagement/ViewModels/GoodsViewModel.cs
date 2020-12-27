@@ -576,8 +576,8 @@ namespace FootballFieldManagement.ViewModels
             bool isSuccessed2 = StockReceiptDAL.Instance.AddIntoDB(stockReceipt);
 
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(parameter.txtIdStockReceipt.Text),
-                int.Parse(parameter.txtIdGoods.Text), int.Parse(parameter.txtQuantity.Text),
-                int.Parse(parameter.txtImportPrice.Text));
+                int.Parse(parameter.txtIdGoods.Text), Convert.ToInt32(ConvertToNumber(parameter.txtQuantity.Text)),
+                ConvertToNumber(parameter.txtImportPrice.Text));
             bool isSuccessed3 = StockReceiptInfoDAL.Instance.AddIntoDB(stockReceiptInfo);
 
             if (isSuccessed1 && isSuccessed2 && isSuccessed3)

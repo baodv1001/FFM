@@ -250,7 +250,7 @@ namespace FootballFieldManagement.ViewModels
                 salaryRecordControl.txbSalaryRecordTime.Text = SalaryRecordDate.ToString("HH:mm");
                 salaryRecordControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(dataTable.Rows[i].ItemArray[2].ToString()));
                 salaryRecordControl.txbName.Text = EmployeeDAL.Instance.GetEmployeeByIdAccount(dataTable.Rows[i].ItemArray[3].ToString()).Name;
-                
+
                 homeWindow.stkSalaryRecord.Children.Add(salaryRecordControl);
                 temp++;
             }
@@ -517,7 +517,7 @@ namespace FootballFieldManagement.ViewModels
             string str = FieldInfoDAL.Instance.GetPriceByFieldInfoId(fieldInfo.IdFieldInfo.ToString()).ToString();
             fieldBillInfoControl.txbUnitPrice.Text = string.Format("{0:N0}", long.Parse(str));
             fieldBillInfoControl.txbTotal.Text = string.Format("{0:N0}", long.Parse(str));
-            
+
             billTemplate.stkBillInfo.Children.Add(fieldBillInfoControl);
             foreach (var billInfo in listBillInfo)
             {

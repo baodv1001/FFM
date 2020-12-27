@@ -48,6 +48,7 @@
             Width="36"
             Height="36"/>
         <Button
+            x:Name="btn"
             Style="{StaticResource MaterialDesignRaisedButton}"
             Command="{Binding PickFieldCommand}"
             CommandParameter="{Binding ElementName=ucButtonField}"

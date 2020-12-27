@@ -169,7 +169,21 @@ namespace FootballFieldManagement.ViewModels
                     }
                 }
                 HomeWindow home = new HomeWindow();
+                // Gán thông tin cho các uc chú thích 
                 home.txbFieldName.Text = new DataProvider().LoadData("Information").Rows[0].ItemArray[0].ToString();
+                home.ucField1.icn1.Visibility = Visibility.Visible;
+                home.ucField2.icn3.Visibility = Visibility.Visible;
+                home.ucField1.btn.Cursor = null;
+                home.ucField2.btn.Cursor = null;
+                home.ucField3.btn.Cursor = null;
+                home.ucField4.btn.Cursor = null;
+                home.ucField2.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
+                home.ucField3.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FF333333");
+                home.ucField3.icn2.Visibility = Visibility.Visible;
+                home.ucField4.recColor.Visibility = Visibility.Visible;
+                home.ucField4.icn4.Visibility = Visibility.Visible;
+                home.ucField5.icn1.Visibility = Visibility.Visible;
+                home.ucField5.bdrOut.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#FFCDECDA");
                 SetJurisdiction(home);
                 DisplayAccount(home);
                 DisplayEmployee(employee, home);

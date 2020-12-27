@@ -514,7 +514,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -950,7 +950,7 @@
                 Margin="0"
                 Grid.Row="1"
                 DataContext="{StaticResource BusinessVM}"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction 
@@ -1125,15 +1125,22 @@
                     VerticalAlignment="Center"
                     Orientation="Horizontal" 
                     Margin="40,0,0,5">
-                    <UserControls:FieldButtonControl Margin="0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField1" 
+                        Margin="0">
+                    </UserControls:FieldButtonControl>
                     <TextBlock
-                        Text="Sân không" 
+                        Text="Sân trống " 
                         Foreground="{DynamicResource Gray1}" 
                         VerticalAlignment="Center" 
                         FontSize="16"
                         FontWeight="SemiBold" 
                         Margin="5,0"/>
-                    <UserControls:FieldButtonControl Margin="0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField2"
+                        Margin="0"/>
                     <TextBlock
                         Text="Sân đã đặt" 
                         Foreground="{DynamicResource Gray1}" 
@@ -1141,7 +1148,10 @@
                         FontSize="16"
                         FontWeight="SemiBold" 
                         Margin="5,0"/>
-                    <UserControls:FieldButtonControl Margin="0"/>
+                    <UserControls:FieldButtonControl
+                        DataContext=""
+                        x:Name="ucField3" 
+                        Margin="0"/>
                     <TextBlock
                         Text="Sân đang đá" 
                         Foreground="{DynamicResource Gray1}" 
@@ -1149,9 +1159,25 @@
                         FontSize="16"
                         FontWeight="SemiBold" 
                         Margin="5,0"/>
-                    <UserControls:FieldButtonControl Margin="0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField4" 
+                        Margin="0"/>
                     <TextBlock
                         Text="Đã thanh toán" 
+                        Foreground="{DynamicResource Gray1}" 
+                        VerticalAlignment="Center" 
+                        FontSize="16"
+                        FontWeight="SemiBold" 
+                        Margin="5,0"/>
+                    <UserControls:FieldButtonControl 
+                        DataContext=""
+                        x:Name="ucField5" 
+                        Margin="0" 
+                        IsEnabled="False"
+                        Cursor=""/>
+                    <TextBlock
+                        Text="Không được đặt" 
                         Foreground="{DynamicResource Gray1}" 
                         VerticalAlignment="Center" 
                         FontSize="16"

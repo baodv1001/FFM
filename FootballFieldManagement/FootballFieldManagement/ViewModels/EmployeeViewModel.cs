@@ -97,7 +97,7 @@ namespace FootballFieldManagement.ViewModels
                 SalarySetting salarySetting = SalarySettingDAL.Instance.GetSalarySettings(item);
                 if (salarySetting == null)
                 {
-                    MessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!");
+                    CustomMessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     SetSalaryWindow wdSetSalary = new SetSalaryWindow();
                     wdSetSalary.cboTypeEmployee.SelectedItem = item;
                     wdSetSalary.ShowDialog();
@@ -136,7 +136,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (SalarySettingDAL.Instance.ConvertDBToList().Count == 0)
             {
-                MessageBox.Show("Vui lòng thiết lập lương");
+                CustomMessageBox.Show("Vui lòng thiết lập lương", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 SetSalaryWindow wdSetSalary = new SetSalaryWindow();
                 wdSetSalary.ShowDialog();
                 return;
@@ -172,7 +172,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (success)
             {
-                MessageBox.Show("Trả lương thành công!");
+                CustomMessageBox.Show("Trả lương thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 if (selectedMonth.Split(' ')[1] == DateTime.Now.Month.ToString())
                 {
                     LoadEmployeesToView(home);
@@ -181,7 +181,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                MessageBox.Show("Trả lương thất bại!");
+                CustomMessageBox.Show("Trả lương thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             paySalaryWindow.Close();
         }
@@ -631,11 +631,11 @@ namespace FootballFieldManagement.ViewModels
                 isExist = true;
                 if (SalarySettingDAL.Instance.UpdateDB(salarySetting))
                 {
-                    MessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
                 else
                 {
-                    MessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             //set salary 
@@ -643,11 +643,11 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (SalarySettingDAL.Instance.AddIntoDB(salarySetting))
                 {
-                    MessageBox.Show("Đã thiết lập lương cho '" + salarySetting.TypeEmployee + "'!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    CustomMessageBox.Show("Đã thiết lập lương cho '" + salarySetting.TypeEmployee + "'!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
                 else
                 {
-                    MessageBox.Show("Thiết lập thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show("Thiết lập thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             for (int i = 0; i < 3; i++)

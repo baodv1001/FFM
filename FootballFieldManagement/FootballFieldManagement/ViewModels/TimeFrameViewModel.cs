@@ -261,7 +261,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 if (isSuccess)
                 {
-                    CustomMessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK,MessageBoxImage.Hand);
+                    CustomMessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK,MessageBoxImage.Asterisk);
                     isChanged = false;
                     wdSetTime.Close();
                 }

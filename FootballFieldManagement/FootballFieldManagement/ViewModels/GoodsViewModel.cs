@@ -196,7 +196,7 @@ namespace FootballFieldManagement.ViewModels
                     goods.Quantity = stockReceiptInfo.Quantity;
                     GoodsDAL.Instance.ImportToDB(goods);
                 }
-                CustomMessageBox.Show("Nhập hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show("Nhập hàng thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 importStockWindow.Close();
                 LoadStkGoods(homeWindow);
             }

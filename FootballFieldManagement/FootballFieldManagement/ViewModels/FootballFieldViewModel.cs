@@ -87,7 +87,7 @@ namespace FootballFieldManagement.ViewModels
             footballField.Status = 0;
             if (FootballFieldDAL.Instance.UpdateField(footballField))
             {
-                MessageBox.Show("Báo lỗi thành công!");
+                CustomMessageBox.Show("Báo lỗi thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 window.Close();
             }
         }
@@ -293,7 +293,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.AddIntoDB(newField))
                 {
                     isSuccess1 = true;
-                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 
                     //Hiển thị 
                     if (home.cboViews.SelectedIndex == 0)
@@ -331,7 +331,7 @@ namespace FootballFieldManagement.ViewModels
                 {
                     if (FootballFieldDAL.Instance.isExistFieldName(parameter.txtName.Text))
                     {
-                        MessageBox.Show("Tên sân đã tồn tại! Vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                        CustomMessageBox.Show("Tên sân đã tồn tại! Vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                         parameter.txtName.Text = "";
                         parameter.txtName.Focus();
                         return;
@@ -341,7 +341,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
                     isSuccess2 = true;
-                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     //Cập nhật lên display
                     if (home.cboViews.SelectedIndex == 0)
                     {
@@ -462,7 +462,7 @@ namespace FootballFieldManagement.ViewModels
                     }
                     else
                     {
-                        MessageBox.Show("Sân đang được sử dụng, không được phép xóa!");
+                        CustomMessageBox.Show("Sân đang được sử dụng, không được phép xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
                 return;
@@ -489,7 +489,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    MessageBox.Show("Sân đang được sử dụng, không được phép xóa!");
+                    CustomMessageBox.Show("Sân đang được sử dụng, không được phép xóa!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

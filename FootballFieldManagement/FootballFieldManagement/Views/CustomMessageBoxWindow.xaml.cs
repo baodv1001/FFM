@@ -194,19 +194,19 @@ namespace FootballFieldManagement.Views
             switch (image)
             {
                 case MessageBoxImage.Warning:
-                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/warning.ico"));
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/warning.png"));
                     break;
                 case MessageBoxImage.Asterisk:
-                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/succes.ico"));
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/succes.png"));
                     break;
                 case MessageBoxImage.Error:
                     bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/error.png"));
                     break;
                 case MessageBoxImage.Question:
-                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/help.ico"));
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/help.png"));
                     break;
                 default:
-                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/info.ico"));
+                    bitmapImage = new BitmapImage(new Uri("pack://application:,,,/FootballFieldManagement;component/Resources/Images/info.png"));
                     break;
             }
 

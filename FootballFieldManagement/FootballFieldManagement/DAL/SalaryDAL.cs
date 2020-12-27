@@ -125,7 +125,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Lỗi!");
+                CustomMessageBox.Show("Lỗi!","Thông báo", MessageBoxButton.OK,MessageBoxImage.Error);
             }
             finally
             {
@@ -277,7 +277,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Lỗi!");
+                CustomMessageBox.Show("Lỗi!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             finally
@@ -306,7 +306,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Lỗi!");
+                CustomMessageBox.Show("Lỗi!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
             finally
@@ -376,7 +376,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                MessageBox.Show("Lỗi!");
+                CustomMessageBox.Show("Lỗi!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {

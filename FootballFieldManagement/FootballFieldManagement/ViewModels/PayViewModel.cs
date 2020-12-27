@@ -247,7 +247,7 @@ namespace FootballFieldManagement.ViewModels
                         GoodsDAL.Instance.UpdateOnDB(good);
                     }
 
-                    CustomMessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    CustomMessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     parameter.txbIsPaid.Text = "1";
                 }
                 parameter.Close();

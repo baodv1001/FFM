@@ -71,7 +71,7 @@ namespace FootballFieldManagement.ViewModels
                         CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
                         if (AccountDAL.Instance.UpdatePassword(CurrentAccount.DisplayName, CurrentAccount.Password))
                         {
-                            CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
+                            CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             parameter.pwbOldPassword.Password = null;
                             parameter.pwbNewPassword.Password = null;
                             parameter.pwbConfirmedPassword.Password = null;
@@ -113,7 +113,7 @@ namespace FootballFieldManagement.ViewModels
                     int rs = command.ExecuteNonQuery();
                     if (rs == 1)
                     {
-                        CustomMessageBox.Show("Sửa thông tin sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Hand);
+                        CustomMessageBox.Show("Sửa thông tin sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     }
                     else
                     {
@@ -293,7 +293,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (success)
             {
-                MessageBox.Show("Tính lương thành công!");
+                CustomMessageBox.Show("Tính lương thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 for (int i = 0; i < home.stkEmployee.Children.Count; i++)
                 {
                     EmployeeControl control = (EmployeeControl)home.stkEmployee.Children[i];
@@ -302,7 +302,7 @@ namespace FootballFieldManagement.ViewModels
             }
             else
             {
-                MessageBox.Show("Tính lương thất bại!");
+                CustomMessageBox.Show("Tính lương thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void OpenSetSalaryWindow()

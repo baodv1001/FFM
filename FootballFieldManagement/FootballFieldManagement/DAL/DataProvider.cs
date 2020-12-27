@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace FootballFieldManagement.DAL
 {
@@ -13,14 +14,24 @@ namespace FootballFieldManagement.DAL
     {
         public DataTable LoadData(string tableName)
         {
-            conn.Close();
-            conn.Open();
-            string sql = "SELECT * FROM " + tableName;
-            SqlCommand cmd = new SqlCommand(sql, conn);
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
-            adapter.Fill(dt);
             conn.Close();
+            try
+            {
+                conn.Open();
+                string sql = "SELECT * FROM " + tableName;
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                adapter.Fill(dt);
+                conn.Close();
+                return dt;
+            }
+            catch
+            {
+                CustomMessageBox.Show("Mất kết nối đến cơ sở dữ liệu!");
+                App.Current.Shutdown();
+
+            }
             return dt;
         }
     }

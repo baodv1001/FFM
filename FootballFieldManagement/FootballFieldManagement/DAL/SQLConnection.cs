@@ -13,7 +13,15 @@ namespace FootballFieldManagement.DAL
         public SqlConnection conn;
         public SQLConnection()
         {
-            strConn = ConfigurationManager.ConnectionStrings["FFM"].ConnectionString;
+            try
+            {
+                strConn = ConfigurationManager.ConnectionStrings["FFM"].ConnectionString;
+            }
+            catch
+            {
+                CustomMessageBox.Show("Mất kết nối đến cơ sở dữ liệu!", "Thông báo");
+                return;
+            }
             conn = new SqlConnection(strConn);
         }
     }

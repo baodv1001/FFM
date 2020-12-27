@@ -497,7 +497,7 @@
                 FocusVisualStyle="{x:Null}"/>
             <Button
                 x:Name="btnCancel"
-                Content="Thoát"
+                Content="Bỏ qua"
                 Style="{StaticResource MaterialDesignRaisedButton}"
                 Height="40"
                 FontSize="18"

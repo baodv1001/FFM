@@ -227,7 +227,7 @@
                 Height="26" 
                 Width="70"
                 FocusVisualStyle="{x:Null}"
-                Content="Thoát" 
+                Content="Bỏ qua" 
                 FontSize="14" 
                 VerticalAlignment="Bottom"
                 Padding="0" 

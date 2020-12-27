@@ -198,7 +198,7 @@
                 Padding="0"/>
             <Button 
                 x:Name="btnExit"
-                Content="Thoát"
+                Content="Bỏ qua"
                 Style="{StaticResource MyRedButtonStyle}"
                 Command="{Binding ExitCommand}"
                 CommandParameter="{Binding ElementName=wdCheckAttendance}"

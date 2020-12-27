@@ -263,6 +263,7 @@ namespace FootballFieldManagement.ViewModels
                 {
                     CustomMessageBox.Show("Đã lưu thành công!", "Thông báo", MessageBoxButton.OK);
                     isChanged = false;
+                    wdSetTime.Close();
                 }
                 else
                 {

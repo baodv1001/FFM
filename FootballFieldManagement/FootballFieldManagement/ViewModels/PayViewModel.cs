@@ -247,7 +247,7 @@ namespace FootballFieldManagement.ViewModels
                         GoodsDAL.Instance.UpdateOnDB(good);
                     }
 
-                    CustomMessageBox.Show("Thanh toán thành công!");
+                    CustomMessageBox.Show("Thanh toán thành công!", "Thông báo");
                     parameter.txbIsPaid.Text = "1";
                 }
                 parameter.Close();
@@ -271,7 +271,7 @@ namespace FootballFieldManagement.ViewModels
             bool isExist = false;
             if (GoodsDAL.Instance.GetGoods(parameter.txbId.Text).Quantity == 0)
             {
-                CustomMessageBox.Show("Đã hết hàng!");
+                CustomMessageBox.Show("Đã hết hàng!", "Thông báo");
                 return;
             }
             List<BillInfo> billInfos = BillInfoDAL.Instance.GetBillInfos(parameter.txbIdBill.Text);
@@ -284,7 +284,7 @@ namespace FootballFieldManagement.ViewModels
                     if (billInfo.Quantity > GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString()).Quantity)
                     {
                         billInfo.Quantity -= 1;
-                        CustomMessageBox.Show("Đạt số lượng hàng tối đa!");
+                        CustomMessageBox.Show("Đạt số lượng hàng tối đa!", "Thông báo");
                         return;
                     }
                     if (BillInfoDAL.Instance.UpdateOnDB(billInfo))

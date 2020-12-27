@@ -71,14 +71,14 @@ namespace FootballFieldManagement.ViewModels
                         CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
                         if (AccountDAL.Instance.UpdatePassword(CurrentAccount.DisplayName, CurrentAccount.Password))
                         {
-                            CustomMessageBox.Show("Đổi mật khẩu thành công!");
+                            CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo");
                             parameter.pwbOldPassword.Password = null;
                             parameter.pwbNewPassword.Password = null;
                             parameter.pwbConfirmedPassword.Password = null;
                         }
                         else
                         {
-                            CustomMessageBox.Show("Đổi mật khẩu thất bại!");
+                            CustomMessageBox.Show("Đổi mật khẩu thất bại!", "Thông báo");
                         }
                     }
                     else
@@ -113,16 +113,16 @@ namespace FootballFieldManagement.ViewModels
                     int rs = command.ExecuteNonQuery();
                     if (rs == 1)
                     {
-                        CustomMessageBox.Show("Sửa thông tin sân thành công!");
+                        CustomMessageBox.Show("Sửa thông tin sân thành công!", "Thông báo");
                     }
                     else
                     {
-                        CustomMessageBox.Show("Thực hiện thất bại");
+                        CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo");
                     }
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Thực hiện thất bại");
+                    CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo");
                 }
                 finally
                 {
@@ -254,7 +254,7 @@ namespace FootballFieldManagement.ViewModels
                 SalarySetting salarySetting = SalarySettingDAL.Instance.GetSalarySettings(item);
                 if (salarySetting == null)
                 {
-                    CustomMessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!");
+                    CustomMessageBox.Show("Vui lòng thiết lập lương cho '" + item + "'!", "Thông báo");
                     SetSalaryWindow wdSetSalary = new SetSalaryWindow();
                     wdSetSalary.cboTypeEmployee.Text = item;
                     wdSetSalary.ShowDialog();

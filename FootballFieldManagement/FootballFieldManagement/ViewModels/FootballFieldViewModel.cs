@@ -203,11 +203,11 @@ namespace FootballFieldManagement.ViewModels
                 {
                     temp.txbStatus.Text = "Tốt";
                 }
-                if(CurrentAccount.Type==2)
+                if (CurrentAccount.Type == 2)
                 {
                     temp.btnDeleteField.IsEnabled = false;
                     temp.btnEditField.IsEnabled = false;
-                }    
+                }
                 wrap.Children.Add(temp);
             }
         }
@@ -224,11 +224,11 @@ namespace FootballFieldManagement.ViewModels
                     child.icnError.Visibility = Visibility.Hidden;
                 }
                 child.txbFieldType.Text = "Sân " + field.Type.ToString() + " người";
-                if(CurrentAccount.Type==2)
+                if (CurrentAccount.Type == 2)
                 {
                     child.btnDelete.IsEnabled = false;
                     child.btnEdit.IsEnabled = false;
-                }    
+                }
                 parameter.wpCardField.Children.Add(child);
             }
         }
@@ -321,7 +321,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Thêm thất bại!");
+                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo");
                 }
             }
             else
@@ -341,7 +341,7 @@ namespace FootballFieldManagement.ViewModels
                 if (FootballFieldDAL.Instance.UpdateField(newField))
                 {
                     isSuccess2 = true;
-                    CustomMessageBox.Show("Cập nhật thành công!");
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo");
                     //Cập nhật lên display
                     if (home.cboViews.SelectedIndex == 0)
                     {
@@ -365,7 +365,7 @@ namespace FootballFieldManagement.ViewModels
                 }
                 else
                 {
-                    CustomMessageBox.Show("Cập nhật thất bại!");
+                    CustomMessageBox.Show("Cập nhật thất bại!", "Thông báo");
                 }
             }
 

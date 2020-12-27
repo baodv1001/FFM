@@ -111,12 +111,12 @@ namespace FootballFieldManagement.ViewModels
             try
             {
                 connection.conn.Open();
-                string queryString = "select * from Authorizations where authKey = '" + parameter.pwbKey.Password +"'";
+                string queryString = "select * from Authorizations where authKey = '" + parameter.pwbKey.Password + "'";
                 SqlCommand command = new SqlCommand(queryString, connection.conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-                if(dataTable.Rows.Count < 1)
+                if (dataTable.Rows.Count < 1)
                 {
                     MessageBox.Show("Mã xác thực không đúng!");
                     parameter.pwbKey.Focus();
@@ -160,7 +160,7 @@ namespace FootballFieldManagement.ViewModels
             //Check IdConfirm
             if (string.IsNullOrEmpty(parameter.pwbKey.Password))
             {
-                CustomMessageBox.Show("Vui lòng nhập mã xác thực!");
+                CustomMessageBox.Show("Vui lòng nhập mã xác thực!", "Thông báo");
                 parameter.pwbKey.Focus();
                 return;
             }
@@ -181,13 +181,13 @@ namespace FootballFieldManagement.ViewModels
             //Check password
             if (string.IsNullOrEmpty(parameter.pwbPassword.Password))
             {
-                CustomMessageBox.Show("Vui lòng nhập mật khẩu!");
+                CustomMessageBox.Show("Vui lòng nhập mật khẩu!", "Thông báo");
                 parameter.pwbPassword.Focus();
                 return;
             }
             if (string.IsNullOrEmpty(parameter.pwbPasswordConfirm.Password))
             {
-                CustomMessageBox.Show("Vui lòng xác thực mật khẩu!");
+                CustomMessageBox.Show("Vui lòng xác thực mật khẩu!", "Thông báo");
                 parameter.pwbPasswordConfirm.Focus();
                 return;
             }
@@ -224,7 +224,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (password != passwordConfirm)
             {
-                CustomMessageBox.Show("Mật khẩu không trùng khớp!");
+                CustomMessageBox.Show("Mật khẩu không trùng khớp!", "Thông báo");
                 return;
             }
 
@@ -241,7 +241,7 @@ namespace FootballFieldManagement.ViewModels
                 selectedEmployee.IdAccount = idAccount;
                 if (EmployeeDAL.Instance.UpdateIdAccount(selectedEmployee))
                 {
-                    CustomMessageBox.Show("Đăng ký thành công!");
+                    CustomMessageBox.Show("Đăng ký thành công!", "Thông báo");
                     isSignUp = true;
                     parameter.cboSelectEmployee.Text = "";
                     parameter.txtUsername.Text = null;

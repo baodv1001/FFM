@@ -24,38 +24,6 @@ namespace FootballFieldManagement.DAL
         {
 
         }
-        public List<Salary> ConvertDBToList()
-        {
-            DataTable dt;
-            List<Salary> salaries = new List<Salary>();
-            try
-            {
-
-                dt = LoadData("Salary");
-            }
-            catch
-            {
-                conn.Close();
-                dt = LoadData("Salary");
-            }
-            // sort increase
-            DataView dv = dt.DefaultView;
-            dv.Sort = "idEmployee ASC";
-            dt = dv.ToTable();
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                int idSalaryRecord = -1;
-                if (dt.Rows[i].ItemArray[5].ToString() != "")
-                {
-                    idSalaryRecord = int.Parse(dt.Rows[i].ItemArray[5].ToString());
-                }
-                Salary salary = new Salary(int.Parse(dt.Rows[i].ItemArray[0].ToString()), int.Parse(dt.Rows[i].ItemArray[1].ToString()),
-                    int.Parse(dt.Rows[i].ItemArray[2].ToString()), long.Parse(dt.Rows[i].ItemArray[3].ToString())
-                    , DateTime.Parse(dt.Rows[i].ItemArray[4].ToString()), idSalaryRecord);
-                salaries.Add(salary);
-            }
-            return salaries;
-        }
         public List<Salary> GetSalaryByMonth(string month, string year)
         {
             try
@@ -378,37 +346,6 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public long GetSumSalary(string month, string year)
-        {
-            try
-            {
-                conn.Open();
-                string query = "select Sum(totalSalary) from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idSalaryRecord is not null";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@month", month);
-                cmd.Parameters.AddWithValue("@year", year);
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows[0].ItemArray[0].ToString() != "")
-                {
-                    return long.Parse(dt.Rows[0].ItemArray[0].ToString());
-                }
-                else
-                {
-                    return -1;
-                }
-            }
-            catch
-            {
-                return -1;
-            }
-            finally
-            {
-                conn.Close();
-            }
-        }
-
         public List<Salary> GetSalaryOfEmployee(string month, string year) // Lấy lương của những nhân viên đang làm việc
         {
             List<Salary> salaries = new List<Salary>();

@@ -28,7 +28,7 @@
             Margin="60,26,0,0" 
             TextWrapping="Wrap" 
             VerticalAlignment="Top"
-            Width="290"
+            Width="300"
             Foreground="{DynamicResource Primary}"
             FontSize="24" 
             FontWeight="Bold"/>

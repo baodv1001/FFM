@@ -188,7 +188,7 @@ namespace FootballFieldManagement.ViewModels
 
                 salaryInfoControl.txbOrderNum.Text = i.ToString();
                 salaryInfoControl.txbName.Text = employee.Name;
-                salaryInfoControl.txbBasicSalary.Text = SalarySettingDAL.Instance.GetBaseSalary(employee.Position);
+                salaryInfoControl.txbBasicSalary.Text = string.Format("{0:N0}", long.Parse(SalarySettingDAL.Instance.GetBaseSalary(employee.Position)));
                 salaryInfoControl.txbNumOfFault.Text = salaryInfo.NumOfFault.ToString();
                 salaryInfoControl.txbNumOfShift.Text = salaryInfo.NumOfShift.ToString();
                 salaryInfoControl.txbTotalSalary.Text = string.Format("{0:N0}", salaryInfo.TotalSalary);

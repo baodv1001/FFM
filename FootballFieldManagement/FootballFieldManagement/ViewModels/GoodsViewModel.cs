@@ -189,14 +189,14 @@ namespace FootballFieldManagement.ViewModels
                 {
                     if (stockReceiptInfo.ImportPrice == 0)
                     {
-                        CustomMessageBox.Show("Vui lòng nhập giá nhập kho!");
+                        CustomMessageBox.Show("Vui lòng nhập giá nhập kho!", "Thông báo");
                         return;
                     }
                     Goods goods = GoodsDAL.Instance.GetGoods(stockReceiptInfo.IdGoods.ToString());
                     goods.Quantity = stockReceiptInfo.Quantity;
                     GoodsDAL.Instance.ImportToDB(goods);
                 }
-                CustomMessageBox.Show("Nhập hàng thành công!");
+                CustomMessageBox.Show("Nhập hàng thành công!", "Thông báo");
                 importStockWindow.Close();
                 LoadStkGoods(homeWindow);
             }
@@ -211,7 +211,7 @@ namespace FootballFieldManagement.ViewModels
             long importPrice = 0;
             if (!string.IsNullOrWhiteSpace(importGoodsDetailsControl.txtImportPrice.Text))
             {
-               importPrice =  ConvertToNumber(importGoodsDetailsControl.txtImportPrice.Text);
+                importPrice = ConvertToNumber(importGoodsDetailsControl.txtImportPrice.Text);
             }
             StockReceiptInfo stockReceiptInfo = new StockReceiptInfo(int.Parse(idStockReceipt),
                 int.Parse(importGoodsDetailsControl.txbIdGoods.Text), quantity, importPrice);
@@ -424,11 +424,11 @@ namespace FootballFieldManagement.ViewModels
                 if (isSuccessed)
                 {
                     homeWindow.stkGoods.Children.Remove(goodsControl);
-                    CustomMessageBox.Show("Xoá thành công!");
+                    CustomMessageBox.Show("Xoá thành công!", "Thông báo");
                 }
                 else
                 {
-                    CustomMessageBox.Show("Thực hiện thất bại!");
+                    CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo");
                 }
             }
         }
@@ -494,7 +494,7 @@ namespace FootballFieldManagement.ViewModels
             }
             if (parameter.grdSelectImg.Background == null)
             {
-                CustomMessageBox.Show("Vui lòng thêm hình ảnh!");
+                CustomMessageBox.Show("Vui lòng thêm hình ảnh!", "Thông báo");
                 return;
             }
             byte[] imgByteArr;
@@ -522,7 +522,7 @@ namespace FootballFieldManagement.ViewModels
                 isSuccessed1 = GoodsDAL.Instance.AddIntoDB(newGoods);
                 if (isSuccessed1)
                 {
-                    CustomMessageBox.Show("Thêm mặt hàng thành công!");
+                    CustomMessageBox.Show("Thêm mặt hàng thành công!", "Thông báo");
                 }
             }
             else
@@ -540,12 +540,12 @@ namespace FootballFieldManagement.ViewModels
                 isSuccessed2 = GoodsDAL.Instance.UpdateOnDB(newGoods);
                 if (isSuccessed2)
                 {
-                    CustomMessageBox.Show("Cập nhật thành công!");
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo");
                 }
             }
             if (!isSuccessed1 || !isSuccessed2)
             {
-                CustomMessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo");
             }
             parameter.Close();
             LoadStkGoods(homeWindow);
@@ -582,13 +582,13 @@ namespace FootballFieldManagement.ViewModels
 
             if (isSuccessed1 && isSuccessed2 && isSuccessed3)
             {
-                CustomMessageBox.Show("Nhập hàng thành công!");
+                CustomMessageBox.Show("Nhập hàng thành công!", "Thông báo");
                 parameter.Close();
                 LoadStkGoods(homeWindow);
             }
             else
             {
-                CustomMessageBox.Show("Thực hiện thất bại!");
+                CustomMessageBox.Show("Thực hiện thất bại!", "Thông báo");
             }
         }
         public void CalculateTotal(ImportGoodsWindow parameter)

@@ -129,7 +129,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                CustomMessageBox.Show("Thực hiện thất bại");
+                CustomMessageBox.Show("Thực hiện thất bại", "Thông báo");
                 return false;
             }
             finally

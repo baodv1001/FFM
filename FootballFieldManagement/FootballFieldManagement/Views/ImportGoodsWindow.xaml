@@ -435,7 +435,7 @@
                 Command="{Binding ImportCommand}"
                 CommandParameter="{Binding ElementName=wdImportGoods}"
                 IsDefault="True"
-                Style="{StaticResource MyPrimaryButtonStyle}"
+                Style="{StaticResource MyGreenButtonStyle}"
                 Height="40" 
                 Width="100"
                 ToolTip="Lưu thông tin" 

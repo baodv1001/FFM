@@ -419,7 +419,7 @@
                 Height="35">
                 <TextBlock 
                     x:Name="txbPrice" 
-                    Text="1" 
+                    Text="0" 
                     TextAlignment="Right" 
                     FontSize="18" 
                     Foreground="{StaticResource Primary}" 

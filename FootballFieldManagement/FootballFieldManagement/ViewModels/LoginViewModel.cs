@@ -231,6 +231,7 @@ namespace FootballFieldManagement.ViewModels
                 home.btnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.icnHome.Foreground = (Brush)new BrushConverter().ConvertFrom("#FF1976D2");
                 home.grdCursor.Margin = new Thickness(0, 175, 40, 0);
+                CurrentAccount.DisplayName = "Chủ sân";
             }
             home.txtDayOfBirth.IsEnabled = false;
             home.txtGender.IsEnabled = false;

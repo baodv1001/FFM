@@ -514,7 +514,7 @@
                 VerticalAlignment="Top" 
                 Width="1201"
                 Margin="0"
-                Visibility="Hidden">
+                Visibility="Visible">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction Command="{Binding LoadCommand}"
@@ -950,7 +950,7 @@
                 Margin="0"
                 Grid.Row="1"
                 DataContext="{StaticResource BusinessVM}"
-                Visibility="Visible">
+                Visibility="Hidden">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Loaded">
                         <i:InvokeCommandAction 

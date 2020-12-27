@@ -86,7 +86,7 @@
             FontWeight="SemiBold"/>
         <Button 
             x:Name="btnViewBill"
-            Command="{Binding ViewStockReceiptTemplateCommand}"
+            Command="{Binding ViewStRTemplateCommand}"
             CommandParameter="{Binding ElementName=ucStockReceipt}"
             Grid.Column="5"
             Style="{StaticResource MaterialDesignRaisedButton}"

@@ -253,9 +253,13 @@ namespace FootballFieldManagement.ViewModels
                 home.btnHome.IsEnabled = false;
                 home.btnSettingTime.IsEnabled = false;
                 home.btnAddField.IsEnabled = false;
+                home.txtAdressInfo.IsEnabled = false;
+                home.txtPhoneNumberInfo.IsEnabled = false;
+                home.btnCheckIn.IsEnabled = false;
             }
             if (CurrentAccount.Type == 1)
             {
+                home.btnCheckIn.IsEnabled = true;
                 home.btnAddGoods.IsEnabled = true;
                 home.btnEmployee.IsEnabled = true;
             }

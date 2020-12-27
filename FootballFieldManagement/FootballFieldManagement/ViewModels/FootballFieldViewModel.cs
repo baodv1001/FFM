@@ -203,6 +203,11 @@ namespace FootballFieldManagement.ViewModels
                 {
                     temp.txbStatus.Text = "Tốt";
                 }
+                if(CurrentAccount.Type==2)
+                {
+                    temp.btnDeleteField.IsEnabled = false;
+                    temp.btnEditField.IsEnabled = false;
+                }    
                 wrap.Children.Add(temp);
             }
         }
@@ -219,6 +224,11 @@ namespace FootballFieldManagement.ViewModels
                     child.icnError.Visibility = Visibility.Hidden;
                 }
                 child.txbFieldType.Text = "Sân " + field.Type.ToString() + " người";
+                if(CurrentAccount.Type==2)
+                {
+                    child.btnDelete.IsEnabled = false;
+                    child.btnEdit.IsEnabled = false;
+                }    
                 parameter.wpCardField.Children.Add(child);
             }
         }

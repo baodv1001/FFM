@@ -113,15 +113,34 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string queryString = "update Goods set name=@name, unit=@unit, unitPrice=@unitPrice, imageFile=@imageFile,quantity=@quantity " +
+                string queryString = "update Goods set name=@name, unit=@unit, unitPrice=@unitPrice, imageFile=@imageFile " +
                     "where idGoods =" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@name", goods.Name);
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
-                command.Parameters.AddWithValue("@quantity", goods.Quantity);
                 
+                int rs = command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+        public bool UpdateQuantity(int idGoods, int quantity)
+        {
+            try
+            {
+                conn.Open();
+                string queryString = "update Goods set quantity=@quantity where idGoods = " + idGoods.ToString();
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.Parameters.AddWithValue("@quantity", quantity.ToString());
                 int rs = command.ExecuteNonQuery();
                 return true;
             }
@@ -225,12 +244,12 @@ namespace FootballFieldManagement.DAL
                 conn.Close();
             }
         }
-        public bool isExistGoodsName(string goodsName)
+        public bool IsExistGoodsName(string goodsName)
         {
             try
             {
                 conn.Open();
-                string query = @"select * from Goods where name = '" + goodsName + "'";
+                string query = @"select * from Goods where isDeleted = 0 and name = '" + goodsName + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

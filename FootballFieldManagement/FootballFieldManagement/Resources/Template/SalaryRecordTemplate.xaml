@@ -197,7 +197,8 @@
                     MinWidth="100"
                     Foreground="{DynamicResource Gray1}" 
                     HorizontalAlignment="Right"
-                    FontSize="14"/>
+                    FontSize="14"
+                    TextAlignment="Right"/>
             </StackPanel>
         </Grid>
         <Grid 

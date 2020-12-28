@@ -487,7 +487,6 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbCheckOutTime.Text = bill.CheckOutTime.ToString("H:mm");
             billTemplate.txbTotal.Text = string.Format("{0:N0}", bill.TotalMoney);
             billTemplate.txbEmployeeName.Text = billControl.txbEmployeeName.Text;
-
             //Thông tin khách hàng
             FieldInfo fieldInfo = FieldInfoDAL.Instance.GetFieldInfo(bill.IdFieldInfo.ToString());
             billTemplate.txbCustomerName.Text = fieldInfo.CustomerName;

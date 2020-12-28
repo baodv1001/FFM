@@ -221,28 +221,6 @@
                 FontSize="13" 
                 Foreground="{DynamicResource Gray2}"/>
         </StackPanel>
-        <StackPanel
-            Grid.Row="1" 
-            HorizontalAlignment="Right" 
-            VerticalAlignment="Center"
-            Margin="0,0,33,0" Width="160">
-            <TextBlock 
-                HorizontalAlignment="Left"
-                Margin="0"
-                TextWrapping="Wrap"
-                Text="Ghi chú:" 
-                FontWeight="Bold"
-                Foreground="{DynamicResource Gray1}" 
-                FontSize="14"/>
-            <TextBlock
-                Margin="0"
-                MaxHeight="64"
-                TextWrapping="Wrap"
-                TextTrimming="CharacterEllipsis"
-                Text="Lorem ipsum dolor sit amet, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." 
-                FontWeight="SemiBold"
-                Foreground="{DynamicResource Gray1}"/>
-        </StackPanel>
         <Grid
             Grid.Row="4" 
             Background="#FFEAEAEA">

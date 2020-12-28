@@ -186,7 +186,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 conn.Open();
-                string query = @"select * from FootballField where isDeleted=0 and name = '@fieldName'";
+                string query = @"select * from FootballField where isDeleted=0 and name = '" + fieldName +"'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();

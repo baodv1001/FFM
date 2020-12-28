@@ -203,9 +203,9 @@ namespace FootballFieldManagement.ViewModels
             }
             if ((bookingWindow.dpSetDate.SelectedDate == DateTime.Today && string.Compare(selectedFrame.StartTime, DateTime.Now.ToString("HH:mm")) == -1))
             {
-                CustomMessageBox.Show("Không thể đặt sân những ngày đã qua!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
-                bookingWindow.dpSetDate.SelectedDate = null;
+                CustomMessageBox.Show("Không thể đặt sân những giờ đã qua!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                 bookingWindow.cboTime.SelectedItem = null;
+                bookingWindow.cboTime.Focus();
                 return;
             }
             if (bookingWindow.cboTime.SelectedIndex == -1)

@@ -354,9 +354,11 @@ namespace FootballFieldManagement.ViewModels
                     parameter.dpWorkDate.Focus();
                     return;
                 }
-                if (dateTime < DateTime.Parse(parameter.dpBirthDate.Text))
+                if (dateTime <= DateTime.Parse(parameter.dpBirthDate.Text))
                 {
+                    CustomMessageBox.Show("Vui lòng nhập ngày vào làm lớn hơn ngày sinh!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     parameter.dpWorkDate.Focus();
+                    parameter.dpWorkDate.Text = null;
                     return;
                 }
             }

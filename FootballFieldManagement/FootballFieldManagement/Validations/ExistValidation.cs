@@ -42,7 +42,7 @@ namespace FootballFieldManagement.Validations
                     }
                     break;
                 case "GoodsName":
-                    if (GoodsDAL.Instance.isExistGoodsName(value.ToString()))
+                    if (GoodsDAL.Instance.IsExistGoodsName(value.ToString()))
                     {
                         result = new ValidationResult(false, this.ErrorMessage);
                     }

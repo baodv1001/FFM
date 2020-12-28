@@ -92,7 +92,7 @@ namespace FootballFieldManagement.ViewModels
             billTemplate.txbDiscount.Text = payWindow.txbDiscount.Text;
             billTemplate.txbTotal.Text = payWindow.txbSumOfPrice.Text;
             billTemplate.txbIdBill.Text = payWindow.txbIdBill.Text;
-            billTemplate.txbTotalBefore.Text = (int.Parse(payWindow.txbFieldPrice.Text) + int.Parse(payWindow.txbtotalGoodsPrice.Text)).ToString();
+            billTemplate.txbTotalBefore.Text = string.Format("{0:N0}", (ConvertToNumber(payWindow.txbFieldPrice.Text) + ConvertToNumber(payWindow.txbtotalGoodsPrice.Text)));
             billTemplate.txbCustomerName.Text = payWindow.txbCustomerName.Text;
             billTemplate.txbCustomerPhoneNumber.Text = payWindow.txbCustomerPhone.Text;
             billTemplate.txbInvoiceDate.Text = bill.InvoiceDate.ToShortDateString();
@@ -127,10 +127,10 @@ namespace FootballFieldManagement.ViewModels
                 Goods goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
                 billInfoControl.txbOrderNum.Text = i.ToString();
                 billInfoControl.txbName.Text = goods.Name;
-                billInfoControl.txbUnitPrice.Text = goods.UnitPrice.ToString();
+                billInfoControl.txbUnitPrice.Text = string.Format("{0:N0}", goods.UnitPrice);
                 billInfoControl.txbQuantity.Text = billInfo.Quantity.ToString();
                 billInfoControl.txbUnit.Text = goods.Unit;
-                billInfoControl.txbTotal.Text = (goods.UnitPrice * billInfo.Quantity).ToString();
+                billInfoControl.txbTotal.Text = string.Format("{0:N0}", (goods.UnitPrice * billInfo.Quantity));
 
                 billTemplate.stkBillInfo.Children.Add(billInfoControl);
                 i++;
@@ -242,9 +242,9 @@ namespace FootballFieldManagement.ViewModels
                 {
                     foreach (var billInfo in billInfos)
                     {
-                        var good = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
-                        good.Quantity -= billInfo.Quantity;
-                        GoodsDAL.Instance.UpdateOnDB(good);
+                        var goods = GoodsDAL.Instance.GetGoods(billInfo.IdGoods.ToString());
+                        goods.Quantity -= billInfo.Quantity;
+                        GoodsDAL.Instance.UpdateQuantity(goods.IdGoods, goods.Quantity);
                     }
 
                     CustomMessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);

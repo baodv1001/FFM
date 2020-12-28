@@ -424,7 +424,6 @@ namespace FootballFieldManagement.ViewModels
                 if (isSuccessed)
                 {
                     homeWindow.stkGoods.Children.Remove(goodsControl);
-                    CustomMessageBox.Show("Xoá thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 }
                 else
                 {
@@ -506,13 +505,13 @@ namespace FootballFieldManagement.ViewModels
             {
                 imgByteArr = GoodsDAL.Instance.GetGoods(parameter.txtIdGoods.Text).ImageFile;
             }
-            imageFileName = null;
+            //imageFileName = null;
             Goods newGoods = new Goods(int.Parse(parameter.txtIdGoods.Text), parameter.txtName.Text,
                 parameter.cboUnit.Text, ConvertToNumber(parameter.txtUnitPrice.Text), imgByteArr);
             bool isSuccessed1 = true, isSuccessed2 = true;
             if (goodsList.Count == 0 || newGoods.IdGoods > goodsList[goodsList.Count - 1].IdGoods)
             {
-                if (GoodsDAL.Instance.isExistGoodsName(parameter.txtName.Text))
+                if (GoodsDAL.Instance.IsExistGoodsName(parameter.txtName.Text))
                 {
                     CustomMessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                     parameter.txtName.Focus();
@@ -529,7 +528,7 @@ namespace FootballFieldManagement.ViewModels
             {
                 if (GoodsDAL.Instance.GetGoods(parameter.txtIdGoods.Text).Name != parameter.txtName.Text)
                 {
-                    if (GoodsDAL.Instance.isExistGoodsName(parameter.txtName.Text))
+                    if (GoodsDAL.Instance.IsExistGoodsName(parameter.txtName.Text))
                     {
                         CustomMessageBox.Show("Mặt hàng đã tồn tại, vui lòng nhập lại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
                         parameter.txtName.Focus();

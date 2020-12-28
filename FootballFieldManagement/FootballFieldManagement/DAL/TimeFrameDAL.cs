@@ -28,17 +28,18 @@ namespace FootballFieldManagement.DAL
 
         public List<TimeFrame> ConvertDBToList()
         {
-            conn.Open();
+
             List<TimeFrame> timeFrames = new List<TimeFrame>();
             DataTable dt;
             try
             {
+                conn.Open();
                 dt = LoadData("TimeFrame");
             }
             catch
             {
                 conn.Close();
-                dt = LoadData("TimFrame");
+                dt = LoadData("TimeFrame");
             }
             DataView dv = dt.DefaultView;
             dv.Sort = "startTime ASC";
@@ -58,9 +59,9 @@ namespace FootballFieldManagement.DAL
         }
         public bool AddTimeFrame(TimeFrame time)
         {
-            conn.Open();
             try
             {
+                conn.Open();
                 string query = @"insert into TimeFrame(id, startTime, endTime, fieldType, price) values(@id, @startTime, @endTime, @fieldType, @price)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", time.Id.ToString());

@@ -193,14 +193,13 @@ namespace FootballFieldManagement.ViewModels
         }
         public void TextChanged(PeriodControl control)
         {
-            TimeFrame tmp = this.tmpTimeFrames.Find(x => x.Id.ToString() == control.txbId.Text);
             if (string.IsNullOrEmpty(control.txtPrice.Text))
             {
-                tmp.Price = -1;
+                this.tmpTimeFrames.Where(x => x.Id.ToString() == control.txbId.Text).ToList().ForEach(x => x.Price = -1);
             }
             else
             {
-                tmp.Price = ConvertToNumber(control.txtPrice.Text);
+                this.tmpTimeFrames.Where(x => x.Id.ToString() == control.txbId.Text).ToList().ForEach(x => x.Price = ConvertToNumber(control.txtPrice.Text));
             }
             this.isChanged = true;
         }
@@ -326,12 +325,15 @@ namespace FootballFieldManagement.ViewModels
                 control.txtPrice.Text = wdAddTime.txtPrice.Text;
                 foreach (string fieldType in FootballFieldDAL.Instance.GetFieldType())
                 {
+                    List<TimeFrame> listTemps = tmpTimeFrames;
+                    listTemps = listTemps.OrderBy(x => x.Id).ToList();
+                    control.txbId.Text = (listTemps[listTemps.Count - 1].Id + 1).ToString();
                     long price = ConvertToNumber(control.txtPrice.Text);
                     if(fieldType != setTimeWd.cboFieldType.Text.Split(' ')[1])
                     {
-                        price = -1;
+                        control.txtPrice.Text = "-1";
                     }
-                    TimeFrame newTime = new TimeFrame(tmpTimeFrames[tmpTimeFrames.Count - 1].Id + 1, control.txtStartTime.Text, control.txtEndTime.Text, int.Parse(fieldType), price);
+                    TimeFrame newTime = new TimeFrame(int.Parse(control.txbId.Text), control.txtStartTime.Text, control.txtEndTime.Text, int.Parse(fieldType), ConvertToNumber(control.txtPrice.Text));
                     tmpTimeFrames.Add(newTime);
                 }
                 tmpTimeFrames = tmpTimeFrames.OrderBy(x => x.StartTime).ToList();

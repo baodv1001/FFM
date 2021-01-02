@@ -68,9 +68,9 @@ namespace FootballFieldManagement.ViewModels
                 {
                     if (parameter.pwbNewPassword.Password == parameter.pwbConfirmedPassword.Password)
                     {
-                        CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
-                        if (AccountDAL.Instance.UpdatePassword(CurrentAccount.DisplayName, CurrentAccount.Password))
+                        if (AccountDAL.Instance.UpdatePassword(CurrentAccount.IdAccount.ToString(), MD5Hash(parameter.pwbNewPassword.Password)))
                         {
+                            CurrentAccount.Password = MD5Hash(parameter.pwbNewPassword.Password);
                             CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                             parameter.pwbOldPassword.Password = null;
                             parameter.pwbNewPassword.Password = null;

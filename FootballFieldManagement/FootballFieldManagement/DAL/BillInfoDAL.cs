@@ -27,7 +27,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "delete from BillInfo where idBill=" + idBill;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.ExecuteNonQuery();
@@ -38,14 +38,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteFromDB(BillInfo billInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "delete from BillInfo where idBill=" + billInfo.IdBill.ToString() + " and idGoods=" + billInfo.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 if (command.ExecuteNonQuery() < 1)
@@ -63,7 +63,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -72,7 +72,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "delete from BillInfo where idGoods=" + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 return true;
@@ -83,14 +83,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool AddIntoDB(BillInfo billInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "insert into BillInfo(idBill, idGoods, quantity) values(@idBill, @idGoods, @quantity)";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idBill", billInfo.IdBill);
@@ -113,14 +113,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateOnDB(BillInfo billInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update BillInfo set quantity=@quantity where idGoods=@idGoods and idBill=@idBill";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@idGoods", billInfo.IdGoods.ToString());
@@ -145,12 +145,12 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int CountSumMoney(string idBill) // Tính tổng số tiền 
         {
-            conn.Open();
+            OpenConnection();
             int sum = 0;
             DataTable dataTable = new DataTable();
             string queryString = "select BillInfo.quantity,unitPrice from BillInfo Inner join Goods on Goods.idGoods = BillInfo.idGoods where idBill=@idBill ";
@@ -162,7 +162,7 @@ namespace FootballFieldManagement.DAL
             {
                 sum += int.Parse(dataTable.Rows[i].ItemArray[0].ToString()) * int.Parse(dataTable.Rows[i].ItemArray[1].ToString());
             }
-            conn.Close();
+            CloseConnection();
             return sum;
         }
         public List<BillInfo> GetBillInfos(string idBill)
@@ -170,7 +170,7 @@ namespace FootballFieldManagement.DAL
             List<BillInfo> billInfos = new List<BillInfo>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from BillInfo where idBill=" + idBill;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.ExecuteNonQuery();
@@ -193,14 +193,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<BillInfo> ConvertDBToList()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from BillInfo";
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -224,7 +224,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

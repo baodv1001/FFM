@@ -33,7 +33,7 @@ namespace FootballFieldManagement.DAL
             int res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select max(idEmployee) from Employee ";
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -50,7 +50,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }
@@ -60,7 +60,7 @@ namespace FootballFieldManagement.DAL
             List<Employee> employees = new List<Employee>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = @"Select * from Employee
                                        Where isDeleted=0";
 
@@ -76,7 +76,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -99,7 +99,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query;
                 if (employee.IdAccount != -1)
                     query = "update Employee set idAccount = " + employee.IdAccount + " where idEmployee = @idEmployee";
@@ -125,14 +125,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool AddIntoDB(Employee employee)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "insert into Employee( idEmployee,name,gender,phonenumber,address,dateofBirth,position,startingdate,imageFile,isDeleted) values(@idEmployee,@name,@gender,@phonenumber,@address,@dateofBirth,@position,@startingdate,@imageFile,@isDeleted)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idEmployee", employee.IdEmployee);
@@ -161,14 +161,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateOnDB(Employee employee)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "update Employee  set name=@name,gender=@gender,phonenumber=@phonenumber,address=@address,dateofBirth=@dateofBirth,position=@position,startingdate=@startingdate,imageFile=@imageFile,isDeleted=@isDeleted where idEmployee=" + employee.IdEmployee;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@name", employee.Name);
@@ -181,14 +181,7 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(employee.ImageFile));
                 command.Parameters.AddWithValue("@isDeleted", employee.IsDeleted);
                 int rs = command.ExecuteNonQuery();
-                if (rs != 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return true;
             }
             catch
             {
@@ -196,14 +189,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteEmployee(Employee employee)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Update Employee" +
                                 "Set isDeleted=1" +
                                 " where idEmployee = " + employee.IdEmployee.ToString();
@@ -222,7 +215,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public void AddEmployee(Employee employee)
@@ -237,18 +230,17 @@ namespace FootballFieldManagement.DAL
             else
             {
                 if (UpdateOnDB(employee))
-                    CustomMessageBox.Show("Thêm thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    CustomMessageBox.Show("Cập nhật thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 else
-                    CustomMessageBox.Show("Thêm thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                    CustomMessageBox.Show("Cập nhật thất bại!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            //conn.Close();
         }
         public Employee GetEmployee(string idEmployee) // Bao gồm cả nhân viên đã xóa hoặc chưa xóa
         {
             Employee res = new Employee();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Employee where idEmployee = " + idEmployee;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -275,7 +267,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }
@@ -284,7 +276,7 @@ namespace FootballFieldManagement.DAL
             Employee res = new Employee();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Employee where isDeleted=0 and idEmployee = " + idEmployee;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -311,7 +303,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }
@@ -320,7 +312,7 @@ namespace FootballFieldManagement.DAL
             Employee res = new Employee();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Employee where idAccount = " + idAccount;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -342,7 +334,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }
@@ -351,7 +343,7 @@ namespace FootballFieldManagement.DAL
             List<Employee> employees = new List<Employee>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Employee where isDeleted=0 and position = " + typeEmployee;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -382,7 +374,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return employees;
         }
@@ -391,7 +383,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "select position from Employee where idEmployee = " + id;
                 SqlCommand command = new SqlCommand(query, conn);
                 DataTable dt = new DataTable();
@@ -405,14 +397,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<string> GetAllPosition()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 List<string> newList = new List<string>();
                 string query = "select distinct(position) from Employee";
                 SqlCommand command = new SqlCommand(query, conn);
@@ -431,7 +423,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

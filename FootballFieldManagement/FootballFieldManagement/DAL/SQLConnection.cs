@@ -26,5 +26,25 @@ namespace FootballFieldManagement.DAL
             }
             conn = new SqlConnection(strConn);
         }
+        public void OpenConnection()
+        {
+            try
+            {
+                if (conn.State != System.Data.ConnectionState.Open)
+                {
+                    conn.ConnectionString = ConfigurationManager.ConnectionStrings["FFM"].ConnectionString;
+                    conn.Open();
+                }
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Mất kết nối đến cơ sở dữ liệu!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw ex;
+            }
+        }
+        public void CloseConnection()
+        {
+            conn.Close();
+        }
     }
 }

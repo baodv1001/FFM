@@ -36,7 +36,7 @@ namespace FootballFieldManagement.DAL
             List<FootballField> footballFields = new List<FootballField>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = @"Select * from FootballField
                                        Where isDeleted=0";
 
@@ -58,7 +58,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
 
             return footballFields;
@@ -67,7 +67,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "insert into FootballField(idField, name, type, status, note,isDeleted) values (@idField, @name, @type, @status, @note,@isDeleted)";
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idField", footballField.IdField.ToString());
@@ -92,14 +92,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteField(string idField)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Update FootballField 
                                  Set isDeleted=1
                                  Where idField = " + idField;
@@ -120,14 +120,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateField(FootballField footballField)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"update FootballField set idField = @idField, name = @name, type = @type, status = @status,isDeleted=@isDeleted where idField = " + footballField.IdField.ToString();
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@idField", footballField.IdField.ToString());
@@ -151,7 +151,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -159,7 +159,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select distinct(type) from FootballField where isDeleted=0 order by type ASC";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -178,15 +178,15 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool isExistFieldName(string fieldName)
         {
             try
             {
-                conn.Open();
-                string query = @"select * from FootballField where isDeleted=0 and name = '" + fieldName +"'";
+                OpenConnection();
+                string query = @"select * from FootballField where isDeleted=0 and name = '" + fieldName + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
@@ -206,7 +206,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
 
         }
@@ -214,7 +214,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from FootballField where idField = " + idField;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -234,7 +234,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<FootballField> GetNamesPerType(string type)
@@ -242,7 +242,7 @@ namespace FootballFieldManagement.DAL
             List<FootballField> res = new List<FootballField>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = @"Select *
                                        From FootballField
                                        Where type =@type and isDeleted=0
@@ -268,7 +268,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }
@@ -277,7 +277,7 @@ namespace FootballFieldManagement.DAL
             List<FootballField> footballFields = new List<FootballField>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Select idField,name from FootballField
                                  Where FootballField.type=@type
                                  Except
@@ -306,7 +306,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return footballFields;
         }
@@ -315,7 +315,7 @@ namespace FootballFieldManagement.DAL
             List<FootballField> footballFields = new List<FootballField>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select * from FootballField where isDeleted=0 and status=1 order by idField ASC";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -336,7 +336,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return footballFields;
         }

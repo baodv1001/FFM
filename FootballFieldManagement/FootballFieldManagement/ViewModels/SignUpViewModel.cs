@@ -142,9 +142,9 @@ namespace FootballFieldManagement.ViewModels
                 CustomMessageBox.Show("Mật khẩu không trùng khớp!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (AccountDAL.Instance.UpdatePassword(parameter.txtUsername.Text, password))
+            if (AccountDAL.Instance.UpdatePasswordByUsername(parameter.txtUsername.Text, password))
             {
-                CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Warning);
+                CustomMessageBox.Show("Đổi mật khẩu thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 parameter.txtUsername.Text = null;
                 parameter.pwbPassword.Password = "";
                 parameter.pwbPasswordConfirm.Password = "";

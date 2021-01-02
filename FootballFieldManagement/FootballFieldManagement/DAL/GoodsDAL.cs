@@ -30,7 +30,7 @@ namespace FootballFieldManagement.DAL
             List<Goods> goodsList = new List<Goods>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Goods where isDeleted = 0";
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -54,14 +54,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public DataTable LoadDatatable()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Goods where isDeleted = 0";
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -77,14 +77,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool AddIntoDB(Goods goods)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "insert into Goods(idGoods, name, unit, unitPrice, imageFile, quantity, isDeleted) " +
                     "values(@idGoods, @name, @unit, @unitPrice, @imageFile, @quantity, @isDeleted)";
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -105,14 +105,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateOnDB(Goods goods)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update Goods set name=@name, unit=@unit, unitPrice=@unitPrice, imageFile=@imageFile " +
                     "where idGoods =" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -120,7 +120,7 @@ namespace FootballFieldManagement.DAL
                 command.Parameters.AddWithValue("@unit", goods.Unit);
                 command.Parameters.AddWithValue("@unitPrice", goods.UnitPrice.ToString());
                 command.Parameters.AddWithValue("@imageFile", Convert.ToBase64String(goods.ImageFile));
-                
+
                 int rs = command.ExecuteNonQuery();
                 return true;
             }
@@ -130,14 +130,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateQuantity(int idGoods, int quantity)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update Goods set quantity=@quantity where idGoods = " + idGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@quantity", quantity.ToString());
@@ -150,14 +150,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool ImportToDB(Goods goods)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update Goods set quantity = quantity + @quantity where idGoods=" + goods.IdGoods.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
                 command.Parameters.AddWithValue("@quantity", goods.Quantity.ToString());
@@ -170,14 +170,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteFromDB(string idGoods)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update Goods set isDeleted = 1 where idGoods = " + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
@@ -189,14 +189,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public Goods GetGoods(string idGoods) // lấy thông tin hàng hóa khi biết id 
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Goods where idGoods = " + idGoods;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -218,7 +218,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int GetMaxId()
@@ -226,7 +226,7 @@ namespace FootballFieldManagement.DAL
             int res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select max(idGoods) as id from Goods";
                 SqlCommand command = new SqlCommand(queryString, conn);
 
@@ -241,14 +241,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool IsExistGoodsName(string goodsName)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select * from Goods where isDeleted = 0 and name = '" + goodsName + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -269,7 +269,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

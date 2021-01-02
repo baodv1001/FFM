@@ -29,7 +29,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 List<Salary> salaries = new List<Salary>();
-                conn.Open();
+                OpenConnection();
                 string query = @"select * from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@month", month);
@@ -57,7 +57,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<Salary> GetPaidSalary(string month, string year)
@@ -65,7 +65,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 List<Salary> salaries = new List<Salary>();
-                conn.Open();
+                OpenConnection();
                 string query = @"select * from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idSalaryRecord is not null";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@month", month);
@@ -93,7 +93,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<Salary> GetUnPaidSalary(string idEmployee, string month, string year)
@@ -101,7 +101,7 @@ namespace FootballFieldManagement.DAL
             List<Salary> salaries = new List<Salary>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select* from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idEmployee =@idEmployee and idSalaryRecord is null";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@month", month);
@@ -125,11 +125,11 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                CustomMessageBox.Show("Lỗi!","Thông báo", MessageBoxButton.OK,MessageBoxImage.Error);
+                CustomMessageBox.Show("Lỗi!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return salaries;
         }
@@ -138,7 +138,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"insert into Salary (idEmployee, numOfShift, numOfFault,totalSalary, salaryMonth) values(@idEmployee, @numOfShift, @numOfFault,@totalSalary, @salaryMonth)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idEmployee", salary.IdEmployee.ToString());
@@ -157,7 +157,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -166,7 +166,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "update Salary set idSalaryRecord = @idSalaryRecord where month(salaryMonth) = @month and year(salaryMonth) = @year "
                                 + "and idEmployee in (select idEmployee from Employee where isDeleted = 0)";
                 SqlCommand cmd = new SqlCommand(query, conn);
@@ -189,14 +189,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateQuantity(Salary salary)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "update Salary  set numOfShift=@numOfShift,numOfFault=@numOfFault where idEmployee= @idEmployee and month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@numOfShift", salary.NumOfShift.ToString());
@@ -220,14 +220,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateTotalSalary(Salary salary)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "update Salary  set totalSalary=@totalSalary where idEmployee=@idEmployee and month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@totalSalary", salary.TotalSalary.ToString());
@@ -250,14 +250,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool IsExist(string idEmployee, DateTime date)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select * from Salary where idEmployee = @idEmployee and  month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idEmployee", idEmployee.ToString());
@@ -282,14 +282,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool IsExistIdSalaryRecord(string month, string year)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select distinct(idSalaryRecord) from Salary where month(salaryMonth) = @month and year(salaryMonth) = @year and idSalaryRecord is not null";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@month", month);
@@ -311,7 +311,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -319,7 +319,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "select totalSalary from Salary where idEmployee = @idEmployee and month(salaryMonth) = @month and year(salaryMonth) = @year";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idEmployee", idEmployee);
@@ -343,7 +343,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<Salary> GetSalaryOfEmployee(string month, string year) // Lấy lương của những nhân viên đang làm việc
@@ -351,7 +351,7 @@ namespace FootballFieldManagement.DAL
             List<Salary> salaries = new List<Salary>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "select Salary.idEmployee, Salary.numOfShift, Salary.numOfFault, Salary.totalSalary , Salary.salaryMonth, Salary.idSalaryRecord from Salary " +
                                 "join Employee on Salary.idEmployee = Employee.idEmployee" +
                                  " where Employee.isDeleted = 0 and month(Salary.salaryMonth) = @month and year(Salary.salaryMonth) =@year";
@@ -380,7 +380,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return salaries;
         }
@@ -390,7 +390,7 @@ namespace FootballFieldManagement.DAL
             List<Salary> listSalaryInfo = new List<Salary>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from Salary where idSalaryRecord = " + idSalaryRecord;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -411,7 +411,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

@@ -34,7 +34,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from FieldInfo where idFieldInfo = " + idFieldInfo;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -56,7 +56,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -88,7 +88,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"update FieldInfo set idField = NULL where idField = " + idField;
                 SqlCommand command = new SqlCommand(query, conn);
                 int rs = command.ExecuteNonQuery();
@@ -107,7 +107,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<FieldInfo> QueryFieldInfoPerDay(string year, string month, string day)
@@ -115,8 +115,8 @@ namespace FootballFieldManagement.DAL
             List<FieldInfo> res = new List<FieldInfo>();
             try
             {
-                conn.Close();
-                conn.Open();
+                CloseConnection();
+                OpenConnection();
                 string queryString = @"Select idFieldInfo,idField, startingTime,endingTime,status 
                                        From FieldInfo
                                        Where year(startingTime)= @year and month(startingTime)= @month and day(startingTime)= @day 
@@ -142,14 +142,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool AddIntoDB(FieldInfo fieldInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "INSERT INTO FieldInfo(idFieldInfo,idField,startingTime,endingTime,status,phoneNumber,customerName,note,discount,price) " +
                                "VALUES(@idFieldInfo,@idField,@startingTime,@endingTime,@status,@phoneNumber,@customerName,@note,@discount,@price)";
                 SqlCommand command = new SqlCommand(query, conn);
@@ -172,14 +172,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateOnDB(FieldInfo fieldInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Update FieldInfo
                                  Set phoneNumber=@phoneNumber,status=@status,customerName=@customerName,note=@note,discount=@discount
                                  Where idFieldInfo = @idFieldInfo";
@@ -199,14 +199,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteFromDB(string idFieldInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Delete from FieldInfo
                                 Where idFieldInfo=" + idFieldInfo;
                 SqlCommand command = new SqlCommand(query, conn);
@@ -219,7 +219,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int GetMaxIdFieldInfo()
@@ -227,7 +227,7 @@ namespace FootballFieldManagement.DAL
             int res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select max(idFieldInfo) from FieldInfo";
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -244,7 +244,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }
@@ -253,7 +253,7 @@ namespace FootballFieldManagement.DAL
             List<FieldInfo> fieldInfos = new List<FieldInfo>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from FieldInfo where (status=1 or status=2) and idField=" + idField;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -274,7 +274,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return fieldInfos;
         }
@@ -283,7 +283,7 @@ namespace FootballFieldManagement.DAL
             int res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select price from FieldInfo where idFieldInfo = " + idFieldInfo;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -300,7 +300,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }

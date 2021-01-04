@@ -33,7 +33,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                conn.Close();
+                CloseConnection();
                 dt = LoadData("Account");
             }
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -45,7 +45,7 @@ namespace FootballFieldManagement.DAL
         }
         public void AddIntoDB(Account account)
         {
-            conn.Open();
+            OpenConnection();
             string query = "INSERT INTO Account(idAccount,username, password, type) VALUES(@idAccount,@username, @password, @type)";
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@idAccount", account.IdAccount.ToString());
@@ -53,13 +53,13 @@ namespace FootballFieldManagement.DAL
             cmd.Parameters.AddWithValue("@password", account.Password);
             cmd.Parameters.AddWithValue("@type", account.Type.ToString());
             cmd.ExecuteNonQuery();
-            conn.Close();
+            CloseConnection();
         }
         public bool DeleteAccount(string idAccount)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "delete from Account where IdAccount = " + idAccount;
                 SqlCommand command = new SqlCommand(query, conn);
                 if (command.ExecuteNonQuery() > 0)
@@ -75,24 +75,20 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
-        public bool UpdatePassword(string username, string password)
+        public bool UpdatePassword(string idAccount, string password)
         {
             try
             {
-                conn.Open();
-                string query = "update Account set password=@password where username = @username";
+                OpenConnection();
+                string query = "update Account set password=@password where idAccount = @idAccount";
                 SqlCommand command = new SqlCommand(query, conn);
-                command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@idAccount", idAccount);
                 command.Parameters.AddWithValue("@password", password);
-                if (command.ExecuteNonQuery() > 0)
-                    return true;
-                else
-                {
-                    return false;
-                }
+                command.ExecuteNonQuery();
+                return true;
             }
             catch
             {
@@ -100,14 +96,35 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
+            }
+        }
+        public bool UpdatePasswordByUsername(string username, string password)
+        {
+            try
+            {
+                OpenConnection();
+                string query = "update Account set password=@password where username = @username";
+                SqlCommand command = new SqlCommand(query, conn);
+                command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@password", password);
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                CloseConnection();
             }
         }
         public bool UpdateType(Account account)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "update Account set type=@type where IdAccount = " + account.IdAccount;
                 SqlCommand command = new SqlCommand(query, conn);
                 command.Parameters.AddWithValue("@type  ", account.Type);
@@ -124,20 +141,20 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool IsExistUserName(string username)
         {
             try
             {
-                conn.Open();
-                string queryString = "select * from Account where username = '" + username +"'";
+                OpenConnection();
+                string queryString = "select * from Account where username = '" + username + "'";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 DataTable dataTable = new DataTable();
                 adapter.Fill(dataTable);
-                if(dataTable.Rows.Count > 0)
+                if (dataTable.Rows.Count > 0)
                 {
                     return true;
                 }
@@ -152,14 +169,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int SetNewID()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select max(idAccount) from Account";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -180,7 +197,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

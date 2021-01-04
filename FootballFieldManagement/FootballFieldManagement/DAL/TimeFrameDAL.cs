@@ -33,12 +33,12 @@ namespace FootballFieldManagement.DAL
             DataTable dt;
             try
             {
-                conn.Open();
+                OpenConnection();
                 dt = LoadData("TimeFrame");
             }
             catch
             {
-                conn.Close();
+                CloseConnection();
                 dt = LoadData("TimeFrame");
             }
             DataView dv = dt.DefaultView;
@@ -61,7 +61,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"insert into TimeFrame(id, startTime, endTime, fieldType, price) values(@id, @startTime, @endTime, @fieldType, @price)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", time.Id.ToString());
@@ -81,7 +81,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -90,7 +90,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"delete from TimeFrame where fieldType = " + fieldType;
                 SqlCommand cmd = new SqlCommand(query, conn);
                 int rs = cmd.ExecuteNonQuery();
@@ -109,14 +109,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool ClearData()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"delete from TimeFrame";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 int rs = cmd.ExecuteNonQuery();
@@ -135,14 +135,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int GetIdMax()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select max(id) from TimeFrame";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -163,14 +163,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool CheckPriceIsNull()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select id from TimeFrame where price = -1";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -191,14 +191,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<TimeFrame> GetTimeFrame()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select startTime, endTime from TimeFrame group by startTime, endTime";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -219,7 +219,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public string GetPriceOfTimeFrame(string startingTime, string endingTime, string fieldType)
@@ -227,7 +227,7 @@ namespace FootballFieldManagement.DAL
             DataTable dt = new DataTable();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Select Distinct TimeFrame.price 
                                 From TimeFrame
                                 Join FootballField on TimeFrame.fieldType = FootballField.type
@@ -247,7 +247,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<TimeFrame> GetEmptyTime(string idField, string day)
@@ -255,7 +255,7 @@ namespace FootballFieldManagement.DAL
             List<TimeFrame> timeFrames = new List<TimeFrame>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"Select distinct TimeFrame.startTime,TimeFrame.endTime from TimeFrame
                                  Except
                                  Select convert(varchar(5), startingTime, 108) as startTime,convert(varchar(5), endingTime, 108) as endTime from FieldInfo
@@ -279,7 +279,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return timeFrames;
         }

@@ -34,7 +34,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "SELECT distinct(month) FROM Attendance";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -48,7 +48,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<Attendance> CovertToList()
@@ -61,7 +61,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                conn.Close();
+                CloseConnection();
                 dt = LoadData("Attendance");
             }
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -75,7 +75,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "INSERT INTO Attendance(dayInMonth, idEmployee,month) VALUES(@dayInMonth, @idEmployee, @month)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@dayInMonth", attendance.DayInMonth.ToString());
@@ -96,14 +96,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<int> WorkedDay(string id)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "SELECT dayInMonth FROM Attendance WHERE idEmployee = " + id;
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -122,14 +122,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteData()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "DELETE FROM Attendance";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 if (cmd.ExecuteNonQuery() < 1)
@@ -148,7 +148,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -157,7 +157,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "SELECT count(dayInMonth) FROM Attendance WHERE idEmployee = " + id;
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -171,7 +171,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -181,7 +181,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = "DELETE FROM Attendance where idEmployee = " + idEmployee;
                 SqlCommand cmd = new SqlCommand(query, conn);
                 int rs = cmd.ExecuteNonQuery();
@@ -193,7 +193,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

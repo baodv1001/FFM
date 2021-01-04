@@ -728,7 +728,16 @@ namespace FootballFieldManagement.ViewModels
             ThisMonthRevenue = string.Format("{0:N0}", ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear)) + " đồng";
             try
             {
-                IncreasingPercent = (ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear) / ReportDAL.Instance.QueryRevenueInMonth(lastMonth, currentYear) * 100).ToString() + "%";
+                double res = 0;
+                if (currentMonth != "1")
+                {
+                    res = ((double)(ReportDAL.Instance.QueryRevenueInMonth(currentMonth, currentYear)) / (double)(ReportDAL.Instance.QueryRevenueInMonth(lastMonth, currentYear))) * 100;
+                }
+                else
+                {
+                    res = ((double)(ReportDAL.Instance.QueryRevenueInMonth("1", currentYear)) / (double)(ReportDAL.Instance.QueryRevenueInMonth("12", (int.Parse(currentYear) - 1).ToString()))) * 100;
+                }
+                IncreasingPercent = Math.Round(res, 2).ToString() + "%";
             }
             catch
             {

@@ -25,7 +25,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"insert into SalaryRecord (idSalaryRecord, salaryRecordDate, total, idAccount) values(@idSalaryRecord, @salaryRecordDate, @total, @idAccount)";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idSalaryRecord", record.IdSalaryRecord.ToString());
@@ -43,7 +43,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public DataTable GetSalaryRecordByYear(string year)
@@ -51,7 +51,7 @@ namespace FootballFieldManagement.DAL
             DataTable dataTable = new DataTable();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select * from SalaryRecord " +
                     "where year(salaryRecordDate) = {0} order by idSalaryRecord", year);
 
@@ -66,14 +66,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public SalaryRecord GetSalaryRecordById(string idSalaryRecord)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from SalaryRecord where idSalaryRecord = " + idSalaryRecord;
 
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -91,14 +91,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int SetID()
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select max(idSalaryRecord) from SalaryRecord";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -119,7 +119,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

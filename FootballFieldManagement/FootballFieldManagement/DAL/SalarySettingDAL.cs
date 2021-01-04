@@ -34,7 +34,7 @@ namespace FootballFieldManagement.DAL
             }
             catch
             {
-                conn.Close();
+                CloseConnection();
                 dt = LoadData("SalarySetting");
             }
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -49,7 +49,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"insert into SalarySetting (salaryBase, moneyPerShift, moneyPerFault, typeEmployee, standardWorkDays) " +
                                 "values(@salaryBase, @moneyPerShift, @moneyPerFault, @typeEmployee, @standardWorkDays)";
                 SqlCommand cmd = new SqlCommand(query, conn);
@@ -69,7 +69,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -77,7 +77,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"update SalarySetting set salaryBase = @salaryBase,moneyPerShift = @moneyPerShift,moneyPerFault = @moneyPerFault, standardWorkDays = @standardWorkDays where typeEmployee = N'" + salarySetting.TypeEmployee + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@salaryBase", salarySetting.SalaryBase.ToString());
@@ -95,7 +95,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -103,7 +103,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select * from SalarySetting where typeEmployee = N'" + typeEmployee + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
@@ -127,7 +127,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public string GetBaseSalary(string typeEmployee)
@@ -135,7 +135,7 @@ namespace FootballFieldManagement.DAL
             string res = "0";
             try
             {
-                conn.Open();
+                OpenConnection();
                 string query = @"select salaryBase from SalarySetting where typeEmployee = N'" + typeEmployee + "'";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 
@@ -152,7 +152,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
             return res;
         }

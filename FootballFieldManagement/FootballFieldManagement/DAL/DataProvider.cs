@@ -15,15 +15,15 @@ namespace FootballFieldManagement.DAL
         public DataTable LoadData(string tableName)
         {
             DataTable dt = new DataTable();
-            conn.Close();
+            CloseConnection();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string sql = "SELECT * FROM " + tableName;
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 adapter.Fill(dt);
-                conn.Close();
+                CloseConnection();
                 return dt;
             }
             catch

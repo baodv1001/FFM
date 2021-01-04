@@ -27,7 +27,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "insert into StockReceiptInfo(idStockReceipt, idGoods, quantity, importPrice) " +
                     "values(@idStockReceipt, @idGoods, @quantity, @importPrice )";
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -52,14 +52,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteFromDB(string idGoods)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "delete from StockReceiptInfo where idGoods=" + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
@@ -71,14 +71,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteByIdStock(string idGoods, string idStockReceipt)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("delete from StockReceiptInfo where idGoods = {0} and idStockReceipt = {1}", idGoods, idStockReceipt);
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
@@ -90,14 +90,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteByIdStockReceipt(string idStockReceipt)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "delete from StockReceiptInfo where idStockReceipt = " + idStockReceipt;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
@@ -109,14 +109,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateOnDB(StockReceiptInfo stockReceiptInfo)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update StockReceiptInfo set quantity=@quantity, importPrice=@importPrice " +
                     "where idGoods=@idGoods and idStockReceipt=@idStockReceipt";
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -134,7 +134,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<string> QueryIdStockReceipt(string idGoods)
@@ -142,7 +142,7 @@ namespace FootballFieldManagement.DAL
             List<string> res = new List<string>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select idStockReceipt from StockReceiptInfo where idGoods=" + idGoods;
                 SqlCommand command = new SqlCommand(queryString, conn);
 
@@ -159,7 +159,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public long CalculateTotalMoney(string idStockReceipt)
@@ -167,7 +167,7 @@ namespace FootballFieldManagement.DAL
             long res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum(importPrice * quantity) as total from StockReceiptInfo " +
                     "where idStockReceipt = {0} group by idStockReceipt", idStockReceipt);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -183,7 +183,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public List<StockReceiptInfo> GetStockReceiptInfoById(string idStockReceipt)
@@ -191,7 +191,7 @@ namespace FootballFieldManagement.DAL
             List<StockReceiptInfo> listStockReceiptInfo = new List<StockReceiptInfo>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from StockReceiptInfo where idStockReceipt = " + idStockReceipt;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -214,7 +214,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

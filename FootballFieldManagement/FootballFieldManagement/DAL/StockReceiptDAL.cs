@@ -27,7 +27,7 @@ namespace FootballFieldManagement.DAL
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select * from StockReceipt";
                 SqlCommand command = new SqlCommand(queryString, conn);
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
@@ -55,14 +55,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool AddIntoDB(StockReceipt stockReceipt)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "insert into StockReceipt(idStockReceipt, idAccount, dateTimeStockReceipt, total) " +
                     "values(@idStockReceipt, @idAccount, @dateTimeStockReceipt, @total)";
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -87,14 +87,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateOnDB(StockReceipt stockReceipt)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update StockReceipt set dateTimeStockReceipt=@dateTimeStockReceipt, total=@total " +
                     "where idStockReceipt =" + stockReceipt.IdStockReceipt.ToString();
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -109,14 +109,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool DeleteFromDB(string idStockReceipt)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "delete from StockReceipt where idStockReceipt=" + idStockReceipt;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
@@ -135,14 +135,14 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public bool UpdateIdAccount(string idAccount)
         {
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "update StockReceipt set idAccount = NULL where idAccount = " + idAccount;
                 SqlCommand command = new SqlCommand(queryString, conn);
                 int rs = command.ExecuteNonQuery();
@@ -154,7 +154,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public int GetMaxId()
@@ -162,7 +162,7 @@ namespace FootballFieldManagement.DAL
             int res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = "select max(idStockReceipt) as id from StockReceipt";
                 SqlCommand command = new SqlCommand(queryString, conn);
 
@@ -177,7 +177,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -186,7 +186,7 @@ namespace FootballFieldManagement.DAL
             DataTable dataTable = new DataTable();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select * from StockReceipt " +
                     "where year(dateTimeStockReceipt) = {0} and month(dateTimeStockReceipt) = {1} and day(dateTimeStockReceipt) = {2} order by idStockReceipt", year, month, day);
 
@@ -201,7 +201,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public DataTable GetStockReceiptByMonth(string month, string year)
@@ -209,7 +209,7 @@ namespace FootballFieldManagement.DAL
             DataTable dataTable = new DataTable();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select * from StockReceipt " +
                     "where year(dateTimeStockReceipt) = {0} and month(dateTimeStockReceipt) = {1} order by idStockReceipt", year, month);
 
@@ -224,7 +224,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public DataTable GetStockReceiptByYear(string year)
@@ -232,7 +232,7 @@ namespace FootballFieldManagement.DAL
             DataTable dataTable = new DataTable();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select * from StockReceipt " +
                     "where year(dateTimeStockReceipt) = {0} order by idStockReceipt", year);
 
@@ -247,7 +247,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

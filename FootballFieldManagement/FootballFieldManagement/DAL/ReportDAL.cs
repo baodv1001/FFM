@@ -29,7 +29,7 @@ namespace FootballFieldManagement.DAL
             List<string> res = new List<string>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select day(invoiceDate) as day from Bill " +
                     "where month(invoiceDate) = {0} and year(invoiceDate) = {1} group by day(invoiceDate) " +
                     "union select day(dateTimeStockReceipt) as day from StockReceipt where month(dateTimeStockReceipt) =  {0} " +
@@ -51,7 +51,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public string[] QueryMonthInYear(string year)
@@ -59,7 +59,7 @@ namespace FootballFieldManagement.DAL
             List<string> res = new List<string>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select month(invoiceDate) as month from Bill where year(invoiceDate) = {0} " +
                     "group by month(invoiceDate) union select month(dateTimeStockReceipt) as month from StockReceipt " +
                     "where year(dateTimeStockReceipt) = {0} group by month(dateTimeStockReceipt)" +
@@ -80,7 +80,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public string[] QueryQuarterInYear(string year)
@@ -88,7 +88,7 @@ namespace FootballFieldManagement.DAL
             List<string> res = new List<string>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select datepart(quarter, invoiceDate) as quarter from Bill where year(invoiceDate) = {0} " +
                     "group by datepart(quarter, invoiceDate) union select datepart(quarter, dateTimeStockReceipt) as quarter " +
                     "from StockReceipt where year(dateTimeStockReceipt) = {0} group by datepart(quarter, dateTimeStockReceipt)" +
@@ -109,7 +109,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -120,7 +120,7 @@ namespace FootballFieldManagement.DAL
             {
                 string[] daysOfMonth = ReportDAL.Instance.QueryDayInMonth(month, year);
 
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select day(invoiceDate), sum(totalMoney) from Bill where month(invoiceDate) = {0} " +
                     "and year(invoiceDate) = {1} group by day(invoiceDate)", month, year);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -149,7 +149,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public ChartValues<long> QueryRevenueByYear(string year)
@@ -159,7 +159,7 @@ namespace FootballFieldManagement.DAL
             {
                 string[] monthsOfYear = ReportDAL.Instance.QueryMonthInYear(year);
 
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select month(invoiceDate), sum(totalMoney) from Bill where year(invoiceDate) = {0} " +
                     "group by month(invoiceDate)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -189,7 +189,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public ChartValues<long> QueryRevenueByQuarter(string year)
@@ -199,7 +199,7 @@ namespace FootballFieldManagement.DAL
             {
                 string[] quartersOfYear = ReportDAL.Instance.QueryQuarterInYear(year);
 
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select datepart(quarter, invoiceDate), sum(totalMoney) from Bill " +
                     "where year(invoiceDate) = {0} group by datepart(quarter, invoiceDate)", year);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -229,7 +229,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -240,7 +240,7 @@ namespace FootballFieldManagement.DAL
             {
                 string[] daysOfMonth = ReportDAL.Instance.QueryDayInMonth(month, year);
 
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select date, sum(total) from(select day(dateTimeStockReceipt) as date, " +
                     "sum(total) as total from StockReceipt where month(dateTimeStockReceipt) = {0} and year(dateTimeStockReceipt) = {1} " +
                     "group by day(dateTimeStockReceipt) union select day(salaryRecordDate) as date, sum(total) as total " +
@@ -273,7 +273,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public ChartValues<long> QueryOutcomeByYear(string year)
@@ -283,7 +283,7 @@ namespace FootballFieldManagement.DAL
             {
                 string[] monthsOfYear = ReportDAL.Instance.QueryMonthInYear(year);
 
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select month, sum(total) from(select month(dateTimeStockReceipt) as month, " +
                     "sum(total) as total from StockReceipt where year(dateTimeStockReceipt) = {0} group by month(dateTimeStockReceipt) " +
                     "union select month(salaryRecordDate) as month, sum(total) as total from SalaryRecord where year(salaryRecordDate) = {0} " +
@@ -315,7 +315,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public ChartValues<long> QueryOutcomeByQuarter(string year)
@@ -325,7 +325,7 @@ namespace FootballFieldManagement.DAL
             {
                 string[] quartersOfYear = ReportDAL.Instance.QueryQuarterInYear(year);
 
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select quarter, sum(total) from (select datepart(quarter, dateTimeStockReceipt) as quarter, " +
                     "sum(total) as total from StockReceipt where year(dateTimeStockReceipt) = {0} group by datepart(quarter, dateTimeStockReceipt) " +
                     "union select datepart(quarter, salaryRecordDate) as quarter, sum(total) as total from SalaryRecord where year(salaryRecordDate) = {0} " +
@@ -357,7 +357,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -367,7 +367,7 @@ namespace FootballFieldManagement.DAL
             ChartValues<long> res = new ChartValues<long>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
                     "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill " +
                     "where year(invoiceDate) = {0} and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
@@ -387,7 +387,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public ChartValues<long> QueryRevenueFromFieldInDay(string day, string month, string year)
@@ -396,7 +396,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 long totalFromGoods = ReportDAL.instance.QueryRevenueFromSellingInDay(day, month, year)[0];
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum(totalMoney) as revenue from bill where year(invoiceDate) = {0} " +
                     "and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -416,7 +416,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -425,7 +425,7 @@ namespace FootballFieldManagement.DAL
             ChartValues<long> res = new ChartValues<long>();
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum((BillInfo.quantity * Goods.unitPrice)) as revenue from BillInfo " +
                     "join Goods on BillInfo.idGoods = Goods.idGoods join Bill on Bill.idBill = BillInfo.idBill " +
                     "where year(invoiceDate) = {0} and month(invoiceDate) = {1}", year, month);
@@ -445,7 +445,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public ChartValues<long> QueryRevenueFromFieldInMonth(string month, string year)
@@ -454,7 +454,7 @@ namespace FootballFieldManagement.DAL
             try
             {
                 long totalFromGoods = ReportDAL.instance.QueryRevenueFromSellingInMonth(month, year)[0];
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum(totalMoney) as revenue from bill where year(invoiceDate) = {0} " +
                     "and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -474,7 +474,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
 
@@ -484,7 +484,7 @@ namespace FootballFieldManagement.DAL
             string res = "0";
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum(totalMoney) as revenue from Bill where year(invoiceDate) = {0} " +
                     "and month(invoiceDate) = {1} and day(invoiceDate) = {2}", year, month, day);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -506,7 +506,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public long QueryRevenueInMonth(string month, string year)
@@ -514,7 +514,7 @@ namespace FootballFieldManagement.DAL
             long res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select sum(totalMoney) as revenue from Bill " +
                     "where year(invoiceDate) = {0} and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -532,7 +532,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
         public long QueryRevenueNumOfHiredFieldInMonth(string month, string year)
@@ -540,7 +540,7 @@ namespace FootballFieldManagement.DAL
             long res = 0;
             try
             {
-                conn.Open();
+                OpenConnection();
                 string queryString = string.Format("select count(idFieldInfo) as numOfHiredField from Bill " +
                     "where year(invoiceDate) = {0} and month(invoiceDate) = {1}", year, month);
                 SqlCommand command = new SqlCommand(queryString, conn);
@@ -558,7 +558,7 @@ namespace FootballFieldManagement.DAL
             }
             finally
             {
-                conn.Close();
+                CloseConnection();
             }
         }
     }

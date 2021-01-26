@@ -243,7 +243,43 @@ namespace FootballFieldManagement.DAL
             }
             //conn.Close();
         }
-        public Employee GetEmployeeByIdEmployee(string idEmployee) // Lấy thông tin khi biết id nhân viên
+        public Employee GetEmployee(string idEmployee) // Bao gồm cả nhân viên đã xóa hoặc chưa xóa
+        {
+            Employee res = new Employee();
+            try
+            {
+                conn.Open();
+                string queryString = "select * from Employee where idEmployee = " + idEmployee;
+
+                SqlCommand command = new SqlCommand(queryString, conn);
+                command.ExecuteNonQuery();
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                DataTable dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                int idAccount = -1;
+                if (dataTable.Rows[0].ItemArray[8].ToString() != "")
+                {
+                    idAccount = int.Parse(dataTable.Rows[0].ItemArray[8].ToString());
+                }
+                res = new Employee(int.Parse(dataTable.Rows[0].ItemArray[0].ToString()),
+                     dataTable.Rows[0].ItemArray[1].ToString(), dataTable.Rows[0].ItemArray[2].ToString(),
+                     dataTable.Rows[0].ItemArray[3].ToString(), dataTable.Rows[0].ItemArray[4].ToString(),
+                     DateTime.Parse(dataTable.Rows[0].ItemArray[5].ToString()),
+                     dataTable.Rows[0].ItemArray[6].ToString(), DateTime.Parse(dataTable.Rows[0].ItemArray[7].ToString()),
+                     idAccount, Convert.FromBase64String(dataTable.Rows[0].ItemArray[9].ToString()), int.Parse(dataTable.Rows[0].ItemArray[10].ToString()));
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        public Employee GetEmployeeByIdEmployee(string idEmployee) // Lấy thông tin khi biết id nhân viên - Không lấy nhân viên đã xóa
         {
             Employee res = new Employee();
             try

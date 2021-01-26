@@ -19,7 +19,7 @@
         ResizeMode="CanMinimize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded" >
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" 
+            <i:InvokeCommandAction Command="{Binding LoadedSetSalaryCommand}" 
                                    CommandParameter="{Binding ElementName=wdSetSalary}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
